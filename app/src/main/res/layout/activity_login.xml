@@ -1,0 +1,158 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.enyata.android.mvvm_java.ui.login.LoginActivity">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.enyata.android.mvvm_java.ui.login.LoginViewModel" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="150dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/rectangle_shape_background" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="109dp"
+            android:background="@drawable/semi_circle_background">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                app:srcCompat="@drawable/ic_logo" />
+
+
+        </RelativeLayout>
+
+
+    </FrameLayout>
+
+
+        <LinearLayout
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_marginRight="24dp"
+            android:layout_marginLeft="24dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Log into your account"
+                android:textSize="32dp"
+                android:layout_marginRight="93dp"
+                android:textColor="#4c4c4c"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/montserrat"
+                android:textScaleX = "1.2"
+                android:lineSpacingMultiplier="1.2"
+                android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam."
+                android:textSize="14dp" />
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginTop="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:boxCornerRadiusBottomEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="10dp"
+                app:hintTextAppearance="@style/MyAppearance">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:textColorHint="#78849E"
+                    android:inputType="textEmailAddress"
+                    android:textColor="#21523C"
+                    android:textCursorDrawable="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dip"
+                app:passwordToggleTint="@color/colorPrimary"
+                app:passwordToggleEnabled="true"
+                app:boxCornerRadiusBottomEnd="8dp"
+                android:textColorHint="#78849E"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="10dp"
+                app:hintTextAppearance="@style/MyAppearance">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/passwordTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:textColorHint="#78849E"
+                    android:inputType="textPassword"
+                    android:textColor="@color/colorPrimary"
+                    android:textCursorDrawable="@null" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:onClick="@{() -> viewModel.onLogin()}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="LOGIN"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/montserrat"
+            android:background="@drawable/button_radius_background"/>
+
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    </ScrollView>
+
+
+</layout>

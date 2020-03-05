@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.enyata.android.mvvm_java.data.DataManager;
+import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.login.LoginViewModel;
 import com.enyata.android.mvvm_java.ui.mainActivity.MainActivityViewModel;
 import com.enyata.android.mvvm_java.ui.splash.SplashViewModel;
@@ -40,10 +41,10 @@ public class ViewModelProviderFactory extends ViewModelProvider.NewInstanceFacto
         return (T) new LoginViewModel(dataManager, schedulerProvider);
     }
 
-//        } else if (modelClass.isAssignableFrom(MainViewModel.class)) {
-//            //noinspection unchecked
-//            return (T) new MainViewModel(dataManager,schedulerProvider);
-//        }
+        else if (modelClass.isAssignableFrom(CreateReportViewModel .class)) {
+            //noinspection unchecked
+            return (T) new CreateReportViewModel(dataManager,schedulerProvider);
+        }
 //        else if (modelClass.isAssignableFrom(BlogViewModel.class)) {
 //            //noinspection unchecked
 //            return (T) new BlogViewModel(dataManager,schedulerProvider);

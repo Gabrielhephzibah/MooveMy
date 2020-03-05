@@ -3,6 +3,7 @@ package com.enyata.android.mvvm_java.ui.mainActivity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.enyata.android.mvvm_java.BR;
@@ -10,6 +11,7 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.ViewModelProviderFactory;
 import com.enyata.android.mvvm_java.databinding.ActivityMainBinding;
 import com.enyata.android.mvvm_java.ui.base.BaseActivity;
+import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
 
 import javax.inject.Inject;
 
@@ -45,4 +47,9 @@ private MainActivityViewModel mainActivityViewModel;
     }
 
 
+    @Override
+    public void CreateReport() {
+        Intent intent = new Intent(getApplicationContext(), CreateReportActivity.class);
+        startActivity(intent);
+    }
 }

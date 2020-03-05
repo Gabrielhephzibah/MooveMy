@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#EB6408</color>
-    <color name="colorPrimaryDark">#EB6408</color>
+    <color name="colorPrimaryDark">#E9530b</color>
     <color name="colorAccent">#D81B60</color>
     <color name="black_effective">#2a2a2a</color>
     <color name="dark_gray">#696969</color>
@@ -14,6 +14,7 @@
         <color name="bg_color">#f7f7f7</color>
         <color name="black">#000000</color>
         <color name="white">#ffffff</color>
+    <color name="grey_new">#828282</color>
 
         <color name="shadow">#d0d8dc</color>
         <color name="transparent">#00000000</color>
@@ -21,7 +22,7 @@
         <color name="fb">#3b5998</color>
         <color name="google">#d34836</color>
         <color name="deliveryColor">#3D3D3D</color>
-        <color name="mtrl_textinput_default_box_stroke_color">@color/colorPrimary</color>
+        <color name="mtrl_textinput_default_box_stroke_color">@color/colorPrimaryDark</color>
         <color name="box_color">#fff</color>
         <color name="hint_color">#4021523C</color>
 

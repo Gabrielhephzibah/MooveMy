@@ -25,32 +25,19 @@
 
 
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="150dp">
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@drawable/rectangle_shape_background" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="109dp"
-            android:background="@drawable/semi_circle_background">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                app:srcCompat="@drawable/ic_logo" />
+                app:srcCompat="@drawable/ic_header"/>
 
+        </LinearLayout>
 
-        </RelativeLayout>
-
-
-    </FrameLayout>
 
 
         <LinearLayout
@@ -91,7 +78,7 @@
                 app:boxCornerRadiusBottomStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusTopStart="8dp"
-                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeColor="@color/colorPrimaryDark"
                 app:boxStrokeWidth="10dp"
                 app:hintTextAppearance="@style/MyAppearance">
 
@@ -102,7 +89,7 @@
                     android:hint="Email"
                     android:textColorHint="#78849E"
                     android:inputType="textEmailAddress"
-                    android:textColor="#21523C"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textCursorDrawable="@null" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -119,7 +106,7 @@
                 app:boxCornerRadiusBottomStart="8dp"
                 app:boxCornerRadiusTopEnd="8dp"
                 app:boxCornerRadiusTopStart="8dp"
-                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeColor="@color/colorPrimaryDark"
                 app:boxStrokeWidth="10dp"
                 app:hintTextAppearance="@style/MyAppearance">
 
@@ -130,7 +117,7 @@
                     android:hint="Password"
                     android:textColorHint="#78849E"
                     android:inputType="textPassword"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textCursorDrawable="@null" />
 
             </com.google.android.material.textfield.TextInputLayout>

@@ -42,13 +42,6 @@ public class AppModule {
         return BuildConfig.API_KEY;
     }
 
-//    @Provides
-//    @Singleton
-//    AppDatabase provideAppDatabase(@DatabaseInfo String dbName, Context context) {
-//        return Room.databaseBuilder(context, AppDatabase.class, dbName).fallbackToDestructiveMigration()
-//                .build();
-//    }
-
 
     @Provides
     @Singleton
@@ -70,18 +63,6 @@ public class AppModule {
     DataManager provideDataManager(AppDataManager appDataManager) {
         return appDataManager;
     }
-
-//    @Provides
-//    @DatabaseInfo
-//    String provideDatabaseName() {
-//        return AppConstants.DB_NAME;
-//    }
-//
-//    @Provides
-//    @Singleton
-//    DbHelper provideDbHelper(AppDbHelper appDbHelper) {
-//        return appDbHelper;
-//    }
 
     @Provides
     @Singleton

@@ -10,4 +10,7 @@ public class MainActivityViewModel extends BaseViewModel<MainNavigator> {
     }
 
 
+    public  void onCreateReport(){
+        getNavigator().CreateReport();
+    }
 }

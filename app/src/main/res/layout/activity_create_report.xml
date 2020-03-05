@@ -1,0 +1,953 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel" />
+
+    </data>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:onClick="@{() -> viewModel.onBack()}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_arrow_back_black"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="16dp" />
+
+
+        <LinearLayout
+            android:layout_marginTop="13dp"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="100dp"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/inspectionInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INSPECTION INFORMATION"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/inspectionInfo"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+                        android:id="@+id/openArrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/vehincleDetails"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:paddingBottom="30dp"
+                android:orientation="vertical"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="28dp">
+              <RelativeLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:orientation="horizontal"
+                      android:layout_height="wrap_content">
+
+                      <LinearLayout
+                          android:paddingRight="6dp"
+                          android:layout_width="0dp"
+                          android:layout_weight="1"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentLeft="true"
+                          android:orientation="vertical">
+
+                          <TextView
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginBottom="10dp"
+                              android:fontFamily="@font/montserrat"
+                              android:text="Vehicle Year"
+                              android:textColor="#2A2E43"
+                              android:textSize="14sp"
+                              android:textStyle="bold" />
+
+                          <LinearLayout
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:background="@drawable/spinner_border">
+
+                              <Spinner
+                                  android:id="@+id/spinner"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="40dp"
+                                  android:layout_marginTop="5dp"
+                                  android:backgroundTint="@color/colorPrimary"
+                                  android:spinnerMode="dropdown"
+                                  android:textColor="@color/colorPrimary"
+                                  android:textSize="12sp" />
+                          </LinearLayout>
+                      </LinearLayout>
+
+                      <LinearLayout
+                          android:paddingLeft="6dp"
+                          android:layout_width="0dp"
+                          android:layout_weight="1"
+                          android:layout_height="wrap_content"
+                          android:layout_alignParentRight="true"
+                          android:orientation="vertical">
+
+                          <TextView
+                              android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:layout_marginBottom="10dp"
+                              android:fontFamily="@font/montserrat"
+                              android:text="Model"
+                              android:textColor="#2A2E43"
+                              android:textSize="14sp"
+                              android:textStyle="bold" />
+
+                          <LinearLayout
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:background="@drawable/spinner_border">
+
+                              <Spinner
+                                  android:id="@+id/spinnerModel"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="40dp"
+                                  android:layout_marginTop="5dp"
+                                  android:backgroundTint="@color/colorPrimary"
+                                  android:spinnerMode="dropdown"
+                                  android:textColor="@color/colorPrimary"
+                                  android:textSize="12sp" />
+                          </LinearLayout>
+                      </LinearLayout>
+
+
+                  </LinearLayout>
+
+
+              </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_marginBottom="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Model"
+                            android:layout_marginRight="139dp"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/montserrat"
+                            android:textStyle="bold"
+                            android:textColor="#2A2E43"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:background="@drawable/spinner_border"
+                            android:layout_height="wrap_content">
+                            <Spinner
+                                android:id="@+id/spinnerMake"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="5dp"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:spinnerMode="dropdown"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_marginBottom="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Current Mileage"
+                            android:layout_marginRight="139dp"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/montserrat"
+                            android:textStyle="bold"
+                            android:textColor="#2A2E43"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:background="@drawable/spinner_border"
+                            android:layout_height="wrap_content">
+                            <EditText
+                                android:id="@+id/editMillage"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+                                android:layout_marginTop="5dp"
+                                android:backgroundTint="@color/white"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_marginBottom="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Registration Number"
+                            android:layout_marginRight="139dp"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/montserrat"
+                            android:textStyle="bold"
+                            android:textColor="#2A2E43"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:background="@drawable/spinner_border"
+                            android:layout_height="wrap_content">
+                            <EditText
+                                android:id="@+id/editRegNum"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="5dp"
+                                android:backgroundTint="@color/white"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_marginBottom="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="VIN"
+                            android:layout_marginRight="139dp"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/montserrat"
+                            android:textStyle="bold"
+                            android:textColor="#2A2E43"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:background="@drawable/spinner_border"
+                            android:layout_height="wrap_content">
+                            <EditText
+                                android:id="@+id/editVin"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="5dp"
+                                android:backgroundTint="@color/white"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="12sp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/exterior"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INSPECTION INFORMATION"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/exterior"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/glass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INSPECTION INFORMATION"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/glass"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+
+
+
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingBottom="30dp"-->
+<!--                android:orientation="vertical"-->
+<!--                android:layout_marginLeft="24dp"-->
+<!--                android:layout_marginRight="24dp"-->
+<!--                android:layout_marginTop="28dp">-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:orientation="vertical"-->
+<!--                android:layout_height="wrap_content">-->
+<!--                <TextView-->
+<!--                    android:layout_marginBottom="10dp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textColor="#373737"-->
+<!--                    android:textSize="14sp"-->
+<!--                    android:fontFamily="@font/montserrat"-->
+<!--                    android:text="Inspector Final Assessment"/>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/spinner_border">-->
+
+<!--                    <Spinner-->
+<!--                        android:id="@+id/spinnerFinalAssesss"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="40dp"-->
+<!--                        android:layout_marginTop="5dp"-->
+<!--                        android:backgroundTint="@color/colorPrimary"-->
+<!--                        android:spinnerMode="dropdown"-->
+<!--                        android:textColor="@color/colorPrimary"-->
+<!--                        android:textSize="12sp" />-->
+<!--                </LinearLayout>-->
+<!--            </LinearLayout>-->
+
+
+<!--                <LinearLayout-->
+<!--                    android:layout_marginTop="15dp"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:layout_height="wrap_content">-->
+<!--                    <TextView-->
+<!--                        android:layout_marginBottom="10dp"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textColor="#373737"-->
+<!--                        android:textSize="14sp"-->
+<!--                        android:fontFamily="@font/montserrat"-->
+<!--                        android:text="Inspector Final Comments"/>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="93dp"-->
+<!--                        android:background="@drawable/spinner_border">-->
+<!--                        <EditText-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:textColorHint="#bababa"-->
+<!--                            android:inputType="text|textMultiLine"-->
+<!--                            android:hint="comments"-->
+<!--                            android:gravity="top"-->
+<!--                            android:textColor="@color/colorPrimaryDark"-->
+<!--                            android:backgroundTint="#fff"-->
+<!--                            tools:targetApi="lollipop"-->
+<!--                            android:textCursorDrawable = "@null"/>-->
+<!--                    </LinearLayout>-->
+<!--                </LinearLayout>-->
+
+<!--                <Button-->
+<!--                    android:onClick="@{() -> viewModel.onAddSignature()}"-->
+<!--                    android:layout_marginTop="25dp"-->
+<!--                    android:background="@drawable/button_radius_background"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:text="ADD SIGNATURE"-->
+<!--                    android:textSize="12dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:fontFamily="@font/montserrat"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:layout_height="wrap_content"/>-->
+
+<!--            </LinearLayout>-->
+
+
+
+
+
+
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/tyres"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INSPECTION INFORMATION"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tyres"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/underbody"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INSPECTION INFORMATION"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/underbody"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/underhood"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INSPECTION INFORMATION"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/underhood"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/interior"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INSPECTION INFORMATION"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/interior"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/electrical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INSPECTION INFORMATION"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/electrical"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/roadTest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INSPECTION INFORMATION"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/roadTest"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/signature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INSPECTION INFORMATION"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/signature"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+                        android:id="@+id/signatureIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/signAndConfirm"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="30dp"
+                android:orientation="vertical"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="28dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#373737"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/montserrat"
+                        android:text="Inspector Final Assessment"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/spinner_border">
+
+                        <Spinner
+                            android:id="@+id/spinnerFinalAssess"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:spinnerMode="dropdown"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#373737"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/montserrat"
+                        android:text="Inspector Final Comments"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="93dp"
+                        android:background="@drawable/spinner_border">
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColorHint="#bababa"
+                            android:inputType="text|textMultiLine"
+                            android:hint="comments"
+                            android:gravity="top"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:backgroundTint="#fff"
+                            tools:targetApi="lollipop"
+                            android:textCursorDrawable = "@null"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:onClick="@{() -> viewModel.onAddSignature()}"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/button_radius_background"
+                    android:layout_width="match_parent"
+                    android:text="ADD SIGNATURE"
+                    android:textSize="12dp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    </ScrollView>
+
+</layout>

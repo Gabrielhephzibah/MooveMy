@@ -83,7 +83,7 @@
 
             <LinearLayout
                 android:id="@+id/vehincleDetails"
-                android:visibility="gone"
+               android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
@@ -239,10 +239,10 @@
                                 android:id="@+id/editMillage"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
-
+                                android:textCursorDrawable = "@null"
                                 android:layout_marginTop="5dp"
                                 android:backgroundTint="@color/white"
-                                android:textColor="@color/colorPrimary"
+                                android:textColor="@color/colorPrimaryDark"
                                 android:textSize="12sp"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -276,12 +276,13 @@
                             android:background="@drawable/spinner_border"
                             android:layout_height="wrap_content">
                             <EditText
+                                android:textCursorDrawable = "@null"
                                 android:id="@+id/editRegNum"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:layout_marginTop="5dp"
                                 android:backgroundTint="@color/white"
-                                android:textColor="@color/colorPrimary"
+                                android:textColor="@color/colorPrimaryDark"
                                 android:textSize="12sp"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -315,12 +316,13 @@
                             android:background="@drawable/spinner_border"
                             android:layout_height="wrap_content">
                             <EditText
+                                android:textCursorDrawable = "@null"
                                 android:id="@+id/editVin"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
                                 android:layout_marginTop="5dp"
                                 android:backgroundTint="@color/white"
-                                android:textColor="@color/colorPrimary"
+                                android:textColor="@color/colorPrimaryDark"
                                 android:textSize="12sp"/>
                         </LinearLayout>
                     </LinearLayout>
@@ -348,7 +350,7 @@
                         android:id="@+id/exterior"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="INSPECTION INFORMATION"
+                        android:text="EXTERIOR"
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:fontFamily="@font/montserrat"
@@ -377,8 +379,25 @@
             </LinearLayout>
 
 
+            <LinearLayout
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:paddingBottom="18dp"
+               android:background="@drawable/carousel_border"
+                android:layout_height="370dp">
 
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/exteriorPager"
+                    android:layout_width="match_parent"
+                    android:elevation="9dp"
+                    android:layout_height="match_parent"
+                    tools:targetApi="lollipop" />
 
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_marginTop="4dp"
@@ -397,7 +416,7 @@
                         android:id="@+id/glass"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="INSPECTION INFORMATION"
+                        android:text="GLASS"
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:fontFamily="@font/montserrat"
@@ -426,103 +445,27 @@
             </LinearLayout>
 
 
-
-
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:paddingBottom="30dp"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_marginLeft="24dp"-->
-<!--                android:layout_marginRight="24dp"-->
-<!--                android:layout_marginTop="28dp">-->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_height="wrap_content">-->
-<!--                <TextView-->
-<!--                    android:layout_marginBottom="10dp"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:textColor="#373737"-->
-<!--                    android:textSize="14sp"-->
-<!--                    android:fontFamily="@font/montserrat"-->
-<!--                    android:text="Inspector Final Assessment"/>-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@drawable/spinner_border">-->
-
-<!--                    <Spinner-->
-<!--                        android:id="@+id/spinnerFinalAssesss"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="40dp"-->
-<!--                        android:layout_marginTop="5dp"-->
-<!--                        android:backgroundTint="@color/colorPrimary"-->
-<!--                        android:spinnerMode="dropdown"-->
-<!--                        android:textColor="@color/colorPrimary"-->
-<!--                        android:textSize="12sp" />-->
-<!--                </LinearLayout>-->
-<!--            </LinearLayout>-->
-
-
-<!--                <LinearLayout-->
-<!--                    android:layout_marginTop="15dp"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:layout_height="wrap_content">-->
-<!--                    <TextView-->
-<!--                        android:layout_marginBottom="10dp"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:textColor="#373737"-->
-<!--                        android:textSize="14sp"-->
-<!--                        android:fontFamily="@font/montserrat"-->
-<!--                        android:text="Inspector Final Comments"/>-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="93dp"-->
-<!--                        android:background="@drawable/spinner_border">-->
-<!--                        <EditText-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="match_parent"-->
-<!--                            android:textColorHint="#bababa"-->
-<!--                            android:inputType="text|textMultiLine"-->
-<!--                            android:hint="comments"-->
-<!--                            android:gravity="top"-->
-<!--                            android:textColor="@color/colorPrimaryDark"-->
-<!--                            android:backgroundTint="#fff"-->
-<!--                            tools:targetApi="lollipop"-->
-<!--                            android:textCursorDrawable = "@null"/>-->
-<!--                    </LinearLayout>-->
-<!--                </LinearLayout>-->
-
-<!--                <Button-->
-<!--                    android:onClick="@{() -> viewModel.onAddSignature()}"-->
-<!--                    android:layout_marginTop="25dp"-->
-<!--                    android:background="@drawable/button_radius_background"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:text="ADD SIGNATURE"-->
-<!--                    android:textSize="12dp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:fontFamily="@font/montserrat"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:layout_height="wrap_content"/>-->
-
-<!--            </LinearLayout>-->
-
-
-
-
-
-
-
             <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:paddingBottom="18dp"
+                android:background="@drawable/carousel_border"
+                android:layout_height="370dp">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/glassPager"
+                    android:layout_width="match_parent"
+                    android:elevation="9dp"
+                    android:layout_height="match_parent"
+                    tools:targetApi="lollipop" />
+
+            </LinearLayout>
+
+
+                <LinearLayout
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="107dp"
@@ -539,7 +482,7 @@
                         android:id="@+id/tyres"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="INSPECTION INFORMATION"
+                        android:text="TIRES AND WHEELS"
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:fontFamily="@font/montserrat"
@@ -586,7 +529,7 @@
                         android:id="@+id/underbody"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="INSPECTION INFORMATION"
+                        android:text="UNDERBODY"
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:fontFamily="@font/montserrat"
@@ -632,7 +575,7 @@
                         android:id="@+id/underhood"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="INSPECTION INFORMATION"
+                        android:text="UNDERHOOD"
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:fontFamily="@font/montserrat"
@@ -679,7 +622,7 @@
                         android:id="@+id/interior"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="INSPECTION INFORMATION"
+                        android:text="INTERIOR"
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:fontFamily="@font/montserrat"
@@ -725,7 +668,7 @@
                         android:id="@+id/electrical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="INSPECTION INFORMATION"
+                        android:text="ELECTRICAL SYSTEM"
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:fontFamily="@font/montserrat"
@@ -771,7 +714,7 @@
                         android:id="@+id/roadTest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="INSPECTION INFORMATION"
+                        android:text="ROAD TEST FINDINGS"
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:fontFamily="@font/montserrat"
@@ -818,7 +761,7 @@
                         android:id="@+id/signature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="INSPECTION INFORMATION"
+                        android:text="@string/signature"
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:fontFamily="@font/montserrat"

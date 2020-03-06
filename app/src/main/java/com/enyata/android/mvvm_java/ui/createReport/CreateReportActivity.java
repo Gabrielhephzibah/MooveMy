@@ -1,6 +1,7 @@
 package com.enyata.android.mvvm_java.ui.createReport;
 
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.ViewModelProviderFactory;
 import com.enyata.android.mvvm_java.databinding.ActivityCreateReportBinding;
 import com.enyata.android.mvvm_java.ui.base.BaseActivity;
+import com.enyata.android.mvvm_java.ui.createReport.exterior.ExteriorViewPagerAdapter;
+import com.enyata.android.mvvm_java.ui.createReport.glass.GlassPagerAdater;
 import com.enyata.android.mvvm_java.ui.mainActivity.MainActivity;
 import com.enyata.android.mvvm_java.ui.signature.SignatureActivity;
 
@@ -23,6 +26,7 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
     ViewModelProviderFactory factory;
     CreateReportViewModel createReportViewModel;
     ActivityCreateReportBinding activityCreateReportBinding;
+    ViewPager exteriorPager,glassPager;
 
     @Override
     public int getBindingVariable() {
@@ -47,8 +51,16 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         activityCreateReportBinding = getViewDataBinding();
         ImageView openArrow = activityCreateReportBinding.openArrow;
         ImageView signatureArrow = activityCreateReportBinding.signatureIcon;
+       exteriorPager = activityCreateReportBinding.exteriorPager;
+       glassPager = activityCreateReportBinding.glassPager;
         LinearLayout signAndConfirm = activityCreateReportBinding.signAndConfirm;
         LinearLayout vehincleDetails = activityCreateReportBinding.vehincleDetails;
+
+        ExteriorViewPagerAdapter exteriorViewPagerAdapter = new ExteriorViewPagerAdapter(this, getSupportFragmentManager());
+        exteriorPager.setAdapter(exteriorViewPagerAdapter);
+
+        GlassPagerAdater glassPagerAdater = new GlassPagerAdater(this, getSupportFragmentManager());
+        glassPager.setAdapter(glassPagerAdater);
 
         openArrow.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -8,13 +8,6 @@ import io.reactivex.Observable;
 
 public interface DataManager extends  PreferencesHelper, ApiHelper {
 
-
-//    Observable<List<QuestionCardData>> getQuestionCardData();
-
-    Observable<Boolean> seedDatabaseOptions();
-
-    Observable<Boolean> seedDatabaseQuestions();
-
     void setUserAsLoggedOut();
 
     void updateApiHeader(Long userId, String accessToken);

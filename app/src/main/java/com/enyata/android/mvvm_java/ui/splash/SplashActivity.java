@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.enyata.android.mvvm_java.BR;
 import com.enyata.android.mvvm_java.R;
@@ -32,7 +33,9 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
     }
 
     @Override
+
     public int getLayoutId() {
+
         return R.layout.activity_spash;
     }
 
@@ -44,10 +47,14 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//       this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         splashViewModel.setNavigator(this);
-         //will hide the title
+
+
+        //will hide the title
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
         } else {
@@ -69,15 +76,18 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
 
     @Override
     public void openLoginActivity() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
     }
 
-    @Override
-    public void openMainActivity() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
-
-    }
+//    @Override
+//    public void openMainActivity() {
+//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//        startActivity(intent);
+//
+//    }
 
     @Override
     protected void onResume() {

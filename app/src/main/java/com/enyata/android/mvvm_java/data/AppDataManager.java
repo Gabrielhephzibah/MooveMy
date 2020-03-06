@@ -100,16 +100,6 @@ public class AppDataManager implements  DataManager {
 
 
     @Override
-    public Observable<Boolean> seedDatabaseOptions() {
-        return null;
-    }
-
-    @Override
-    public Observable<Boolean> seedDatabaseQuestions() {
-        return null;
-    }
-
-    @Override
     public void setUserAsLoggedOut() {
         updateUserInfo(
                 null,

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Moove</string>
-    <string name="under"><u>CLEAR</u></string>
+    <string name="clear"><u>CLEAR</u></string>
     <string name="signature">SIGNATURES &amp; CONFIRMATIONS</string>
 
 </resources>

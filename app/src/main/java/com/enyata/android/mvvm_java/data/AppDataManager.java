@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.enyata.android.mvvm_java.data.local.db.dao.DbHelper;
 import com.enyata.android.mvvm_java.data.local.prefs.PreferencesHelper;
+import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
+import com.enyata.android.mvvm_java.data.model.api.response.LoginResponse;
 import com.enyata.android.mvvm_java.data.remote.ApiHeader;
 import com.enyata.android.mvvm_java.data.remote.ApiHelper;
 import com.google.gson.Gson;
@@ -40,13 +42,23 @@ public class AppDataManager implements  DataManager {
 
     @Override
     public String getAccessToken() {
-        return null;
+        return mPreferencesHelper.getAccessToken();
     }
 
     @Override
     public void setAccessToken(String accessToken) {
+        mPreferencesHelper.setAccessToken(accessToken);
+        mApiHelper.getApiHeader().getProtectedApiHeader().setAuthorization(accessToken);
+
 
     }
+
+    @Override
+    public ApiHeader getApiHeader() {
+        return mApiHelper.getApiHeader();
+    }
+
+
 
     @Override
     public String getCurrentUserEmail() {
@@ -100,37 +112,40 @@ public class AppDataManager implements  DataManager {
 
 
     @Override
+    public Single<LoginResponse>loginInspector(LoginRequest.Request request) {
+        return mApiHelper.loginInspector(request);
+    }
+
+
+    @Override
     public void setUserAsLoggedOut() {
-        updateUserInfo(
-                null,
-                null,
-                DataManager.LoggedInMode.LOGGED_IN_MODE_LOGGED_OUT,
-                null,
-                null,
-                null);
+//        updateUserInfo(
+////                null,
+////                null,
+////                DataManager.LoggedInMode.LOGGED_IN_MODE_LOGGED_OUT,
+////                null,
+////                null,
+////                null);
     }
 
     @Override
     public void updateApiHeader(Long userId, String accessToken) {
+        mApiHelper.getApiHeader().getProtectedApiHeader().setAuthorization(accessToken);
 
     }
 
     @Override
     public void updateUserInfo(
             String accessToken,
-            Long userId,
-            LoggedInMode loggedInMode,
-            String userName,
-            String email,
-            String profilePicPath) {
+            String firstname,
+            String email
+            ) {
 
         setAccessToken(accessToken);
-        setCurrentUserId(userId);
-        setCurrentUserLoggedInMode(loggedInMode);
-        setCurrentUserName(userName);
+        setCurrentUserName(firstname);
         setCurrentUserEmail(email);
-        setCurrentUserProfilePicUrl(profilePicPath);
 
-        updateApiHeader(userId, accessToken);
     }
+
+
 }

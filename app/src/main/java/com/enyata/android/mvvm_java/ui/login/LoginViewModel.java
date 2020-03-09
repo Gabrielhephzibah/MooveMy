@@ -19,6 +19,7 @@ package com.enyata.android.mvvm_java.ui.login;
 import android.text.TextUtils;
 
 import com.enyata.android.mvvm_java.data.DataManager;
+import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
 import com.enyata.android.mvvm_java.ui.base.BaseViewModel;
 import com.enyata.android.mvvm_java.utils.CommonUtils;
 import com.enyata.android.mvvm_java.utils.rx.SchedulerProvider;
@@ -31,9 +32,48 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
         super(dataManager, schedulerProvider);
     }
 
+    public boolean isEmailAndPasswordValid(String email, String password) {
+        return !TextUtils.isEmpty(email) && CommonUtils.isEmailValid(email) && !TextUtils.isEmpty(password);
+    }
 
-    public void  onLogin(){
+    public boolean isLengthEqualsToSeven(String password) {
+        return password.length() >= 7;
+    }
+
+
+    public void  onLoginInspector(LoginRequest.Request request){
+        setIsLoading(true);
+        getCompositeDisposable().add(getDataManager()
+               .loginInspector(request)
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(response -> {
+                    setIsLoading(false);
+                    setIsLoading(false);
+                    getNavigator().onResponse(response);
+                    String token = response.getToken();
+                    String userEmail = response.getData().getEmail();
+                    String firstname = response.getData().getFirstName();
+                    getDataManager().updateUserInfo(token,firstname,userEmail);
+                }, throwable -> {
+                    setIsLoading(false);
+                    setIsLoading(false);
+                    getNavigator().handleError(throwable);
+                }));
+
+    }
+
+    public void onLogin(){
         getNavigator().login();
+
+    }
+
+    public void setCurrentUserName(String name){
+        getDataManager().setCurrentUserName(name);
+    }
+
+    public void onDispose(){
+        onCleared();
     }
 
 

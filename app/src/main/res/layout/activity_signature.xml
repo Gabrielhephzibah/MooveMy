@@ -1,17 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.enyata.android.mvvm_java.ui.signature.SignatureActivity">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.enyata.android.mvvm_java.ui.signature.SignatureViewModel" />
+
+    </data>
+<LinearLayout
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="match_parent"
-    tools:context=".ui.signature.SignatureActivity">
+    android:layout_height="match_parent">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:background="@color/grey_new"
@@ -38,39 +45,95 @@
                 android:fontFamily="@font/montserrat"
                 android:textStyle="bold"
                 android:textColor="#000000"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="252dp"
-                android:layout_marginTop="12dp"
-                android:background="@drawable/transparent_background">
-            </LinearLayout>
-            <TextView
-                android:layout_marginTop="12dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/under"
-                android:textColor="#373737"
-                android:fontFamily="@font/montserrat"
-                android:textStyle="bold"
-                android:layout_gravity="end"
-                android:textSize="12sp"/>
 
             <LinearLayout
-                android:layout_marginTop="39dp"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#BABABA"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/montserrat"
+                    android:textStyle="bold"
+                    android:text="Inspector Signature"/>
+
+                <RelativeLayout
+                    android:layout_marginTop="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="125dp"
+                    android:background="@drawable/transparent_background">
+
+                    <TextView
+                        android:paddingBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="end"
+                        android:textColor="#373737"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:paddingRight="10dp"
+                        android:text="@string/clear"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#BABABA"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/montserrat"
+                    android:textStyle="bold"
+                    android:text="Supplier Signature"/>
+
+                <RelativeLayout
+                    android:layout_marginTop="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="125dp"
+                    android:background="@drawable/transparent_background">
+
+                    <TextView
+                        android:paddingBottom="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="end"
+                        android:textColor="#373737"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:paddingRight="10dp"
+                        android:text="@string/clear"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center">
+                android:layout_gravity="center"
+                android:layout_marginTop="39dp">
 
                 <Button
+                    android:onClick="@{()->viewModel.onSubmit()}"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-
                     android:background="@drawable/button_radius_background"
                     android:text="SUBMIT"
                     android:textColor="@color/white" />
 
             </LinearLayout>
-
 
         </LinearLayout>
 
@@ -84,3 +147,5 @@
 
 
 </LinearLayout>
+
+</layout>

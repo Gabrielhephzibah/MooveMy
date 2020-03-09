@@ -1,8 +1,14 @@
 package com.enyata.android.mvvm_java.data.remote;
 
+import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
+import com.enyata.android.mvvm_java.data.model.api.response.LoginResponse;
+
 import io.reactivex.Single;
 
 public interface ApiHelper {
+    ApiHeader getApiHeader();
+    Single<LoginResponse>loginInspector(LoginRequest.Request request);
+
 //    Single<> doFacebookLoginApiCall(LoginRequest.FacebookLoginRequest request);
 //
 //    Single<LoginResponse> doGoogleLoginApiCall(LoginRequest.GoogleLoginRequest request);

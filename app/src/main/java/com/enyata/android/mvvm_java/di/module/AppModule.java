@@ -87,8 +87,6 @@ public class AppModule {
     ApiHeader.ProtectedApiHeader provideProtectedApiHeader(@ApiInfo String apiKey,
                                                            PreferencesHelper preferencesHelper) {
         return new ApiHeader.ProtectedApiHeader(
-                apiKey,
-                preferencesHelper.getCurrentUserId(),
                 preferencesHelper.getAccessToken());
     }
 

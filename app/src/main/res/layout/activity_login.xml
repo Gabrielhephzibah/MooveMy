@@ -13,6 +13,10 @@
 
     </data>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <ScrollView
         android:layout_width="match_parent"
 
@@ -70,6 +74,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/email"
                 android:layout_marginTop="20dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
@@ -81,7 +86,6 @@
                 app:boxStrokeColor="@color/colorPrimaryDark"
                 app:boxStrokeWidth="10dp"
                 app:hintTextAppearance="@style/MyAppearance">
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailTextView"
                     android:layout_width="match_parent"
@@ -95,6 +99,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -140,6 +145,18 @@
 
     </LinearLayout>
     </ScrollView>
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/address_looking_up"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
+
+    </FrameLayout>
+
+
 
 
 </layout>

@@ -79,22 +79,23 @@
                 android:background="@drawable/dotted_line_background"
                 android:layout_height="72dp">
 
+
                 <RelativeLayout
+                    android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
+                    android:layout_height="wrap_content">
+
                     <ImageView
-                        android:layout_marginLeft="75dp"
                         android:layout_marginTop="25dp"
+                        android:id="@+id/upload"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_cancel_black"/>
-
                     <LinearLayout
-                        android:layout_marginTop="34dp"
                         android:layout_width="wrap_content"
                         android:orientation="vertical"
-                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="28dp"
+                        android:layout_marginTop="18dp"
                         android:layout_height="wrap_content"
                         >
                         <TextView
@@ -116,7 +117,6 @@
                             android:fontFamily="@font/montserrat"/>
                     </LinearLayout>
                 </RelativeLayout>
-
             </LinearLayout>
 
             <LinearLayout

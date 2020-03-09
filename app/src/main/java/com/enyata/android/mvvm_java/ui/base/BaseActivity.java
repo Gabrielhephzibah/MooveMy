@@ -23,6 +23,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.LayoutRes;
@@ -31,6 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
+import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.ui.login.LoginActivity;
 import com.enyata.android.mvvm_java.utils.CommonUtils;
 import com.enyata.android.mvvm_java.utils.NetworkUtils;
@@ -89,9 +92,12 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+//        remove();
         performDependencyInjection();
         super.onCreate(savedInstanceState);
         performDataBinding();
+
+
     }
 
     public T getViewDataBinding() {
@@ -151,5 +157,6 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
         mViewDataBinding.setVariable(getBindingVariable(), mViewModel);
         mViewDataBinding.executePendingBindings();
     }
+
 }
 

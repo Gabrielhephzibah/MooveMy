@@ -13,7 +13,27 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
         getNavigator().back();
     }
 
+    public void onInspectFeature(){ getNavigator().onInspectFeature(); }
+
     public void onAddSignature(){
         getNavigator().onAddSignature();
     }
+
+    public void onExteriorFeature(){getNavigator().onExteriorFeature();}
+
+    public void onGlassFeature(){ getNavigator().onGlassFeature(); }
+
+    public void  onTiresFeature(){getNavigator().onTiresFeature();}
+
+    public void onUnderBodyFeature(){ getNavigator().onUnderBodyFeature(); }
+
+    public void  onUnderHoodFeature(){getNavigator().onUnderHoodFeature();}
+
+    public void onInteriorFeature(){getNavigator().onInteriorFeature();}
+
+    public void onElectricFeature(){getNavigator().onElectricFeature();}
+
+    public void onRoadTestFeature(){getNavigator().onRoadTestFeature();}
+
+    public void onSignatureFeature(){getNavigator().onSignatureFeature();}
 }

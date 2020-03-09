@@ -7,6 +7,8 @@ import com.enyata.android.mvvm_java.data.DataManager;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.login.LoginViewModel;
 import com.enyata.android.mvvm_java.ui.mainActivity.MainActivityViewModel;
+import com.enyata.android.mvvm_java.ui.response.ResponseViewModel;
+import com.enyata.android.mvvm_java.ui.signature.SignatureViewModel;
 import com.enyata.android.mvvm_java.ui.splash.SplashViewModel;
 import com.enyata.android.mvvm_java.utils.rx.SchedulerProvider;
 
@@ -45,14 +47,14 @@ public class ViewModelProviderFactory extends ViewModelProvider.NewInstanceFacto
             //noinspection unchecked
             return (T) new CreateReportViewModel(dataManager,schedulerProvider);
         }
-//        else if (modelClass.isAssignableFrom(BlogViewModel.class)) {
-//            //noinspection unchecked
-//            return (T) new BlogViewModel(dataManager,schedulerProvider);
-//        }
-//        else if (modelClass.isAssignableFrom(RateUsViewModel.class)) {
-//            //noinspection unchecked
-//            return (T) new RateUsViewModel(dataManager,schedulerProvider);
-//        }
+        else if (modelClass.isAssignableFrom(SignatureViewModel.class)) {
+            //noinspection unchecked
+            return (T) new SignatureViewModel(dataManager,schedulerProvider);
+        }
+        else if (modelClass.isAssignableFrom(ResponseViewModel.class)) {
+            //noinspection unchecked
+            return (T) new ResponseViewModel(dataManager,schedulerProvider);
+        }
 //        else if (modelClass.isAssignableFrom(OpenSourceViewModel.class)) {
 //            //noinspection unchecked
 //            return (T) new OpenSourceViewModel(dataManager,schedulerProvider);

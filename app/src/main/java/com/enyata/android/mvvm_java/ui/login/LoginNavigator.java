@@ -16,6 +16,8 @@
 
 package com.enyata.android.mvvm_java.ui.login;
 
+import com.enyata.android.mvvm_java.data.model.api.response.LoginResponse;
+
 /**
  * Created by amitshekhar on 08/07/17.
  */
@@ -25,6 +27,8 @@ public interface LoginNavigator {
     void handleError(Throwable throwable);
 
     void login();
+
+    void onResponse(LoginResponse response);
 
     void openMainActivity();
 }

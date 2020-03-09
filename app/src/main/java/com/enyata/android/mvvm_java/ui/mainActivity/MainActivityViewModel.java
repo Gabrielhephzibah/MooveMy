@@ -13,4 +13,8 @@ public class MainActivityViewModel extends BaseViewModel<MainNavigator> {
     public  void onCreateReport(){
         getNavigator().CreateReport();
     }
+
+    public String getCurrentUserName(){
+      return   getDataManager().getCurrentUserName();
+    }
 }

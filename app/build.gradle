@@ -15,8 +15,8 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", "\"http://www.mocky.io/v2\"")
-            buildConfigField("String", "API_KEY", "\"ABCXYZ123TEST\"")
+            buildConfigField("String", "BASE_URL", '"https://moove-backend.herokuapp.com/api/v1"')
+            buildConfigField("String", "API_KEY", '"http://www.mocky.io/v2"')
         }
         release {
             minifyEnabled true
@@ -98,6 +98,9 @@ dependencies {
     // view model
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycleVersion"
+
+    // fancy alert
+    implementation "com.github.Shashank02051997:FancyToast-Android:0.1.6"
 }
 
 configurations.all {

@@ -3,7 +3,7 @@ package com.enyata.android.mvvm_java.data.remote;
 import com.enyata.android.mvvm_java.BuildConfig;
 
 public class ApiEndPoint {
-    public static final String ENDPOINT_BLOG = BuildConfig.BASE_URL + "/5926ce9d11000096006ccb30";
+    public static final String LOGIN_INSPECTOR = BuildConfig.BASE_URL + "/user/signin";
 
     public static final String ENDPOINT_FACEBOOK_LOGIN = BuildConfig.BASE_URL + "/588d15d3100000ae072d2944";
 

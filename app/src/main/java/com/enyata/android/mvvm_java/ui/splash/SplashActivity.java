@@ -1,13 +1,16 @@
 package com.enyata.android.mvvm_java.ui.splash;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.enyata.android.mvvm_java.BR;
 import com.enyata.android.mvvm_java.R;
@@ -20,6 +23,8 @@ import com.enyata.android.mvvm_java.ui.mainActivity.MainActivity;
 import javax.inject.Inject;
 
 public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashViewModel> implements  SplashNavigator {
+    ImageView mooveLogo,splash1,splash2,splash3;
+    ActivitySpashBinding activitySpashBinding;
 
    private SplashViewModel splashViewModel;
     private static int SPLASH_TIME_OUT = 2000;
@@ -33,9 +38,7 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
     }
 
     @Override
-
     public int getLayoutId() {
-
         return R.layout.activity_spash;
     }
 
@@ -45,13 +48,26 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
         return splashViewModel;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//       this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+       this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         splashViewModel.setNavigator(this);
+        activitySpashBinding = getViewDataBinding();
+        mooveLogo = activitySpashBinding.mooveLogo;
+        splash1 = activitySpashBinding.splash1;
+        splash2 = activitySpashBinding.splash2;
+        splash3 = activitySpashBinding.splash3;
+        mooveLogo.setX(-2000);
+        mooveLogo.animate().translationXBy(2000).setDuration(1000);
+        splash1.animate().translationY(-100).translationX(50).setDuration(1500);
+        splash2.animate().translationY(-20).translationX(200).setDuration(1500);
+        splash3.animate().translationY(-100).translationXBy(50).setDuration(1500);
+
+
 
 
         //will hide the title
@@ -81,13 +97,6 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
     }
-
-//    @Override
-//    public void openMainActivity() {
-//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//        startActivity(intent);
-//
-//    }
 
     @Override
     protected void onResume() {

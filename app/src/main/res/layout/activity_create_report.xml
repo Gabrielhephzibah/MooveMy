@@ -71,7 +71,8 @@
                         android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
 
                     <ImageView
-                        android:id="@+id/openArrow"
+                        android:onClick="@{() -> viewModel.onInspectFeature()}"
+                        android:id="@+id/inspectToggle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -82,8 +83,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/vehincleDetails"
-               android:visibility="gone"
+                android:id="@+id/inspectFeature"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
@@ -328,6 +329,16 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+
+
+                </LinearLayout>
+
+
 
 
 
@@ -369,6 +380,8 @@
                         android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
 
                     <ImageView
+                        android:id="@+id/exteriorToggle"
+                        android:onClick="@{() -> viewModel.onExteriorFeature()}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -380,6 +393,7 @@
 
 
             <LinearLayout
+                android:id="@+id/exteriorFeature"
                 android:visibility="gone"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -435,6 +449,8 @@
                         android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
 
                     <ImageView
+                        android:id="@+id/glassToggle"
+                        android:onClick="@{() -> viewModel.onGlassFeature()}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -446,6 +462,8 @@
 
 
             <LinearLayout
+                android:id="@+id/glassFeature"
+                android:visibility="gone"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_marginTop="18dp"
@@ -501,6 +519,8 @@
                         android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
 
                     <ImageView
+                        android:id="@+id/tiresToggle"
+                        android:onClick="@{() -> viewModel.onTiresFeature()}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -509,6 +529,28 @@
 
                 </RelativeLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tiresFeature"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:paddingBottom="18dp"
+                android:background="@drawable/carousel_border"
+                android:layout_height="370dp">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/tiresPager"
+                    android:layout_width="match_parent"
+                    android:elevation="9dp"
+                    android:layout_height="match_parent"
+                    tools:targetApi="lollipop" />
+
+            </LinearLayout>
+
 
 
 
@@ -548,6 +590,8 @@
                         android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
 
                     <ImageView
+                        android:id="@+id/underBodyToggle"
+                        android:onClick="@{() -> viewModel.onUnderBodyFeature()}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -556,6 +600,29 @@
 
                 </RelativeLayout>
             </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/underBodyFeature"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:paddingBottom="18dp"
+                android:background="@drawable/carousel_border"
+                android:layout_height="370dp">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/underBodyPager"
+                    android:layout_width="match_parent"
+                    android:elevation="9dp"
+                    android:layout_height="match_parent"
+                    tools:targetApi="lollipop" />
+
+            </LinearLayout>
+
 
 
             <LinearLayout
@@ -594,6 +661,8 @@
                         android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
 
                     <ImageView
+                        android:id="@+id/underHoodToggle"
+                        android:onClick="@{() -> viewModel.onUnderHoodFeature()}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -602,6 +671,28 @@
 
                 </RelativeLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/underHoodFeature"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:paddingBottom="18dp"
+                android:background="@drawable/carousel_border"
+                android:layout_height="370dp">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/underHoodPager"
+                    android:layout_width="match_parent"
+                    android:elevation="9dp"
+                    android:layout_height="match_parent"
+                    tools:targetApi="lollipop" />
+
+            </LinearLayout>
+
 
 
 
@@ -641,6 +732,8 @@
                         android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
 
                     <ImageView
+                        android:id="@+id/interiorToggle"
+                        android:onClick="@{() -> viewModel.onInteriorFeature()}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -648,6 +741,29 @@
                         android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/interiorFeature"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:paddingBottom="18dp"
+                android:background="@drawable/carousel_border"
+                android:layout_height="370dp">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/interiorPager"
+                    android:layout_width="match_parent"
+                    android:elevation="9dp"
+                    android:layout_height="match_parent"
+                    tools:targetApi="lollipop" />
+
             </LinearLayout>
 
 
@@ -687,6 +803,8 @@
                         android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
 
                     <ImageView
+                        android:id="@+id/electricToggle"
+                        android:onClick="@{() -> viewModel.onElectricFeature()}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -694,6 +812,27 @@
                         android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/electricFeature"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:paddingBottom="18dp"
+                android:background="@drawable/carousel_border"
+                android:layout_height="370dp">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/electricPager"
+                    android:layout_width="match_parent"
+                    android:elevation="9dp"
+                    android:layout_height="match_parent"
+                    tools:targetApi="lollipop" />
+
             </LinearLayout>
 
 
@@ -733,6 +872,8 @@
                         android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
 
                     <ImageView
+                        android:id="@+id/roadTestToggle"
+                        android:onClick="@{() -> viewModel.onRoadTestFeature()}"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -741,6 +882,28 @@
 
                 </RelativeLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/roadTestFeature"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:paddingBottom="18dp"
+                android:background="@drawable/carousel_border"
+                android:layout_height="370dp">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/roadTestPager"
+                    android:layout_width="match_parent"
+                    android:elevation="9dp"
+                    android:layout_height="match_parent"
+                    tools:targetApi="lollipop" />
+
+            </LinearLayout>
+
 
 
 
@@ -780,7 +943,8 @@
                         android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
 
                     <ImageView
-                        android:id="@+id/signatureIcon"
+                        android:onClick="@{() -> viewModel.onSignatureFeature()}"
+                        android:id="@+id/signatureToggle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -792,7 +956,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/signAndConfirm"
+                android:id="@+id/signatureFeature"
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

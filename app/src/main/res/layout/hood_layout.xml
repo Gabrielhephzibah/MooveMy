@@ -6,6 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,9 +17,6 @@
         android:elevation="10dp"
         app:cardCornerRadius="14dp"
         tools:targetApi="lollipop">
-<!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,31 +40,33 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="15dp"
-                android:id="@+id/radioGroup">
+                android:id="@+id/hoodRadioGroup">
 
                 <RadioButton
+                    android:id="@+id/good"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:textColor="#373737"
-                    android:fontFamily="@font/montserrat"
                     android:layout_height="wrap_content"
-                    android:buttonTint="@color/colorPrimaryDark"
+                    android:layout_weight="1"
+                   android:buttonTint="@color/colorPrimaryDark"
+                    android:fontFamily="@font/montserrat"
                     android:text="Good"/>
 
                 <RadioButton
+                    android:id="@+id/fair"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:textColor="#373737"
                     android:fontFamily="@font/montserrat"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimaryDark"
                     android:text="Fair"/>
 
                 <RadioButton
-                    android:textColor="#373737"
+                    android:id="@+id/poor"
                     android:layout_width="0dp"
                     android:fontFamily="@font/montserrat"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimaryDark"
                     android:text="Poor"/>
 
 
@@ -79,6 +82,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/takePicture"
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -99,7 +103,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="UPLOAD IMAGES"
+                            android:text="TAKE PICTURES"
                             android:textColor="#BBBBBB"
                             android:fontFamily="@font/montserrat_bold"
                             android:textSize="12sp"/>
@@ -107,7 +111,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="CLICK TO SELECT IMAGES"
+                            android:text="CLICK TO TAKE PICTURES"
                             android:textColor="#BBBBBB"
                             android:textSize="8dp"
                             android:textStyle="bold"
@@ -116,54 +120,7 @@
                     </LinearLayout>
                 </RelativeLayout>
 
-<!--                <RelativeLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    >-->
-<!--                    <ImageView-->
-<!--                        android:layout_marginLeft="75dp"-->
-<!--                        android:layout_marginTop="25dp"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        app:srcCompat="@drawable/ic_cancel_black"/>-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_marginTop="34dp"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:orientation="vertical"-->
-<!--                        android:layout_centerInParent="true"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        >-->
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="UPLOAD IMAGES"-->
-<!--                            android:textColor="#BBBBBB"-->
-<!--                            android:fontFamily="@font/montserrat_bold"-->
-<!--                            android:textSize="12sp"/>-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="CLICK TO SELECT IMAGES"-->
-<!--                            android:textColor="#BBBBBB"-->
-<!--                            android:textSize="8dp"-->
-<!--                            android:textStyle="bold"-->
-<!--                            android:layout_marginTop="2dp"-->
-<!--                            android:fontFamily="@font/montserrat"/>-->
-<!--                    </LinearLayout>-->
-<!--                </RelativeLayout>-->
-
-
-
-
             </LinearLayout>
-
-
-
-
-
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -189,26 +146,20 @@
                         android:layout_height="100dp"
                         app:cardCornerRadius="5dp">
                         <ImageView
+                            android:id="@+id/firstImage"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/car"/>
+                            android:scaleType="fitXY" />
 
                         <ImageView
-                            android:id="@+id/image"
+                            android:id="@+id/cancel1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
-
                             android:layout_centerHorizontal="true"
                             android:layout_alignTop="@+id/uPicture"
                             app:srcCompat="@drawable/ic_delete_icon"/>
                     </androidx.cardview.widget.CardView>
-
-
-
-
-
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -219,17 +170,19 @@
                     android:layout_weight="1">
 
                     <androidx.cardview.widget.CardView
+                        app:cardBackgroundColor="@android:color/transparent"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         app:cardCornerRadius="5dp">
                         <ImageView
+
+                            android:id="@+id/secondImage"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/car"/>
+                            android:scaleType="fitXY" />
 
                         <ImageView
-                            android:id="@+id/image2"
+                            android:id="@+id/cancel2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
@@ -246,16 +199,17 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
                     <androidx.cardview.widget.CardView
+                        app:cardBackgroundColor="@android:color/transparent"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         app:cardCornerRadius="5dp">
                         <ImageView
+                            android:id="@+id/thirdImage"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/car"/>
+                            android:scaleType="fitXY" />
                         <ImageView
-                            android:id="@+id/image3"
+                            android:id="@+id/cancel3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
@@ -269,14 +223,36 @@
             </LinearLayout>
 
 
-
-
             </RelativeLayout>
 
+            <Button
+                android:layout_marginTop="20dp"
+                android:id="@+id/saveHood"
+                android:layout_width="160dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:background="@drawable/changing_button_bg"
+                android:text="SAVE"
+                android:textColor="@drawable/button_changing_text" />
 
         </LinearLayout>
 
+        <ProgressBar
+            android:indeterminateTint="@color/colorPrimaryDark"
+            android:id="@+id/pBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+        </ProgressBar>
+
+
     </androidx.cardview.widget.CardView>
+
+
+
+
+    </FrameLayout>
 
 
 

@@ -51,7 +51,7 @@ private MainActivityViewModel mainActivityViewModel;
         TextView inspectorName = activityMainBinding.inspectorName;
         String currentUserName = mainActivityViewModel.getCurrentUserName();
         inspectorName.setText(currentUserName);
-        Log.i("USERNAMEEE",currentUserName);
+//        Log.i("USERNAMEEE",currentUserName);
     }
 
 

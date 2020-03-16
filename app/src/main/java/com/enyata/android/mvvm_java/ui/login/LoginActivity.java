@@ -77,13 +77,16 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     public void login() {
+//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//        startActivity(intent);
+
         String password = activityLoginBinding.passwordTextView.getText().toString();
         String email = activityLoginBinding.emailTextView.getText().toString();
         LoginRequest.Request request = new LoginRequest.Request(email,password);
         if (!loginViewModel.isEmailAndPasswordValid(email,password)){
-            Alert.showInfo(getApplicationContext(),"Please enter a valid email and password");
+            Alert.showFailed(getApplicationContext(),"Please enter a valid email and password");
         }else if (!loginViewModel.isLengthEqualsToSeven(password)){
-            Alert.showInfo(getApplicationContext(),"Password length must be at least 7 characters");
+            Alert.showFailed(getApplicationContext(),"Password length must be at least 7 characters");
         }else {
             if (InternetConnection.getInstance(this).isOnline()){
                 hideKeyboard();
@@ -99,6 +102,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     public void onResponse(LoginResponse response) {
         Log.i("Login", "Login was Successful");
         String firstName = response.getData().getFirstName();
+        Log.i("First Name", firstName);
         loginViewModel.setCurrentUserName(firstName);
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);

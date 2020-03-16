@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.enyata.android.mvvm_java.data.local.db.dao.DbHelper;
 import com.enyata.android.mvvm_java.data.local.prefs.PreferencesHelper;
+import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
+import com.enyata.android.mvvm_java.data.model.api.request.VehiclePart;
 import com.enyata.android.mvvm_java.data.model.api.response.LoginResponse;
 import com.enyata.android.mvvm_java.data.remote.ApiHeader;
 import com.enyata.android.mvvm_java.data.remote.ApiHelper;
@@ -108,6 +110,93 @@ public class AppDataManager implements  DataManager {
     @Override
     public void setCurrentUserProfilePicUrl(String profilePicUrl) {
         mPreferencesHelper.setCurrentUserProfilePicUrl(profilePicUrl);
+    }
+
+    @Override
+    public void setCarYear(String carYear) {
+        mPreferencesHelper.setCarYear(carYear);
+    }
+
+    @Override
+    public String getCarYear() {
+        return mPreferencesHelper.getCarYear();
+    }
+
+    @Override
+    public void setCarModel(String carModel) {
+        mPreferencesHelper.setCarModel(carModel);
+
+
+    }
+
+    @Override
+    public String getCarModel() {
+        return mPreferencesHelper.getCarModel();
+    }
+
+    @Override
+    public void setCarMake(String carMake) {
+        mPreferencesHelper.setCarMake(carMake);
+
+    }
+
+    @Override
+    public String getCarMake() {
+        return mPreferencesHelper.getCarMake();
+    }
+
+    @Override
+    public void setCurrentMileage(String currentMileage) {
+        mPreferencesHelper.setCurrentMileage(currentMileage);
+
+    }
+
+    @Override
+    public String getCurrentMilege() {
+        return mPreferencesHelper.getCurrentMilege();
+    }
+
+    @Override
+    public void setRegistrationNo(String registrationNo) {
+        mPreferencesHelper.setRegistrationNo(registrationNo);
+
+    }
+
+    @Override
+    public String getRegistrationNo() {
+        return mPreferencesHelper.getRegistrationNo();
+    }
+
+    @Override
+    public void setVin(String vin) {
+        mPreferencesHelper.setVin(vin);
+
+    }
+
+    @Override
+    public String getVin() {
+        return mPreferencesHelper.getVin();
+    }
+
+    @Override
+    public void setCarColor(String carColor) {
+        mPreferencesHelper.setCarColor(carColor);
+
+    }
+
+    @Override
+    public String getCarColor() {
+        return mPreferencesHelper.getCarColor();
+    }
+
+    @Override
+    public void setInTakeVehicleReport(List<VehicleCollection.Request> vehiclePart) {
+        mPreferencesHelper.setInTakeVehicleReport(vehiclePart);
+    }
+
+    @Override
+    public List<VehicleCollection.Request> getInTakeVehicleReport() {
+        return mPreferencesHelper.getInTakeVehicleReport();
     }
 
 

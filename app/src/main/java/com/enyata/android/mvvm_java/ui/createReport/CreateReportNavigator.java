@@ -13,5 +13,6 @@ public interface CreateReportNavigator {
    void  onElectricFeature();
    void onRoadTestFeature();
    void onSignatureFeature();
+   void onSaveVehicleInfo();
 
 }

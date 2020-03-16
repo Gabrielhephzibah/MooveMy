@@ -25,11 +25,15 @@
     <style name="AppTheme.greyStatusBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/grey_new</item>
     </style>
+    <style name="RadioButton" >
+        <item name="android:colorAccent" tools:targetApi="lollipop">#E53012</item>
+    </style>
 
-<!--    <style name="AppTheme.Splash" parent="@style/Theme.AppCompat.NoActionBar">-->
-<!--        <item name="android:windowFullscreen">false</item>-->
-<!--        <item name="android:windowContentOverlay">@null</item>-->
-<!--    </style>-->
+
+    <style name="MyRadioButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlActivated">@color/semi_gray</item>
+    </style>
 
 
 

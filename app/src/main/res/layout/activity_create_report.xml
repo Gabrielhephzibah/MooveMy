@@ -52,7 +52,7 @@
                         android:id="@+id/inspectionInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="INSPECTION INFORMATION"
+                        android:text="VEHICLE INFORMATION"
                         android:textSize="14dp"
                         android:textStyle="bold"
                         android:fontFamily="@font/montserrat"
@@ -83,8 +83,8 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/inspectFeature"
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
@@ -124,7 +124,7 @@
                               android:background="@drawable/spinner_border">
 
                               <Spinner
-                                  android:id="@+id/spinner"
+                                  android:id="@+id/yearSpinner"
                                   android:layout_width="match_parent"
                                   android:layout_height="40dp"
                                   android:layout_marginTop="5dp"
@@ -148,7 +148,7 @@
                               android:layout_height="wrap_content"
                               android:layout_marginBottom="10dp"
                               android:fontFamily="@font/montserrat"
-                              android:text="Model"
+                              android:text="Model and Make"
                               android:textColor="#2A2E43"
                               android:textSize="14sp"
                               android:textStyle="bold" />
@@ -159,7 +159,7 @@
                               android:background="@drawable/spinner_border">
 
                               <Spinner
-                                  android:id="@+id/spinnerModel"
+                                  android:id="@+id/modelSpinner"
                                   android:layout_width="match_parent"
                                   android:layout_height="40dp"
                                   android:layout_marginTop="5dp"
@@ -175,42 +175,92 @@
 
 
               </RelativeLayout>
-                <LinearLayout
+
+                <RelativeLayout
+                    android:layout_marginTop="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <LinearLayout
-                        android:layout_marginTop="10dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
 
-                        <TextView
-                            android:layout_marginBottom="10dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Model"
-                            android:layout_marginRight="139dp"
-                            android:textSize="14sp"
-                            android:fontFamily="@font/montserrat"
-                            android:textStyle="bold"
-                            android:textColor="#2A2E43"/>
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:background="@drawable/spinner_border"
-                            android:layout_height="wrap_content">
-                            <Spinner
-                                android:id="@+id/spinnerMake"
+                            android:paddingRight="6dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:fontFamily="@font/montserrat"
+                                android:text="Make"
+                                android:textColor="#2A2E43"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:layout_marginTop="5dp"
-                                android:backgroundTint="@color/colorPrimary"
-                                android:spinnerMode="dropdown"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="12sp"/>
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/spinner_border">
+
+                                <Spinner
+                                    android:id="@+id/makeSpinner"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_marginTop="5dp"
+                                    android:backgroundTint="@color/colorPrimary"
+                                    android:spinnerMode="dropdown"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
                         </LinearLayout>
+
+                        <LinearLayout
+                            android:paddingLeft="6dp"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="10dp"
+                                android:fontFamily="@font/montserrat"
+                                android:text="Color"
+                                android:textColor="#2A2E43"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/spinner_border">
+
+                                <EditText
+                                    android:id="@+id/editColor"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:textCursorDrawable = "@null"
+                                    android:layout_marginTop="5dp"
+                                    android:backgroundTint="@color/white"
+                                    android:textColor="@color/colorPrimaryDark"
+                                    android:textSize="16sp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
+
                     </LinearLayout>
 
-                </LinearLayout>
+
+                </RelativeLayout>
+
 
                 <LinearLayout
                     android:layout_marginTop="10dp"
@@ -244,7 +294,7 @@
                                 android:layout_marginTop="5dp"
                                 android:backgroundTint="@color/white"
                                 android:textColor="@color/colorPrimaryDark"
-                                android:textSize="12sp"/>
+                                android:textSize="16sp"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -284,7 +334,7 @@
                                 android:layout_marginTop="5dp"
                                 android:backgroundTint="@color/white"
                                 android:textColor="@color/colorPrimaryDark"
-                                android:textSize="12sp"/>
+                                android:textSize="16sp"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -324,23 +374,27 @@
                                 android:layout_marginTop="5dp"
                                 android:backgroundTint="@color/white"
                                 android:textColor="@color/colorPrimaryDark"
-                                android:textSize="12sp"/>
+                                android:textSize="16sp"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="39dp">
 
-
-
+                    <Button
+                        android:onClick="@{() -> viewModel.onSaveVehicleInfo()}"
+                        android:id="@+id/save"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/changing_button_bg"
+                        android:text="SAVE"
+                        android:textColor="@drawable/button_changing_text" />
 
                 </LinearLayout>
-
-
-
-
 
             </LinearLayout>
 
@@ -402,7 +456,7 @@
                 android:layout_marginRight="24dp"
                 android:paddingBottom="18dp"
                android:background="@drawable/carousel_border"
-                android:layout_height="370dp">
+                android:layout_height="450dp">
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/exteriorPager"
@@ -471,7 +525,7 @@
                 android:layout_marginRight="24dp"
                 android:paddingBottom="18dp"
                 android:background="@drawable/carousel_border"
-                android:layout_height="370dp">
+                android:layout_height="450dp">
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/glassPager"
@@ -540,7 +594,7 @@
                 android:layout_marginRight="24dp"
                 android:paddingBottom="18dp"
                 android:background="@drawable/carousel_border"
-                android:layout_height="370dp">
+                android:layout_height="450dp">
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/tiresPager"
@@ -612,7 +666,7 @@
                 android:layout_marginRight="24dp"
                 android:paddingBottom="18dp"
                 android:background="@drawable/carousel_border"
-                android:layout_height="370dp">
+                android:layout_height="450dp">
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/underBodyPager"
@@ -682,7 +736,7 @@
                 android:layout_marginRight="24dp"
                 android:paddingBottom="18dp"
                 android:background="@drawable/carousel_border"
-                android:layout_height="370dp">
+                android:layout_height="450dp">
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/underHoodPager"
@@ -755,7 +809,7 @@
                 android:layout_marginRight="24dp"
                 android:paddingBottom="18dp"
                 android:background="@drawable/carousel_border"
-                android:layout_height="370dp">
+                android:layout_height="450dp">
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/interiorPager"
@@ -824,7 +878,7 @@
                 android:layout_marginRight="24dp"
                 android:paddingBottom="18dp"
                 android:background="@drawable/carousel_border"
-                android:layout_height="370dp">
+                android:layout_height="450dp">
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/electricPager"
@@ -893,7 +947,7 @@
                 android:layout_marginRight="24dp"
                 android:paddingBottom="18dp"
                 android:background="@drawable/carousel_border"
-                android:layout_height="370dp">
+                android:layout_height="450dp">
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/roadTestPager"
@@ -903,9 +957,6 @@
                     tools:targetApi="lollipop" />
 
             </LinearLayout>
-
-
-
 
             <LinearLayout
                 android:layout_marginTop="4dp"

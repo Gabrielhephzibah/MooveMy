@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Moove</string>
     <string name="clear"><u>CLEAR</u></string>
+    <string name="save"><u>SAVE</u></string>
     <string name="signature">SIGNATURES &amp; CONFIRMATIONS</string>
 
 </resources>

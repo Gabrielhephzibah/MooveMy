@@ -58,6 +58,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         activityLoginBinding = getViewDataBinding();
 
 
+
     }
 
     @Override
@@ -66,46 +67,52 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         if (throwable!= null){
             ANError error =(ANError) throwable;
             LoginResponse response = gson.fromJson(error.getErrorBody(),LoginResponse.class);
-            if (error.getErrorBody()!=null){
-                Alert.showFailed(getApplicationContext(),response.getMessage());
+            if (error.getErrorBody()!=null) {
+                Alert.showFailed(getApplicationContext(), response.getMessage());
+
+            }
             }else {
                 Alert.showFailed(getApplicationContext(),"Request not successful,please try again later");
-            }
+//            }
         }
+
 
     }
 
     @Override
     public void login() {
-//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
 
-        String password = activityLoginBinding.passwordTextView.getText().toString();
-        String email = activityLoginBinding.emailTextView.getText().toString();
-        LoginRequest.Request request = new LoginRequest.Request(email,password);
-        if (!loginViewModel.isEmailAndPasswordValid(email,password)){
-            Alert.showFailed(getApplicationContext(),"Please enter a valid email and password");
-        }else if (!loginViewModel.isLengthEqualsToSeven(password)){
-            Alert.showFailed(getApplicationContext(),"Password length must be at least 7 characters");
-        }else {
-            if (InternetConnection.getInstance(this).isOnline()){
-                hideKeyboard();
-                loginViewModel.onLoginInspector(request);
-            }else {
-                Alert.showFailed(getApplicationContext(),"Please check your Internet Connection and try again");
-            }
-
-        }
+//        String password = activityLoginBinding.passwordTextView.getText().toString().trim();
+//        String email = activityLoginBinding.emailTextView.getText().toString().trim();
+//        LoginRequest.Request request = new LoginRequest.Request(email,password);
+//
+//       if (!loginViewModel.isEmailAndPasswordValid(email,password)){
+//            Alert.showFailed(getApplicationContext(),"Please enter a valid email and password");
+//        }else if (!loginViewModel.isLengthEqualsToSeven(password)){
+//            Alert.showFailed(getApplicationContext(),"Password length must be at least 7 characters");
+//        }else {
+//            if (InternetConnection.getInstance(this).isOnline()){
+//                hideKeyboard();
+//                loginViewModel.onLoginInspector(request);
+//            }else {
+//                Alert.showFailed(getApplicationContext(),"Please check your Internet Connection and try again");
+//            }
+//
+//        }
     }
 
     @Override
     public void onResponse(LoginResponse response) {
-        Log.i("Login", "Login was Successful");
+
         String firstName = response.getData().getFirstName();
         Log.i("First Name", firstName);
         loginViewModel.setCurrentUserName(firstName);
+        Log.i("Login", "Login was Successful");
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
+
 
     }
 

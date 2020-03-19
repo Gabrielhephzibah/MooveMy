@@ -66,11 +66,34 @@
                     android:layout_height="125dp"
                     android:background="@drawable/transparent_background">
 
-                    <TextView
-                        android:paddingBottom="10dp"
+                    <com.github.gcacace.signaturepad.views.SignaturePad
                         android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:id="@+id/inspectorSignature"/>
+
+                    <TextView
+                        android:onClick="@{()->viewModel.onSaveInspectorSign()}"
+                        android:id="@+id/saveInspectorSignature"
+                        android:paddingBottom="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:layout_alignParentBottom="true"
+                        android:textColor="#373737"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:paddingLeft="10dp"
+                        android:text="@string/save"/>
+
+                    <TextView
+                        android:onClick="@{()->viewModel.onClearInspectorSign()}"
+                        android:id="@+id/clearInspectorSignature"
+                        android:paddingBottom="10dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
                         android:gravity="end"
                         android:textColor="#373737"
                         android:textSize="12sp"
@@ -103,12 +126,35 @@
                     android:layout_height="125dp"
                     android:background="@drawable/transparent_background">
 
-                    <TextView
-                        android:paddingBottom="10dp"
+                    <com.github.gcacace.signaturepad.views.SignaturePad
                         android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:id="@+id/supplierSignature"/>
+
+                    <TextView
+                        android:onClick="@{()->viewModel.onSaveSupplierSign()}"
+                        android:id="@+id/saveSupplierSignature"
+                        android:paddingBottom="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:layout_alignParentBottom="true"
+                        android:textColor="#373737"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:paddingLeft="10dp"
+                        android:text="@string/save"/>
+
+
+                    <TextView
+                        android:onClick="@{()->viewModel.onClearSupplierSign()}"
+                        android:id="@+id/clearSupplierSignature"
+                        android:paddingBottom="10dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
-                        android:gravity="end"
+                        android:layout_alignParentRight="true"
                         android:textColor="#373737"
                         android:textSize="12sp"
                         android:textStyle="bold"

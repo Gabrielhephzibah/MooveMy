@@ -49,6 +49,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +76,7 @@ public class HoodFragment extends Fragment {
     private Uri mImageUri = null;
     ProgressBar progressBar;
     CharSequence radio;
-    String[] result;
+    List<String>result;
     View fragment;
     HashMap<String, String> imageArray = new HashMap<>();
 
@@ -353,6 +354,7 @@ public class HoodFragment extends Fragment {
                                 progressBar.setVisibility(View.GONE);
                                 imageURL = (String) resultData.get("url");
                                 cloudinaryID = (String) resultData.get("public_id");
+                                Toast.makeText(getActivity(), "Image uploaded Successfully, You can take another picture now", Toast.LENGTH_LONG).show();
                                 Log.i("imageURL", imageURL);
                                 Log.i("cloudinaryID", cloudinaryID);
                                 showImage();
@@ -419,10 +421,12 @@ public class HoodFragment extends Fragment {
         }
 
 
-        result = imageArray.values().toArray(new String[0]);
+        Collection<String> value = imageArray.values();
+        result = new ArrayList<>(value);
 
-        VehicleCollection.Request hood = new VehicleCollection.Request("hood", result, status);
+        VehicleCollection hood = new VehicleCollection("hood", result, status);
         createReportViewModel.saveReportToLocalStorage(hood);
+        Toast.makeText(getActivity(), "Item saved please swipe to proceed ", Toast.LENGTH_SHORT).show();
 
     }
 

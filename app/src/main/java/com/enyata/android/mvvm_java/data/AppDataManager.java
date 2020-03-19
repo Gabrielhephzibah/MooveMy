@@ -5,8 +5,10 @@ import android.content.Context;
 import com.enyata.android.mvvm_java.data.local.db.dao.DbHelper;
 import com.enyata.android.mvvm_java.data.local.prefs.PreferencesHelper;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
+import com.enyata.android.mvvm_java.data.model.api.request.CreateReportRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.VehiclePart;
+import com.enyata.android.mvvm_java.data.model.api.response.CreateReportResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.LoginResponse;
 import com.enyata.android.mvvm_java.data.remote.ApiHeader;
 import com.enyata.android.mvvm_java.data.remote.ApiHelper;
@@ -190,19 +192,44 @@ public class AppDataManager implements  DataManager {
     }
 
     @Override
-    public void setInTakeVehicleReport(List<VehicleCollection.Request> vehiclePart) {
+    public void setInTakeVehicleReport(List<VehicleCollection> vehiclePart) {
         mPreferencesHelper.setInTakeVehicleReport(vehiclePart);
     }
 
     @Override
-    public List<VehicleCollection.Request> getInTakeVehicleReport() {
+    public List<VehicleCollection> getInTakeVehicleReport() {
         return mPreferencesHelper.getInTakeVehicleReport();
+    }
+
+    @Override
+    public void setIntakeFinalStatus(String status) {
+        mPreferencesHelper.setIntakeFinalStatus(status);
+    }
+
+    @Override
+    public String getIntakeFinalStatus() {
+        return mPreferencesHelper.getIntakeFinalStatus();
+    }
+
+    @Override
+    public void setIntakeFinalComment(String comment) {
+        mPreferencesHelper.setIntakeFinalComment(comment);
+    }
+
+    @Override
+    public String getIntakeFinalComment() {
+        return mPreferencesHelper.getIntakeFinalComment();
     }
 
 
     @Override
     public Single<LoginResponse>loginInspector(LoginRequest.Request request) {
         return mApiHelper.loginInspector(request);
+    }
+
+    @Override
+    public Single<CreateReportResponse> createIntakeReport(CreateReportRequest request) {
+        return mApiHelper.createIntakeReport(request);
     }
 
 

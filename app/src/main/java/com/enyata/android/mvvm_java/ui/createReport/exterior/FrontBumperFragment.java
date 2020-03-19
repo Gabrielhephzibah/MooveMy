@@ -44,6 +44,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -66,7 +67,7 @@ public class FrontBumperFragment extends Fragment {
     private static final int REQUEST_CAMERA = 1;
     private Uri mImageUri = null;
     ProgressBar progressBar;
-    String[] result;
+    List<String>result;
     HashMap<String, String> imageArray = new HashMap<>();
 
     public FrontBumperFragment(){
@@ -232,12 +233,14 @@ public class FrontBumperFragment extends Fragment {
             Toast.makeText(getActivity(), "please fill all fields", Toast.LENGTH_LONG).show();
             return;
         } else {
-            result = imageArray.values().toArray(new String[0]);
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
         }
 
 
-        VehicleCollection.Request font_bumper = new VehicleCollection.Request("front bumper", result, status);
+        VehicleCollection font_bumper = new VehicleCollection("front bumper", result, status);
         createReportViewModel.saveReportToLocalStorage(font_bumper);
+        Toast.makeText(getActivity(), "Item saved please swipe to proceed ", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -296,6 +299,7 @@ public class FrontBumperFragment extends Fragment {
                                 progressBar.setVisibility(View.GONE);
                                 imageURL = (String) resultData.get("url");
                                 cloudinaryID = (String) resultData.get("public_id");
+                                Toast.makeText(getActivity(), "Image uploaded Successfully, You can take another picture now", Toast.LENGTH_LONG).show();
                                 Log.i("imageURL", imageURL);
                                 Log.i("cloudinaryID", cloudinaryID);
                                 showImage();

@@ -36,12 +36,15 @@
             android:orientation="vertical"
             android:paddingBottom="100dp"
             android:layout_height="wrap_content">
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="107dp"
                 android:background="#faeeed">
 
                 <RelativeLayout
+                    android:onClick="@{() -> viewModel.onInspectFeature()}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="29dp"
@@ -71,7 +74,7 @@
                         android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
 
                     <ImageView
-                        android:onClick="@{() -> viewModel.onInspectFeature()}"
+
                         android:id="@+id/inspectToggle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -80,7 +83,13 @@
                         android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
+
+
+
             </LinearLayout>
+
+
+
 
             <LinearLayout
                 android:visibility="gone"
@@ -148,7 +157,7 @@
                               android:layout_height="wrap_content"
                               android:layout_marginBottom="10dp"
                               android:fontFamily="@font/montserrat"
-                              android:text="Model and Make"
+                              android:text="Model"
                               android:textColor="#2A2E43"
                               android:textSize="14sp"
                               android:textStyle="bold" />
@@ -279,6 +288,7 @@
                             android:text="Current Mileage"
                             android:layout_marginRight="139dp"
                             android:textSize="14sp"
+
                             android:fontFamily="@font/montserrat"
                             android:textStyle="bold"
                             android:textColor="#2A2E43"/>
@@ -290,6 +300,7 @@
                                 android:id="@+id/editMillage"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
+                                android:inputType="number"
                                 android:textCursorDrawable = "@null"
                                 android:layout_marginTop="5dp"
                                 android:backgroundTint="@color/white"
@@ -398,6 +409,8 @@
 
             </LinearLayout>
 
+
+
             <LinearLayout
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
@@ -405,6 +418,8 @@
                 android:background="#faeeed">
 
                 <RelativeLayout
+                    android:onClick="@{() -> viewModel.onExteriorFeature()}"
+                    android:id="@+id/exteriorLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="29dp"
@@ -435,7 +450,7 @@
 
                     <ImageView
                         android:id="@+id/exteriorToggle"
-                        android:onClick="@{() -> viewModel.onExteriorFeature()}"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -474,6 +489,8 @@
                 android:background="#faeeed">
 
                 <RelativeLayout
+                    android:onClick="@{() -> viewModel.onGlassFeature()}"
+                    android:id="@+id/glassLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="29dp"
@@ -504,7 +521,7 @@
 
                     <ImageView
                         android:id="@+id/glassToggle"
-                        android:onClick="@{() -> viewModel.onGlassFeature()}"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -544,6 +561,7 @@
                 android:background="#faeeed">
 
                 <RelativeLayout
+                    android:onClick="@{() -> viewModel.onTiresFeature()}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="29dp"
@@ -574,7 +592,7 @@
 
                     <ImageView
                         android:id="@+id/tiresToggle"
-                        android:onClick="@{() -> viewModel.onTiresFeature()}"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -615,6 +633,7 @@
                 android:background="#faeeed">
 
                 <RelativeLayout
+                    android:onClick="@{() -> viewModel.onUnderBodyFeature()}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="29dp"
@@ -645,7 +664,7 @@
 
                     <ImageView
                         android:id="@+id/underBodyToggle"
-                        android:onClick="@{() -> viewModel.onUnderBodyFeature()}"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -686,6 +705,7 @@
                 android:background="#faeeed">
 
                 <RelativeLayout
+                    android:onClick="@{() -> viewModel.onUnderHoodFeature()}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="29dp"
@@ -716,7 +736,7 @@
 
                     <ImageView
                         android:id="@+id/underHoodToggle"
-                        android:onClick="@{() -> viewModel.onUnderHoodFeature()}"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -757,6 +777,7 @@
                 android:background="#faeeed">
 
                 <RelativeLayout
+                    android:onClick="@{() -> viewModel.onInteriorFeature()}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="29dp"
@@ -787,7 +808,7 @@
 
                     <ImageView
                         android:id="@+id/interiorToggle"
-                        android:onClick="@{() -> viewModel.onInteriorFeature()}"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -828,6 +849,7 @@
                 android:background="#faeeed">
 
                 <RelativeLayout
+                    android:onClick="@{() -> viewModel.onElectricFeature()}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="29dp"
@@ -858,7 +880,7 @@
 
                     <ImageView
                         android:id="@+id/electricToggle"
-                        android:onClick="@{() -> viewModel.onElectricFeature()}"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -897,6 +919,7 @@
                 android:background="#faeeed">
 
                 <RelativeLayout
+                    android:onClick="@{() -> viewModel.onRoadTestFeature()}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="29dp"
@@ -927,7 +950,7 @@
 
                     <ImageView
                         android:id="@+id/roadTestToggle"
-                        android:onClick="@{() -> viewModel.onRoadTestFeature()}"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -965,6 +988,7 @@
                 android:background="#faeeed">
 
                 <RelativeLayout
+                    android:onClick="@{() -> viewModel.onSignatureFeature()}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="29dp"
@@ -975,11 +999,12 @@
                         android:id="@+id/signature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/signature"
-                        android:textSize="14dp"
-                        android:textStyle="bold"
                         android:fontFamily="@font/montserrat"
-                        android:textColor="#000000"/>
+                        android:text="@string/signature"
+                        android:textColor="#000000"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_marginTop="5dp"
                         android:layout_width="wrap_content"
@@ -994,7 +1019,7 @@
                         android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
 
                     <ImageView
-                        android:onClick="@{() -> viewModel.onSignatureFeature()}"
+
                         android:id="@+id/signatureToggle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1067,6 +1092,7 @@
                         android:layout_height="93dp"
                         android:background="@drawable/spinner_border">
                         <EditText
+                            android:id="@+id/finalCommentEditText"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textColorHint="#bababa"

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class LoginData {
     @Expose
     @SerializedName("id")
-    private int id;
+    private String id;
 
     @Expose
     @SerializedName("first_name")
@@ -24,7 +24,7 @@ public class LoginData {
     @SerializedName("role")
     private String role;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

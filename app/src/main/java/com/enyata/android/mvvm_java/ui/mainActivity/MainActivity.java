@@ -14,6 +14,7 @@ import com.enyata.android.mvvm_java.ViewModelProviderFactory;
 import com.enyata.android.mvvm_java.databinding.ActivityMainBinding;
 import com.enyata.android.mvvm_java.ui.base.BaseActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
+import com.enyata.android.mvvm_java.ui.repair.repairList.RepairListActivity;
 
 import javax.inject.Inject;
 
@@ -58,6 +59,12 @@ private MainActivityViewModel mainActivityViewModel;
     @Override
     public void CreateReport() {
         Intent intent = new Intent(getApplicationContext(), CreateReportActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onRepairReport() {
+        Intent intent = new Intent(getApplicationContext(), RepairListActivity.class);
         startActivity(intent);
     }
 }

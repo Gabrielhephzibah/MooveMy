@@ -1,0 +1,1112 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.enyata.android.mvvm_java.ui.repair.repairs.RepairsActivity">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.enyata.android.mvvm_java.ui.repair.repairs.RepairsViewModel" />
+
+    </data>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:onClick="@{()->viewModel.onBack()}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_arrow_back_black"
+            android:layout_marginTop="28dp"
+            android:layout_marginLeft="16dp" />
+
+        <LinearLayout
+            android:layout_marginTop="13dp"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="100dp"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+
+                <RelativeLayout
+                    android:onClick="@{()->viewModel.onExterior()}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/exterior"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="EXTERIOR"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/exterior"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+
+                        android:id="@+id/exteriorToggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+<LinearLayout
+    android:id="@+id/exteriorFragment"
+    android:layout_width="match_parent"
+    android:paddingBottom="30dp"
+    android:background="#fbf7f7"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/signatureFeature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="19dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select components which should be repaired"
+                    android:textSize="12sp"
+                    android:textColor="#373737"
+                    android:fontFamily="@font/montserrat"/>
+
+
+
+                <LinearLayout
+                    android:layout_marginTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="69dp"
+                    android:background="@drawable/transparent_background">
+
+                    <RelativeLayout
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Hood"
+                            android:textColor="#373737"
+                            android:fontFamily="@font/montserrat"
+                            android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Inspector's Report"
+                                android:textSize="10sp"
+                                android:textColor="#000000"
+                                android:fontFamily="@font/montserrat"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:gravity="end"
+                                android:layout_gravity="end"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="POOR"
+                                android:textColor="#E53012"
+                                android:textStyle="bold"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat"/>
+
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="69dp"
+                    android:background="@drawable/transparent_background">
+
+                    <RelativeLayout
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Front Bumper"
+                            android:textColor="#373737"
+                            android:fontFamily="@font/montserrat"
+                            android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Inspector's Report"
+                                android:textSize="10sp"
+                                android:textColor="#000000"
+                                android:fontFamily="@font/montserrat"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:gravity="end"
+                                android:layout_gravity="end"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="FAIR"
+                                android:textColor="#3CC64F"
+                                android:textStyle="bold"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat"/>
+
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="69dp"
+                    android:background="@drawable/transparent_background">
+
+                    <RelativeLayout
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fenders"
+                            android:textColor="#373737"
+                            android:fontFamily="@font/montserrat"
+                            android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Inspector's Report"
+                                android:textSize="10sp"
+                                android:textColor="#000000"
+                                android:fontFamily="@font/montserrat"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:gravity="end"
+                                android:layout_gravity="end"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="GOOD"
+                                android:textColor="#13581D"
+                                android:textStyle="bold"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat"/>
+
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+
+
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="69dp"
+                    android:background="@drawable/transparent_background">
+
+                    <RelativeLayout
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Doors"
+                            android:textColor="#373737"
+                            android:fontFamily="@font/montserrat"
+                            android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Inspector's Report"
+                                android:textSize="10sp"
+                                android:textColor="#000000"
+                                android:fontFamily="@font/montserrat"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:gravity="end"
+                                android:layout_gravity="end"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="FAIR"
+                                android:textColor="#3CC64F"
+                                android:textStyle="bold"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat"/>
+
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="69dp"
+                    android:background="@drawable/transparent_background">
+
+                    <RelativeLayout
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Roof"
+                            android:textColor="#373737"
+                            android:fontFamily="@font/montserrat"
+                            android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Inspector's Report"
+                                android:textSize="10sp"
+                                android:textColor="#000000"
+                                android:fontFamily="@font/montserrat"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:gravity="end"
+                                android:layout_gravity="end"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="FAIR"
+                                android:textColor="#3CC64F"
+                                android:textStyle="bold"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat"/>
+
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="69dp"
+                    android:background="@drawable/transparent_background">
+
+                    <RelativeLayout
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rear"
+                            android:textColor="#373737"
+                            android:fontFamily="@font/montserrat"
+                            android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Inspector's Report"
+                                android:textSize="10sp"
+                                android:textColor="#000000"
+                                android:fontFamily="@font/montserrat"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:gravity="end"
+                                android:layout_gravity="end"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="FAIR"
+                                android:textColor="#3CC64F"
+                                android:textStyle="bold"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat"/>
+
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="69dp"
+                    android:background="@drawable/transparent_background">
+
+                    <RelativeLayout
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rear Bumper"
+                            android:textColor="#373737"
+                            android:fontFamily="@font/montserrat"
+                            android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Inspector's Report"
+                                android:textSize="10sp"
+                                android:textColor="#000000"
+                                android:fontFamily="@font/montserrat"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:gravity="end"
+                                android:layout_gravity="end"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="FAIR"
+                                android:textColor="#3CC64F"
+                                android:textStyle="bold"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat"/>
+
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="69dp"
+                    android:background="@drawable/transparent_background">
+
+                    <RelativeLayout
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Trunk"
+                            android:textColor="#373737"
+                            android:fontFamily="@font/montserrat"
+                            android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Inspector's Report"
+                                android:textSize="10sp"
+                                android:textColor="#000000"
+                                android:fontFamily="@font/montserrat"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:gravity="end"
+                                android:layout_gravity="end"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="FAIR"
+                                android:textColor="#3CC64F"
+                                android:textStyle="bold"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat"/>
+
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="69dp"
+                    android:background="@drawable/transparent_background">
+
+                    <RelativeLayout
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Trim"
+                            android:textColor="#373737"
+                            android:fontFamily="@font/montserrat"
+                            android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Inspector's Report"
+                                android:textSize="10sp"
+                                android:textColor="#000000"
+                                android:fontFamily="@font/montserrat"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:gravity="end"
+                                android:layout_gravity="end"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="FAIR"
+                                android:textColor="#3CC64F"
+                                android:textStyle="bold"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat"/>
+
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="69dp"
+                    android:background="@drawable/transparent_background">
+
+                    <RelativeLayout
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fuel Door"
+                            android:textColor="#373737"
+                            android:fontFamily="@font/montserrat"
+                            android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Inspector's Report"
+                                android:textSize="10sp"
+                                android:textColor="#000000"
+                                android:fontFamily="@font/montserrat"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:gravity="end"
+                                android:layout_gravity="end"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="GOOD"
+                                android:textColor="#13581D"
+                                android:textStyle="bold"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat"/>
+
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="69dp"
+                    android:background="@drawable/transparent_background">
+
+                    <RelativeLayout
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Paint"
+                            android:textColor="#373737"
+                            android:fontFamily="@f ont/montserrat"
+                            android:textSize="14sp" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Inspector's Report"
+                                android:textSize="10sp"
+                                android:textColor="#000000"
+                                android:fontFamily="@font/montserrat"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:gravity="end"
+                                android:layout_gravity="end"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="GOOD"
+                                android:textColor="#13581D"
+                                android:textStyle="bold"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat"/>
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+            </LinearLayout>
+
+</LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:id="@+id/glassLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/glass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="GLASS"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/glass"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+                        android:id="@+id/Toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:id="@+id/tiresLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/tires"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TIRES AND WHEELS"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tires"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:id="@+id/underbodyLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/underbody"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="UNDERBODY"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/underbody"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+
+                    android:id="@+id/underhoodLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/underhood"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="UNDERHOOD"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/underhood"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+
+                    android:id="@+id/interiorLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/interior"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INTERIOR"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/interior"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:id="@+id/electricLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/electric"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ELECTRICAL SYSTEM"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/electric"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:id="@+id/roadTestLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/roadTest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ROAD TEST FINDINGS"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/roadTest"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:background="#faeeed">
+
+                <RelativeLayout
+                    android:id="@+id/signatureLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="29dp"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginLeft="34dp">
+
+                    <TextView
+                        android:id="@+id/signature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/signature"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:textColor="#000000"/>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/signature"
+                        android:textSize="10dp"
+                        android:textColor="#000000"
+                        android:textScaleX = "1.2"
+                        android:lineSpacingMultiplier="1.2"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginRight="85dp"
+                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_icon"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+    </LinearLayout>
+
+    </ScrollView>
+
+</layout>

@@ -5,8 +5,12 @@ import android.app.Application;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
+import com.cloudinary.android.MediaManager;
 import com.enyata.android.mvvm_java.di.component.DaggerAppComponent;
 import com.enyata.android.mvvm_java.utils.AppLogger;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -30,6 +34,12 @@ public class MvvmApp extends Application implements HasActivityInjector {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Map config = new HashMap();
+        config.put("cloud_name", "dtt1nmogz");
+        config.put("api_key", "754277299533971");
+        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
+        MediaManager.init(getApplicationContext().getApplicationContext(), config);
 
 //        FirebaseApp.initializeApp(this);
 

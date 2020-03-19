@@ -112,6 +112,17 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     //picassso
     implementation "com.squareup.picasso:picasso:2.71828"
+    //signaturePad
+    implementation "com.github.gcacace:signature-pad:1.2.1"
+
+    //retrofit
+
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.google.code.gson:gson:2.6.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+    implementation("com.squareup.okhttp3:logging-interceptor:3.9.0")
 }
 
 configurations.all {
@@ -121,3 +132,4 @@ configurations.all {
 
 
 //apply plugin: 'com.google.gms.google-services'
+

@@ -43,8 +43,11 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -64,7 +67,7 @@ public class WindShieldFragment extends Fragment {
     private static final int REQUEST_CAMERA = 1;
     private Uri mImageUri = null;
     ProgressBar progressBar;
-    String[] result;
+    List<String>result;
     HashMap<String, String> imageArray = new HashMap<>();
 
     public WindShieldFragment(){
@@ -230,12 +233,14 @@ public class WindShieldFragment extends Fragment {
             Toast.makeText(getActivity(), "please fill all fields", Toast.LENGTH_LONG).show();
             return;
         } else {
-            result = imageArray.values().toArray(new String[0]);
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
         }
 
 
-        VehicleCollection.Request windShield = new VehicleCollection.Request("wind shield", result, status);
+        VehicleCollection windShield = new VehicleCollection("wind shield", result, status);
         createReportViewModel.saveReportToLocalStorage(windShield);
+        Toast.makeText(getActivity(), "Item saved please swipe to proceed ", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -294,6 +299,7 @@ public class WindShieldFragment extends Fragment {
                                 progressBar.setVisibility(View.GONE);
                                 imageURL = (String) resultData.get("url");
                                 cloudinaryID = (String) resultData.get("public_id");
+                                Toast.makeText(getActivity(), "Image uploaded Successfully, You can take another picture now", Toast.LENGTH_LONG).show();
                                 Log.i("imageURL", imageURL);
                                 Log.i("cloudinaryID", cloudinaryID);
                                 showImage();

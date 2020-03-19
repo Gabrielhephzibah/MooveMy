@@ -17,4 +17,6 @@ public class MainActivityViewModel extends BaseViewModel<MainNavigator> {
     public String getCurrentUserName(){
       return   getDataManager().getCurrentUserName();
     }
+
+    public void onRepairReport(){getNavigator().onRepairReport();}
 }

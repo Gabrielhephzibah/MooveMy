@@ -37,14 +37,18 @@ import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.DoorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.interior.GloveBoxFragment;
+import com.enyata.android.mvvm_java.ui.signature.SignatureActivity;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -55,6 +59,7 @@ public class AudioSystemFragment extends Fragment {
     RadioButton badd, goodd, fairr;
     Context mContext;
     Uri uri;
+    List<String>result;
     ImageView firstImage, secondImage, thirdImage, cancel1, cancel2, cancel3;
     File photoFile = null;
     Button saveHood;
@@ -64,7 +69,6 @@ public class AudioSystemFragment extends Fragment {
     private static final int REQUEST_CAMERA = 1;
     private Uri mImageUri = null;
     ProgressBar progressBar;
-    String[] result;
     HashMap<String, String> imageArray = new HashMap<>();
 
     public AudioSystemFragment(){
@@ -231,12 +235,15 @@ public class AudioSystemFragment extends Fragment {
             Toast.makeText(getActivity(), "please fill all fields", Toast.LENGTH_LONG).show();
             return;
         } else {
-            result = imageArray.values().toArray(new String[0]);
+//            result = imageArray.values().toArray(new String[0]);
+            Collection<String> value = imageArray.values();
+           result = new ArrayList<>(value);
         }
 
 
-        VehicleCollection.Request audioSystem = new VehicleCollection.Request("audio system", result, status);
+        VehicleCollection audioSystem = new VehicleCollection("audio system",result,status);
         createReportViewModel.saveReportToLocalStorage(audioSystem);
+        Toast.makeText(getActivity(), "Item saved please swipe to proceed ", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -281,6 +288,7 @@ public class AudioSystemFragment extends Fragment {
                         public void onStart(String requestId) {
                             Log.i("START", "STARTTTTT");
                             progressBar.setVisibility(View.VISIBLE);
+
                         }
                         @Override
                         public void onProgress(String requestId, long bytes, long totalBytes) {
@@ -296,6 +304,7 @@ public class AudioSystemFragment extends Fragment {
                                 imageURL = (String) resultData.get("url");
                                 cloudinaryID = (String) resultData.get("public_id");
                                 Log.i("imageURL", imageURL);
+                                Toast.makeText(getActivity(), "Image uploaded Successfully, You can take another picture now", Toast.LENGTH_LONG).show();
                                 Log.i("cloudinaryID", cloudinaryID);
                                 showImage();
                             }
@@ -306,12 +315,14 @@ public class AudioSystemFragment extends Fragment {
                         public void onError(String requestId, ErrorInfo error) {
                             progressBar.setVisibility(View.GONE);
                             Log.i("ERROR", "ERROR");
-                            Alert.showFailed(getActivity(),"Error Uploading Result, Please try agin later ");
+                            Alert.showFailed(getActivity(),"Error Uploading Result, Please try again later ");
                         }
 
                         @Override
                         public void onReschedule(String requestId, ErrorInfo error) {
                             Log.i("SCHEDULE", "SCHEDULE");
+                            Alert.showFailed(getActivity(),"Failed to Upload image.Cancel request and try again later ");
+
 
                         }
                     })

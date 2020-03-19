@@ -47,6 +47,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -72,7 +73,7 @@ public class FendersFragment extends Fragment {
     private Uri mImageUri = null;
     ProgressBar progressBar;
     CharSequence radio;
-    String[] result;
+    List<String>result;
     View fragment;
     HashMap<String, String> imageArray = new HashMap<>();
 
@@ -350,6 +351,7 @@ public class FendersFragment extends Fragment {
                                 progressBar.setVisibility(View.GONE);
                                 imageURL = (String) resultData.get("url");
                                 cloudinaryID = (String) resultData.get("public_id");
+                                Toast.makeText(getActivity(), "Image uploaded Successfully, You can take another picture now", Toast.LENGTH_LONG).show();
                                 Log.i("imageURL", imageURL);
                                 Log.i("cloudinaryID", cloudinaryID);
                                 showImage();
@@ -413,11 +415,13 @@ public class FendersFragment extends Fragment {
             Toast.makeText(getActivity(), "please fill all fields", Toast.LENGTH_LONG).show();
             return;
         } else {
-            result = imageArray.values().toArray(new String[0]);
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
         }
 
-        VehicleCollection.Request fender = new VehicleCollection.Request("fenders", result, status);
+        VehicleCollection fender = new VehicleCollection("fenders", result, status);
         createReportViewModel.saveReportToLocalStorage(fender);
+        Toast.makeText(getActivity(), "Item saved please swipe to proceed ", Toast.LENGTH_SHORT).show();
 
     }
 

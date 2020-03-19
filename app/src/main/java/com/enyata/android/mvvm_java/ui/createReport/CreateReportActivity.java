@@ -1,9 +1,16 @@
 package com.enyata.android.mvvm_java.ui.createReport;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.cloudinary.android.MediaManager;
@@ -20,6 +28,7 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.ViewModelProviderFactory;
 import com.enyata.android.mvvm_java.databinding.ActivityCreateReportBinding;
 import com.enyata.android.mvvm_java.ui.base.BaseActivity;
+import com.enyata.android.mvvm_java.ui.createReport.electric.ComputerFragment;
 import com.enyata.android.mvvm_java.ui.createReport.electric.ElectricPagerAdapter;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.ExteriorViewPagerAdapter;
 import com.enyata.android.mvvm_java.ui.createReport.glass.GlassPagerAdater;
@@ -30,29 +39,36 @@ import com.enyata.android.mvvm_java.ui.createReport.underbody.UnderbodyPagerAdap
 import com.enyata.android.mvvm_java.ui.createReport.underhood.UnderHoodPagerAdapter;
 import com.enyata.android.mvvm_java.ui.mainActivity.MainActivity;
 import com.enyata.android.mvvm_java.ui.signature.SignatureActivity;
+import com.enyata.android.mvvm_java.utils.Alert;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
 
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 public class CreateReportActivity extends BaseActivity<ActivityCreateReportBinding, CreateReportViewModel> implements CreateReportNavigator,AdapterView.OnItemSelectedListener {
 
     @Inject
     ViewModelProviderFactory factory;
+    private static final int REQUEST_CAMERA = 1;
     CreateReportViewModel createReportViewModel;
     ActivityCreateReportBinding activityCreateReportBinding;
     ViewPager exteriorPager, glassPager, tiresPager, underBodyPager, underHoodPager, interiorPager, electricPager, roadTestPager;
+    RelativeLayout exteriorLayout,glassLayout;
     LinearLayout inspectFeature, exteriorFeature, glassfeature, tiresFeature, underBodyFeature, underHoodFeature, interiorFeature, electricFeature, roadTestFeature, signatureFeature;
     ImageView inspectToggle, exteriorToggle, glassToggle, tiresToggle, underBodyToggle, underHoodToggle, interiorToggle, electricToggle, roadTestToggle, signatureToggle;
-    Spinner yearSpinner, modelSpinner, makeSpinner;
+    Spinner yearSpinner, modelSpinner, makeSpinner,finalAssessSpinner;
     String[] yearNumber = {"", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019"};
     String[] model = {" ", "Honda", "Hyundai", "Kia", "Toyota", "Volkswagen"};
     String[]make ={"","Accord","Civic", "City", "Accent","Elantra","Forte","Rio","Camry","Hilux", "RAV4","Yaris","Vento"};
+    String[] finalAssess = {"","accepted","not-accepted"};
     EditText carColoredit, mileageEdit,regNumEdit,vinEdit;
-    String carColor,mileage, regNum,vin;
+    String carColor,mileage, regNum,vin,finalComment;
     Button save;
-    String selectedYear, selectedModel,selectedMake;
+    String selectedYear, selectedModel,selectedMake,selectedFinalAssess;
 
     @Override
     public int getBindingVariable() {
@@ -75,13 +91,16 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         super.onCreate(savedInstanceState);
         createReportViewModel.setNavigator(this);
         activityCreateReportBinding = getViewDataBinding();
-        Map config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
-        MediaManager.init(getApplicationContext().getApplicationContext(), config);
-        Log.d("oooooo", "ffffff");
+
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
+            if (checkPermission() && checkExternalPermission()) {
+            } else {
+                requestPermission();
+            }
+        }
         inspectToggle = activityCreateReportBinding.inspectToggle;
+        exteriorLayout =activityCreateReportBinding.exteriorLayout;
         signatureToggle = activityCreateReportBinding.signatureToggle;
         exteriorPager = activityCreateReportBinding.exteriorPager;
         glassPager = activityCreateReportBinding.glassPager;
@@ -112,9 +131,12 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         yearSpinner = activityCreateReportBinding.yearSpinner;
         modelSpinner = activityCreateReportBinding.modelSpinner;
         makeSpinner = activityCreateReportBinding.makeSpinner;
+        finalAssessSpinner = activityCreateReportBinding.spinnerFinalAssess;
         yearSpinner.setOnItemSelectedListener(this);
         modelSpinner.setOnItemSelectedListener(this);
         makeSpinner.setOnItemSelectedListener(this);
+        finalAssessSpinner.setOnItemSelectedListener(this);
+
 
 
 
@@ -151,6 +173,9 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
 
         ArrayAdapter<String> makeSpinnerAdpter = new ArrayAdapter<String>(CreateReportActivity.this, android.R.layout.simple_spinner_item, make);
         makeSpinner.setAdapter(makeSpinnerAdpter);
+
+        ArrayAdapter<String>finalAssessAdapter = new ArrayAdapter<>(CreateReportActivity.this, android.R.layout.simple_spinner_item, finalAssess);
+        finalAssessSpinner.setAdapter(finalAssessAdapter);
     }
 
     @Override
@@ -162,6 +187,12 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
 
     @Override
     public void onAddSignature() {
+        finalComment = activityCreateReportBinding.finalCommentEditText.getText().toString();
+        Log.i("Final Comment", finalComment);
+        createReportViewModel.setFinalComment(finalComment);
+       selectedFinalAssess  = finalAssessSpinner.getSelectedItem().toString();
+       Log.i("FINAL ASSESS", selectedFinalAssess);
+       createReportViewModel.setFinalStatus(selectedFinalAssess);
         Intent intent = new Intent(getApplicationContext(), SignatureActivity.class);
         startActivity(intent);
     }
@@ -323,6 +354,65 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+    }
+
+    private boolean checkExternalPermission() {
+        return (ContextCompat.checkSelfPermission(getApplicationContext().getApplicationContext(), WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    private boolean checkPermission() {
+        return (ContextCompat.checkSelfPermission(getApplicationContext().getApplicationContext(), CAMERA) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(CreateReportActivity.this, new String[]{CAMERA, WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA);
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CAMERA:
+                if (grantResults.length > 0) {
+                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean externalStorage = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    if (cameraAccepted && externalStorage) {
+                        Alert.showSuccess(getApplicationContext(), "Permission Granted, Now you can access camera");
+                    } else {
+                        Alert.showSuccess(getApplicationContext(), "Permission Denied, You cannot access camera");
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (shouldShowRequestPermissionRationale(CAMERA) && shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)) {
+                                showMessageOKCancel("You need to allow access to both permissions",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                    requestPermissions(new String[]{CAMERA, WRITE_EXTERNAL_STORAGE},
+                                                            REQUEST_CAMERA);
+                                                }
+                                            }
+                                        });
+                                return;
+                            }
+                        }
+
+
+                    }
+
+                }
+                break;
+        }
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(CreateReportActivity.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 
 

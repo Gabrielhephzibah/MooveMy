@@ -49,14 +49,12 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(response -> {
                     setIsLoading(false);
-                    setIsLoading(false);
                     getNavigator().onResponse(response);
                     String token = response.getToken();
                     String userEmail = response.getData().getEmail();
                     String firstname = response.getData().getFirstName();
                     getDataManager().updateUserInfo(token,firstname,userEmail);
                 }, throwable -> {
-                    setIsLoading(false);
                     setIsLoading(false);
                     getNavigator().handleError(throwable);
                 }));

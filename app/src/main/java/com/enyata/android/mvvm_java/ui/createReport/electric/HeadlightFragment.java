@@ -42,14 +42,17 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_CANCELED;
 
 public class HeadlightFragment extends Fragment {
-    String status = "",imageURL,cloudinaryID;
+    String status = "", imageURL, cloudinaryID;
     RadioGroup hoodRadioGroup;
     RadioButton badd, goodd, fairr;
     Context mContext;
@@ -63,10 +66,10 @@ public class HeadlightFragment extends Fragment {
     private static final int REQUEST_CAMERA = 1;
     private Uri mImageUri = null;
     ProgressBar progressBar;
-    String[] result;
+    List<String> result;
     HashMap<String, String> imageArray = new HashMap<>();
 
-    public HeadlightFragment(){
+    public HeadlightFragment() {
         //leave
     }
 
@@ -108,7 +111,8 @@ public class HeadlightFragment extends Fragment {
 
     }
 
-    @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         progressBar = (ProgressBar) view.findViewById(R.id.pBar);
         progressBar.setVisibility(View.GONE);
@@ -160,7 +164,7 @@ public class HeadlightFragment extends Fragment {
                     secondImage.setImageResource(0);
 
                     thirdImage.setImageResource(0);
-                    Alert.showFailed(getActivity(),"You have alraedy uploaded three picture,Click again to take pictures again");
+                    Alert.showFailed(getActivity(), "You have alraedy uploaded three picture,Click again to take pictures again");
                 } else {
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
@@ -230,12 +234,14 @@ public class HeadlightFragment extends Fragment {
             Toast.makeText(getActivity(), "please fill all fields", Toast.LENGTH_LONG).show();
             return;
         } else {
-            result = imageArray.values().toArray(new String[0]);
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
         }
 
 
-        VehicleCollection.Request headLight = new VehicleCollection.Request("head light", result, status);
+        VehicleCollection headLight = new VehicleCollection("head light", result, status);
         createReportViewModel.saveReportToLocalStorage(headLight);
+        Toast.makeText(getActivity(), "Item saved please swipe to proceed ", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -244,22 +250,19 @@ public class HeadlightFragment extends Fragment {
             Log.i("ISEMPTY", "ISWMPTRRRR");
             imageDataArray.addUrl("image0", imageURL);
             Picasso.get().load(imageURL).fit().into(firstImage);
-
         } else {
             if (!imageDataArray.containKey("image0")) {
                 imageDataArray.addUrl("image0", imageURL);
                 Picasso.get().load(imageURL).fit().into(firstImage);
-            }else{
+            } else {
                 if (imageDataArray.containKey("image1")) {
                     if (!imageDataArray.containKey("image2")) {
                         imageDataArray.addUrl("image2", imageURL);
                         Picasso.get().load(imageURL).fit().into(thirdImage);
-
                     }
                 } else {
                     imageDataArray.addUrl("image1", imageURL);
                     Picasso.get().load(imageURL).fit().into(secondImage);
-
                 }
             }
 
@@ -281,12 +284,14 @@ public class HeadlightFragment extends Fragment {
                             Log.i("START", "STARTTTTT");
                             progressBar.setVisibility(View.VISIBLE);
                         }
+
                         @Override
                         public void onProgress(String requestId, long bytes, long totalBytes) {
                             Double progress = (double) bytes / totalBytes;
                             progressBar.setVisibility(View.VISIBLE);
                             Log.i("PROGRESS", "PROGRESS");
                         }
+
                         @Override
                         public void onSuccess(String requestId, Map resultData) {
                             if (resultData != null) {
@@ -294,6 +299,7 @@ public class HeadlightFragment extends Fragment {
                                 progressBar.setVisibility(View.GONE);
                                 imageURL = (String) resultData.get("url");
                                 cloudinaryID = (String) resultData.get("public_id");
+                                Toast.makeText(getActivity(), "Image uploaded Successfully, You can take another picture now", Toast.LENGTH_LONG).show();
                                 Log.i("imageURL", imageURL);
                                 Log.i("cloudinaryID", cloudinaryID);
                                 showImage();
@@ -305,7 +311,7 @@ public class HeadlightFragment extends Fragment {
                         public void onError(String requestId, ErrorInfo error) {
                             progressBar.setVisibility(View.GONE);
                             Log.i("ERROR", "ERROR");
-                            Alert.showFailed(getActivity(),"Error Uploading Result, Please try agin later ");
+                            Alert.showFailed(getActivity(), "Error Uploading Result, Please try agin later ");
                         }
 
                         @Override
@@ -321,6 +327,7 @@ public class HeadlightFragment extends Fragment {
 
         }
     }
+
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());

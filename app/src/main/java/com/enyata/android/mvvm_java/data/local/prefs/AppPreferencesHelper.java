@@ -47,6 +47,10 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     private static final String PREF_INTAKE_VEHICLE_REPORT = "INTAKE_VEHICLE_REPORT";
 
+    private static final String PREF_INTAKE_FINAL_STATUS = "INTAKE_FINAL_STATUS";
+
+    private static final String PREF_INTAKE_FINAL_COMMENT = "INTAKE_FINAL_COMMENT";
+
 
 
     private final SharedPreferences mPrefs;
@@ -196,20 +200,41 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
-    public void setInTakeVehicleReport(List<VehicleCollection.Request> vehiclePart) {
+    public void setInTakeVehicleReport(List<VehicleCollection> vehiclePart) {
         Gson gson = new Gson();
         String json = gson.toJson(vehiclePart);
         mPrefs.edit().putString(PREF_INTAKE_VEHICLE_REPORT, json).apply();
     }
 
     @Override
-    public List<VehicleCollection.Request> getInTakeVehicleReport() {
+    public List<VehicleCollection> getInTakeVehicleReport() {
         Gson gson = new Gson();
         String json = mPrefs.getString(PREF_INTAKE_VEHICLE_REPORT, null);
-        Type type = new TypeToken<List<VehicleCollection.Request>>() {
+        Type type = new TypeToken<List<VehicleCollection>>() {
         }.getType();
         return gson.fromJson(json, type);
 
+    }
+
+    @Override
+    public void setIntakeFinalStatus(String status) {
+        mPrefs.edit().putString(PREF_INTAKE_FINAL_STATUS,status).apply();
+    }
+
+    @Override
+    public String getIntakeFinalStatus() {
+        return mPrefs.getString(PREF_INTAKE_FINAL_STATUS,null);
+    }
+
+    @Override
+    public void setIntakeFinalComment(String comment) {
+        mPrefs.edit().putString(PREF_INTAKE_FINAL_COMMENT,comment).apply();
+
+    }
+
+    @Override
+    public String getIntakeFinalComment() {
+        return mPrefs.getString(PREF_INTAKE_FINAL_COMMENT,null);
     }
 
     public boolean contain(Object object){

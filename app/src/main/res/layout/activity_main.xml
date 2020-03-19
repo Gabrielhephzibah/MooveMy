@@ -12,9 +12,16 @@
             type="com.enyata.android.mvvm_java.ui.mainActivity.MainActivityViewModel" />
 
     </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
+        android:paddingBottom="134dp"
+        android:background="#fbf9f9"
         android:layout_height="wrap_content"
         >
 
@@ -164,7 +171,7 @@
 
 
             <LinearLayout
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:background="@drawable/transparent_background"
@@ -247,111 +254,108 @@
 
 
                 </RelativeLayout>
+            </LinearLayout>
 
 
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/transparent_background"
+                android:layout_height="145dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="115dp"
+                    android:layout_marginLeft="20dp">
+
+                    <ImageView
+                        android:id="@+id/RepairReport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="27dp"
+                        app:srcCompat="@drawable/ic_repair" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="100dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginRight="20dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/RepairReportText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat"
+                            android:text="Repairs Required"
+                            android:textColor="#000000"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:lineSpacingMultiplier="1.2"
+                            android:fontFamily="@font/montserrat"
+                            android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr,"
+                            android:textScaleX="1.2"
+                            android:textSize="10dp" />
+                    </LinearLayout>
 
 
+                    <LinearLayout
+                        android:layout_alignParentRight="true"
+                        android:onClick="@{() -> viewModel.onRepairReport()}"
+                        android:layout_marginRight="39dp"
+                        android:layout_width="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_gravity="end"
+                        android:gravity="end"
+                        android:layout_height="wrap_content">
 
+                        <TextView
+                            android:id="@+id/createRepair"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:lines="1"
+                            android:text="CREATE REPORT"
+                            android:textColor="#E53012"
+                            android:textSize="10dp">
+
+
+                        </TextView>
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="12dp"
+                            app:srcCompat="@drawable/ic_arrow_forward_black"
+                            android:layout_toRightOf="@id/createReport"/>
+                    </LinearLayout>
+
+
+                </RelativeLayout>
             </LinearLayout>
 
 
 
 
-            <!--            <LinearLayout-->
-<!--                android:layout_marginTop="13dp"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:orientation="vertical"-->
-<!--                android:background="@drawable/transparent_background"-->
-<!--                android:layout_height="145dp">-->
-
-<!--                <RelativeLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="93dp"-->
-<!--                    android:layout_marginLeft="20dp">-->
-
-<!--                    <ImageView-->
-<!--                        android:id="@+id/monthlyReport"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="50dp"-->
-<!--                        app:srcCompat="@drawable/ic_monthlyreport" />-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginLeft="100dp"-->
-<!--                        android:layout_marginTop="30dp"-->
-<!--                        android:layout_marginRight="49dp"-->
-<!--                        android:orientation="vertical">-->
-
-<!--                        <TextView-->
-<!--                            android:id="@+id/vehincleReportte"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:fontFamily="@font/montserrat"-->
-<!--                            android:text="Monthly report"-->
-<!--                            android:textColor="#000000"-->
-<!--                            android:textSize="14dp"-->
-<!--                            android:textStyle="bold" />-->
-
-<!--                        <TextView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_marginTop="5dp"-->
-<!--                            android:lineSpacingMultiplier="1.2"-->
-<!--                            android:fontFamily="@font/montserrat"-->
-<!--                            android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"-->
-<!--                            android:textScaleX="1.2"-->
-<!--                            android:textSize="10dp" />-->
-<!--                    </LinearLayout>-->
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_alignParentRight="true"-->
-<!--                        android:onClick="@{() -> viewModel.onCreateReport()}"-->
-<!--                        android:layout_marginRight="39dp"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_alignParentBottom="true"-->
-<!--                        android:layout_gravity="end"-->
-<!--                        android:gravity="end"-->
-<!--                        android:layout_height="wrap_content">-->
-
-<!--                        <TextView-->
-<!--                            android:id="@+id/mReportCreate"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_alignParentRight="true"-->
-<!--                            android:layout_marginTop="5dp"-->
-<!--                            android:fontFamily="@font/montserrat_bold"-->
-<!--                            android:lines="1"-->
-<!--                            android:text="CREATE REPORT"-->
-<!--                            android:textColor="#E53012"-->
-<!--                            android:textSize="10dp">-->
 
 
-<!--                        </TextView>-->
-
-<!--                        <ImageView-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:paddingLeft="12dp"-->
-<!--                            app:srcCompat="@drawable/ic_arrow_forward_black"-->
-<!--                            android:layout_toRightOf="@id/mReportCreate"/>-->
-<!--                    </LinearLayout>-->
-
-
-<!--                </RelativeLayout>-->
-<!--                -->
-
-<!--            </LinearLayout>-->
 
 
 
         </LinearLayout>
 
 
-
-
-
     </LinearLayout>
+
+    </ScrollView>
 
 </layout>

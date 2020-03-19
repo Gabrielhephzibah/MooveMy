@@ -43,8 +43,11 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -55,6 +58,7 @@ public class BrakeLightFragment extends Fragment {
     RadioButton badd, goodd, fairr;
     Context mContext;
     Uri uri;
+    List<String>result;
     ImageView firstImage, secondImage, thirdImage, cancel1, cancel2, cancel3;
     File photoFile = null;
     Button saveHood;
@@ -64,7 +68,6 @@ public class BrakeLightFragment extends Fragment {
     private static final int REQUEST_CAMERA = 1;
     private Uri mImageUri = null;
     ProgressBar progressBar;
-    String[] result;
     HashMap<String, String> imageArray = new HashMap<>();
 
     public BrakeLightFragment(){
@@ -231,12 +234,15 @@ public class BrakeLightFragment extends Fragment {
             Toast.makeText(getActivity(), "please fill all fields", Toast.LENGTH_LONG).show();
             return;
         } else {
-            result = imageArray.values().toArray(new String[0]);
+//            result = imageArray.values().toArray(new String[0]);
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
         }
 
 
-        VehicleCollection.Request brakeLight = new VehicleCollection.Request("brake light", result, status);
+        VehicleCollection brakeLight = new VehicleCollection("brake light", result, status);
         createReportViewModel.saveReportToLocalStorage(brakeLight);
+        Toast.makeText(getActivity(), "Item saved please swipe to proceed ", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -296,6 +302,7 @@ public class BrakeLightFragment extends Fragment {
                                 imageURL = (String) resultData.get("url");
                                 cloudinaryID = (String) resultData.get("public_id");
                                 Log.i("imageURL", imageURL);
+                                Toast.makeText(getActivity(), "Image uploaded Successfully, You can take another picture now", Toast.LENGTH_LONG).show();
                                 Log.i("cloudinaryID", cloudinaryID);
                                 showImage();
                             }
@@ -312,6 +319,7 @@ public class BrakeLightFragment extends Fragment {
                         @Override
                         public void onReschedule(String requestId, ErrorInfo error) {
                             Log.i("SCHEDULE", "SCHEDULE");
+                            Alert.showFailed(getActivity(),"Failed to Upload image.Cancel request and try again later ");
 
                         }
                     })

@@ -14,62 +14,58 @@ import java.util.Objects;
 
 public class VehicleCollection {
 
-    private VehicleCollection() {
-        //don not instantiate
+
+    @SerializedName("part")
+    @Expose
+    private String part;
+    @SerializedName("image_url")
+    @Expose
+    private List<String> imageUrl = null;
+    @SerializedName("remark")
+    @Expose
+    private String remark;
+
+
+    public VehicleCollection(String part, List<String> imageUrl, String remark) {
+        this.part = part;
+        this.imageUrl = imageUrl;
+        this.remark = remark;
     }
 
-    public static class Request {
+    public String getPart() {
+        return part;
+    }
 
-        @Expose
-        @SerializedName("part")
-        private String part;
+    public void setPart(String part) {
+        this.part = part;
+    }
 
-        @Expose
-        @SerializedName("image_url")
-        private String[] imageUrl;
+    public List<String> getImageUrl() {
+        return imageUrl;
+    }
 
-        @Expose
-        @SerializedName("remark")
-        private String remark;
+    public void setImageUrl(List<String> imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
-        public Request(String part, String[] imageUrl, String remark) {
-            this.part = part;
-            this.imageUrl = imageUrl;
-            this.remark = remark;
-        }
+    public String getRemark() {
+        return remark;
+    }
 
-        public String getPart() {
-            return part;
-        }
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-        public String[] getImageUrl() {
-            return imageUrl;
-        }
 
-        public String getRemark() {
-            return remark;
-        }
 
-        public void setPart(String part) {
-            this.part = part;
-        }
-
-        public void setImageUrl(String[] imageUrl) {
-            this.imageUrl = imageUrl;
-        }
-
-        public void setRemark(String remark) {
-            this.remark = remark;
-        }
-
-        @Override
+    @Override
 
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            VehicleCollection.Request request = (VehicleCollection.Request) o;
+            VehicleCollection request = (VehicleCollection) o;
             return Objects.equals(remark, request.remark) &&
-                    Arrays.equals(imageUrl, request.imageUrl) &&
+                    Objects.equals(imageUrl, request.imageUrl) &&
                     Objects.equals(part, request.part);
         }
 
@@ -77,7 +73,7 @@ public class VehicleCollection {
         @Override
         public int hashCode() {
             int result = Objects.hash(remark, part);
-            result = 31 * result + Arrays.hashCode(imageUrl);
+            result = 31 * result + Objects.hashCode(imageUrl);
             return result;
         }
 
@@ -85,11 +81,109 @@ public class VehicleCollection {
         public String toString() {
             return "Request{" +
                     "part='" + part + '\'' +
-                    ", imageUrl=" + Arrays.toString(imageUrl) +
+                    ", imageUrl=" + imageUrl +
                     ", remark='" + remark + '\'' +
                     '}';
         }
-    }
+
+}
+
+//    private VehicleCollection() {
+//        //don not instantiate
+//    }
+//
+//    public static class Request {
+//
+//        @Expose
+//        @SerializedName("part")
+//        private String part;
+//
+//        @Expose
+//        @SerializedName("image_url")
+//        private List<String> imageUrl;
+//
+//        @Expose
+//        @SerializedName("remark")
+//        private String remark;
+//
+//        public Request(String part, List<String> imageUrl, String remark) {
+//            this.part = part;
+//            this.imageUrl = imageUrl;
+//            this.remark = remark;
+//        }
+//
+//        public String getPart() {
+//            return part;
+//        }
+//
+//        public void setPart(String part) {
+//            this.part = part;
+//        }
+//
+//        public List<String> getImageUrl() {
+//            return imageUrl;
+//        }
+//
+//        public void setImageUrl(List<String> imageUrl) {
+//            this.imageUrl = imageUrl;
+//        }
+//
+//        public String getRemark() {
+//            return remark;
+//        }
+//
+//        //        public String getPart() {
+////            return part;
+////        }
+////
+////        public List<String> getImageUrl() {
+////            return imageUrl;
+////        }
+////
+////        public String getRemark() {
+////            return remark;
+////        }
+////
+////        public void setPart(String part) {
+////            this.part = part;
+////        }
+////
+////        public void setImageUrl  imageUrl) {
+////            this.imageUrl = imageUrl;
+////        }
+//
+//        public void setRemark(String remark) {
+//            this.remark = remark;
+//        }
+//
+//        @Override
+//
+//        public boolean equals(Object o) {
+//            if (this == o) return true;
+//            if (o == null || getClass() != o.getClass()) return false;
+//            VehicleCollection request = (VehicleCollection) o;
+//            return Objects.equals(remark, request.remark) &&
+//                    Objects.equals(imageUrl, request.imageUrl) &&
+//                    Objects.equals(part, request.part);
+//        }
+//
+//
+//        @Override
+//        public int hashCode() {
+//            int result = Objects.hash(remark, part);
+//            result = 31 * result + Objects.hashCode(imageUrl);
+//            return result;
+//        }
+//
+//        @Override
+//        public String toString() {
+//            return "Request{" +
+//                    "part='" + part + '\'' +
+//                    ", imageUrl=" + imageUrl +
+//                    ", remark='" + remark + '\'' +
+//                    '}';
+//        }
+//    }
 
 
 //        @Override
@@ -129,7 +223,7 @@ public class VehicleCollection {
 //                return false;
 //            }
 //
-//          VehicleCollection.Request request = (Request)obj;
+//          VehicleCollection request = (Request)obj;
 //
 //            if (part != null ? !part.equals(request.part) : request.part != null) {
 //                return false;
@@ -154,5 +248,5 @@ public class VehicleCollection {
 
 
 
-    }
+
 

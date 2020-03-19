@@ -2,6 +2,7 @@ package com.enyata.android.mvvm_java.ui.createReport;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.enyata.android.mvvm_java.data.DataManager;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
@@ -126,16 +127,22 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
         return getDataManager().getVin();
     }
 
+    public void setFinalStatus(String status){getDataManager().setIntakeFinalStatus(status);}
+
+    public void setFinalComment(String comment){getDataManager().setIntakeFinalComment(comment);}
+
+
+
 
     public boolean checkIfIntakeVehicleReportIsEmpty() {
         return getIntakeVehicleReport() == null;
     }
 
-    public void setIntakeVehincleReport(List<VehicleCollection.Request> vehiclePart) {
+    public void setIntakeVehincleReport(List<VehicleCollection> vehiclePart) {
         getDataManager().setInTakeVehicleReport(vehiclePart);
     }
 
-    public List<VehicleCollection.Request> getIntakeVehicleReport() {
+    public List<VehicleCollection> getIntakeVehicleReport() {
         return getDataManager().getInTakeVehicleReport();
     }
 
@@ -151,13 +158,13 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
         return getIntakeVehicleReport() == null;
     }
 
-    public void saveReportToLocalStorage(VehicleCollection.Request vehiclePart) {
+    public void saveReportToLocalStorage(VehicleCollection vehiclePart) {
         if (checkIfIntakeVehicleReportIsEmpty()){
-            List<VehicleCollection.Request>newArray = new ArrayList<>();
+            List<VehicleCollection>newArray = new ArrayList<>();
             newArray.add(vehiclePart);
             setIntakeVehincleReport(newArray);
         }else {
-            List<VehicleCollection.Request>oldArray = getIntakeVehicleReport();
+            List<VehicleCollection>oldArray = getIntakeVehicleReport();
             Log.i("jjjjjj","Already");
             for (int i = 0; i<oldArray.size(); i++){
                 if (oldArray.get(i).getPart().equals(vehiclePart.getPart())) {
@@ -169,28 +176,30 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
                 break;
                 }else {
                     if (getIntakeVehicleReport().contains(vehiclePart)){}
-                    List<VehicleCollection.Request>sameArray = getIntakeVehicleReport();
+                    List<VehicleCollection>sameArray = getIntakeVehicleReport();
                     setIntakeVehincleReport(sameArray);
 
                 }
             }
 
         }if (!getIntakeVehicleReport().contains(vehiclePart)){
-            List<VehicleCollection.Request>addArray = getIntakeVehicleReport();
+            List<VehicleCollection>addArray = getIntakeVehicleReport();
             addArray.add(vehiclePart);
             setIntakeVehincleReport(addArray);
         }
 
 
-//        VehicleCollection.Request door = new VehicleCollection.Request("door", result, status);
-////        VehicleCollection.Request fender = new VehicleCollection.Request("fenders", result, status);
+
+
+//        VehicleCollection door = new VehicleCollection("door", result, status);
+////        VehicleCollection fender = new VehicleCollection("fenders", result, status);
 //
 //        if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()){
-//            List<VehicleCollection.Request>newAray = new ArrayList<>();
+//            List<VehicleCollection>newAray = new ArrayList<>();
 //            newAray.add(door);
 //            createReportViewModel.setIntakeVehincleReport(newAray);
 //        }else {
-//            List<VehicleCollection.Request>requests = createReportViewModel.getIntakeVehicleReport();
+//            List<VehicleCollection>requests = createReportViewModel.getIntakeVehicleReport();
 //            Log.i("jjjjjj","Already");
 //            for (int i = 0; i< requests.size();i++){
 //
@@ -204,13 +213,13 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
 //                    break;
 //                }else {
 //                    if (createReportViewModel.getIntakeVehicleReport().contains(door)){
-//                        List<VehicleCollection.Request>oldArray = createReportViewModel.getIntakeVehicleReport();
+//                        List<VehicleCollection>oldArray = createReportViewModel.getIntakeVehicleReport();
 //                        createReportViewModel.setIntakeVehincleReport(oldArray);
 //                    }
 //                }
 //            }
 //        }if (!createReportViewModel.getIntakeVehicleReport().contains(door)){
-//            List<VehicleCollection.Request> arrayList = createReportViewModel.getIntakeVehicleReport();
+//            List<VehicleCollection> arrayList = createReportViewModel.getIntakeVehicleReport();
 //            arrayList.add(door);
 //            createReportViewModel.setIntakeVehincleReport(arrayList);
 //        }
@@ -218,11 +227,11 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
         Log.i("Big Array", String.valueOf(getIntakeVehicleReport()));
 
 //        if (checkIfIntakeVehicleReportIsEmpty()) {
-//            List<VehicleCollection.Request> data = new ArrayList<>();
+//            List<VehicleCollection> data = new ArrayList<>();
 //            data.add(vehiclePart);
 //            setIntakeVehincleReport(data);
 //        } else {
-//            List<VehicleCollection.Request> data = new ArrayList<>(getIntakeVehicleReport());
+//            List<VehicleCollection> data = new ArrayList<>(getIntakeVehicleReport());
 //            Log.i("GGGGGG","FFFFFFF");
 ////            for (int k = 0; k < data.size(); k++) {
 ////                if (data.get(k).getPart().equals(vehiclePart.getPart())) {

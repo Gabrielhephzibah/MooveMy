@@ -59,9 +59,19 @@ public interface PreferencesHelper {
 
     String getCarColor();
 
-    void setInTakeVehicleReport(List<VehicleCollection.Request>vehiclePart);
+    void setInTakeVehicleReport(List<VehicleCollection>vehiclePart);
 
-    List<VehicleCollection.Request> getInTakeVehicleReport();
+    List<VehicleCollection> getInTakeVehicleReport();
+
+    void setIntakeFinalStatus(String status);
+
+    String getIntakeFinalStatus();
+
+    void setIntakeFinalComment(String comment);
+
+    String getIntakeFinalComment();
+
+
 
 
 

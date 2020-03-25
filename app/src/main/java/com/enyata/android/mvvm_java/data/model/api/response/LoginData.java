@@ -24,6 +24,12 @@ public class LoginData {
     @SerializedName("role")
     private String role;
 
+    @Expose
+    @SerializedName("token")
+    private String token;
+
+
+
     public String getId() {
         return id;
     }
@@ -42,5 +48,9 @@ public class LoginData {
 
     public String getRole() {
         return role;
+    }
+
+    public String getToken() {
+        return token;
     }
 }

@@ -52,19 +52,32 @@ private MainActivityViewModel mainActivityViewModel;
         TextView inspectorName = activityMainBinding.inspectorName;
         String currentUserName = mainActivityViewModel.getCurrentUserName();
         inspectorName.setText(currentUserName);
-//        Log.i("USERNAMEEE",currentUserName);
+
     }
 
-
-    @Override
-    public void CreateReport() {
-        Intent intent = new Intent(getApplicationContext(), CreateReportActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     public void onRepairReport() {
+
         Intent intent = new Intent(getApplicationContext(), RepairListActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onMonthlyReport() {
+        String reportType = "monthly";
+        mainActivityViewModel.setReportType(reportType);
+        Intent intent = new Intent(getApplicationContext(), CreateReportActivity.class);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void onIntakeReport() {
+        String reportType = "intake";
+        mainActivityViewModel.setReportType(reportType);
+        Intent intent = new Intent(getApplicationContext(), CreateReportActivity.class);
+        startActivity(intent);
+
     }
 }

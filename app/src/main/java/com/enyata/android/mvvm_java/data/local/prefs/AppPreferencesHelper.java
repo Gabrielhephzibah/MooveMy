@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 import com.enyata.android.mvvm_java.data.DataManager;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
-import com.enyata.android.mvvm_java.data.model.api.request.VehiclePart;
+import com.enyata.android.mvvm_java.data.model.api.request.VehiclePartRepair;
 import com.enyata.android.mvvm_java.di.PreferenceInfo;
 import com.enyata.android.mvvm_java.utils.AppConstants;
 import com.google.gson.Gson;
@@ -51,14 +51,36 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     private static final String PREF_INTAKE_FINAL_COMMENT = "INTAKE_FINAL_COMMENT";
 
+    private static final  String PREF_REPORT_TYPE = "PREF_KEY_REPORT_TYPE";
+
+    private  static  final String PREF_KEY_VEHICLE_ID = "PREF_KEY_VEHICLE_ID";
+
+    private static  final String PREF_KEY_REPAIR_REPORT = "PREF_KEY_REPAIR_REPORT";
+
 
 
     private final SharedPreferences mPrefs;
 
+    public SharedPreferences getmPrefs() {
+        return mPrefs;
+    }
+
     @Inject
     public AppPreferencesHelper(Context context, @PreferenceInfo String prefFileName) {
         mPrefs = context.getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
+
     }
+
+    @Override
+    public SharedPreferences.Editor deleteIntakeVehicleReport() {
+        return  mPrefs.edit().clear();
+    }
+
+
+//    public void deleteIntakeVehicleReport() {
+//
+//
+//    }
 
     @Override
     public String getAccessToken() {
@@ -237,11 +259,43 @@ public class AppPreferencesHelper implements PreferencesHelper {
         return mPrefs.getString(PREF_INTAKE_FINAL_COMMENT,null);
     }
 
-    public boolean contain(Object object){
-        if (getInTakeVehicleReport().contains(object)){
-            return true;
-        }else {
-            return false;
-        }
+    @Override
+    public void setReportType(String reportType) {
+        mPrefs.edit().putString(PREF_REPORT_TYPE,reportType).apply();
     }
+
+    @Override
+    public String getReportType() {
+        return mPrefs.getString(PREF_REPORT_TYPE,null);
+    }
+
+    @Override
+    public void setVehicleId(String vehicleId) {
+        mPrefs.edit().putString(PREF_KEY_VEHICLE_ID,vehicleId).apply();
+    }
+
+    @Override
+    public String getVehicleId() {
+        return mPrefs.getString(PREF_KEY_VEHICLE_ID,null);
+    }
+
+    @Override
+    public void setRepairReport(List<VehiclePartRepair> partRepair) {
+        Gson gson = new Gson();
+        String json = gson.toJson(partRepair);
+        mPrefs.edit().putString(PREF_KEY_REPAIR_REPORT, json).apply();
+    }
+
+    @Override
+    public List<VehiclePartRepair> getRepairReport() {
+        Gson gson = new Gson();
+        String json = mPrefs.getString(PREF_KEY_REPAIR_REPORT, null);
+        Type type = new TypeToken<List<VehiclePartRepair>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+
+    }
+
+
+
 }

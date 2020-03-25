@@ -1,5 +1,7 @@
 package com.enyata.android.mvvm_java.ui.createReport;
 
+import com.enyata.android.mvvm_java.data.model.api.response.VinResponseData;
+
 public interface CreateReportNavigator {
     void  back();
     void onAddSignature();
@@ -14,6 +16,11 @@ public interface CreateReportNavigator {
    void onRoadTestFeature();
    void onSignatureFeature();
    void onSaveVehicleInfo();
+   void  onSubmitVin();
+   void  onResponse(VinResponseData response);
+   void handleError(Throwable throwable);
+   void onStarting();
+
 
 
 }

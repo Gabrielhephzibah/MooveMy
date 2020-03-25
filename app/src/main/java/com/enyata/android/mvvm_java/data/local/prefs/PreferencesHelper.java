@@ -1,8 +1,10 @@
 package com.enyata.android.mvvm_java.data.local.prefs;
 
+import android.content.SharedPreferences;
+
 import com.enyata.android.mvvm_java.data.DataManager;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
-import com.enyata.android.mvvm_java.data.model.api.request.VehiclePart;
+import com.enyata.android.mvvm_java.data.model.api.request.VehiclePartRepair;
 
 import java.util.List;
 
@@ -70,6 +72,20 @@ public interface PreferencesHelper {
     void setIntakeFinalComment(String comment);
 
     String getIntakeFinalComment();
+
+    void  setReportType(String reportType);
+
+    String getReportType();
+
+    void setVehicleId(String vehicleId);
+
+    String getVehicleId();
+
+    void  setRepairReport(List<VehiclePartRepair>partRepair);
+
+    List<VehiclePartRepair> getRepairReport();
+
+    SharedPreferences.Editor deleteIntakeVehicleReport();
 
 
 

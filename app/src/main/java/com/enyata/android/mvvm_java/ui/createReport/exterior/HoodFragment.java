@@ -372,6 +372,8 @@ public class HoodFragment extends Fragment {
                         @Override
                         public void onReschedule(String requestId, ErrorInfo error) {
                             Log.i("SCHEDULE", "SCHEDULE");
+                            progressBar.setVisibility(View.GONE);
+                            Alert.showSuccess(getActivity(),"uploading is taking time,please take picture again");
 
                         }
                     })

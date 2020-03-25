@@ -67,10 +67,6 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
         splash2.animate().translationY(-20).translationX(200).setDuration(1500);
         splash3.animate().translationY(-100).translationXBy(50).setDuration(1500);
 
-
-
-
-        //will hide the title
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
         } else {
@@ -95,6 +91,13 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+    }
+
+    @Override
+    public void openMainActivity() {
+//        Intent i = new Intent(getApplicationContext(),MainActivity.class);
+//        startActivity(i);
 
     }
 

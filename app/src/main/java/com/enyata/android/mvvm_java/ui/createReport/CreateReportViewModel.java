@@ -1,5 +1,7 @@
 package com.enyata.android.mvvm_java.ui.createReport;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> {
+    Context context;
     public CreateReportViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
     }
@@ -131,7 +134,29 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
 
     public void setFinalComment(String comment){getDataManager().setIntakeFinalComment(comment);}
 
+    public  String getReportType(){
+        return getDataManager().getReportType();
+    }
 
+    public void onSubmitVin(){getNavigator().onSubmitVin();}
+
+
+
+    public void getCarVin(String vinNo){
+        getNavigator().onStarting();
+        getCompositeDisposable().add(getDataManager()
+                .getVinData(vinNo)
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(response -> {
+                    setIsLoading(false);
+                    getNavigator().onResponse(response);
+                }, throwable -> {
+                    setIsLoading(false);
+                    getNavigator().handleError(throwable);
+
+                }));
+    }
 
 
     public boolean checkIfIntakeVehicleReportIsEmpty() {
@@ -190,39 +215,6 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
 
 
 
-
-//        VehicleCollection door = new VehicleCollection("door", result, status);
-////        VehicleCollection fender = new VehicleCollection("fenders", result, status);
-//
-//        if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()){
-//            List<VehicleCollection>newAray = new ArrayList<>();
-//            newAray.add(door);
-//            createReportViewModel.setIntakeVehincleReport(newAray);
-//        }else {
-//            List<VehicleCollection>requests = createReportViewModel.getIntakeVehicleReport();
-//            Log.i("jjjjjj","Already");
-//            for (int i = 0; i< requests.size();i++){
-//
-//                if (requests.get(i).getPart().equals(door.getPart())){
-//                    requests.get(i).setRemark(door.getRemark());
-//                    requests.get(i).setImageUrl(door.getImageUrl());
-//                    Log.i("part", door.getPart());
-//
-//                    createReportViewModel.setIntakeVehincleReport(requests);
-//                    Log.i("NEW NEW", String.valueOf(createReportViewModel.getIntakeVehicleReport()));
-//                    break;
-//                }else {
-//                    if (createReportViewModel.getIntakeVehicleReport().contains(door)){
-//                        List<VehicleCollection>oldArray = createReportViewModel.getIntakeVehicleReport();
-//                        createReportViewModel.setIntakeVehincleReport(oldArray);
-//                    }
-//                }
-//            }
-//        }if (!createReportViewModel.getIntakeVehicleReport().contains(door)){
-//            List<VehicleCollection> arrayList = createReportViewModel.getIntakeVehicleReport();
-//            arrayList.add(door);
-//            createReportViewModel.setIntakeVehincleReport(arrayList);
-//        }
 
         Log.i("Big Array", String.valueOf(getIntakeVehicleReport()));
 

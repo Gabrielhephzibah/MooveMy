@@ -11,5 +11,7 @@ public interface SignatureNavigator {
     void onClearSupplierSign();
     void onLoading();
     void handleError(Throwable throwable);
+//    void onResponse(CreateReportResponse response);
+    void onStarting();
     void onResponse(CreateReportResponse response);
 }

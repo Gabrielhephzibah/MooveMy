@@ -3,13 +3,16 @@ package com.enyata.android.mvvm_java.ui.signature;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidnetworking.error.ANError;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
@@ -29,6 +32,7 @@ import com.enyata.android.mvvm_java.ui.response.failedResponse.FailedActivity;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.enyata.android.mvvm_java.utils.InternetConnection;
 import com.github.gcacace.signaturepad.views.SignaturePad;
+import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -47,6 +51,8 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
 
     @Inject
     ViewModelProviderFactory factory;
+    @Inject
+    Gson gson;
     SignatureViewModel signatureViewModel;
     SignaturePad supplierSignature, inspectorSignature;
     ActivitySignatureBinding activitySignatureBinding;
@@ -58,6 +64,8 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
     List<VehicleCollection> intakeVehicleDetails;
     HashMap<String, String> signatureImage = new HashMap<>();
     List<VehicleCollection>requests;
+    String supplierSignatureUrl, inspectorSignatureUrl;
+
     private ApiService mAPIService;
     CompositeDisposable disposable = new CompositeDisposable();
     @Override
@@ -80,6 +88,8 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         signatureViewModel.setNavigator(this);
+        signatureViewModel.getReportType();
+        Log.i("REportType",signatureViewModel.getReportType());
         activitySignatureBinding = getViewDataBinding();
         signatureImageArray = new SignatureImageArray(signatureImage);
         carYear = signatureViewModel.getCarYear();
@@ -98,6 +108,7 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
         inspectorSave = activitySignatureBinding.saveInspectorSignature;
         supplierSave = activitySignatureBinding.saveSupplierSignature;
         supplierClear = activitySignatureBinding.clearSupplierSignature;
+
 
 
         mAPIService = ApiUtils.getAPIService();
@@ -156,54 +167,7 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         byte[] inspectorByteArray = byteArrayOutputStream .toByteArray();
-        uploadToCloudinary(inspectorByteArray);
-
-    }
-
-    @Override
-    public void onClearInspectorSign() {
-        Log.i("CLEAR","CLEAR");
-        inspectorSignature.clear();
-
-    }
-
-    @Override
-    public void onSaveSupplierSign() {
-        Log.i("save","SAVE");
-        Bitmap bitmap =  supplierSignature.getSignatureBitmap();
-        Log.i("SignatureBitmap", supplierSignature.getSignatureBitmap().toString());
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] suplierByteArray = byteArrayOutputStream .toByteArray();
-        uploadToCloudinary(suplierByteArray);
-    }
-
-    @Override
-    public void onClearSupplierSign() {
-        Log.i("CLEAR","CLEAR");
-        supplierSignature.clear();
-
-    }
-
-    @Override
-    public void onLoading() {
-
-    }
-
-    @Override
-    public void handleError(Throwable throwable) {
-        Log.i("RESPONSEEE","REQUEST FAILEDDDD");
-
-    }
-
-    @Override
-    public void onResponse(CreateReportResponse response) {
-        Log.i("RESPONSEEE","REQUEST WAS SUCCESSFULLLL");
-
-    }
-
-    public void uploadToCloudinary(byte [] image){
-        String requestId = MediaManager.get().upload(image)
+        String requestId = MediaManager.get().upload(inspectorByteArray)
                 .unsigned("ht7lodiw")
                 .callback(new UploadCallback() {
                     @Override
@@ -232,7 +196,8 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
                             String cloudinaryID = (String) resultData.get("public_id");
                             Log.i("imageURL", imageURL);
                             Log.i("cloudinaryID", cloudinaryID);
-                            saveSignatureUrl();
+                            inspectorSignatureUrl =  imageURL;
+
                         }
 
                     }
@@ -252,8 +217,117 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
                     }
                 })
                 .dispatch();
+//        uploadToCloudinary(inspectorByteArray);
 
     }
+
+    @Override
+    public void onClearInspectorSign() {
+        Log.i("CLEAR","CLEAR");
+        inspectorSignature.clear();
+
+    }
+
+    @Override
+    public void onSaveSupplierSign() {
+        Log.i("save","SAVE");
+        Bitmap bitmap =  supplierSignature.getSignatureBitmap();
+        Log.i("SignatureBitmap", supplierSignature.getSignatureBitmap().toString());
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] suplierByteArray = byteArrayOutputStream .toByteArray();
+        String requestId = MediaManager.get().upload(suplierByteArray)
+                .unsigned("ht7lodiw")
+                .callback(new UploadCallback() {
+                    @Override
+                    public void onStart(String requestId) {
+                        Log.i("START", "STARTTTTT");
+                        dialog = new ProgressDialog(SignatureActivity.this);
+                        dialog.setMessage("Saving......");
+                        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                        dialog.setCancelable(false);
+                        dialog.show();
+
+                    }
+                    @Override
+                    public void onProgress(String requestId, long bytes, long totalBytes) {
+                        Double progress = (double) bytes / totalBytes;
+                        Log.i("PROGRESS", "PROGRESS");
+                        dialog.show();
+                    }
+                    @Override
+                    public void onSuccess(String requestId, Map resultData) {
+                        if (resultData != null) {
+                            Log.i("SUCCESS", "SUCCESS");
+                            imageURL = (String) resultData.get("url");
+                            dialog.dismiss();
+                            Toast.makeText(SignatureActivity.this, "Signature Saved", Toast.LENGTH_SHORT).show();
+                            String cloudinaryID = (String) resultData.get("public_id");
+                            Log.i("imageURL", imageURL);
+                            Log.i("cloudinaryID", cloudinaryID);
+                            supplierSignatureUrl = imageURL;
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(String requestId, ErrorInfo error) {
+                        Log.i("ERROR", "ERROR");
+                        dialog.dismiss();
+                        Alert.showFailed(SignatureActivity.this,"Error Uploading Result, Please try agin later ");
+                    }
+
+                    @Override
+                    public void onReschedule(String requestId, ErrorInfo error) {
+                        dialog.dismiss();
+                        Log.i("SCHEDULE", "SCHEDULE");
+
+                    }
+                })
+                .dispatch();
+//        uploadToCloudinary(suplierByteArray);
+    }
+
+    @Override
+    public void onClearSupplierSign() {
+        Log.i("CLEAR","CLEAR");
+        supplierSignature.clear();
+
+    }
+
+    @Override
+    public void onLoading() {
+
+    }
+
+    @Override
+    public void handleError(Throwable throwable) {
+        Log.i("RESPONSEEE","REQUEST FAILEDDDD");
+        Intent intent = new Intent(getApplicationContext(),FailedActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onStarting() {
+        Intent intent = new Intent(getApplicationContext(), LoadingActivity.class);
+       startActivity(intent);
+    }
+
+    @Override
+    public void onResponse(CreateReportResponse response) {
+
+//        SharedPreferences preferences =getSharedPreferences("PREF_INTAKE_VEHICLE_REPORT", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = preferences.edit();
+//        editor.clear();
+//        editor.apply();
+//        finish();
+        Log.i("RESPONSEEE","REQUEST WAS SUCCESSFULLLL");
+        Intent i = new Intent(getApplicationContext(), ResponseActivity.class);
+        startActivity(i);
+
+    }
+
 
     public void saveSignatureUrl(){
             if (signatureImageArray.isSignatureArrayEmpty()){
@@ -265,10 +339,6 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
             }
 
     }
-
-
-
-
 
 
     @Override
@@ -301,38 +371,27 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
         signatureResult = new ArrayList<>(value);
         Log.i("SignatureImage", String.valueOf(signatureResult));
 
-       CreateReportRequest request = new CreateReportRequest(carMake,carModel,carYear,carColor,vin,mileage,regno,signatureResult,intakeFinalStatus,intakeFinalComment,"intake",
-               intakeVehicleDetails);
+        if (signatureViewModel.getReportType().equals("intake")) {
 
-       if (InternetConnection.getInstance(this).isOnline()) {
-           sendPost(request);
-       }else {
-           Alert.showFailed(getApplicationContext(), "Please Check your internet connection and try again");
-       }
-//                "intake",intakeVehicleDetails);
-//        signatureViewModel.createIntakeReport(request);`
+            CreateReportRequest request = new CreateReportRequest(carMake, carModel, carYear, carColor, vin, mileage, regno, supplierSignatureUrl,inspectorSignatureUrl, intakeFinalStatus, intakeFinalComment, "intake",
+                    intakeVehicleDetails);
+            if (InternetConnection.getInstance(this).isOnline()) {
+                signatureViewModel.createVehicleReport(request);
+            }else {
+                Alert.showFailed(getApplicationContext(), "Please Check your internet connection and try again");
+            }
+        }else if (signatureViewModel.getReportType().equals("monthly")){
+
+            CreateReportRequest request = new CreateReportRequest(carMake, carModel, carYear, carColor, vin, mileage, regno, supplierSignatureUrl,inspectorSignatureUrl, intakeFinalStatus, intakeFinalComment, "monthly",
+                    intakeVehicleDetails);
+            if (InternetConnection.getInstance(this).isOnline()) {
+                signatureViewModel.createVehicleReport(request);
+            }else {
+                Alert.showFailed(getApplicationContext(), "Please Check your internet connection and try again");
+            }
+        }
 
 
-    }
-
-
-
-    public void sendPost(CreateReportRequest request) {
-        Intent intent = new Intent(getApplicationContext(), LoadingActivity.class);
-        startActivity(intent);// RxJava
-        disposable.add(
-        mAPIService.savePost(signatureViewModel.getAccessToken(), request )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(reportRequest -> {
-                    Intent i = new Intent(getApplicationContext(), ResponseActivity.class);
-                    startActivity(i);
-                    Log.i("RESPONSE","RESPONSE IS SUCESSFULK");
-                },throwable -> {
-                    Log.i("Error","ERRROR");
-                    Intent intent1 = new Intent(getApplicationContext(), FailedActivity.class);
-                    startActivity(intent1);
-                }));
     }
 
 

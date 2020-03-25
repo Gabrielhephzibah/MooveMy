@@ -1,27 +1,27 @@
 package com.enyata.android.mvvm_java.data;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
-import com.enyata.android.mvvm_java.data.local.db.dao.DbHelper;
 import com.enyata.android.mvvm_java.data.local.prefs.PreferencesHelper;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.data.model.api.request.CreateReportRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
-import com.enyata.android.mvvm_java.data.model.api.request.VehiclePart;
+import com.enyata.android.mvvm_java.data.model.api.request.VehiclePartRepair;
 import com.enyata.android.mvvm_java.data.model.api.response.CreateReportResponse;
+import com.enyata.android.mvvm_java.data.model.api.response.InspectorDetailReport;
+import com.enyata.android.mvvm_java.data.model.api.response.InspectorListResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.LoginResponse;
+import com.enyata.android.mvvm_java.data.model.api.response.VinResponseData;
 import com.enyata.android.mvvm_java.data.remote.ApiHeader;
 import com.enyata.android.mvvm_java.data.remote.ApiHelper;
 import com.google.gson.Gson;
-import com.google.gson.internal.$Gson$Types;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 public class AppDataManager implements  DataManager {
@@ -221,6 +221,42 @@ public class AppDataManager implements  DataManager {
         return mPreferencesHelper.getIntakeFinalComment();
     }
 
+    @Override
+    public void setReportType(String reportType) {
+        mPreferencesHelper.setReportType(reportType);
+    }
+
+    @Override
+    public String getReportType() {
+        return mPreferencesHelper.getReportType();
+    }
+
+    @Override
+    public void setVehicleId(String vehicleId) {
+        mPreferencesHelper.setVehicleId(vehicleId);
+    }
+
+    @Override
+    public String getVehicleId() {
+        return mPreferencesHelper.getVehicleId();
+    }
+
+    @Override
+    public void setRepairReport(List<VehiclePartRepair> partRepair) {
+        mPreferencesHelper.setRepairReport(partRepair);
+    }
+
+    @Override
+    public List<VehiclePartRepair> getRepairReport() {
+        return mPreferencesHelper.getRepairReport();
+    }
+
+    @Override
+    public SharedPreferences.Editor deleteIntakeVehicleReport() {
+        return mPreferencesHelper.deleteIntakeVehicleReport();
+    }
+
+
 
     @Override
     public Single<LoginResponse>loginInspector(LoginRequest.Request request) {
@@ -230,6 +266,21 @@ public class AppDataManager implements  DataManager {
     @Override
     public Single<CreateReportResponse> createIntakeReport(CreateReportRequest request) {
         return mApiHelper.createIntakeReport(request);
+    }
+
+    @Override
+    public Flowable<InspectorListResponse> getInspectorHistory() {
+        return mApiHelper.getInspectorHistory();
+    }
+
+    @Override
+    public Flowable<InspectorDetailReport> getInspectorDetail(String id) {
+        return mApiHelper.getInspectorDetail(id);
+    }
+
+    @Override
+    public Flowable<VinResponseData> getVinData(String vinNo) {
+        return mApiHelper.getVinData(vinNo);
     }
 
 
@@ -250,14 +301,13 @@ public class AppDataManager implements  DataManager {
 
     }
 
+
     @Override
-    public void updateUserInfo(
-            String accessToken,
-            String firstname,
-            String email
+    public void updateUserInfo(String accessToken, String firstname, LoggedInMode loggedInMode,String email
             ) {
 
         setAccessToken(accessToken);
+        setCurrentUserLoggedInMode(loggedInMode);
         setCurrentUserName(firstname);
         setCurrentUserEmail(email);
 

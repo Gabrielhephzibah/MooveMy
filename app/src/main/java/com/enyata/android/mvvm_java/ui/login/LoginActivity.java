@@ -57,23 +57,24 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         loginViewModel.setNavigator(this);
         activityLoginBinding = getViewDataBinding();
 
-
-
     }
 
     @Override
     public void handleError(Throwable throwable) {
         Log.i("ERROR","ERRROr");
-        if (throwable!= null){
-            ANError error =(ANError) throwable;
-            LoginResponse response = gson.fromJson(error.getErrorBody(),LoginResponse.class);
-            if (error.getErrorBody()!=null) {
+        if (throwable != null ) {
+            ANError error = (ANError) throwable;
+            LoginResponse response = gson.fromJson(error.getErrorBody(), LoginResponse.class);
+            if (error.getErrorBody()!= null){
                 Alert.showFailed(getApplicationContext(), response.getMessage());
-
-            }
             }else {
-                Alert.showFailed(getApplicationContext(),"Request not successful,please try again later");
-//            }
+                if (error.getErrorBody()==null) {
+                    Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
+                }else {
+                    Alert.showFailed(getApplicationContext(),"Internet Connection Error");
+                }
+            }
+
         }
 
 
@@ -81,26 +82,23 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     public void login() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+        String password = activityLoginBinding.passwordTextView.getText().toString().trim();
+        String email = activityLoginBinding.emailTextView.getText().toString().trim();
+        LoginRequest.Request request = new LoginRequest.Request(email,password);
 
-//        String password = activityLoginBinding.passwordTextView.getText().toString().trim();
-//        String email = activityLoginBinding.emailTextView.getText().toString().trim();
-//        LoginRequest.Request request = new LoginRequest.Request(email,password);
-//
-//       if (!loginViewModel.isEmailAndPasswordValid(email,password)){
-//            Alert.showFailed(getApplicationContext(),"Please enter a valid email and password");
-//        }else if (!loginViewModel.isLengthEqualsToSeven(password)){
-//            Alert.showFailed(getApplicationContext(),"Password length must be at least 7 characters");
-//        }else {
-//            if (InternetConnection.getInstance(this).isOnline()){
-//                hideKeyboard();
-//                loginViewModel.onLoginInspector(request);
-//            }else {
-//                Alert.showFailed(getApplicationContext(),"Please check your Internet Connection and try again");
-//            }
-//
-//        }
+       if (!loginViewModel.isEmailAndPasswordValid(email,password)){
+            Alert.showFailed(getApplicationContext(),"Please enter a valid email and password");
+        }else if (!loginViewModel.isLengthEqualsToSeven(password)){
+            Alert.showFailed(getApplicationContext(),"Password length must be at least 7 characters");
+        }else {
+            if (InternetConnection.getInstance(this).isOnline()){
+                hideKeyboard();
+                loginViewModel.onLoginInspector(request);
+            }else {
+                Alert.showFailed(getApplicationContext(),"Please check your Internet Connection and try again");
+            }
+
+        }
     }
 
     @Override

@@ -129,7 +129,7 @@
 
                     <LinearLayout
                         android:layout_alignParentRight="true"
-                        android:onClick="@{() -> viewModel.onCreateReport()}"
+                        android:onClick="@{() -> viewModel.onIntakeReport()}"
                         android:layout_marginRight="39dp"
                         android:layout_width="wrap_content"
                         android:layout_alignParentBottom="true"
@@ -221,7 +221,7 @@
 
                     <LinearLayout
                         android:layout_alignParentRight="true"
-                        android:onClick="@{() -> viewModel.onCreateReport()}"
+                        android:onClick="@{() -> viewModel.onMonthlyReport()}"
                         android:layout_marginRight="39dp"
                         android:layout_width="wrap_content"
                         android:layout_alignParentBottom="true"

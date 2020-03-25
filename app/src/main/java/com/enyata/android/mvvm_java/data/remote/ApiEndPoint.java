@@ -7,6 +7,12 @@ public class ApiEndPoint {
 
     public static final String INTAKE_CREATE_REPORT = BuildConfig.BASE_URL + "/vehicle/reports";
 
+    public  static  final String INSPECTOR_LIST = BuildConfig.BASE_URL + "/vehiclereports/reports/inspector";
+
+    public  static  final  String  INSPECTOR_DETAILS_REPORT = BuildConfig.BASE_URL + "/vehiclereports/reports/inspector";
+
+    public  static  final  String VIN_API = BuildConfig.VIN_API + "/decode?vin=";
+
 //    public static final String ENDPOINT_FACEBOOK_LOGIN = BuildConfig.BASE_URL + "/588d15d3100000ae072d2944";
 //
 //    public static final String ENDPOINT_GOOGLE_LOGIN = BuildConfig.BASE_URL + "/588d14f4100000a9072d2943";

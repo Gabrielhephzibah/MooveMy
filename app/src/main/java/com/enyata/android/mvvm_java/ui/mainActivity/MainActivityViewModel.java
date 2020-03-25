@@ -10,13 +10,33 @@ public class MainActivityViewModel extends BaseViewModel<MainNavigator> {
     }
 
 
-    public  void onCreateReport(){
-        getNavigator().CreateReport();
-    }
+//    public  void onCreateReport(){
+//        getNavigator().CreateReport();
+//    }
 
     public String getCurrentUserName(){
       return   getDataManager().getCurrentUserName();
     }
 
     public void onRepairReport(){getNavigator().onRepairReport();}
+
+    public void onMonthlyReport(){getNavigator().onMonthlyReport();}
+
+    public void onIntakeReport(){getNavigator().onIntakeReport();}
+
+    public void setReportType(String ReportType){
+        getDataManager().setReportType(ReportType);
+    }
+
+    public String getReportType(){
+        return  getDataManager().getReportType();
+    }
+
+    public  String getApiHeader(){
+        return getDataManager().getAccessToken();
+    }
+
+
+
+
 }

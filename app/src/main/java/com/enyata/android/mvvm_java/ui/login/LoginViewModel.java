@@ -50,10 +50,11 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
                 .subscribe(response -> {
                     setIsLoading(false);
                     getNavigator().onResponse(response);
-                    String token = response.getToken();
+                    String token = response.getData().getToken();
                     String userEmail = response.getData().getEmail();
+                    DataManager.LoggedInMode manager = DataManager.LoggedInMode.LOGGED_IN_MODE_LOGGED_OUT;
                     String firstname = response.getData().getFirstName();
-                    getDataManager().updateUserInfo(token,firstname,userEmail);
+                    getDataManager().updateUserInfo(token,firstname,manager,userEmail);
                 }, throwable -> {
                     setIsLoading(false);
                     getNavigator().handleError(throwable);

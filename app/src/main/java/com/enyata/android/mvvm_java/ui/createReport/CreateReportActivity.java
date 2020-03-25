@@ -7,11 +7,13 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,12 +25,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
-import com.cloudinary.android.MediaManager;
+import com.androidnetworking.error.ANError;
 import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.ViewModelProviderFactory;
+import com.enyata.android.mvvm_java.data.model.api.response.InspectorListResponse;
+import com.enyata.android.mvvm_java.data.model.api.response.VinResponseData;
 import com.enyata.android.mvvm_java.databinding.ActivityCreateReportBinding;
 import com.enyata.android.mvvm_java.ui.base.BaseActivity;
-import com.enyata.android.mvvm_java.ui.createReport.electric.ComputerFragment;
 import com.enyata.android.mvvm_java.ui.createReport.electric.ElectricPagerAdapter;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.ExteriorViewPagerAdapter;
 import com.enyata.android.mvvm_java.ui.createReport.glass.GlassPagerAdater;
@@ -40,9 +43,7 @@ import com.enyata.android.mvvm_java.ui.createReport.underhood.UnderHoodPagerAdap
 import com.enyata.android.mvvm_java.ui.mainActivity.MainActivity;
 import com.enyata.android.mvvm_java.ui.signature.SignatureActivity;
 import com.enyata.android.mvvm_java.utils.Alert;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
@@ -53,6 +54,9 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
 
     @Inject
     ViewModelProviderFactory factory;
+
+    @Inject
+    Gson gson;
     private static final int REQUEST_CAMERA = 1;
     CreateReportViewModel createReportViewModel;
     ActivityCreateReportBinding activityCreateReportBinding;
@@ -64,10 +68,12 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
     String[] yearNumber = {"", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019"};
     String[] model = {" ", "Honda", "Hyundai", "Kia", "Toyota", "Volkswagen"};
     String[]make ={"","Accord","Civic", "City", "Accent","Elantra","Forte","Rio","Camry","Hilux", "RAV4","Yaris","Vento"};
-    String[] finalAssess = {"","accepted","not-accepted"};
-    EditText carColoredit, mileageEdit,regNumEdit,vinEdit;
-    String carColor,mileage, regNum,vin,finalComment;
+    String[] intakeFinalAssess = {"","accepted","not-accepted"};
+    String[] monthlyFinalAssess = {"","failed","passed"};
+    EditText carColoredit, mileageEdit,regNumEdit,vinEdit,editVin;
+    String carColor,mileage, regNum,vin,finalComment, editVinNo;
     Button save;
+    ProgressDialog dialog;
     String selectedYear, selectedModel,selectedMake,selectedFinalAssess;
 
     @Override
@@ -99,6 +105,10 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
                 requestPermission();
             }
         }
+
+        createReportViewModel.getReportType();
+
+        Log.i("REPORT_TYPE",createReportViewModel.getReportType());
         inspectToggle = activityCreateReportBinding.inspectToggle;
         exteriorLayout =activityCreateReportBinding.exteriorLayout;
         signatureToggle = activityCreateReportBinding.signatureToggle;
@@ -132,10 +142,16 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         modelSpinner = activityCreateReportBinding.modelSpinner;
         makeSpinner = activityCreateReportBinding.makeSpinner;
         finalAssessSpinner = activityCreateReportBinding.spinnerFinalAssess;
+        editVin = activityCreateReportBinding.editVinNumber;
         yearSpinner.setOnItemSelectedListener(this);
         modelSpinner.setOnItemSelectedListener(this);
         makeSpinner.setOnItemSelectedListener(this);
         finalAssessSpinner.setOnItemSelectedListener(this);
+        dialog = new ProgressDialog(this,R.style.MyAlertDialogStyle);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("Please wait .....");
+        dialog.setCancelable(false);
+
 
 
 
@@ -174,8 +190,16 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         ArrayAdapter<String> makeSpinnerAdpter = new ArrayAdapter<String>(CreateReportActivity.this, android.R.layout.simple_spinner_item, make);
         makeSpinner.setAdapter(makeSpinnerAdpter);
 
-        ArrayAdapter<String>finalAssessAdapter = new ArrayAdapter<>(CreateReportActivity.this, android.R.layout.simple_spinner_item, finalAssess);
+
+        if (createReportViewModel.getReportType().equals("intake")){
+
+        ArrayAdapter<String>finalAssessAdapter = new ArrayAdapter<>(CreateReportActivity.this, android.R.layout.simple_spinner_item, intakeFinalAssess);
         finalAssessSpinner.setAdapter(finalAssessAdapter);
+        }else if (createReportViewModel.getReportType().equals("monthly")) {
+            ArrayAdapter<String> finalAssessAdapter2 = new ArrayAdapter<>(CreateReportActivity.this, android.R.layout.simple_spinner_item, monthlyFinalAssess);
+            finalAssessSpinner.setAdapter(finalAssessAdapter2);
+
+        }
     }
 
     @Override
@@ -317,10 +341,10 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
     @Override
     public void onSaveVehicleInfo() {
         Log.i("Button clicked","Buttonnnnnnn");
-        carColor = activityCreateReportBinding.editColor.getText().toString();
-        mileage = activityCreateReportBinding.editMillage.getText().toString();
-        regNum = activityCreateReportBinding.editRegNum.getText().toString();
-     vin = activityCreateReportBinding.editVin.getText().toString();
+//        carColor = activityCreateReportBinding.editColor.getText().toString();
+//        mileage = activityCreateReportBinding.editMillage.getText().toString();
+//        regNum = activityCreateReportBinding.editRegNum.getText().toString();
+//     vin = activityCreateReportBinding.editVin.getText().toString();
      selectedYear = yearSpinner.getSelectedItem().toString();
      selectedModel = modelSpinner.getSelectedItem().toString();
      selectedMake = makeSpinner.getSelectedItem().toString();
@@ -346,6 +370,46 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
 
 
 
+    }
+
+    @Override
+    public void onSubmitVin() {
+        editVinNo = activityCreateReportBinding.editVinNumber.getText().toString();
+        if (TextUtils.isEmpty(editVinNo)){
+            editVin.setError("VIN number is required");
+            editVin.requestFocus();
+//            Alert.showFailed(getApplicationContext(),"Please enter VIN Number");
+            return;
+        }
+        createReportViewModel.getCarVin(activityCreateReportBinding.editVinNumber.getText().toString());
+//        Log.i("VIN",activityCreateReportBinding.editVinNumber.getText().toString());
+    }
+
+    @Override
+    public void onResponse(VinResponseData response) {
+        dialog.dismiss();
+        Log.i("Response Success","VIN RESPONSE SUCCESSful");
+    }
+
+    @Override
+    public void handleError(Throwable throwable) {
+        dialog.dismiss();
+        if (throwable != null) {
+            ANError error = (ANError) throwable;
+            VinResponseData response = gson.fromJson(error.getErrorBody(), VinResponseData.class);
+            if (error.getErrorBody() != null) {
+                Alert.showFailed(getApplicationContext(), response.getMessage().getMessage());
+            } else {
+                Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
+            }
+        }
+
+
+    }
+
+    @Override
+    public void onStarting() {
+        dialog.show();
     }
 
     @Override

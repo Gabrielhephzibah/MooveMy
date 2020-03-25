@@ -36,9 +36,13 @@ public class CreateReportRequest {
         @Expose
         private String registrationNumber;
 
-        @SerializedName("signature")
+        @SerializedName("inspector_signature")
         @Expose
-        private List<String> signature = null;
+        private String inspectorSignature;
+
+        @SerializedName("supplier_signature")
+        @Expose
+        private String supplierSignature;
 
         @SerializedName("status")
         @Expose
@@ -57,7 +61,7 @@ public class CreateReportRequest {
         private List<VehicleCollection> vehiclePart = null;
 
 
-    public CreateReportRequest(String make, String model, String year, String color, String vIN, String mileage, String registrationNumber, List<String> signature, String status, String comment, String reportType, List<VehicleCollection> vehiclePart) {
+    public CreateReportRequest(String make, String model, String year, String color, String vIN, String mileage, String registrationNumber, String inspectorSignature, String supplierSignature,  String status, String comment, String reportType, List<VehicleCollection> vehiclePart) {
         this.make = make;
         this.model = model;
         this.year = year;
@@ -65,7 +69,8 @@ public class CreateReportRequest {
         this.vIN = vIN;
         this.mileage = mileage;
         this.registrationNumber = registrationNumber;
-        this.signature = signature;
+       this.supplierSignature = supplierSignature;
+       this.inspectorSignature = inspectorSignature;
         this.status = status;
         this.comment = comment;
         this.reportType = reportType;
@@ -128,17 +133,25 @@ public class CreateReportRequest {
             this.registrationNumber = registrationNumber;
         }
 
-        public List<String> getSignature() {
-            return signature;
+        public String getInspectorSignature() {
+            return inspectorSignature;
         }
 
-        public void setSignature(List<String> signature) {
-            this.signature = signature;
+        public void setInspectorSignature(String inspectorSignature) {
+            this.inspectorSignature = inspectorSignature;
+        }
+
+        public String getSupplierSignature() {
+            return supplierSignature;
+        }
+
+        public void setSupplierSignature(String supplierSignature) {
+            this.supplierSignature = supplierSignature;
         }
 
         public String getStatus() {
-            return status;
-        }
+                return status;
+            }
 
         public void setStatus(String status) {
             this.status = status;
@@ -209,9 +222,13 @@ public class CreateReportRequest {
                 return false;
             }
 
-            if (signature != null ? !signature.equals(request.signature) : request.signature != null) {
+            if (supplierSignature != null ? !supplierSignature.equals(request.supplierSignature) : request.supplierSignature != null) {
                 return false;
             }
+
+        if (inspectorSignature != null ? !inspectorSignature.equals(request.inspectorSignature) : request.inspectorSignature != null) {
+            return false;
+        }
 
             if (status != null ? !status.equals(request.status) : request.status != null) {
                 return false;
@@ -243,7 +260,8 @@ public class CreateReportRequest {
             result = 31 * result + (vIN != null ? vIN.hashCode() : 0);
             result = 31 * result + (mileage != null ? mileage.hashCode() : 0);
             result = 31 * result + (registrationNumber != null ? registrationNumber.hashCode() : 0);
-            result = 31 * result + (signature != null ? signature.hashCode() : 0);
+            result = 31 * result + (inspectorSignature != null ? inspectorSignature.hashCode() : 0);
+            result = 31 * result + (supplierSignature != null ? supplierSignature.hashCode() : 0);
             result = 31 * result + (status != null ? status.hashCode() : 0);
             result = 31 * result + (comment != null ? comment.hashCode() : 0);
             result = 31 * result + (reportType != null ? reportType.hashCode() : 0);
@@ -253,24 +271,24 @@ public class CreateReportRequest {
 
         }
 
-        @Override
-        public String toString() {
-            return "intakeReport{" +
-                    "firstname='" + make + '\'' +
-                    ", lastname='" + model + '\'' +
-                    ", phoneNumber='" + year + '\'' +
-                    ", email='" + color + '\'' +
-                    ", address='" + vIN + '\'' +
-                    "firstname='" + mileage + '\'' +
-                    ", lastname='" + registrationNumber + '\'' +
-                    ", phoneNumber='" + signature + '\'' +
-                    ", email='" + status+ '\'' +
-                    ", address='" + comment + '\'' +
-                    "firstname='" + reportType + '\'' +
-                    ", lastname='" + vehiclePart + '\'' +
-                    '}';
-        }
-
+    @Override
+    public String toString() {
+        return "CreateReportRequest{" +
+                "make='" + make + '\'' +
+                ", model='" + model + '\'' +
+                ", year='" + year + '\'' +
+                ", color='" + color + '\'' +
+                ", vIN='" + vIN + '\'' +
+                ", mileage='" + mileage + '\'' +
+                ", registrationNumber='" + registrationNumber + '\'' +
+                ", inspectorSignature='" + inspectorSignature + '\'' +
+                ", supplierSignature='" + supplierSignature + '\'' +
+                ", status='" + status + '\'' +
+                ", comment='" + comment + '\'' +
+                ", reportType='" + reportType + '\'' +
+                ", vehiclePart=" + vehiclePart +
+                '}';
+    }
 }
 
 

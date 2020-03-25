@@ -3,8 +3,9 @@ package com.enyata.android.mvvm_java.data.model.api.response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class LoginResponse {
+import java.util.List;
 
+public class InspectorListResponse {
     @Expose
     @SerializedName("message")
     private String message;
@@ -19,7 +20,12 @@ public class LoginResponse {
 
     @Expose
     @SerializedName("data")
-    private LoginData data;
+    private List<InspectorData> data;
+
+    @Expose
+    @SerializedName("count")
+    private int count;
+
 
     public String getMessage() {
         return message;
@@ -33,8 +39,11 @@ public class LoginResponse {
         return status;
     }
 
-
-    public LoginData getData() {
+    public List<InspectorData> getData() {
         return data;
+    }
+
+    public int getCount() {
+        return count;
     }
 }

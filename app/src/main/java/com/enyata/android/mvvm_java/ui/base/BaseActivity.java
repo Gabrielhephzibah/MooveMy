@@ -19,9 +19,11 @@ package com.enyata.android.mvvm_java.ui.base;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -33,8 +35,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
+import com.auth0.android.jwt.JWT;
 import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.ui.login.LoginActivity;
+import com.enyata.android.mvvm_java.ui.splash.SplashActivity;
 import com.enyata.android.mvvm_java.utils.CommonUtils;
 import com.enyata.android.mvvm_java.utils.NetworkUtils;
 
@@ -53,6 +57,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     private ProgressDialog mProgressDialog;
     private T mViewDataBinding;
     private V mViewModel;
+    JWT jwt;
 
     /**
      * Override for set binding variable
@@ -92,10 +97,14 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
 //        remove();
         performDependencyInjection();
         super.onCreate(savedInstanceState);
         performDataBinding();
+
+
+
 
 
     }
@@ -133,6 +142,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     public void openActivityOnTokenExpire() {
         startActivity(LoginActivity.newIntent(this));
         finish();
+
     }
 
     public void performDependencyInjection() {
@@ -158,5 +168,10 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
         mViewDataBinding.executePendingBindings();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 }
 

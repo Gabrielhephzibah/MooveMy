@@ -85,6 +85,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
     TextView hoodStatus,fontBumperStatus,fenderStatus,doorStatus,roofStatus,rearStatus,rearBumperStatus,trunkStatus,trimStatus,fuelDoorStatus,paintStatus,windShieldStatus,windowStatus,mirrorStatus,rearWindowStatus,tyresStatus,wheelStatus,spareTyreStatus,frameStatus,exhaustStatus,transmissionStatus,driveAxleStatus,suspensionStatus,brakeSystemStatus,engineCompartmentStatus,batteryStatus,oilStatus,fluidStatus,wiringStatus,beltStatus,hosesStatus,seatStatus,headlinerStatus,carpetStatus,doorPanelStatus,gloveBoxStatus,vanityMirrorStatus,interiorTrimStatus,dashboardStatus,dashGuagesStatus,airConditionerStatus,heaterStatus,defrosterStatus,powerLockStatus,powerSeatStatus,powerSteeringStatus,powerWindowStatus,powerMirrorStatus,audioSystemStatus,computerStatus,headlightStatus,tailLightStatus,signalLightStatus,brakeLightStatus,parkingLightStatus,startingStatus,idlingStatus,enginePerformanceStatus,accelerationStatus,transmissionShiftStatus,steeringStatus,brakingStatus,suspensionPerformanceStatus;
     private ApiService mAPIService;
     TextView carMooveId, yearMakeModel;
+
     String hoodEditComment, fontBumperEditComment, fenderEditComment, doorEditComment, roofEditComment, rearEditComment, rearBumperEditComment, trunkEditComment, trimEditComment, fuelDoorEditComment, paintEditComment, windShieldEditComment, windowEditComment, mirrorsEditComment, rearWindowEditComment, tiresEditComment, wheelEditComment, spareTireEditComment, frameEditComment, exhaustEditComment, transmissionEditComment, driveAxleEditComment, suspensionEditComment, brakeSystemEditComment, engineCompEditComment, batteryEditComment, oilEditComment, fluidEditComment, wiringEditComment, beltEditComment, hosesEditComment, seatsEditComment, headlinerEditComment, carpetEditComment, doorPanelEditComment, gloveBoxEditComment, vanityMirrorEditComment, interiorTrimEdittComment, dashBoardEditComment, dashGuagesEditComment, airCondEditComment, heaterEditComment, defrosterEditComment, powerLockEditComment, powerSeatEditComment, powerSteeringEditComment, powerWindowEditComment, powerMirrorEditComment, audioSystemEditComment, computerEditComment, headLightEditComment, tailLightEditComment, signalLightEditComment, brakeLightEditComment, parkingLightEditComment, startingEditComment, idlingEditComment, enginePerfEditComment, accelerationEditComment, transShiftEditComment, steeringEditComment, brakingEditComment, suspensionPerfEditComment;
 
 
@@ -341,6 +342,10 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
         TextView clearSupervisorSignature = bottomView.findViewById(R.id.clearSupervisorSignature);
         TextView saveMechanicSignature = bottomView.findViewById(R.id.saveMechanicSignature);
         TextView clearMechanicSignature = bottomView.findViewById(R.id.clearMechanicSignature);
+        saveMechanicSignature.setEnabled(false);
+        saveSupervisorSignature.setEnabled(false);
+        clearMechanicSignature.setEnabled(false);
+        clearSupervisorSignature.setEnabled(false);
         bottomSheet.setContentView(bottomView);
         bottomSheet.show();
 
@@ -352,12 +357,16 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             @Override
             public void onSigned() {
+                saveSupervisorSignature.setEnabled(true);
+                clearSupervisorSignature.setEnabled(true);
 
 
             }
 
             @Override
             public void onClear() {
+                saveSupervisorSignature.setEnabled(false);
+                clearSupervisorSignature.setEnabled(false);
 
             }
         });
@@ -370,11 +379,15 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             @Override
             public void onSigned() {
+                saveMechanicSignature.setEnabled(true);
+                clearMechanicSignature.setEnabled(true);
 
             }
 
             @Override
             public void onClear() {
+                saveMechanicSignature.setEnabled(false);
+                clearMechanicSignature.setEnabled(false);
 
             }
         });
@@ -387,6 +400,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                 byte[] supervisorByteArray = byteArrayOutputStream.toByteArray();
+                showLoading();
 
                 String requestId = MediaManager.get().upload(supervisorByteArray)
                         .unsigned("ht7lodiw")
@@ -394,11 +408,12 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                             @Override
                             public void onStart(String requestId) {
                                 Log.i("START", "STARTTTTT");
-                                dialog = new ProgressDialog(RepairsActivity.this);
-                                dialog.setMessage("Saving......");
-                                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                                dialog.setCancelable(false);
-                                dialog.show();
+                                showLoading();
+//                                dialog = new ProgressDialog(RepairsActivity.this);
+//                                dialog.setMessage("Saving......");
+//                                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//                                dialog.setCancelable(false);
+//                                dialog.show();
 
                             }
 
@@ -406,7 +421,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                             public void onProgress(String requestId, long bytes, long totalBytes) {
                                 Double progress = (double) bytes / totalBytes;
                                 Log.i("PROGRESS", "PROGRESS");
-                                dialog.show();
+//                                dialog.show();
                             }
 
                             @Override
@@ -414,8 +429,10 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                                 if (resultData != null) {
                                     Log.i("SUCCESS", "SUCCESS");
                                     imageURL = (String) resultData.get("url");
-                                    dialog.dismiss();
-                                    Toast.makeText(RepairsActivity.this, "Signature Saved", Toast.LENGTH_SHORT).show();
+                                    hideLoading();
+//                                    dialog.dismiss();
+                                    Alert.showSuccess(getApplicationContext(),"Signature Saved");
+//                                    Toast.makeText(RepairsActivity.this, "Signature Saved", Toast.LENGTH_SHORT).show();
                                     String cloudinaryID = (String) resultData.get("public_id");
                                     supervisorSignatureUrl = imageURL;
                                     Log.i("SupervisorSignature", supervisorSignatureUrl);
@@ -427,13 +444,14 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                             @Override
                             public void onError(String requestId, ErrorInfo error) {
                                 Log.i("ERROR", "ERROR");
-                                dialog.dismiss();
+                                hideLoading();
                                 Alert.showFailed(RepairsActivity.this, "Error Uploading Result, Please try agin later ");
                             }
 
                             @Override
                             public void onReschedule(String requestId, ErrorInfo error) {
-                                dialog.dismiss();
+                                hideLoading();
+                                Alert.showFailed(RepairsActivity.this,"Signature upload is taking time,please sign again");
                                 Log.i("SCHEDULE", "SCHEDULE");
 
                             }
@@ -463,6 +481,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                 byte[] mechanicByteArray = byteArrayOutputStream.toByteArray();
+                showLoading();
 
                 String requestId = MediaManager.get().upload(mechanicByteArray)
                         .unsigned("ht7lodiw")
@@ -470,11 +489,12 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                             @Override
                             public void onStart(String requestId) {
                                 Log.i("START", "STARTTTTT");
-                                dialog = new ProgressDialog(RepairsActivity.this);
-                                dialog.setMessage("Saving......");
-                                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                                dialog.setCancelable(false);
-                                dialog.show();
+                                showLoading();
+//                                dialog = new ProgressDialog(RepairsActivity.this);
+//                                dialog.setMessage("Saving......");
+//                                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//                                dialog.setCancelable(false);
+//                                dialog.show();
 
                             }
 
@@ -482,7 +502,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                             public void onProgress(String requestId, long bytes, long totalBytes) {
                                 Double progress = (double) bytes / totalBytes;
                                 Log.i("PROGRESS", "PROGRESS");
-                                dialog.show();
+//                                dialog.show();
                             }
 
                             @Override
@@ -490,8 +510,8 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                                 if (resultData != null) {
                                     Log.i("SUCCESS", "SUCCESS");
                                     imageURL = (String) resultData.get("url");
-                                    dialog.dismiss();
-                                    Toast.makeText(RepairsActivity.this, "Signature Saved", Toast.LENGTH_SHORT).show();
+                                   hideLoading();
+                                    Alert.showSuccess(RepairsActivity.this,"Signature saved");
                                     String cloudinaryID = (String) resultData.get("public_id");
                                     mechanicSignatureUrl = imageURL;
                                     Log.i("mechanic", mechanicSignatureUrl);
@@ -503,13 +523,14 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                             @Override
                             public void onError(String requestId, ErrorInfo error) {
                                 Log.i("ERROR", "ERROR");
-                                dialog.dismiss();
+                                hideLoading();
                                 Alert.showFailed(RepairsActivity.this, "Error Uploading Result, Please try agin later ");
                             }
 
                             @Override
                             public void onReschedule(String requestId, ErrorInfo error) {
-                                dialog.dismiss();
+                               hideLoading();
+                               Alert.showFailed(RepairsActivity.this,"Signature upload is taking time,please sign again");
                                 Log.i("SCHEDULE", "SCHEDULE");
 
                             }
@@ -560,8 +581,8 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
         switch (view.getId()) {
             case R.id.hoodCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     hoodComment.setVisibility(View.VISIBLE);
-
                 } else {
                     hoodComment.setVisibility(View.GONE);
                     activityRepairsBinding.hoodEditText.getText().clear();
@@ -570,6 +591,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.frontBumperCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     Log.i("BOX", "frontBumper is checked");
 
                     frontBumperComment.setVisibility(View.VISIBLE);
@@ -581,6 +603,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.fenderCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     Log.i("BOX", "fender is checked");
                     fenderComment.setVisibility(View.VISIBLE);
                 } else {
@@ -591,6 +614,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.doorCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     doorComment.setVisibility(View.VISIBLE);
                 } else {
                     doorComment.setVisibility(View.GONE);
@@ -600,6 +624,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.roofCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     roofComment.setVisibility(View.VISIBLE);
                 } else {
                     roofComment.setVisibility(View.GONE);
@@ -609,6 +634,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.rearCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     rearComment.setVisibility(View.VISIBLE);
                 } else {
                     rearComment.setVisibility(View.GONE);
@@ -618,6 +644,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.rearBumperCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     rearBumperComment.setVisibility(View.VISIBLE);
                 } else {
                     rearBumperComment.setVisibility(View.GONE);
@@ -636,6 +663,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.trimCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     trimComment.setVisibility(View.VISIBLE);
                 } else {
                     trimComment.setVisibility(View.GONE);
@@ -645,6 +673,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.fuelDoorCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     fuelDoorComment.setVisibility(View.VISIBLE);
                 } else {
                     fuelDoorComment.setVisibility(View.GONE);
@@ -653,6 +682,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.paintCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     paintComment.setVisibility(View.VISIBLE);
                 } else {
                     paintComment.setVisibility(View.GONE);
@@ -661,6 +691,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.windShieldCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     windShieldComment.setVisibility(View.VISIBLE);
                 } else {
                     windShieldComment.setVisibility(View.GONE);
@@ -670,6 +701,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.windowCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     windowComment.setVisibility(View.VISIBLE);
                 } else {
                     windowComment.setVisibility(View.GONE);
@@ -678,6 +710,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.mirrorCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     mirrorComment.setVisibility(View.VISIBLE);
                 } else {
                     mirrorComment.setVisibility(View.GONE);
@@ -686,6 +719,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.rearWindowCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     rearWindowComment.setVisibility(View.VISIBLE);
                 } else {
                     rearWindowComment.setVisibility(View.GONE);
@@ -695,6 +729,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.tiresCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     tireComment.setVisibility(View.VISIBLE);
                 } else {
                     tireComment.setVisibility(View.GONE);
@@ -703,6 +738,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.wheelCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     wheelComment.setVisibility(View.VISIBLE);
                 } else {
                     wheelComment.setVisibility(View.GONE);
@@ -712,6 +748,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.spareTireCheckedBox:
                 if (checked) {
+                    hideKeyboard();
                     spareTireComment.setVisibility(View.VISIBLE);
                 } else {
                     spareTireComment.setVisibility(View.GONE);
@@ -721,6 +758,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.frameCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     frameComment.setVisibility(View.VISIBLE);
                 } else {
                     frameComment.setVisibility(View.GONE);
@@ -730,6 +768,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.exhaustCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     exhaustComment.setVisibility(View.VISIBLE);
                 } else {
                     exhaustComment.setVisibility(View.GONE);
@@ -739,6 +778,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.transmissionCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     transmissionComment.setVisibility(View.VISIBLE);
                 } else {
                     transmissionComment.setVisibility(View.GONE);
@@ -748,6 +788,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.driveAxleCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     driveAxleComment.setVisibility(View.VISIBLE);
                 } else {
                     driveAxleComment.setVisibility(View.GONE);
@@ -757,6 +798,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.suspensionCheckbox:
                 if (checked) {
+                    hideKeyboard();
                     suspensionComment.setVisibility(View.VISIBLE);
                 } else {
                     suspensionComment.setVisibility(View.GONE);
@@ -766,6 +808,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.brakeSystemCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     brakeSystemComment.setVisibility(View.VISIBLE);
                 } else {
                     brakeSystemComment.setVisibility(View.GONE);
@@ -775,6 +818,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.engCompCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     engineCompComment.setVisibility(View.VISIBLE);
                 } else {
                     engineCompComment.setVisibility(View.GONE);
@@ -783,6 +827,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.batteryCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     batteryComment.setVisibility(View.VISIBLE);
                 } else {
                     batteryComment.setVisibility(View.GONE);
@@ -792,6 +837,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.oilCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     oilComment.setVisibility(View.VISIBLE);
                 } else {
                     oilComment.setVisibility(View.GONE);
@@ -801,6 +847,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.fluidCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     fluidComment.setVisibility(View.VISIBLE);
                 } else {
                     fluidComment.setVisibility(View.GONE);
@@ -810,6 +857,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.wiringCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     wiringComment.setVisibility(View.VISIBLE);
                 } else {
                     wiringComment.setVisibility(View.GONE);
@@ -818,6 +866,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.beltCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     beltComment.setVisibility(View.VISIBLE);
                 } else {
                     beltComment.setVisibility(View.GONE);
@@ -826,6 +875,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.hosesCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     hosesComment.setVisibility(View.VISIBLE);
                 } else {
                     hosesComment.setVisibility(View.GONE);
@@ -835,6 +885,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.seatCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     seatsComment.setVisibility(View.VISIBLE);
                 } else {
                     seatsComment.setVisibility(View.GONE);
@@ -843,6 +894,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.headLinerCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     headLinerComment.setVisibility(View.VISIBLE);
                 } else {
                     headLinerComment.setVisibility(View.GONE);
@@ -851,6 +903,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.carpetCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     carpetComment.setVisibility(View.VISIBLE);
                 } else {
                     carpetComment.setVisibility(View.GONE);
@@ -859,6 +912,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.doorPanelCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     doorPanelComment.setVisibility(View.VISIBLE);
                 } else {
                     doorPanelComment.setVisibility(View.GONE);
@@ -868,6 +922,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.gloveBoxCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     gloveBoxComment.setVisibility(View.VISIBLE);
                 } else {
                     gloveBoxComment.setVisibility(View.GONE);
@@ -876,6 +931,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.vanityMirrorCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     vanityMirrorComment.setVisibility(View.VISIBLE);
                 } else {
                     vanityMirrorComment.setVisibility(View.GONE);
@@ -884,6 +940,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.interiorTrimCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     interiorTrimComment.setVisibility(View.VISIBLE);
                 } else {
                     interiorTrimComment.setVisibility(View.GONE);
@@ -893,6 +950,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.dashBoardCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     dashboardComment.setVisibility(View.VISIBLE);
                 } else {
                     dashboardComment.setVisibility(View.GONE);
@@ -901,6 +959,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.dashGuageCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     dashGuageComment.setVisibility(View.VISIBLE);
                 } else {
                     dashGuageComment.setVisibility(View.GONE);
@@ -909,6 +968,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.airCondCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     airCondComment.setVisibility(View.VISIBLE);
                 } else {
                     airCondComment.setVisibility(View.GONE);
@@ -918,6 +978,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.heaterCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     heaterComment.setVisibility(View.VISIBLE);
                 } else {
                     heaterComment.setVisibility(View.GONE);
@@ -926,6 +987,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.defrosterCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     defrosterComment.setVisibility(View.VISIBLE);
                 } else {
                     defrosterComment.setVisibility(View.GONE);
@@ -934,6 +996,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.powerLockCheckOut:
                 if (checked) {
+                    hideKeyboard();
                     powerLockComment.setVisibility(View.VISIBLE);
                 } else {
                     powerLockComment.setVisibility(View.GONE);
@@ -943,6 +1006,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.powerSeatCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     powerSeatComment.setVisibility(View.VISIBLE);
                 } else {
                     powerSeatComment.setVisibility(View.GONE);
@@ -952,6 +1016,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.powerSteeringCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     powerSteeringComment.setVisibility(View.VISIBLE);
                 } else {
                     powerSteeringComment.setVisibility(View.GONE);
@@ -961,6 +1026,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.powerWindowCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     powerWindowComment.setVisibility(View.VISIBLE);
                 } else {
                     powerWindowComment.setVisibility(View.GONE);
@@ -969,6 +1035,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.powerMirrorCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     powerMirrorComment.setVisibility(View.VISIBLE);
                 } else {
                     powerMirrorComment.setVisibility(View.GONE);
@@ -977,6 +1044,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.audioCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     audioSystemComment.setVisibility(View.VISIBLE);
                 } else {
                     audioSystemComment.setVisibility(View.GONE);
@@ -985,6 +1053,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.computerCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     computerComment.setVisibility(View.VISIBLE);
                 } else {
                     computerComment.setVisibility(View.GONE);
@@ -993,6 +1062,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.headLightCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     headLightComment.setVisibility(View.VISIBLE);
                 } else {
                     headLightComment.setVisibility(View.GONE);
@@ -1002,6 +1072,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.tailLightCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     tailLightComment.setVisibility(View.VISIBLE);
                 } else {
                     tailLightComment.setVisibility(View.GONE);
@@ -1011,6 +1082,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.signalLightCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     signalLightComment.setVisibility(View.VISIBLE);
                 } else {
                     signalLightComment.setVisibility(View.GONE);
@@ -1020,6 +1092,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.brakeLightCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     brakeLightComment.setVisibility(View.VISIBLE);
                 } else {
                     brakeLightComment.setVisibility(View.GONE);
@@ -1029,6 +1102,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.parkingLightCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     parkingLightComment.setVisibility(View.VISIBLE);
                 } else {
                     parkingLightComment.setVisibility(View.GONE);
@@ -1038,6 +1112,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.startingCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     startingComment.setVisibility(View.VISIBLE);
                 } else {
                     startingComment.setVisibility(View.GONE);
@@ -1048,6 +1123,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.idlingCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     idlingComment.setVisibility(View.VISIBLE);
                 } else {
                     idlingComment.setVisibility(View.GONE);
@@ -1056,6 +1132,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.enginePerfCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     enginePerfComment.setVisibility(View.VISIBLE);
                 } else {
                     enginePerfComment.setVisibility(View.GONE);
@@ -1065,6 +1142,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.accelerationCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     accelerationComment.setVisibility(View.VISIBLE);
                 } else {
                     accelerationComment.setVisibility(View.GONE);
@@ -1073,6 +1151,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 break;
             case R.id.transmissionShiftCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     transmissionShiftComment.setVisibility(View.VISIBLE);
                 } else {
                     transmissionShiftComment.setVisibility(View.GONE);
@@ -1082,6 +1161,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.steeringCheckBox:
                 if (checked) {
+                    hideKeyboard();
                     steeringComment.setVisibility(View.VISIBLE);
                 } else {
                     steeringComment.setVisibility(View.GONE);
@@ -1091,6 +1171,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.brakingCheckOut:
                 if (checked) {
+                    hideKeyboard();
                     brakingComment.setVisibility(View.VISIBLE);
                 } else {
                     brakingComment.setVisibility(View.GONE);
@@ -1100,6 +1181,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
             case R.id.suspensionPefCheckOut:
                 if (checked) {
+                    hideKeyboard();
                     suspensionPrefComment.setVisibility(View.VISIBLE);
                 } else {
                     suspensionPrefComment.setVisibility(View.GONE);
@@ -1114,6 +1196,8 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
     @Override
     public void onSaveHood() {
+        hideKeyboard();
+
         hoodEditComment = activityRepairsBinding.hoodEditText.getText().toString();
         fontBumperEditComment = activityRepairsBinding.frontBumperEditText.getText().toString();
         fenderEditComment = activityRepairsBinding.fenderEditText.getText().toString();
@@ -1159,11 +1243,15 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
         VehiclePartRepair paint = new VehiclePartRepair("paint", paintEditComment);
         repairsViewModel.saveRepairReportToLocalStorage(paint);
 
+        exteriorFragment.setVisibility(View.GONE);
+        Alert.showSuccess(getApplicationContext(),"Repairs Report Saved Successfully");
+
 
     }
 
     @Override
     public void onSaveGlass() {
+        hideKeyboard();
         windShieldEditComment = activityRepairsBinding.windShieldEditText.getText().toString();
         windowEditComment = activityRepairsBinding.windowEditText.getText().toString();
         mirrorsEditComment = activityRepairsBinding.windowEditText.getText().toString();
@@ -1181,11 +1269,16 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
         VehiclePartRepair rearWindow = new VehiclePartRepair("rear window", hoodEditComment);
         repairsViewModel.saveRepairReportToLocalStorage(rearWindow);
 
+        glassFragment.setVisibility(View.GONE);
+        Alert.showSuccess(getApplicationContext(),"Repairs Report Saved Successfully");
+
+
 
     }
 
     @Override
     public void onSaveTires() {
+        hideKeyboard();
         tiresEditComment = activityRepairsBinding.tiresEditText.getText().toString();
         wheelEditComment = activityRepairsBinding.wheelEditText.getText().toString();
         spareTireEditComment = activityRepairsBinding.spareTireEditText.getText().toString();
@@ -1198,12 +1291,15 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
         VehiclePartRepair spareTire = new VehiclePartRepair("spare tire", spareTireEditComment);
         repairsViewModel.saveRepairReportToLocalStorage(spareTire);
+        tiresFragment.setVisibility(View.GONE);
+        Alert.showSuccess(getApplicationContext(),"Repairs Report Saved Successfully");
 
 
     }
 
     @Override
     public void onSaveUnderBody() {
+        hideKeyboard();
         frameEditComment = activityRepairsBinding.frameEditText.getText().toString();
         exhaustEditComment = activityRepairsBinding.exhaustEditText.getText().toString();
         transmissionEditComment = activityRepairsBinding.transmissionEditText.getText().toString();
@@ -1228,12 +1324,15 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
         VehiclePartRepair brakeSystem = new VehiclePartRepair("brake system", exhaustEditComment);
         repairsViewModel.saveRepairReportToLocalStorage(brakeSystem);
+        underbodyFragment.setVisibility(View.GONE);
+        Alert.showSuccess(getApplicationContext(),"Repairs Report Saved Successfully");
 
 
     }
 
     @Override
     public void onSaveUnderHood() {
+        hideKeyboard();
         engineCompEditComment = activityRepairsBinding.engineCompEditText.getText().toString();
         batteryEditComment = activityRepairsBinding.batteryEditText.getText().toString();
         oilEditComment = activityRepairsBinding.oilEditText.getText().toString();
@@ -1262,11 +1361,14 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
         VehiclePartRepair hoses = new VehiclePartRepair("hoses", hosesEditComment);
         repairsViewModel.saveRepairReportToLocalStorage(hoses);
+        underHoodFragment.setVisibility(View.GONE);
+        Alert.showSuccess(getApplicationContext(),"Repairs Report Saved Successfully");
 
     }
 
     @Override
     public void onSaveInterior() {
+        hideKeyboard();
         seatsEditComment = activityRepairsBinding.seatEditText.getText().toString();
         headlinerEditComment = activityRepairsBinding.headLinerEditText.getText().toString();
         carpetEditComment = activityRepairsBinding.carpetEditText.getText().toString();
@@ -1315,10 +1417,13 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
         VehiclePartRepair defroster = new VehiclePartRepair("defroster", defrosterEditComment);
         repairsViewModel.saveRepairReportToLocalStorage(defroster);
+        interiorFragment.setVisibility(View.GONE);
+        Alert.showSuccess(getApplicationContext(),"Repairs Report Saved Successfully");
     }
 
     @Override
     public void onSaveElectric() {
+        hideKeyboard();
         powerLockEditComment = activityRepairsBinding.powerLockEditText.getText().toString();
         powerSeatEditComment = activityRepairsBinding.powerSeatEditText.getText().toString();
         powerSteeringEditComment = activityRepairsBinding.powerSteeringEditText.getText().toString();
@@ -1367,11 +1472,14 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
         VehiclePartRepair parkingLight = new VehiclePartRepair("parking lights", parkingLightEditComment);
         repairsViewModel.saveRepairReportToLocalStorage(parkingLight);
+        electricFragment.setVisibility(View.GONE);
+        Alert.showSuccess(getApplicationContext(),"Repairs Report Saved Successfully");
 
     }
 
     @Override
     public void onSaveRoadTest() {
+        hideKeyboard();
         startingEditComment = activityRepairsBinding.startingEditText.getText().toString();
         idlingEditComment = activityRepairsBinding.idlingEditText.getText().toString();
         enginePerfEditComment = activityRepairsBinding.enginePerfEditText.getText().toString();
@@ -1405,27 +1513,34 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
         VehiclePartRepair suspensionPerf = new VehiclePartRepair("suspension performance", suspensionPerfEditComment);
         repairsViewModel.saveRepairReportToLocalStorage(suspensionPerf);
 
+        roadTestFragment.setVisibility(View.GONE);
+        Alert.showSuccess(getApplicationContext(),"Repairs Report Saved Successfully");
+
     }
 
     @Override
     public void handleError(Throwable throwable) {
         Intent intent = new Intent(getApplicationContext(), FailedActivity.class);
         startActivity(intent);
-        if (throwable != null) {
-            ANError error = (ANError) throwable;
-            CreateReportResponse response = gson.fromJson(error.getErrorBody(), CreateReportResponse.class);
-            if (error.getErrorBody() != null) {
-                Alert.showFailed(getApplicationContext(), response.getMessage());
-            } else {
-                Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
-            }
-        }
+        Alert.showFailed(getApplicationContext(),"Report cannot be submitted to the database");
+//        if (throwable != null) {
+//            ANError error = (ANError) throwable;
+//            CreateReportResponse response = gson.fromJson(error.getErrorBody(), CreateReportResponse.class);
+//            if (error.getErrorBody() != null) {
+//                Alert.showFailed(getApplicationContext(), response.getMessage());
+//            } else {
+//                Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
+//            }
+//        }
     }
 
     @Override
     public void onResponse() {
         Intent intent = new Intent(getApplicationContext(), ResponseActivity.class);
         startActivity(intent);
+        deleteData();
+        Log.i("NEW REPAIR REPORT", String.valueOf(repairsViewModel.getRepairReport()));
+
 
     }
 
@@ -1441,9 +1556,9 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
             Spannable spannable = new SpannableString(status);
             spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#13581D")), status.indexOf("good"), status.indexOf("good") + "good".length(),     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
          text.setText(spannable);
-        }else if (status.equals("bad")){
+        }else if (status.equals("poor")){
             Spannable spannable = new SpannableString(status);
-            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#E53012")), status.indexOf("bad"), status.indexOf("bad") + "bad".length(),     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new ForegroundColorSpan(Color.parseColor("#E53012")), status.indexOf("poor"), status.indexOf("poor") + "poor".length(),     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             text.setText(spannable);
         }else {
             Spannable spannable = new SpannableString(status);
@@ -1452,41 +1567,14 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
         }
     }
 
+    public void deleteData(){
+        repairsViewModel.deleteRepairReport(repairsViewModel.getRepairReport());
+    }
+
     @Override
     public void onInspectorResponse(InspectorDetailReport response) {
         Log.i("Status", "SUceesFul Request");
         List<InspectorDetailData> detailData = response.getData();
-        String[] componentData = {"hood", "front bumper", "fenders", "doors", "roof", "rear", "rear bumper", "trunk", "trim", "fuel door", "paint", "windshield", "windows", "mirrors", "rear window", "tyres", "wheels", "spare tyre", "frame", "exhaust", "transmission", "drive axle", "suspension", "brake system", "engine compartment", "battery", "oil", "fluids", "wiring", "belts", "hoses", "seats", "headliner", "carpets", "door panels", "glove box", "vanity mirror", "interior trim", "dashboard",
-                "dash guages", "air conditioner", "heater", "defroster", "power locks", "power seats", "power steering", "power windows", "power mirrors", "audio system", "computer", "headlights", "tail lights", "signal lights", "brake lights", "parking lights", "starting", "idling", "engine performance", "acceleration", "transmission shift", "steering", "braking", "suspension performance"};
-
-//        for(int k = 0; k< componentData.length; k++){
-//            for(int j = 0; j<detailData.size(); j++){
-//                InspectorDetailData data = detailData.get(j);
-//                if(data.getClassPart().equals("exterior")){
-//                    if(componentData[k].equals(data.getPart()) ){
-//                        String status = data.getRemark();
-//                        hoodStatus = activityRepairsBinding.hoodStatus;
-//                         hoodStatus.setText(status);
-////                        fontBumperStatus = activityRepairsBinding.frontBumperStatus;
-////                        fontBumperStatus.setText(status);
-////                        fenderStatus = activityRepairsBinding.fenderStatus;
-////                        fenderStatus.setText(status);
-//
-//                        // Set the remark here O(N)
-//                    }else {
-//                        String status = data.getRemark();
-//                        hoodStatus = activityRepairsBinding.hoodStatus;
-//                        hoodStatus.setText("");
-//                        fontBumperStatus = activityRepairsBinding.frontBumperStatus;
-//                        fontBumperStatus.setText("");
-//                        fenderStatus = activityRepairsBinding.fenderStatus;
-//                        fenderStatus.setText("");
-//                    }
-//                }
-//            }
-//        }
-
-
         for (int i = 0; i < detailData.size(); i++) {
             InspectorDetailData data = detailData.get(i);
             status = data.getRemark();

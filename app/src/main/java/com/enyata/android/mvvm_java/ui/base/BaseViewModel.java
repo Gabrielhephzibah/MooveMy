@@ -81,4 +81,8 @@ public abstract class BaseViewModel<N> extends ViewModel {
     public SchedulerProvider getSchedulerProvider() {
         return mSchedulerProvider;
     }
+
+    public String getAcessToken(){
+        return  getDataManager().getAccessToken();
+    }
 }

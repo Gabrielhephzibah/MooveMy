@@ -2,6 +2,7 @@ package com.enyata.android.mvvm_java.ui.createReport.glass;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -34,8 +35,10 @@ import com.enyata.android.mvvm_java.BuildConfig;
 import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
+import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.DoorFragment;
+import com.enyata.android.mvvm_java.ui.createReport.exterior.FrontBumperFragment;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.PaintFragment;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.squareup.picasso.Picasso;
@@ -51,23 +54,31 @@ import java.util.List;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 public class WindShieldFragment extends Fragment {
-    String status = "",imageURL,cloudinaryID;
+    String status = "", imageURL, cloudinaryID;
     RadioGroup hoodRadioGroup;
     RadioButton badd, goodd, fairr;
     Context mContext;
     Uri uri;
+    Bitmap bitmap;
     ImageView firstImage, secondImage, thirdImage, cancel1, cancel2, cancel3;
     File photoFile = null;
-    Button saveHood;
+    Button saveHood,deleteData;
     CreateReportViewModel createReportViewModel;
     ImageDataArray imageDataArray;
     private String mCurrentPhotoPath;
     private static final int REQUEST_CAMERA = 1;
     private Uri mImageUri = null;
     ProgressBar progressBar;
+    CharSequence radio;
     List<String>result;
+    String cloudinaryImage;
+    Map config;
+    View fragment;
+    VehicleCollection windShield;
+    TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
 
     public WindShieldFragment(){
@@ -82,15 +93,12 @@ public class WindShieldFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
-
         imageDataArray = new ImageDataArray(imageArray);
-
-        Map config = new HashMap();
+        config = new HashMap();
         config.put("cloud_name", "dtt1nmogz");
         config.put("api_key", "754277299533971");
         config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
-       // MediaManager.init(getActivity().getApplicationContext(), config);
-        Log.d("oooooo", "ffffff");
+
 
     }
 
@@ -101,38 +109,109 @@ public class WindShieldFragment extends Fragment {
         mContext = activity;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.windshield_layout, container, false);
 
 
     }
 
-    @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         progressBar = (ProgressBar) view.findViewById(R.id.pBar);
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
+        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+//        deleteData = view.findViewById(R.id.deletedata);
+//        deleteData.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.i("DELETE", "Delete data");
+//                createReportViewModel.deleteAll();
+////                createReportViewModel.deleteData(createReportViewModel.getIntakeVehicleReport());
+//                Log.i("NEWARRAY", String.valueOf(createReportViewModel.getIntakeVehicleReport()));
+//                Log.i("MAKE",String.valueOf(createReportViewModel.getCarMake()));
+//                Log.i("MODEL",String.valueOf(createReportViewModel.getCarModel()));
+//                Log.i("Color",String.valueOf(createReportViewModel.getCarColor()));
+//                Log.i("Year", String.valueOf(createReportViewModel.getCarYear()));
+//            }
+//        });
+
+        saveHood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (createReportViewModel.getWindShieldTracking()){
+                    Alert.showSuccess(getActivity(), "Item already saved");
+                }else {
+                    Log.i("STATUSSS", status);
+                    saveReport();
+                }
+            }
+        });
+
+
         firstImage = view.findViewById(R.id.firstImage);
         secondImage = view.findViewById(R.id.secondImage);
         thirdImage = view.findViewById(R.id.thirdImage);
         cancel1 = view.findViewById(R.id.cancel1);
+        cancel1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (firstImage.getDrawable()==null){
+                    Alert.showFailed(getActivity(),"Image is empty");
+                }else {
+                    takePicture.removefirstImage();
+                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    firstImage.setImageResource(0);
+                }
+            }
+        });
+        cancel2 = view.findViewById(R.id.cancel2);
+        cancel2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (secondImage.getDrawable()==null){
+                    Alert.showFailed(getActivity(),"Image is empty");
+                }else {
+                    takePicture.removeSecondImage();
+                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    secondImage.setImageResource(0);
+                }
+            }
+        });
+        cancel3 = view.findViewById(R.id.cancel3);
+        cancel3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                takePicture.removeThirdImage();
+                Alert.showSuccess(getActivity(),"this image has been removed");
+                thirdImage.setImageResource(0);
+            }
+        });
+        RelativeLayout relativeLayout = view.findViewById(R.id.takePicture);
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (takePicture.whenImageIsThree(getActivity())){
+                } else {
+                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                    if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null)
+                    {
+                        startActivityForResult(cameraIntent, 100);
+                    }
+
+                }
+            }
+        });
+
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
         goodd = view.findViewById(R.id.good);
         badd = view.findViewById(R.id.poor);
-        cancel2 = view.findViewById(R.id.cancel2);
-        cancel3 = view.findViewById(R.id.cancel3);
-        RelativeLayout relativeLayout = view.findViewById(R.id.takePicture);
         fairr = view.findViewById(R.id.fair);
-        saveHood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveReport();
-            }
-        });
         hoodRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -151,196 +230,48 @@ public class WindShieldFragment extends Fragment {
             }
         });
 
-        relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (imageDataArray.containKey("image1") && imageDataArray.containKey("image2") && imageDataArray.containKey("image0")) {
-                    imageDataArray.removeUrl("image0");
-                    imageDataArray.removeUrl("image1");
-                    imageDataArray.removeUrl("image2");
-                    firstImage.setImageResource(0);
-
-                    secondImage.setImageResource(0);
-
-                    thirdImage.setImageResource(0);
-                    Alert.showFailed(getActivity(),"You have alraedy uploaded three picture,Click again to take pictures again");
-                } else {
-                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-
-
-                        try {
-                            photoFile = createImageFile();
-                        } catch (IOException ex) {
-                            Log.i("kkkkkkk", "IOException");
-                        }
-                        if (photoFile != null) {
-
-                            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                            try {
-                                uri = FileProvider.getUriForFile(getActivity().getApplicationContext(), BuildConfig.APPLICATION_ID + ".provider", createImageFile());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-
-
-                            startActivityForResult(cameraIntent, 100);
-                        }
-
-
-                    }
-                }
-            }
-        });
-
-        cancel1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                imageDataArray.removeUrl("image0");
-                Toast.makeText(getActivity(), "this image has been removed", Toast.LENGTH_LONG).show();
-                firstImage.setImageResource(0);
-            }
-        });
-
-        cancel2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageDataArray.removeUrl("image1");
-                Toast.makeText(getActivity(), "this image has been removed", Toast.LENGTH_LONG).show();
-                secondImage.setImageResource(0);
-
-            }
-        });
-
-        cancel3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageDataArray.removeUrl("image2");
-                Toast.makeText(getActivity(), "This image has been removed", Toast.LENGTH_LONG).show();
-                thirdImage.setImageResource(0);
-            }
-        });
 
     }
-
-    public void saveReport() {
-        if (!imageDataArray.containKey("image1") || !imageDataArray.containKey("image2") || !imageDataArray.containKey("image0")) {
-            Toast.makeText(getActivity(), "please make sure you upload all images", Toast.LENGTH_LONG).show();
-            return;
-        } else if (status.isEmpty()) {
-            Toast.makeText(getActivity(), "please fill all fields", Toast.LENGTH_LONG).show();
-            return;
-        } else {
-            Collection<String> value = imageArray.values();
-            result = new ArrayList<>(value);
-        }
-
-
-        VehicleCollection windShield = new VehicleCollection("wind shield", result, status);
-        createReportViewModel.saveReportToLocalStorage(windShield);
-        Toast.makeText(getActivity(), "Item saved please swipe to proceed ", Toast.LENGTH_SHORT).show();
-
-    }
-
-    public void showImage() {
-        if (imageDataArray.isArrayEmpty()) {
-            Log.i("ISEMPTY", "ISWMPTRRRR");
-            imageDataArray.addUrl("image0", imageURL);
-            Picasso.get().load(imageURL).fit().into(firstImage);
-
-        } else {
-            if (!imageDataArray.containKey("image0")) {
-                imageDataArray.addUrl("image0", imageURL);
-                Picasso.get().load(imageURL).fit().into(firstImage);
-            }else{
-                if (imageDataArray.containKey("image1")) {
-                    if (!imageDataArray.containKey("image2")) {
-                        imageDataArray.addUrl("image2", imageURL);
-                        Picasso.get().load(imageURL).fit().into(thirdImage);
-
-                    }
-                } else {
-                    imageDataArray.addUrl("image1", imageURL);
-                    Picasso.get().load(imageURL).fit().into(secondImage);
-
-                }
-            }
-
-        }
-    }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == 100) {
-            Log.d("tttttt", String.valueOf(requestCode));
-            Log.d("tttttt", mCurrentPhotoPath);
-            String requestId = MediaManager.get().upload(uri)
-                    .option("resource_type", "image")
-                    .unsigned("ht7lodiw")
-                    .callback(new UploadCallback() {
-                        @Override
-                        public void onStart(String requestId) {
-                            Log.i("START", "STARTTTTT");
-                            progressBar.setVisibility(View.VISIBLE);
-                        }
-                        @Override
-                        public void onProgress(String requestId, long bytes, long totalBytes) {
-                            Double progress = (double) bytes / totalBytes;
-                            progressBar.setVisibility(View.VISIBLE);
-                            Log.i("PROGRESS", "PROGRESS");
-                        }
-                        @Override
-                        public void onSuccess(String requestId, Map resultData) {
-                            if (resultData != null) {
-                                Log.i("SUCCESS", "SUCCESS");
-                                progressBar.setVisibility(View.GONE);
-                                imageURL = (String) resultData.get("url");
-                                cloudinaryID = (String) resultData.get("public_id");
-                                Toast.makeText(getActivity(), "Image uploaded Successfully, You can take another picture now", Toast.LENGTH_LONG).show();
-                                Log.i("imageURL", imageURL);
-                                Log.i("cloudinaryID", cloudinaryID);
-                                showImage();
-                            }
+        super.onActivityResult(requestCode, resultCode, data);
 
-                        }
-
-                        @Override
-                        public void onError(String requestId, ErrorInfo error) {
-                            progressBar.setVisibility(View.GONE);
-                            Log.i("ERROR", "ERROR");
-                            Alert.showFailed(getActivity(),"Error Uploading Result, Please try agin later ");
-                        }
-
-                        @Override
-                        public void onReschedule(String requestId, ErrorInfo error) {
-                            Log.i("SCHEDULE", "SCHEDULE");
-
-                        }
-                    })
-                    .dispatch();
-
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            progressBar.setVisibility(View.VISIBLE);
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            takePicture.pictureCapture(imageBitmap,WindShieldFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
         } else if (requestCode == RESULT_CANCELED) {
-            Log.i("AAAAAAA", "Error");
+            Alert.showFailed(getActivity(), "The request has been cancelled");
 
         }
     }
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "moove " + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  // prefix
-                ".png",         // suffix
-                storageDir      // directory
-        );
 
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
-        return image;
+    public void saveReport() {
+
+        if (takePicture.areImagesNotComplete(getActivity())) {
+            return;
+        } else if (status.isEmpty()) {
+            Alert.showFailed(getActivity(),"please fill all fields");
+            return;
+        }
+
+        imageArray = takePicture.getPictureArray();
+        Collection<String> value = imageArray.values();
+        result = new ArrayList<>(value);
+
+         windShield = new VehicleCollection("windshield", result, status);
+        createReportViewModel.saveReportToLocalStorage(windShield);
+        createReportViewModel.setWinshieldTracking(true);
+        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        windShield = new VehicleCollection("windshield", result, status);
+        createReportViewModel.isVehicleSave(windShield,goodd,fairr,badd, WindShieldFragment.this,firstImage,secondImage,thirdImage);
     }
 }

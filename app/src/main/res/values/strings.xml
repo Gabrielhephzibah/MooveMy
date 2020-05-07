@@ -4,6 +4,18 @@
     <string name="clear"><u>CLEAR</u></string>
     <string name="save"><u>SAVE</u></string>
     <string name="signature">SIGNATURES &amp; CONFIRMATIONS</string>
+    <string name="exterior">Check the vehicle Exterior and provide status &amp; pictures where required.</string>
+    <string name="glass">Check the vehicle Glass and provide status &amp; pictures where required.</string>
+    <string name="tire">Check the Tire &amp; Wheel and and provide status &amp; pictures where require.</string>
+    <string name="underbody">Check the vehicle underbody and provide status &amp; pictures where required</string>
+    <string name="underhood">Check the vehicle underhood and provide status &amp; pictures where required</string>
+    <string name="interior">Check the vehicle interior and provide status &amp; pictures where required</string>
+    <string name="electric">Check the vehicle electrical system and provide status &amp; pictures where required.</string>
+    <string name="road">Check the vehicle Road test finding and provide status &amp; pictures where required</string>
+    <string name="signaturetext">Provide overall status for the vehicle and attach your signature.</string>
+    <string name="intake">Create report for newly on boarded vehicle.</string>
+    <string name="monthly">Create report for newly on boarded vehicle.</string>
+    <string name="repair">Create repair report for vehicle that needs repair.</string>
 
 </resources>
 

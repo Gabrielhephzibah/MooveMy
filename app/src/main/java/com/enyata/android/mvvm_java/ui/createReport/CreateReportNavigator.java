@@ -1,5 +1,6 @@
 package com.enyata.android.mvvm_java.ui.createReport;
 
+import com.enyata.android.mvvm_java.data.model.api.response.CreateReportResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.VinResponseData;
 
 public interface CreateReportNavigator {
@@ -17,9 +18,20 @@ public interface CreateReportNavigator {
    void onSignatureFeature();
    void onSaveVehicleInfo();
    void  onSubmitVin();
+   void  validateData(CreateReportResponse response);
    void  onResponse(VinResponseData response);
    void handleError(Throwable throwable);
+   void handleValidateError(Throwable throwable);
    void onStarting();
+   void  createSliderDash(int current_position);
+   void glassSliderDash(int current_position);
+   void roadTestSliderDash(int current_position);
+   void tiresSliderDash(int current_position);
+   void undeBodySliderDash(int current_position);
+   void underHoodSliderDash(int current_position);
+   void electricSliderDash(int current_position);
+   void interiorSliderDash(int current_position);
+
 
 
 

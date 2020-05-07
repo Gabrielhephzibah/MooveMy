@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +33,10 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
    @Inject
     ViewModelProviderFactory factory;
 
+    public static Intent newIntent(Context context) {
+        return new Intent(context, SplashActivity.class);
+    }
+
     @Override
     public int getBindingVariable() {
         return BR.viewModel;
@@ -52,8 +57,7 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-       this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+       this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         splashViewModel.setNavigator(this);
         activitySpashBinding = getViewDataBinding();
@@ -75,11 +79,7 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
 
                 @Override
                 public void run() {
-                    Intent i = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(i);
-
-                    // close this activity
-                    finish();
+                    splashViewModel.decideNextActivity();
                 }
             }, SPLASH_TIME_OUT);
         }
@@ -88,16 +88,16 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
 
     @Override
     public void openLoginActivity() {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
 
     }
 
     @Override
     public void openMainActivity() {
-//        Intent i = new Intent(getApplicationContext(),MainActivity.class);
-//        startActivity(i);
+        Intent i = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(i);
 
     }
 

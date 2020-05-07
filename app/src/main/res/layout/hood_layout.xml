@@ -149,7 +149,8 @@
                             android:id="@+id/firstImage"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:scaleType="fitXY" />
+                            android:scaleType="fitXY"
+                        />
 
                         <ImageView
                             android:id="@+id/cancel1"
@@ -248,9 +249,6 @@
 
 
     </androidx.cardview.widget.CardView>
-
-
-
 
     </FrameLayout>
 

@@ -11,20 +11,20 @@ public interface DataManager extends  PreferencesHelper, ApiHelper {
     void setUserAsLoggedOut();
 
     void updateApiHeader(Long userId, String accessToken);
+    void updateLoginStatus(
+            LoggedInMode loggedInMode);
 
     void updateUserInfo(
             String accessToken,
             String firstname,
-            LoggedInMode loggedInMode,
             String email);
 
 
     enum LoggedInMode {
 
-        LOGGED_IN_MODE_LOGGED_OUT(0);
-//        LOGGED_IN_MODE_GOOGLE(1),
-//        LOGGED_IN_MODE_FB(2),
-//        LOGGED_IN_MODE_SERVER(3);
+        LOGGED_IN_MODE_LOGGED_OUT(0),
+        LOGGED_IN_MODE_LOGGED_IN(1);
+
 
         private final int mType;
 

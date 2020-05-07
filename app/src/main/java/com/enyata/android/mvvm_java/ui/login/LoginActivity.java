@@ -14,6 +14,7 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.ViewModelProviderFactory;
 import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
 import com.enyata.android.mvvm_java.data.model.api.response.LoginResponse;
+import com.enyata.android.mvvm_java.data.token.DecodeToken;
 import com.enyata.android.mvvm_java.databinding.ActivityLoginBinding;
 import com.enyata.android.mvvm_java.ui.base.BaseActivity;
 import com.enyata.android.mvvm_java.ui.mainActivity.MainActivity;
@@ -30,6 +31,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     @Inject
     ViewModelProviderFactory factory;
     ActivityLoginBinding activityLoginBinding;
+    String decoded;
 
     public static Intent newIntent(Context context) {
         return new Intent(context, LoginActivity.class);
@@ -103,7 +105,6 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     public void onResponse(LoginResponse response) {
-
         String firstName = response.getData().getFirstName();
         Log.i("First Name", firstName);
         loginViewModel.setCurrentUserName(firstName);

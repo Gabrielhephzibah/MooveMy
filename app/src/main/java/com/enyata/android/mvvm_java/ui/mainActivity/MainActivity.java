@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.enyata.android.mvvm_java.BR;
 import com.enyata.android.mvvm_java.R;
@@ -15,6 +16,7 @@ import com.enyata.android.mvvm_java.databinding.ActivityMainBinding;
 import com.enyata.android.mvvm_java.ui.base.BaseActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
 import com.enyata.android.mvvm_java.ui.repair.repairList.RepairListActivity;
+import com.enyata.android.mvvm_java.utils.Alert;
 
 import javax.inject.Inject;
 
@@ -23,6 +25,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
     @Inject
     ViewModelProviderFactory factory;
     ActivityMainBinding activityMainBinding;
+    int backButtonPressed = 0;
 
 
 private MainActivityViewModel mainActivityViewModel;
@@ -78,6 +81,21 @@ private MainActivityViewModel mainActivityViewModel;
         mainActivityViewModel.setReportType(reportType);
         Intent intent = new Intent(getApplicationContext(), CreateReportActivity.class);
         startActivity(intent);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (backButtonPressed >= 2) {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else {
+            Alert.showInfo(getApplicationContext(),"Please press the back button twice to close the application");
+            backButtonPressed++;
+
+        }
 
     }
 }

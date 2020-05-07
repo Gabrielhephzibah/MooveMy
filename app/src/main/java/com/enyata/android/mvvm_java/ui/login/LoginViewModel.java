@@ -17,13 +17,16 @@
 package com.enyata.android.mvvm_java.ui.login;
 
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.auth0.android.jwt.JWT;
 import com.enyata.android.mvvm_java.data.DataManager;
 import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
 import com.enyata.android.mvvm_java.ui.base.BaseViewModel;
 import com.enyata.android.mvvm_java.utils.CommonUtils;
 import com.enyata.android.mvvm_java.utils.rx.SchedulerProvider;
 
+import java.util.Date;
 
 
 public class LoginViewModel extends BaseViewModel<LoginNavigator> {
@@ -52,9 +55,17 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
                     getNavigator().onResponse(response);
                     String token = response.getData().getToken();
                     String userEmail = response.getData().getEmail();
-                    DataManager.LoggedInMode manager = DataManager.LoggedInMode.LOGGED_IN_MODE_LOGGED_OUT;
+                    getDataManager().updateLoginStatus(DataManager.LoggedInMode.LOGGED_IN_MODE_LOGGED_IN);
                     String firstname = response.getData().getFirstName();
-                    getDataManager().updateUserInfo(token,firstname,manager,userEmail);
+                    getDataManager().updateUserInfo(token,firstname,userEmail);
+                    JWT jwt = new JWT(token);
+                    Log.i("JWT", String.valueOf(jwt));
+                    Date expires = jwt.getExpiresAt();
+                    Date issuedAt = jwt.getIssuedAt();
+                    Log.i("EXPIRES", String.valueOf(expires));
+                    Log.i("TIME ISSUED", String.valueOf(issuedAt));
+
+
                 }, throwable -> {
                     setIsLoading(false);
                     getNavigator().handleError(throwable);

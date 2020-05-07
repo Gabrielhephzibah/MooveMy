@@ -15,9 +15,6 @@ public class ResponseViewModel extends BaseViewModel<ResponseNavigator> {
         getNavigator().onContinue();
     }
 
-    public void delete(){
-        getDataManager().deleteIntakeVehicleReport();
-    }
     public List<VehicleCollection> vehincleReportArray(){
         return   getDataManager().getInTakeVehicleReport();
     }

@@ -13,6 +13,10 @@ public class ApiEndPoint {
 
     public  static  final  String VIN_API = BuildConfig.VIN_API + "/decode?vin=";
 
+    public static final String REG_NUMBER_CHECK = BuildConfig.BASE_URL + "/vehicle/check/monthly";
+
+    public static final  String INTAKE_RULE_CHECK = BuildConfig.BASE_URL + "/vehicle/check/intake";
+
 //    public static final String ENDPOINT_FACEBOOK_LOGIN = BuildConfig.BASE_URL + "/588d15d3100000ae072d2944";
 //
 //    public static final String ENDPOINT_GOOGLE_LOGIN = BuildConfig.BASE_URL + "/588d14f4100000a9072d2943";

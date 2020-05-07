@@ -15,7 +15,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,10 +26,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.androidnetworking.error.ANError;
 import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.ViewModelProviderFactory;
+import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
+import com.enyata.android.mvvm_java.data.model.api.request.IntakeRuleRequest;
+import com.enyata.android.mvvm_java.data.model.api.request.RegNumberCheckRequest;
+import com.enyata.android.mvvm_java.data.model.api.response.CreateReportResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorListResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.VinResponseData;
 import com.enyata.android.mvvm_java.databinding.ActivityCreateReportBinding;
@@ -44,6 +51,9 @@ import com.enyata.android.mvvm_java.ui.mainActivity.MainActivity;
 import com.enyata.android.mvvm_java.ui.signature.SignatureActivity;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.google.gson.Gson;
+
+import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -64,15 +74,24 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
     RelativeLayout exteriorLayout,glassLayout;
     LinearLayout inspectFeature, exteriorFeature, glassfeature, tiresFeature, underBodyFeature, underHoodFeature, interiorFeature, electricFeature, roadTestFeature, signatureFeature;
     ImageView inspectToggle, exteriorToggle, glassToggle, tiresToggle, underBodyToggle, underHoodToggle, interiorToggle, electricToggle, roadTestToggle, signatureToggle;
-    Spinner yearSpinner, modelSpinner, makeSpinner,finalAssessSpinner;
-    String[] yearNumber = {"", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019"};
-    String[] model = {" ", "Honda", "Hyundai", "Kia", "Toyota", "Volkswagen"};
-    String[]make ={"","Accord","Civic", "City", "Accent","Elantra","Forte","Rio","Camry","Hilux", "RAV4","Yaris","Vento"};
-    String[] intakeFinalAssess = {"","accepted","not-accepted"};
+    Spinner finalAssessSpinner;
+    String[] intakeFinalAssess = {"","accepted","not accepted"};
     String[] monthlyFinalAssess = {"","failed","passed"};
     EditText carColoredit, mileageEdit,regNumEdit,vinEdit,editVin;
     String carColor,mileage, regNum,vin,finalComment, editVinNo;
     Button save;
+    int[] exteriorLayouts = {R.layout.hood_layout, R.layout.front_bumper_layout,R.layout.fenders_layout,R.layout.door_layout,R.layout.roof_layout,R.layout.rear_layout,R.layout.rear_bumper_layout,R.layout.trunk_layout,R.layout.trim_layout,R.layout.fuel_door_layout,R.layout.paint_layout};
+    int[]glassLayouts = {R.layout.windshield_layout,R.layout.window_layout,R.layout.mirrors_layout,R.layout.rear_window_layout};
+    int []tiresLayouts = {R.layout.tires_layout,R.layout.wheel_layout,R.layout.spare_tire_layout};
+    int[]underBodyLayouts = {R.layout.frame_layout,R.layout.exhaust_layout,R.layout.transmission_layout,R.layout.drive_axle_layout,R.layout.suspension_layout,R.layout.brake_system_layout};
+    int[] underHoodLayouts = {R.layout.engine_com_layout,R.layout.battery_layout,R.layout.oil_layout,R.layout.fluid_layout,R.layout.wiring_layout,R.layout.belt_layout,R.layout.hoses_layout};
+    int[] interiorLayouts = {R.layout.seats_layout,R.layout.headliner_layout,R.layout.carpet_layout,R.layout.door_panel_layout,R.layout.glove_box_layout,R.layout.vanity_mirror_layout,R.layout.interior_trim_layout,R.layout.dashboard_layout,R.layout.dash_guage_layout,R.layout.air_cond_layout,R.layout.heater_layout,R.layout.defroster_layout};
+    int[] electricalLayouts = {R.layout.power_lock_layout,R.layout.power_seat_layout,R.layout.power_stering_layout,R.layout.power_window_layout,R.layout.power_mirror_layout,R.layout.audio_system_layout,R.layout.computer_layout,R.layout.headlight_layout,R.layout.tail_light_layout,R.layout.signal_light_layout,R.layout.brake_light_layout,R.layout.parking_light_layout};
+    int[]roadTestLayouts = {R.layout.starting_layout,R.layout.idling_layout,R.layout.engine_layout,R.layout.accelaration_layout,R.layout.transmisssion_shift_layout,R.layout.steering_layout,R.layout.braking_layout,R.layout.suspension_performance_layout};
+    ImageView[] slider_dash;
+    ImageView vehincleInfoCheck,glasscheck,exteriorCheck,tiresCheck,underBodyCheck,underHoodCheck,interiorCheck,roadTestCheck,electricCheck;
+    TextView yearText,modelText,makeText;
+    LinearLayout exteriorSlide,glassSlide,tireSlide,underBodySlide,underHoodSlide,interiorSlide,electricSlide,roadTestSlide,allInspection,allinspectionWraper;
     ProgressDialog dialog;
     String selectedYear, selectedModel,selectedMake,selectedFinalAssess;
 
@@ -106,8 +125,6 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
             }
         }
 
-        createReportViewModel.getReportType();
-
         Log.i("REPORT_TYPE",createReportViewModel.getReportType());
         inspectToggle = activityCreateReportBinding.inspectToggle;
         exteriorLayout =activityCreateReportBinding.exteriorLayout;
@@ -138,79 +155,279 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         roadTestToggle = activityCreateReportBinding.roadTestToggle;
         signatureFeature = activityCreateReportBinding.signatureFeature;
         inspectFeature = activityCreateReportBinding.inspectFeature;
-        yearSpinner = activityCreateReportBinding.yearSpinner;
-        modelSpinner = activityCreateReportBinding.modelSpinner;
-        makeSpinner = activityCreateReportBinding.makeSpinner;
+        yearText = activityCreateReportBinding.yearText;
+        modelText = activityCreateReportBinding.modelText;
+        makeText = activityCreateReportBinding.makeText;
+        carColoredit = activityCreateReportBinding.editColor;
         finalAssessSpinner = activityCreateReportBinding.spinnerFinalAssess;
-        editVin = activityCreateReportBinding.editVinNumber;
-        yearSpinner.setOnItemSelectedListener(this);
-        modelSpinner.setOnItemSelectedListener(this);
-        makeSpinner.setOnItemSelectedListener(this);
+       editVin = activityCreateReportBinding.editVinNumber;
+       mileageEdit = activityCreateReportBinding.editMillage;
+       regNumEdit = activityCreateReportBinding.editCarRegNum;
+       exteriorSlide = activityCreateReportBinding.slideLayout;
+       glassSlide = findViewById(R.id.glassSlideLayout);
+       interiorSlide = findViewById(R.id.interiorSliderLayout);
+       tireSlide = findViewById(R.id.tireSlideLayout);
+       underBodySlide = findViewById(R.id.underBodySlideLayout);
+       underHoodSlide = findViewById(R.id.underHoodSlideLayout);
+       roadTestSlide = findViewById(R.id.roadTestSlideLayout);
+       electricSlide = findViewById(R.id.electricSlideLayout);
+       vehincleInfoCheck = findViewById(R.id.vehicleInfoCheck);
+
+
+       glasscheck = findViewById(R.id.glassCheck);
+       exteriorCheck = findViewById(R.id.exteriorCheck);
+       tiresCheck = findViewById(R.id.tiresCheck);
+       electricCheck = findViewById(R.id.electricCheck);
+       roadTestCheck = findViewById(R.id.roadTestCheck);
+       underBodyCheck = findViewById(R.id.underBodyCheck);
+       underHoodCheck = findViewById(R.id.underHoodCheck);
+       interiorCheck = findViewById(R.id.interiorCheck);
+      createReportViewModel.checkExterior(exteriorCheck);
+      createReportViewModel.checkGlass(glasscheck);
+      createReportViewModel.checkTires(tiresCheck);
+      createReportViewModel.checkUnderBody(underBodyCheck);
+        createReportViewModel.checkUnderHood(underHoodCheck);
+        createReportViewModel.checkRoadTest(roadTestCheck);
+        createReportViewModel.checkElectric(electricCheck);
+        createReportViewModel.checkInterior(interiorCheck);
+
+       allInspection = findViewById(R.id.allInspectionLayout);
+       allinspectionWraper = findViewById(R.id.allInspectionWrapper);
+       if (createReportViewModel.getVehincleInfo()){
+           vehincleInfoCheck.setVisibility(View.VISIBLE);
+           editVin.setText(createReportViewModel.getVin());
+           yearText.setText(createReportViewModel.getCarYear());
+           modelText.setText(createReportViewModel.getCarModel());
+           makeText.setText(createReportViewModel.getCarMake());
+           mileageEdit.setText(createReportViewModel.getMilage());
+           regNumEdit.setText(createReportViewModel.getregNo());
+           carColoredit.setText(createReportViewModel.getCarColor());
+           setViewAndChildrenEnabled(allInspection,true);
+           allInspection.setAlpha(1);
+       }else {
+           setViewAndChildrenEnabled(allInspection, false);
+           allinspectionWraper.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   Alert.showFailed(getApplicationContext(), "Please fill Vehicle Information");
+               }
+           });
+       }
+
+       Log.i("BIG ARRAY", String.valueOf(createReportViewModel.getIntakeVehicleReport()));
+
+
+
+
+
         finalAssessSpinner.setOnItemSelectedListener(this);
         dialog = new ProgressDialog(this,R.style.MyAlertDialogStyle);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setMessage("Please wait .....");
         dialog.setCancelable(false);
 
-
-
-
-
-
         ExteriorViewPagerAdapter exteriorViewPagerAdapter = new ExteriorViewPagerAdapter(this, getSupportFragmentManager());
         exteriorPager.setAdapter(exteriorViewPagerAdapter);
+        createSliderDash(0);
+        exteriorPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                createSliderDash(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+//                exteriorPager.setOffscreenPageLimit(9);
+
+
+
+
+            }
+        });
 
         GlassPagerAdater glassPagerAdater = new GlassPagerAdater(this, getSupportFragmentManager());
         glassPager.setAdapter(glassPagerAdater);
+        glassSliderDash(0);
+        glassPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                glassSliderDash(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         TirePagerAdapter tirePagerAdapter = new TirePagerAdapter(this, getSupportFragmentManager());
         tiresPager.setAdapter(tirePagerAdapter);
+        tiresSliderDash(0);
+        tiresPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                tiresSliderDash(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+
+            }
+        });
 
         UnderbodyPagerAdapter underbodyPagerAdapter = new UnderbodyPagerAdapter(this, getSupportFragmentManager());
         underBodyPager.setAdapter(underbodyPagerAdapter);
+        undeBodySliderDash(0);
+        underBodyPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                undeBodySliderDash(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+
+            }
+        });
 
         UnderHoodPagerAdapter underHoodPagerAdapter = new UnderHoodPagerAdapter(this, getSupportFragmentManager());
         underHoodPager.setAdapter(underHoodPagerAdapter);
+        underHoodSliderDash(0);
+        underHoodPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                underHoodSliderDash(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+
+            }
+        });
 
         InteriorPagerAdapter interiorPagerAdapter = new InteriorPagerAdapter(this, getSupportFragmentManager());
         interiorPager.setAdapter(interiorPagerAdapter);
+        interiorSliderDash(0);
+        interiorPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                interiorSliderDash(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         ElectricPagerAdapter electricPagerAdapter = new ElectricPagerAdapter(this, getSupportFragmentManager());
         electricPager.setAdapter(electricPagerAdapter);
+        electricSliderDash(0);
+        electricPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                electricSliderDash(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+
+            }
+        });
 
         RoadTestPagerAdapter roadTestPagerAdapter = new RoadTestPagerAdapter(this, getSupportFragmentManager());
         roadTestPager.setAdapter(roadTestPagerAdapter);
+        roadTestSliderDash(0);
+        roadTestPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        ArrayAdapter<String> yearSpinnerAdapter = new ArrayAdapter<String>(CreateReportActivity.this, android.R.layout.simple_spinner_item, yearNumber);
-        yearSpinner.setAdapter(yearSpinnerAdapter);
+            }
 
-        ArrayAdapter<String> modelSpinnerAdapter = new ArrayAdapter<String>(CreateReportActivity.this, android.R.layout.simple_spinner_item, model);
-        modelSpinner.setAdapter(modelSpinnerAdapter);
+            @Override
+            public void onPageSelected(int position) {
+                roadTestSliderDash(position);
 
-        ArrayAdapter<String> makeSpinnerAdpter = new ArrayAdapter<String>(CreateReportActivity.this, android.R.layout.simple_spinner_item, make);
-        makeSpinner.setAdapter(makeSpinnerAdpter);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
 
-        if (createReportViewModel.getReportType().equals("intake")){
+            }
+        });
 
-        ArrayAdapter<String>finalAssessAdapter = new ArrayAdapter<>(CreateReportActivity.this, android.R.layout.simple_spinner_item, intakeFinalAssess);
-        finalAssessSpinner.setAdapter(finalAssessAdapter);
-        }else if (createReportViewModel.getReportType().equals("monthly")) {
-            ArrayAdapter<String> finalAssessAdapter2 = new ArrayAdapter<>(CreateReportActivity.this, android.R.layout.simple_spinner_item, monthlyFinalAssess);
-            finalAssessSpinner.setAdapter(finalAssessAdapter2);
+            switch (createReportViewModel.getReportType()){
+                case "intake":{
+                    ArrayAdapter<String>finalAssessAdapter = new ArrayAdapter<>(CreateReportActivity.this, android.R.layout.simple_spinner_item, intakeFinalAssess);
+                    finalAssessSpinner.setAdapter(finalAssessAdapter);
+                    break;
+                }case "monthly":{
+                    ArrayAdapter<String> finalAssessAdapter2 = new ArrayAdapter<>(CreateReportActivity.this, android.R.layout.simple_spinner_item, monthlyFinalAssess);
+                    finalAssessSpinner.setAdapter(finalAssessAdapter2);
+                    break;
+                }
+            }
 
-        }
     }
+
 
     @Override
     public void back() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
-
     }
 
     @Override
     public void onAddSignature() {
+        hideKeyboard();
         finalComment = activityCreateReportBinding.finalCommentEditText.getText().toString();
         Log.i("Final Comment", finalComment);
         createReportViewModel.setFinalComment(finalComment);
@@ -238,9 +455,12 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         if (exteriorFeature.getVisibility() == View.GONE) {
             exteriorFeature.setVisibility(View.VISIBLE);
             exteriorToggle.setImageResource(R.drawable.icon);
+            createReportViewModel.checkExterior(exteriorCheck);
         } else {
             exteriorFeature.setVisibility(View.GONE);
             exteriorToggle.setImageResource(R.drawable.ic_icon);
+            createReportViewModel.checkExterior(exteriorCheck);
+
         }
 
     }
@@ -250,9 +470,11 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         if (glassfeature.getVisibility() == View.GONE) {
             glassfeature.setVisibility(View.VISIBLE);
             glassToggle.setImageResource(R.drawable.icon);
-        } else {
+            createReportViewModel.checkGlass(glasscheck);
+            } else {
             glassfeature.setVisibility(View.GONE);
             glassToggle.setImageResource(R.drawable.ic_icon);
+            createReportViewModel.checkGlass(glasscheck);
         }
 
     }
@@ -262,9 +484,15 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         if (tiresFeature.getVisibility() == View.GONE) {
             tiresFeature.setVisibility(View.VISIBLE);
             tiresToggle.setImageResource(R.drawable.icon);
+            createReportViewModel.checkTires(tiresCheck);
+
         } else {
             tiresFeature.setVisibility(View.GONE);
             tiresToggle.setImageResource(R.drawable.ic_icon);
+            createReportViewModel.checkTires(tiresCheck);
+
+
+
         }
     }
 
@@ -273,9 +501,13 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         if (underBodyFeature.getVisibility() == View.GONE) {
             underBodyFeature.setVisibility(View.VISIBLE);
             underBodyToggle.setImageResource(R.drawable.icon);
+            createReportViewModel.checkUnderBody(underBodyCheck);
+
         } else {
             underBodyFeature.setVisibility(View.GONE);
             underBodyToggle.setImageResource(R.drawable.ic_icon);
+            createReportViewModel.checkUnderBody(underBodyCheck);
+
         }
     }
 
@@ -284,9 +516,13 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         if (underHoodFeature.getVisibility() == View.GONE) {
             underHoodFeature.setVisibility(View.VISIBLE);
             underHoodToggle.setImageResource(R.drawable.icon);
+            createReportViewModel.checkUnderHood(underHoodCheck);
+
         } else {
             underHoodFeature.setVisibility(View.GONE);
             underHoodToggle.setImageResource(R.drawable.ic_icon);
+            createReportViewModel.checkUnderHood(underHoodCheck);
+
         }
 
     }
@@ -296,9 +532,13 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         if (interiorFeature.getVisibility() == View.GONE) {
             interiorFeature.setVisibility(View.VISIBLE);
             interiorToggle.setImageResource(R.drawable.icon);
+            createReportViewModel.checkInterior(interiorCheck);
+
         } else {
             interiorFeature.setVisibility(View.GONE);
             interiorToggle.setImageResource(R.drawable.ic_icon);
+            createReportViewModel.checkInterior(interiorCheck);
+
         }
     }
 
@@ -307,9 +547,11 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         if (electricFeature.getVisibility() == View.GONE) {
             electricFeature.setVisibility(View.VISIBLE);
             electricToggle.setImageResource(R.drawable.icon);
+            createReportViewModel.checkElectric(electricCheck);
         } else {
             electricFeature.setVisibility(View.GONE);
             electricToggle.setImageResource(R.drawable.ic_icon);
+            createReportViewModel.checkElectric(electricCheck);
         }
 
 
@@ -320,9 +562,11 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         if (roadTestFeature.getVisibility() == View.GONE) {
             roadTestFeature.setVisibility(View.VISIBLE);
             roadTestToggle.setImageResource(R.drawable.icon);
+            createReportViewModel.checkRoadTest(roadTestCheck);
         } else {
             roadTestFeature.setVisibility(View.GONE);
             roadTestToggle.setImageResource(R.drawable.ic_icon);
+            createReportViewModel.checkRoadTest(roadTestCheck);
         }
 
     }
@@ -340,31 +584,91 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
 
     @Override
     public void onSaveVehicleInfo() {
+        hideKeyboard();
+        carColor = activityCreateReportBinding.editColor.getText().toString();
+     mileage = activityCreateReportBinding.editMillage.getText().toString();
+     regNum = activityCreateReportBinding.editCarRegNum.getText().toString();
+     vin =  activityCreateReportBinding.editVinNumber.getText().toString();
+     if (TextUtils.isEmpty(carColor)){
+            carColoredit.setError(" Vehicle color is required");
+            carColoredit.requestFocus();
+            return;
+        }else if(TextUtils.isEmpty(mileage)){
+            mileageEdit.setError("Vehicle Mileage is required");
+            mileageEdit.requestFocus();
+            return;
+        }else if (TextUtils.isEmpty(regNum)){
+            regNumEdit.setError("Registration Number is required");
+            regNumEdit.requestFocus();
+            return;
+        }else if (yearText.getText().toString().isEmpty()){
+            Alert.showFailed(getApplicationContext(),"Vehicle year is required");
+            yearText.requestFocus();
+            return;
+        }else if (modelText.getText().toString().isEmpty()){
+            Alert.showFailed(getApplicationContext(),"Vehicle model is required");
+            modelText.requestFocus();
+            return;
+        }else if(makeText.getText().toString().isEmpty()) {
+            Alert.showFailed(getApplicationContext(),"Vehicle make is required");
+            makeText.requestFocus();
+            return;
+        }else {
+
+         switch (createReportViewModel.getReportType()) {
+             case "intake": {
+                 Log.i("Intake", "INTAKE");
+                 IntakeRuleRequest.Request request = new IntakeRuleRequest.Request(selectedMake, selectedModel, selectedYear, carColor, vin, mileage, regNum);
+                 createReportViewModel.checkIntakeRule(request);
+                 break;
+             }
+             case "monthly": {
+                 RegNumberCheckRequest.Request request = new RegNumberCheckRequest.Request(activityCreateReportBinding.editCarRegNum.getText().toString());
+                 createReportViewModel.checkRegNumber(request);
+                 break;
+             }
+         }
+
+     }
+
         Log.i("Button clicked","Buttonnnnnnn");
 //        carColor = activityCreateReportBinding.editColor.getText().toString();
 //        mileage = activityCreateReportBinding.editMillage.getText().toString();
-//        regNum = activityCreateReportBinding.editRegNum.getText().toString();
-//     vin = activityCreateReportBinding.editVin.getText().toString();
-     selectedYear = yearSpinner.getSelectedItem().toString();
-     selectedModel = modelSpinner.getSelectedItem().toString();
-     selectedMake = makeSpinner.getSelectedItem().toString();
-     Log.i("Carcolor",carColor );
-        Log.i("mileage",mileage );
-        Log.i("regNum",regNum );
-       Log.i("vin",vin );
-        Log.i("SelectedYear",selectedYear);
-        Log.i("SelectedModel",selectedModel);
-        Log.i("SelectedMake",selectedMake);
-
-
-        createReportViewModel.setCarYear(selectedYear);
-        createReportViewModel.setCarModel(selectedModel);
-        createReportViewModel.setCarMake(selectedMake);
-        createReportViewModel.setCarColor(carColor);
-        createReportViewModel.setMillage(mileage);
-        createReportViewModel.setRegNo(regNum);
-        createReportViewModel.setVin(vin);
-        inspectFeature.setVisibility(View.GONE);
+//        regNum = activityCreateReportBinding.editCarRegNum.getText().toString();
+//        vin =  activityCreateReportBinding.editVinNumber.getText().toString();
+//        if (TextUtils.isEmpty(carColor)){
+//            carColoredit.setError(" Car color is required");
+//            carColoredit.requestFocus();
+//            return;
+//        }else if(TextUtils.isEmpty(mileage)){
+//            mileageEdit.setError("Car Mileage is required");
+//            mileageEdit.requestFocus();
+//            return;
+//        }else if (TextUtils.isEmpty(regNum)){
+//            regNumEdit.setError("Registration Number is required");
+//            regNumEdit.requestFocus();
+//            return;
+//        }else if (yearText.equals("")){
+//            yearText.setError("Car year is required");
+//            yearText.requestFocus();
+//        }else if (modelText.equals("")){
+//            modelText.setError("Car Model is required");
+//            modelText.requestFocus();
+//        }else if(makeText.equals("")) {
+//            makeText.setError("Car Make is required");
+//            makeText.requestFocus();
+//        }
+//        else {
+//            Alert.showSuccess(getApplicationContext(),"Vehicle Information Saved Successfully");
+//            createReportViewModel.setCarYear(selectedYear);
+//            createReportViewModel.setCarModel(selectedModel);
+//            createReportViewModel.setCarMake(selectedMake);
+//            createReportViewModel.setCarColor(carColor);
+//            createReportViewModel.setMillage(mileage);
+//            createReportViewModel.setVin(vin);
+//            createReportViewModel.setRegNo(regNum);
+//            inspectFeature.setVisibility(View.GONE);
+//        }
 
 
 
@@ -374,33 +678,126 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
 
     @Override
     public void onSubmitVin() {
-        editVinNo = activityCreateReportBinding.editVinNumber.getText().toString();
+        hideKeyboard();
+     editVinNo = activityCreateReportBinding.editVinNumber.getText().toString();
         if (TextUtils.isEmpty(editVinNo)){
             editVin.setError("VIN number is required");
             editVin.requestFocus();
-//            Alert.showFailed(getApplicationContext(),"Please enter VIN Number");
             return;
         }
-        createReportViewModel.getCarVin(activityCreateReportBinding.editVinNumber.getText().toString());
-//        Log.i("VIN",activityCreateReportBinding.editVinNumber.getText().toString());
+      createReportViewModel.getCarVin(activityCreateReportBinding.editVinNumber.getText().toString());
     }
 
     @Override
-    public void onResponse(VinResponseData response) {
-        dialog.dismiss();
-        Log.i("Response Success","VIN RESPONSE SUCCESSful");
+    public void validateData(CreateReportResponse response) {
+        hideLoading();
+        Alert.showSuccess(getApplicationContext(), response.getMessage());
+        Log.i("REG REQUEST","REG NUMBER VALIDATED");
+       setViewAndChildrenEnabled(allInspection,true);
+       allInspection.setAlpha(1);
+      allinspectionWraper.setEnabled(false);
+        Alert.showSuccess(getApplicationContext(),"Vehicle Information Saved Successfully");
+            createReportViewModel.setCarYear(selectedYear);
+            createReportViewModel.setCarModel(selectedModel);
+            createReportViewModel.setCarMake(selectedMake);
+            createReportViewModel.setCarColor(carColor);
+            createReportViewModel.setMillage(mileage);
+            createReportViewModel.setVin(vin);
+            createReportViewModel.setRegNo(regNum);
+            inspectFeature.setVisibility(View.GONE);
+            createReportViewModel.setVehicleInfo(true);
+            vehincleInfoCheck.setVisibility(View.VISIBLE);
+
     }
+
+
+
+//    public boolean checkIfTire() {
+//        boolean result = false;
+//        boolean found = Boolean.parseBoolean(null);
+//        if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()) {
+//            result = false;
+//             found = false;
+//
+////
+//        } else {
+//            List<VehicleCollection> oldArray = createReportViewModel.getIntakeVehicleReport();
+//            Pattern p = Pattern.compile("wheels| && |tires| &&| spare tyre");
+//
+//            for (VehicleCollection s : oldArray) {
+//                if (p.matcher(s.getPart()).find()) {
+//                    found = true;
+//                    break;
+//                }
+//
+//            }
+//
+//        }
+//return found;
+//    }
+
+
+
+
+    public boolean checkTire() {
+        if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()) {
+
+        } else {
+            List<VehicleCollection> oldArray = createReportViewModel.getIntakeVehicleReport();
+            for (int i = 0; i < oldArray.size(); i++) {
+                if (oldArray.get(i).getPart().matches(" wheels && tires && spare tyre ")) {
+
+                    return true;
+                }
+            }
+            return true;
+
+        }
+        return false;
+    }
+
+        @Override
+    public void onResponse(VinResponseData response) {
+        hideLoading();
+        selectedYear = response.getData().getYear();
+        selectedModel = response.getData().getModel();
+        selectedMake = response.getData().getMake();
+        yearText.setText(selectedYear);
+        modelText.setText(selectedModel);
+        makeText.setText(selectedMake);
+
+       Log.i("Response Success","VIN RESPONSE SUCCESSful");
+
+    }
+
+    //            for ( VehicleCollection collection: oldArray) {
+//                Log.i("OLDARRAY",collection.getPart());
+//                if (collection.getPart().contains("windshield") && collection.getPart().contains("windows") && collection.getPart().contains("mirrors") && collection.getPart().contains("rear window")) {
+//                    Log.i("IFFFFF","GOT HERW");
+//                   result = true;
+//
+//                   break;
+//
+//                }else {
+//                    Log.i("ESLS","GOT INTO ELSE");
+//                }
+//
+//            }
+
 
     @Override
     public void handleError(Throwable throwable) {
-        dialog.dismiss();
+        hideLoading();
         if (throwable != null) {
+            yearText.setText("");
+            modelText.setText("");
+            makeText.setText("");
             ANError error = (ANError) throwable;
             VinResponseData response = gson.fromJson(error.getErrorBody(), VinResponseData.class);
             if (error.getErrorBody() != null) {
                 Alert.showFailed(getApplicationContext(), response.getMessage().getMessage());
             } else {
-                Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
+                Alert.showFailed(getApplicationContext(), "Invalid Vin number or poor internet connection");
             }
         }
 
@@ -408,8 +805,225 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
     }
 
     @Override
+    public void handleValidateError(Throwable throwable) {
+        hideLoading();
+        if (throwable!=null){
+            ANError error = (ANError) throwable;
+            CreateReportResponse response = gson.fromJson(error.getErrorBody(), CreateReportResponse.class);
+            if (error.getErrorBody() != null) {
+                Alert.showFailed(getApplicationContext(), response.getMessage());
+            } else {
+                Alert.showFailed(getApplicationContext(), "Poor internet connection");
+            }
+
+        }
+
+    }
+
+    @Override
     public void onStarting() {
-        dialog.show();
+//        dialog.show();
+        showLoading();
+    }
+
+    @Override
+    public void createSliderDash(int current_position) {
+        if (exteriorSlide != null)
+            exteriorSlide.removeAllViews();
+
+        slider_dash = new ImageView[exteriorLayouts.length];
+        for (int i = 0; i < exteriorLayouts.length; i++) {
+            slider_dash[i] = new ImageView(this);
+            if (i == current_position) {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.active_slider_dash));
+            } else {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.default_slider_dash));
+            }
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(4, 0, 4, 0);
+            params.gravity = Gravity.CENTER_HORIZONTAL;
+            exteriorSlide.setLayoutParams(params);
+
+
+            exteriorSlide.addView(slider_dash[i], params);
+        }
+
+
+    }
+
+    @Override
+    public void glassSliderDash(int current_position) {
+        if (glassSlide != null)
+            glassSlide.removeAllViews();
+
+        slider_dash = new ImageView[glassLayouts.length];
+        for (int i = 0; i < glassLayouts.length; i++) {
+            slider_dash[i] = new ImageView(this);
+            if (i == current_position) {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.active_slider_dash));
+            } else {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.default_slider_dash));
+            }
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(4, 0, 4, 0);
+            params.gravity = Gravity.CENTER_HORIZONTAL;
+            glassSlide.setLayoutParams(params);
+
+
+            glassSlide.addView(slider_dash[i], params);
+        }
+
+    }
+
+    @Override
+    public void roadTestSliderDash(int current_position) {
+        if (roadTestSlide != null)
+            roadTestSlide.removeAllViews();
+
+        slider_dash = new ImageView[roadTestLayouts.length];
+        for (int i = 0; i < roadTestLayouts.length; i++) {
+            slider_dash[i] = new ImageView(this);
+            if (i == current_position) {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.active_slider_dash));
+            } else {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.default_slider_dash));
+            }
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(4, 0, 4, 0);
+            params.gravity = Gravity.CENTER_HORIZONTAL;
+            roadTestSlide.setLayoutParams(params);
+
+
+            roadTestSlide.addView(slider_dash[i], params);
+        }
+
+    }
+
+    @Override
+    public void tiresSliderDash(int current_position) {
+        if (tireSlide != null)
+            tireSlide.removeAllViews();
+
+        slider_dash = new ImageView[tiresLayouts.length];
+        for (int i = 0; i < tiresLayouts.length; i++) {
+            slider_dash[i] = new ImageView(this);
+            if (i == current_position) {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.active_slider_dash));
+            } else {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.default_slider_dash));
+            }
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(4, 0, 4, 0);
+            params.gravity = Gravity.CENTER_HORIZONTAL;
+            tireSlide.setLayoutParams(params);
+
+
+            tireSlide.addView(slider_dash[i], params);
+        }
+
+    }
+
+    @Override
+    public void undeBodySliderDash(int current_position) {
+
+        if (underBodySlide != null)
+            underBodySlide.removeAllViews();
+
+        slider_dash = new ImageView[underBodyLayouts.length];
+        for (int i = 0; i < underBodyLayouts.length; i++) {
+            slider_dash[i] = new ImageView(this);
+            if (i == current_position) {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.active_slider_dash));
+            } else {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.default_slider_dash));
+            }
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(4, 0, 4, 0);
+            params.gravity = Gravity.CENTER_HORIZONTAL;
+            underBodySlide.setLayoutParams(params);
+
+
+            underBodySlide.addView(slider_dash[i], params);
+        }
+
+    }
+
+    @Override
+    public void underHoodSliderDash(int current_position) {
+        if (underHoodSlide != null)
+            underHoodSlide.removeAllViews();
+
+        slider_dash = new ImageView[underHoodLayouts.length];
+        for (int i = 0; i < underHoodLayouts.length; i++) {
+            slider_dash[i] = new ImageView(this);
+            if (i == current_position) {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.active_slider_dash));
+            } else {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.default_slider_dash));
+            }
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(4, 0, 4, 0);
+            params.gravity = Gravity.CENTER_HORIZONTAL;
+            underHoodSlide.setLayoutParams(params);
+
+
+            underHoodSlide.addView(slider_dash[i], params);
+        }
+
+    }
+
+    @Override
+    public void electricSliderDash(int current_position) {
+        if (electricSlide != null)
+            electricSlide.removeAllViews();
+
+        slider_dash = new ImageView[electricalLayouts.length];
+        for (int i = 0; i < electricalLayouts.length; i++) {
+            slider_dash[i] = new ImageView(this);
+            if (i == current_position) {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.active_slider_dash));
+            } else {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.default_slider_dash));
+            }
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(4, 0, 4, 0);
+            params.gravity = Gravity.CENTER_HORIZONTAL;
+            electricSlide.setLayoutParams(params);
+
+
+            electricSlide.addView(slider_dash[i], params);
+        }
+
+    }
+
+    @Override
+    public void interiorSliderDash(int current_position) {
+        if (interiorSlide != null)
+            interiorSlide.removeAllViews();
+
+        slider_dash = new ImageView[interiorLayouts.length];
+        for (int i = 0; i < interiorLayouts.length; i++) {
+            slider_dash[i] = new ImageView(this);
+            if (i == current_position) {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.active_slider_dash));
+            } else {
+                slider_dash[i].setImageDrawable(ContextCompat.getDrawable(this, R.drawable.default_slider_dash));
+            }
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(4, 0, 4, 0);
+            params.gravity = Gravity.CENTER_HORIZONTAL;
+            interiorSlide.setLayoutParams(params);
+            interiorSlide.addView(slider_dash[i], params);
+        }
+
     }
 
     @Override
@@ -479,5 +1093,16 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
                 .show();
     }
 
+    private static void setViewAndChildrenEnabled(View view, boolean enabled) {
+        view.setEnabled(enabled);
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View child = viewGroup.getChildAt(i);
+                setViewAndChildrenEnabled(child, enabled);
+
+            }
+        }
+    }
 
 }

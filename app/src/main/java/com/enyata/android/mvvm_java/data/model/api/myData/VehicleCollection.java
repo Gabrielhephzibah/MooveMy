@@ -26,11 +26,16 @@ public class VehicleCollection {
     private String remark;
 
 
+
+
+
     public VehicleCollection(String part, List<String> imageUrl, String remark) {
         this.part = part;
         this.imageUrl = imageUrl;
         this.remark = remark;
+
     }
+
 
     public String getPart() {
         return part;
@@ -58,6 +63,7 @@ public class VehicleCollection {
 
 
 
+
     @Override
 
         public boolean equals(Object o) {
@@ -67,6 +73,7 @@ public class VehicleCollection {
             return Objects.equals(remark, request.remark) &&
                     Objects.equals(imageUrl, request.imageUrl) &&
                     Objects.equals(part, request.part);
+
         }
 
 
@@ -74,17 +81,28 @@ public class VehicleCollection {
         public int hashCode() {
             int result = Objects.hash(remark, part);
             result = 31 * result + Objects.hashCode(imageUrl);
+
             return result;
         }
 
-        @Override
-        public String toString() {
-            return "Request{" +
-                    "part='" + part + '\'' +
-                    ", imageUrl=" + imageUrl +
-                    ", remark='" + remark + '\'' +
-                    '}';
-        }
+    @Override
+    public String toString() {
+        return "VehicleCollection{" +
+                "part=" + part + " " +
+                ", imageUrl=" + imageUrl +
+                ", remark='" + remark + '\'' +
+                '}';
+    }
+
+    //        @Override
+//        public String toString() {
+//            return "Request{" +
+//                    "part='" + part + '\'' +
+//                    ", imageUrl=" + imageUrl +
+//                    ", remark='" + remark + '\'' +
+//
+//                    '}';
+//        }
 
 }
 

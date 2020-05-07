@@ -1,7 +1,9 @@
 package com.enyata.android.mvvm_java.data.remote;
 
 import com.enyata.android.mvvm_java.data.model.api.request.CreateReportRequest;
+import com.enyata.android.mvvm_java.data.model.api.request.IntakeRuleRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
+import com.enyata.android.mvvm_java.data.model.api.request.RegNumberCheckRequest;
 import com.enyata.android.mvvm_java.data.model.api.response.CreateReportResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorDetailReport;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorListResponse;
@@ -22,6 +24,10 @@ public interface ApiHelper {
     Flowable<InspectorDetailReport>getInspectorDetail(String id);
 
     Flowable<VinResponseData>getVinData(String vinNo);
+
+    Single<CreateReportResponse>checkRegNo(RegNumberCheckRequest.Request request);
+
+    Single<CreateReportResponse>checkIntakeRule(IntakeRuleRequest.Request request);
 
 
 

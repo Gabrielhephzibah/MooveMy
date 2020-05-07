@@ -64,28 +64,16 @@
                 android:textColor="#4c4c4c"
                 android:textSize="32dp"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:fontFamily="@font/montserrat"
-                android:textScaleX = "1.2"
-                android:lineSpacingMultiplier="1.2"
-                android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam."
-                android:textSize="14dp" />
-
-
-
-
 
             <LinearLayout
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:background="@drawable/transparent_background"
                 android:layout_height="145dp">
 
                 <RelativeLayout
+                    android:onClick="@{() -> viewModel.onIntakeReport()}"
                     android:layout_width="match_parent"
                     android:layout_height="115dp"
                     android:layout_marginLeft="20dp">
@@ -121,7 +109,7 @@
                             android:layout_marginTop="5dp"
                             android:lineSpacingMultiplier="1.2"
                             android:fontFamily="@font/montserrat"
-                            android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr,"
+                            android:text="@string/intake"
                             android:textScaleX="1.2"
                             android:textSize="10dp" />
                     </LinearLayout>
@@ -129,7 +117,7 @@
 
                     <LinearLayout
                         android:layout_alignParentRight="true"
-                        android:onClick="@{() -> viewModel.onIntakeReport()}"
+
                         android:layout_marginRight="39dp"
                         android:layout_width="wrap_content"
                         android:layout_alignParentBottom="true"
@@ -178,6 +166,7 @@
                 android:layout_height="145dp">
 
                 <RelativeLayout
+                    android:onClick="@{() -> viewModel.onMonthlyReport()}"
                     android:layout_width="match_parent"
                     android:layout_height="115dp"
                     android:layout_marginLeft="20dp">
@@ -213,7 +202,7 @@
                             android:layout_marginTop="5dp"
                             android:lineSpacingMultiplier="1.2"
                             android:fontFamily="@font/montserrat"
-                            android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr,"
+                            android:text="@string/monthly"
                             android:textScaleX="1.2"
                             android:textSize="10dp" />
                     </LinearLayout>
@@ -221,7 +210,7 @@
 
                     <LinearLayout
                         android:layout_alignParentRight="true"
-                        android:onClick="@{() -> viewModel.onMonthlyReport()}"
+
                         android:layout_marginRight="39dp"
                         android:layout_width="wrap_content"
                         android:layout_alignParentBottom="true"
@@ -265,6 +254,7 @@
                 android:layout_height="145dp">
 
                 <RelativeLayout
+                    android:onClick="@{() -> viewModel.onRepairReport()}"
                     android:layout_width="match_parent"
                     android:layout_height="115dp"
                     android:layout_marginLeft="20dp">
@@ -300,7 +290,7 @@
                             android:layout_marginTop="5dp"
                             android:lineSpacingMultiplier="1.2"
                             android:fontFamily="@font/montserrat"
-                            android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr,"
+                            android:text="@string/repair"
                             android:textScaleX="1.2"
                             android:textSize="10dp" />
                     </LinearLayout>
@@ -308,7 +298,7 @@
 
                     <LinearLayout
                         android:layout_alignParentRight="true"
-                        android:onClick="@{() -> viewModel.onRepairReport()}"
+
                         android:layout_marginRight="39dp"
                         android:layout_width="wrap_content"
                         android:layout_alignParentBottom="true"

@@ -8,14 +8,6 @@ public class SplashViewModel extends BaseViewModel<SplashNavigator> {
     public SplashViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
     }
-//
-//    public void decideNextActivity(){
-//        if (getDataManager().getCurrentUserLoggedInMode() == DataManager.LoggedInMode.LOGGED_IN_MODE_LOGGED_OUT.getType()){
-//            getNavigator().openLoginActivity();
-//        }else {
-////            getNavigator().openMainActivity();
-//        }
-//    }
 
 
     public void decideNextActivity() {

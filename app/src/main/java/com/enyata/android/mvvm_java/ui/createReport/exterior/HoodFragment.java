@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +20,6 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,47 +27,39 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.bumptech.glide.Glide;
-import com.cloudinary.android.MediaManager;
-import com.cloudinary.android.callback.ErrorInfo;
-import com.cloudinary.android.callback.UploadCallback;
-import com.enyata.android.mvvm_java.BuildConfig;
 import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
-import com.enyata.android.mvvm_java.data.model.api.request.VehiclePart;
+import com.enyata.android.mvvm_java.glide.GlideApp;
+import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.Inflater;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 public class HoodFragment extends Fragment {
-    String status = "", imageURL, cloudinaryID;
+    String  status = "", imageURL, cloudinaryID;
     RadioGroup hoodRadioGroup;
     RadioButton badd, goodd, fairr;
     Context mContext;
     Uri uri;
+    Bitmap bitmap;
     ImageView firstImage, secondImage, thirdImage, cancel1, cancel2, cancel3;
     File photoFile = null;
-    Button saveHood;
+    Button saveHood,deleteData;
     CreateReportViewModel createReportViewModel;
     ImageDataArray imageDataArray;
     private String mCurrentPhotoPath;
@@ -77,7 +68,16 @@ public class HoodFragment extends Fragment {
     ProgressBar progressBar;
     CharSequence radio;
     List<String>result;
+    String cloudinaryImage;
+    Map config;
+    VehicleCollection hood;
     View fragment;
+    String newStatus;
+    ImageView imageView;
+    Collection<String> value;
+    RelativeLayout relativeLayout;
+
+    TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
 
     public HoodFragment() {
@@ -94,12 +94,13 @@ public class HoodFragment extends Fragment {
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
 
-        Map config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
-//        MediaManager.init(getActivity().getApplicationContext(), config);
-        Log.d("oooooo", "ffffff");
+
+        config = new HashMap();
+            config.put("cloud_name", "dtt1nmogz");
+            config.put("api_key", "754277299533971");
+            config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
+            Log.d("oooooo", "ffffff");
+
 
     }
 
@@ -127,7 +128,9 @@ public class HoodFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.hood_layout, container, false);
+
 
 
     }
@@ -136,67 +139,116 @@ public class HoodFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+        goodd = view.findViewById(R.id.good);
+        badd = view.findViewById(R.id.poor);
+        fairr = view.findViewById(R.id.fair);
+        firstImage = view.findViewById(R.id.firstImage);
+        secondImage = view.findViewById(R.id.secondImage);
+        thirdImage = view.findViewById(R.id.thirdImage);
+
+
+
+//
+//        if (createReportViewModel.getHoodTrackingStatus()){
+//            if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()){
+//                goodd.setChecked(false);
+//                fairr.setChecked(false);
+//                badd.setChecked(false);
+//                firstImage.setImageResource(0);
+//                secondImage.setImageResource(0);
+//                thirdImage.setImageResource(0);
+//
+//            }else {
+//                List<VehicleCollection> myCollection = createReportViewModel.getIntakeVehicleReport();
+//                for (int i = 0; i < myCollection.size(); i++) {
+//                    if (myCollection.get(i).getPart().equals("hood")) {
+//                        if (myCollection.get(i).getRemark().equals("good")) {
+//                            goodd.setChecked(true);
+//                        } else if (myCollection.get(i).getRemark().equals("fair")) {
+//                            fairr.setChecked(true);
+//                        } else {
+//                            badd.setChecked(true);
+//                        }
+//                        List<String> images = myCollection.get(i).getImageUrl();
+//                        GlideApp.with(HoodFragment.this).load(images.get(0)).into(firstImage);
+//                        GlideApp.with(HoodFragment.this).load(images.get(1)).into(secondImage);
+//                        GlideApp.with(HoodFragment.this).load(images.get(2)).into(thirdImage);
+//
+//                    }
+//                }
+//            }
+//
+//        }
+
+
         progressBar = (ProgressBar) view.findViewById(R.id.pBar);
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (createReportViewModel.getHoodTrackingStatus()){
+                    Alert.showSuccess(getActivity(), "Item already saved");
+                }else {
 
-                Log.i("STATUSSS", status);
 
+                    saveReport();
 
-                saveReport();
+                }
+
             }
         });
 
 
-        firstImage = view.findViewById(R.id.firstImage);
-        secondImage = view.findViewById(R.id.secondImage);
-        thirdImage = view.findViewById(R.id.thirdImage);
+
         cancel1 = view.findViewById(R.id.cancel1);
         cancel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                imageDataArray.removeUrl("image0");
-                Toast.makeText(getActivity(), "this image has been removed", Toast.LENGTH_LONG).show();
-                firstImage.setImageResource(0);
+                if (firstImage.getDrawable() == null){
+                    Alert.showFailed(getActivity(),"image is empty");
+                }else {
+                    takePicture.removefirstImage();
+                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    firstImage.setImageResource(0);
+                }
             }
         });
         cancel2 = view.findViewById(R.id.cancel2);
         cancel2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageDataArray.removeUrl("image1");
-                Toast.makeText(getActivity(), "this image has been removed", Toast.LENGTH_LONG).show();
-                secondImage.setImageResource(0);
+                if (secondImage.getDrawable() == null){
+                    Alert.showFailed(getActivity(),"Image is empty");
+                }else {
+                    takePicture.removeSecondImage();
+                    Alert.showSuccess(getActivity(), "this image has been removed");
+//                Toast.makeText(getActivity(), "this image has been removed", Toast.LENGTH_LONG).show();
+                    secondImage.setImageResource(0);
+                }
             }
         });
         cancel3 = view.findViewById(R.id.cancel3);
         cancel3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageDataArray.removeUrl("image2");
-                Toast.makeText(getActivity(), "This image has been removed", Toast.LENGTH_LONG).show();
-                thirdImage.setImageResource(0);
+                if (thirdImage.getDrawable()==null){
+                    Alert.showFailed(getActivity(), "Image is empty");
+                }else {
+                    takePicture.removeThirdImage();
+                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    thirdImage.setImageResource(0);
+                }
             }
         });
-        RelativeLayout relativeLayout = view.findViewById(R.id.takePicture);
+        relativeLayout = view.findViewById(R.id.takePicture);
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (imageDataArray.containKey("image1") && imageDataArray.containKey("image2") && imageDataArray.containKey("image0")) {
-                    imageDataArray.removeUrl("image0");
-                    imageDataArray.removeUrl("image1");
-                    imageDataArray.removeUrl("image2");
-                    firstImage.setImageResource(0);
-
-                    secondImage.setImageResource(0);
-
-                    thirdImage.setImageResource(0);
-                    Alert.showFailed(getActivity(), "You have alraedy uploaded three picture,Click again to take pictures again");
+                if (takePicture.whenImageIsThree(getActivity())){
                 } else {
                     int currentapiVersion = android.os.Build.VERSION.SDK_INT;
                     if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
@@ -206,38 +258,17 @@ public class HoodFragment extends Fragment {
                         }
                     }
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
 
-
-                        try {
-                            photoFile = createImageFile();
-                        } catch (IOException ex) {
-                            Log.i("kkkkkkk", "IOException");
-                        }
-                        if (photoFile != null) {
-
-                            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                            try {
-                                uri = FileProvider.getUriForFile(getActivity().getApplicationContext(), BuildConfig.APPLICATION_ID + ".provider", createImageFile());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-
-
-                            startActivityForResult(cameraIntent, 100);
-                        }
-
-
+                    if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null)
+                    {
+                        startActivityForResult(cameraIntent, 100);
                     }
+
                 }
             }
         });
 
-        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-        goodd = view.findViewById(R.id.good);
-        badd = view.findViewById(R.id.poor);
-        fairr = view.findViewById(R.id.fair);
+
         hoodRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -295,22 +326,6 @@ public class HoodFragment extends Fragment {
         }
     }
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "moove " + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  // prefix
-                ".png",         // suffix
-                storageDir      // directory
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
-        return image;
-    }
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(getActivity().getApplicationContext())
@@ -323,124 +338,82 @@ public class HoodFragment extends Fragment {
 
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        if (requestCode == 100 ) {
-        if (requestCode == 100) {
-            Log.d("tttttt", String.valueOf(requestCode));
-            Log.d("tttttt", mCurrentPhotoPath);
-            String requestId = MediaManager.get().upload(uri)
-                    .option("resource_type", "image")
-                    .unsigned("ht7lodiw")
-                    .callback(new UploadCallback() {
-                        @Override
-                        public void onStart(String requestId) {
-                            Log.i("START", "STARTTTTT");
-                            progressBar.setVisibility(View.VISIBLE);
+    public void onResume() {
+        Log.i("IMAGEARRAY", String.valueOf(result));
+        Log.i("Status", status);
 
-                        }
 
-                        @Override
-                        public void onProgress(String requestId, long bytes, long totalBytes) {
-                            Double progress = (double) bytes / totalBytes;
-                            progressBar.setVisibility(View.VISIBLE);
-                            Log.i("PROGRESS", "PROGRESS");
+            hood = new VehicleCollection("hood", result, status);
+            createReportViewModel.isVehicleSave(hood, goodd, fairr, badd, HoodFragment.this, firstImage, secondImage, thirdImage);
 
-                        }
-
-                        @Override
-                        public void onSuccess(String requestId, Map resultData) {
-                            if (resultData != null) {
-                                Log.i("SUCCESS", "SUCCESS");
-                                progressBar.setVisibility(View.GONE);
-                                imageURL = (String) resultData.get("url");
-                                cloudinaryID = (String) resultData.get("public_id");
-                                Toast.makeText(getActivity(), "Image uploaded Successfully, You can take another picture now", Toast.LENGTH_LONG).show();
-                                Log.i("imageURL", imageURL);
-                                Log.i("cloudinaryID", cloudinaryID);
-                                showImage();
-                            }
-
-                        }
-
-                        @Override
-                        public void onError(String requestId, ErrorInfo error) {
-                            progressBar.setVisibility(View.GONE);
-                            Log.i("ERROR", "ERROR");
-                            Alert.showFailed(getActivity(), "Error Uploading Result, Please try agin later ");
-                        }
-
-                        @Override
-                        public void onReschedule(String requestId, ErrorInfo error) {
-                            Log.i("SCHEDULE", "SCHEDULE");
-                            progressBar.setVisibility(View.GONE);
-                            Alert.showSuccess(getActivity(),"uploading is taking time,please take picture again");
-
-                        }
-                    })
-                    .dispatch();
-
-        } else if (requestCode == RESULT_CANCELED) {
-            Log.i("AAAAAAA", "Error");
-
-        }
+//
+//        if (createReportViewModel.getHoodTrackingStatus()){
+//            if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()){
+//                goodd.setChecked(false);
+//                fairr.setChecked(false);
+//                badd.setChecked(false);
+//                firstImage.setImageResource(0);
+//                secondImage.setImageResource(0);
+//                thirdImage.setImageResource(0);
+//
+//            }else {
+//                List<VehicleCollection> myCollection = createReportViewModel.getIntakeVehicleReport();
+//                for (int i = 0; i < myCollection.size(); i++) {
+//                    if (myCollection.get(i).getPart().equals("hood")) {
+//                        if (myCollection.get(i).getRemark().equals("good")) {
+//                            goodd.setChecked(true);
+//                        } else if (myCollection.get(i).getRemark().equals("fair")) {
+//                            fairr.setChecked(true);
+//                        } else {
+//                            badd.setChecked(true);
+//                        }
+//                        List<String> images = myCollection.get(i).getImageUrl();
+//                        GlideApp.with(HoodFragment.this).load(images.get(0)).into(firstImage);
+//                        GlideApp.with(HoodFragment.this).load(images.get(1)).into(secondImage);
+//                        GlideApp.with(HoodFragment.this).load(images.get(2)).into(thirdImage);
+//
+//                    }
+//                }
+//            }
+//
+//        }
+        super.onResume();
     }
 
-    public void showImage() {
-        if (imageDataArray.isArrayEmpty()) {
-            Log.i("ISEMPTY", "ISWMPTRRRR");
-            imageDataArray.addUrl("image0", imageURL);
-            Picasso.get().load(imageURL).fit().into(firstImage);
-        } else {
-            if (!imageDataArray.containKey("image0")) {
-                imageDataArray.addUrl("image0", imageURL);
-                Picasso.get().load(imageURL).fit().into(firstImage);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            progressBar.setVisibility(View.VISIBLE);
+            Bundle extras = data.getExtras();
 
-            } else {
-                if (imageDataArray.containKey("image1")) {
-                    if (!imageDataArray.containKey("image2")) {
-                        imageDataArray.addUrl("image2", imageURL);
-                        Picasso.get().load(imageURL).fit().into(thirdImage);
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            takePicture.pictureCapture(imageBitmap,HoodFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
 
-                    }
-                } else {
-                    imageDataArray.addUrl("image1", imageURL);
-                    Picasso.get().load(imageURL).fit().into(secondImage);
-
-                }
-            }
+        } else if (requestCode == RESULT_CANCELED) {
+          Alert.showFailed(getActivity(),"The request has been cancelled");
 
         }
     }
 
     public void saveReport() {
 
-        if (!imageDataArray.containKey("image1") || !imageDataArray.containKey("image2") || !imageDataArray.containKey("image0")) {
-            Toast.makeText(getActivity(), "please make sure you upload all images", Toast.LENGTH_LONG).show();
+        if (takePicture.areImagesNotComplete(getActivity())) {
             return;
         } else if (status.isEmpty()) {
-            Toast.makeText(getActivity(), "please fill all fields", Toast.LENGTH_LONG).show();
+            Alert.showFailed(getActivity(),"please fill all fields");
             return;
+        }else {
+
+            imageArray = takePicture.getPictureArray();
+            value = imageArray.values();
+            result = new ArrayList<>(value);
+            hood = new VehicleCollection("hood", result, status);
+            createReportViewModel.saveReportToLocalStorage(hood);
+            createReportViewModel.setHoodTrackingStatus(true);
+            Alert.showSuccess(getActivity(), "Item saved please swipe to proceed");
         }
 
-
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        VehicleCollection hood = new VehicleCollection("hood", result, status);
-        createReportViewModel.saveReportToLocalStorage(hood);
-        Toast.makeText(getActivity(), "Item saved please swipe to proceed ", Toast.LENGTH_SHORT).show();
-
     }
-
-
-    public boolean contain(Object object) {
-        if (createReportViewModel.getIntakeVehicleReport().contains(object)) {
-            return true;
-        } else {
-
-            return false;
-        }
-    }
-
 
 }

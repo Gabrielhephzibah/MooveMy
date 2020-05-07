@@ -41,54 +41,74 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="107dp"
+                android:orientation="vertical"
                 android:background="#faeeed">
 
                 <RelativeLayout
-                    android:onClick="@{() -> viewModel.onInspectFeature()}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="29dp"
-                    android:layout_marginRight="23dp"
-                    android:layout_marginLeft="34dp">
-
-                    <TextView
-                        android:id="@+id/inspectionInfo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="VEHICLE INFORMATION"
-                        android:textSize="14dp"
-                        android:textStyle="bold"
-                        android:fontFamily="@font/montserrat"
-                        android:textColor="#000000"/>
-                    <TextView
-                        android:layout_marginTop="5dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/inspectionInfo"
-                        android:textSize="10dp"
-                        android:textColor="#000000"
-                        android:textScaleX = "1.2"
-                        android:lineSpacingMultiplier="1.2"
-                        android:fontFamily="@font/montserrat"
-                        android:layout_marginRight="85dp"
-                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <ImageView
-
-                        android:id="@+id/inspectToggle"
+                        android:visibility="gone"
+                        android:id="@+id/vehicleInfoCheck"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_icon"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"/>
+                        android:layout_gravity="right"
+                        android:paddingRight="23dp"
+                        app:srcCompat="@drawable/ic_check_circle" />
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="34dp"
+                        android:layout_marginTop="23dp"
+                        android:layout_marginRight="23dp"
+                        android:onClick="@{() -> viewModel.onInspectFeature()}">
+
+                        <TextView
+                            android:id="@+id/inspectionInfo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat"
+                            android:text="VEHICLE INFORMATION"
+                            android:textColor="#000000"
+                            android:textSize="14dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/inspectionInfo"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="85dp"
+                            android:fontFamily="@font/montserrat"
+                            android:lineSpacingMultiplier="1.2"
+                            android:text="Validate the VIN and input basic information about the vehicle."
+                            android:textColor="#000000"
+                            android:textScaleX="1.2"
+                            android:textSize="10dp" />
+
+                        <ImageView
+
+                            android:id="@+id/inspectToggle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            app:srcCompat="@drawable/ic_icon" />
+
+                    </RelativeLayout>
                 </RelativeLayout>
-
 
 
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/inspectFeature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -192,15 +212,22 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/spinner_border">
 
-                                <Spinner
-                                    android:id="@+id/yearSpinner"
+                                <TextView
+                                    android:id="@+id/yearText"
                                     android:layout_width="match_parent"
-                                    android:layout_height="40dp"
-                                    android:layout_marginTop="5dp"
-                                    android:backgroundTint="@color/colorPrimary"
-                                    android:spinnerMode="dropdown"
-                                    android:textColor="@color/colorPrimary"
-                                    android:textSize="12sp" />
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:gravity="center_vertical"
+                                    android:paddingLeft="15dp"
+                                    android:fontFamily="@font/montserrat"
+                                    android:textColor="#373737"
+                                    android:textSize="16sp"
+                                    android:layout_gravity="center_vertical"
+                                    />
+
+
+
+
                             </LinearLayout>
                         </LinearLayout>
 
@@ -227,15 +254,20 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/spinner_border">
 
-                                <Spinner
-                                    android:id="@+id/modelSpinner"
+                                <TextView
+                                    android:id="@+id/modelText"
                                     android:layout_width="match_parent"
-                                    android:layout_height="40dp"
-                                    android:layout_marginTop="5dp"
-                                    android:backgroundTint="@color/colorPrimary"
-                                    android:spinnerMode="dropdown"
-                                    android:textColor="@color/colorPrimary"
-                                    android:textSize="12sp" />
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:fontFamily="@font/montserrat"
+                                    android:gravity="center_vertical"
+                                    android:paddingLeft="15dp"
+                                    android:text=""
+                                    android:textColor="#373737"
+                                    android:textSize="16sp" />
+
+
+
                             </LinearLayout>
                         </LinearLayout>
 
@@ -277,23 +309,76 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/spinner_border">
 
-                                <Spinner
-                                    android:id="@+id/makeSpinner"
+                                <TextView
+                                    android:id="@+id/makeText"
                                     android:layout_width="match_parent"
-                                    android:layout_height="40dp"
-                                    android:layout_marginTop="5dp"
-                                    android:backgroundTint="@color/colorPrimary"
-                                    android:spinnerMode="dropdown"
-                                    android:textColor="@color/colorPrimary"
-                                    android:textSize="12sp" />
+                                    android:layout_height="wrap_content"
+                                    android:text=""
+                                    android:gravity="center_vertical"
+                                    android:paddingLeft="15dp"
+                                    android:fontFamily="@font/montserrat"
+                                    android:textColor="#373737"
+                                    android:textSize="16sp"
+                                    android:layout_gravity="center_vertical"
+                                    />
+
+
+
                             </LinearLayout>
                         </LinearLayout>
 
 
                     </LinearLayout>
 
-
                 </RelativeLayout>
+
+                <View
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#E4E4E4"/>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="139dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/montserrat"
+                            android:text="Color"
+                            android:textColor="#2A2E43"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/spinner_border">
+
+                            <EditText
+                                android:id="@+id/editColor"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="5dp"
+                                android:backgroundTint="@color/white"
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textCursorDrawable="@null"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
 
 
                 <LinearLayout
@@ -314,7 +399,6 @@
                             android:layout_marginBottom="10dp"
                             android:fontFamily="@font/montserrat"
                             android:text="Current Mileage"
-
                             android:textColor="#2A2E43"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -384,6 +468,7 @@
                             android:layout_marginTop="39dp">
 
                             <Button
+                                android:onClick="@{() -> viewModel.onSaveVehicleInfo()}"
                                 android:id="@+id/save"
                                 android:layout_width="160dp"
                                 android:layout_height="wrap_content"
@@ -391,7 +476,7 @@
                                 android:text="SAVE"
                                 android:textColor="@drawable/button_changing_text" />
 
-<!--                            android:onClick="@{() -> viewModel.onSaveVehicleInfo()}"-->
+
 
                         </LinearLayout>
 
@@ -402,338 +487,44 @@
 
 
             </LinearLayout>
-
-<!--            <LinearLayout-->
-<!--                android:id="@+id/inspectFeature"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginLeft="24dp"-->
-<!--                android:paddingBottom="30dp"-->
-<!--                android:orientation="vertical"-->
-<!--                android:layout_marginRight="24dp"-->
-<!--                android:layout_marginTop="28dp">-->
-<!--              <RelativeLayout-->
-<!--                  android:layout_width="match_parent"-->
-<!--                  android:layout_height="wrap_content">-->
-<!--                  <LinearLayout-->
-<!--                      android:layout_width="match_parent"-->
-<!--                      android:orientation="horizontal"-->
-<!--                      android:layout_height="wrap_content">-->
-
-<!--                      <LinearLayout-->
-<!--                          android:paddingRight="6dp"-->
-<!--                          android:layout_width="0dp"-->
-<!--                          android:layout_weight="1"-->
-<!--                          android:layout_height="wrap_content"-->
-<!--                          android:layout_alignParentLeft="true"-->
-<!--                          android:orientation="vertical">-->
-
-<!--                          <TextView-->
-<!--                              android:layout_width="wrap_content"-->
-<!--                              android:layout_height="wrap_content"-->
-<!--                              android:layout_marginBottom="10dp"-->
-<!--                              android:fontFamily="@font/montserrat"-->
-<!--                              android:text="Vehicle Year"-->
-<!--                              android:textColor="#2A2E43"-->
-<!--                              android:textSize="14sp"-->
-<!--                              android:textStyle="bold" />-->
-
-<!--                          <LinearLayout-->
-<!--                              android:layout_width="match_parent"-->
-<!--                              android:layout_height="wrap_content"-->
-<!--                              android:background="@drawable/spinner_border">-->
-
-<!--                              <Spinner-->
-<!--                                  android:id="@+id/yearSpinner"-->
-<!--                                  android:layout_width="match_parent"-->
-<!--                                  android:layout_height="40dp"-->
-<!--                                  android:layout_marginTop="5dp"-->
-<!--                                  android:backgroundTint="@color/colorPrimary"-->
-<!--                                  android:spinnerMode="dropdown"-->
-<!--                                  android:textColor="@color/colorPrimary"-->
-<!--                                  android:textSize="12sp" />-->
-<!--                          </LinearLayout>-->
-<!--                      </LinearLayout>-->
-
-<!--                      <LinearLayout-->
-<!--                          android:paddingLeft="6dp"-->
-<!--                          android:layout_width="0dp"-->
-<!--                          android:layout_weight="1"-->
-<!--                          android:layout_height="wrap_content"-->
-<!--                          android:layout_alignParentRight="true"-->
-<!--                          android:orientation="vertical">-->
-
-<!--                          <TextView-->
-<!--                              android:layout_width="wrap_content"-->
-<!--                              android:layout_height="wrap_content"-->
-<!--                              android:layout_marginBottom="10dp"-->
-<!--                              android:fontFamily="@font/montserrat"-->
-<!--                              android:text="Model"-->
-<!--                              android:textColor="#2A2E43"-->
-<!--                              android:textSize="14sp"-->
-<!--                              android:textStyle="bold" />-->
-
-<!--                          <LinearLayout-->
-<!--                              android:layout_width="match_parent"-->
-<!--                              android:layout_height="wrap_content"-->
-<!--                              android:background="@drawable/spinner_border">-->
-
-<!--                              <Spinner-->
-<!--                                  android:id="@+id/modelSpinner"-->
-<!--                                  android:layout_width="match_parent"-->
-<!--                                  android:layout_height="40dp"-->
-<!--                                  android:layout_marginTop="5dp"-->
-<!--                                  android:backgroundTint="@color/colorPrimary"-->
-<!--                                  android:spinnerMode="dropdown"-->
-<!--                                  android:textColor="@color/colorPrimary"-->
-<!--                                  android:textSize="12sp" />-->
-<!--                          </LinearLayout>-->
-<!--                      </LinearLayout>-->
-
-
-<!--                  </LinearLayout>-->
-
-
-<!--              </RelativeLayout>-->
-
-<!--                <RelativeLayout-->
-<!--                    android:layout_marginTop="15dp"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content">-->
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:orientation="horizontal"-->
-<!--                        android:layout_height="wrap_content">-->
-
-<!--                        <LinearLayout-->
-<!--                            android:paddingRight="6dp"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_alignParentLeft="true"-->
-<!--                            android:orientation="vertical">-->
-
-<!--                            <TextView-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_marginBottom="10dp"-->
-<!--                                android:fontFamily="@font/montserrat"-->
-<!--                                android:text="Make"-->
-<!--                                android:textColor="#2A2E43"-->
-<!--                                android:textSize="14sp"-->
-<!--                                android:textStyle="bold" />-->
-
-<!--                            <LinearLayout-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:background="@drawable/spinner_border">-->
-
-<!--                                <Spinner-->
-<!--                                    android:id="@+id/makeSpinner"-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="40dp"-->
-<!--                                    android:layout_marginTop="5dp"-->
-<!--                                    android:backgroundTint="@color/colorPrimary"-->
-<!--                                    android:spinnerMode="dropdown"-->
-<!--                                    android:textColor="@color/colorPrimary"-->
-<!--                                    android:textSize="12sp" />-->
-<!--                            </LinearLayout>-->
-<!--                        </LinearLayout>-->
-
-<!--                        <LinearLayout-->
-<!--                            android:paddingLeft="6dp"-->
-<!--                            android:layout_width="0dp"-->
-<!--                            android:layout_weight="1"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:layout_alignParentRight="true"-->
-<!--                            android:orientation="vertical">-->
-
-<!--                            <TextView-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:layout_marginBottom="10dp"-->
-<!--                                android:fontFamily="@font/montserrat"-->
-<!--                                android:text="Color"-->
-<!--                                android:textColor="#2A2E43"-->
-<!--                                android:textSize="14sp"-->
-<!--                                android:textStyle="bold" />-->
-
-<!--                            <LinearLayout-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:background="@drawable/spinner_border">-->
-
-<!--                                <EditText-->
-<!--                                    android:id="@+id/editColor"-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="40dp"-->
-<!--                                    android:textCursorDrawable = "@null"-->
-<!--                                    android:layout_marginTop="5dp"-->
-<!--                                    android:backgroundTint="@color/white"-->
-<!--                                    android:textColor="@color/colorPrimaryDark"-->
-<!--                                    android:textSize="16sp"/>-->
-<!--                            </LinearLayout>-->
-<!--                        </LinearLayout>-->
-
-
-<!--                    </LinearLayout>-->
-
-
-<!--                </RelativeLayout>-->
-
-
-<!--                <LinearLayout-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content">-->
-<!--                    <LinearLayout-->
-<!--                        android:layout_marginTop="10dp"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="vertical">-->
-
-<!--                        <TextView-->
-<!--                            android:layout_marginBottom="10dp"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="Current Mileage"-->
-<!--                            android:layout_marginRight="139dp"-->
-<!--                            android:textSize="14sp"-->
-
-<!--                            android:fontFamily="@font/montserrat"-->
-<!--                            android:textStyle="bold"-->
-<!--                            android:textColor="#2A2E43"/>-->
-<!--                        <LinearLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:background="@drawable/spinner_border"-->
-<!--                            android:layout_height="wrap_content">-->
-<!--                            <EditText-->
-<!--                                android:id="@+id/editMillage"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="40dp"-->
-<!--                                android:inputType="number"-->
-<!--                                android:textCursorDrawable = "@null"-->
-<!--                                android:layout_marginTop="5dp"-->
-<!--                                android:backgroundTint="@color/white"-->
-<!--                                android:textColor="@color/colorPrimaryDark"-->
-<!--                                android:textSize="16sp"/>-->
-<!--                        </LinearLayout>-->
-<!--                    </LinearLayout>-->
-<!--                </LinearLayout>-->
-
-
-
-
-<!--                <LinearLayout-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content">-->
-<!--                    <LinearLayout-->
-<!--                        android:layout_marginTop="10dp"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="vertical">-->
-
-<!--                        <TextView-->
-<!--                            android:layout_marginBottom="10dp"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="Registration Number"-->
-<!--                            android:layout_marginRight="139dp"-->
-<!--                            android:textSize="14sp"-->
-<!--                            android:fontFamily="@font/montserrat"-->
-<!--                            android:textStyle="bold"-->
-<!--                            android:textColor="#2A2E43"/>-->
-<!--                        <LinearLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:background="@drawable/spinner_border"-->
-<!--                            android:layout_height="wrap_content">-->
-<!--                            <EditText-->
-<!--                                android:textCursorDrawable = "@null"-->
-<!--                                android:id="@+id/editRegNum"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="40dp"-->
-<!--                                android:layout_marginTop="5dp"-->
-<!--                                android:backgroundTint="@color/white"-->
-<!--                                android:textColor="@color/colorPrimaryDark"-->
-<!--                                android:textSize="16sp"/>-->
-<!--                        </LinearLayout>-->
-<!--                    </LinearLayout>-->
-<!--                </LinearLayout>-->
-
-
-
-
-<!--                <LinearLayout-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content">-->
-<!--                    <LinearLayout-->
-<!--                        android:layout_marginTop="10dp"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="vertical">-->
-
-<!--                        <TextView-->
-<!--                            android:layout_marginBottom="10dp"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="VIN"-->
-<!--                            android:layout_marginRight="139dp"-->
-<!--                            android:textSize="14sp"-->
-<!--                            android:fontFamily="@font/montserrat"-->
-<!--                            android:textStyle="bold"-->
-<!--                            android:textColor="#2A2E43"/>-->
-<!--                        <LinearLayout-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:background="@drawable/spinner_border"-->
-<!--                            android:layout_height="wrap_content">-->
-<!--                            <EditText-->
-<!--                                android:textCursorDrawable = "@null"-->
-<!--                                android:id="@+id/editVin"-->
-<!--                                android:layout_width="match_parent"-->
-<!--                                android:layout_height="40dp"-->
-<!--                                android:layout_marginTop="5dp"-->
-<!--                                android:backgroundTint="@color/white"-->
-<!--                                android:textColor="@color/colorPrimaryDark"-->
-<!--                                android:textSize="16sp"/>-->
-<!--                        </LinearLayout>-->
-<!--                    </LinearLayout>-->
-<!--                </LinearLayout>-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_marginTop="39dp">-->
-
-<!--                    <Button-->
-<!--                        android:onClick="@{() -> viewModel.onSaveVehicleInfo()}"-->
-<!--                        android:id="@+id/save"-->
-<!--                        android:layout_width="160dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:background="@drawable/changing_button_bg"-->
-<!--                        android:text="SAVE"-->
-<!--                        android:textColor="@drawable/button_changing_text" />-->
-
-<!--                </LinearLayout>-->
-
-<!--            </LinearLayout>-->
-
-
+            <LinearLayout
+                android:id="@+id/allInspectionWrapper"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/allInspectionLayout"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:alpha="0.6"
+                android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="107dp"
+                android:orientation="vertical"
                 android:background="#faeeed">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/exteriorCheck"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="23dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_check_circle"/>
 
                 <RelativeLayout
+                    android:layout_marginTop="23dp"
                     android:onClick="@{() -> viewModel.onExteriorFeature()}"
                     android:id="@+id/exteriorLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="29dp"
                     android:layout_marginRight="23dp"
                     android:layout_marginLeft="34dp">
 
@@ -757,7 +548,7 @@
                         android:lineSpacingMultiplier="1.2"
                         android:fontFamily="@font/montserrat"
                         android:layout_marginRight="85dp"
-                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+                        android:text="@string/exterior"/>
 
                     <ImageView
                         android:id="@+id/exteriorToggle"
@@ -769,12 +560,16 @@
                         android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
+            </RelativeLayout>
             </LinearLayout>
-
-
             <LinearLayout
                 android:id="@+id/exteriorFeature"
                 android:visibility="gone"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="15dp"
+                android:layout_height="wrap_content">
+            <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_marginTop="18dp"
@@ -783,7 +578,6 @@
                 android:paddingBottom="18dp"
                android:background="@drawable/carousel_border"
                 android:layout_height="450dp">
-
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/exteriorPager"
                     android:layout_width="match_parent"
@@ -794,17 +588,43 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/slideLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center">
+            </LinearLayout>
+        </LinearLayout>
+
+            <LinearLayout
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="107dp"
+                android:orientation="vertical"
                 android:background="#faeeed">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                <ImageView
+                    android:visibility="gone"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/glassCheck"
+                    android:paddingRight="23dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_check_circle"/>
+
 
                 <RelativeLayout
                     android:onClick="@{() -> viewModel.onGlassFeature()}"
                     android:id="@+id/glassLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="29dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="23dp"
                     android:layout_marginRight="23dp"
                     android:layout_marginLeft="34dp">
 
@@ -828,11 +648,10 @@
                         android:lineSpacingMultiplier="1.2"
                         android:fontFamily="@font/montserrat"
                         android:layout_marginRight="85dp"
-                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+                        android:text="@string/glass"/>
 
                     <ImageView
                         android:id="@+id/glassToggle"
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -840,42 +659,74 @@
                         android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
-            </LinearLayout>
 
+                </RelativeLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/glassFeature"
                 android:visibility="gone"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_marginTop="18dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:paddingBottom="18dp"
-                android:background="@drawable/carousel_border"
-                android:layout_height="450dp">
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/glassPager"
+                android:orientation="vertical"
+                android:paddingBottom="15dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:elevation="9dp"
-                    android:layout_height="match_parent"
-                    tools:targetApi="lollipop" />
+                    android:layout_marginTop="18dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:paddingBottom="18dp"
+                    android:background="@drawable/carousel_border"
+                    android:layout_height="450dp">
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/glassPager"
+                        android:layout_width="match_parent"
+                        android:elevation="9dp"
+                        android:layout_height="match_parent"
+                        tools:targetApi="lollipop" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/glassSlideLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+                </LinearLayout>
             </LinearLayout>
+
 
 
                 <LinearLayout
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="107dp"
+                    android:orientation="vertical"
                 android:background="#faeeed">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
 
-                <RelativeLayout
+                    <ImageView
+                        android:visibility="gone"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/tiresCheck"
+                        android:paddingRight="23dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        app:srcCompat="@drawable/ic_check_circle"/>
+
+                    <RelativeLayout
                     android:onClick="@{() -> viewModel.onTiresFeature()}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="29dp"
+                   android:layout_gravity="center_vertical"
+                        android:layout_marginTop="23dp"
                     android:layout_marginRight="23dp"
                     android:layout_marginLeft="34dp">
 
@@ -899,11 +750,10 @@
                         android:lineSpacingMultiplier="1.2"
                         android:fontFamily="@font/montserrat"
                         android:layout_marginRight="85dp"
-                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+                        android:text="@string/tire"/>
 
                     <ImageView
                         android:id="@+id/tiresToggle"
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -911,27 +761,41 @@
                         android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
-            </LinearLayout>
 
+                    </RelativeLayout>
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/tiresFeature"
                 android:visibility="gone"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_marginTop="18dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:paddingBottom="18dp"
-                android:background="@drawable/carousel_border"
-                android:layout_height="450dp">
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/tiresPager"
+                android:orientation="vertical"
+                android:paddingBottom="15dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:elevation="9dp"
-                    android:layout_height="match_parent"
-                    tools:targetApi="lollipop" />
+                    android:layout_marginTop="18dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:paddingBottom="18dp"
+                    android:background="@drawable/carousel_border"
+                    android:layout_height="450dp">
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/tiresPager"
+                        android:layout_width="match_parent"
+                        android:elevation="9dp"
+                        android:layout_height="match_parent"
+                        tools:targetApi="lollipop" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tireSlideLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+                </LinearLayout>
             </LinearLayout>
 
 
@@ -941,13 +805,32 @@
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="107dp"
+                android:orientation="vertical"
                 android:background="#faeeed">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/underBodyCheck"
+                    android:paddingRight="23dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    app:srcCompat="@drawable/ic_check_circle"/>
+
 
                 <RelativeLayout
                     android:onClick="@{() -> viewModel.onUnderBodyFeature()}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="29dp"
+                   android:layout_gravity="center_vertical"
+                    android:layout_marginTop="23dp"
                     android:layout_marginRight="23dp"
                     android:layout_marginLeft="34dp">
 
@@ -971,11 +854,10 @@
                         android:lineSpacingMultiplier="1.2"
                         android:fontFamily="@font/montserrat"
                         android:layout_marginRight="85dp"
-                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+                        android:text="@string/underbody"/>
 
                     <ImageView
                         android:id="@+id/underBodyToggle"
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -983,29 +865,43 @@
                         android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
+
+                </RelativeLayout>
             </LinearLayout>
-
-
             <LinearLayout
                 android:id="@+id/underBodyFeature"
                 android:visibility="gone"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_marginTop="18dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:paddingBottom="18dp"
-                android:background="@drawable/carousel_border"
-                android:layout_height="450dp">
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/underBodyPager"
+                android:orientation="vertical"
+                android:paddingBottom="15dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:elevation="9dp"
-                    android:layout_height="match_parent"
-                    tools:targetApi="lollipop" />
+                    android:layout_marginTop="18dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:paddingBottom="18dp"
+                    android:background="@drawable/carousel_border"
+                    android:layout_height="450dp">
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/underBodyPager"
+                        android:layout_width="match_parent"
+                        android:elevation="9dp"
+                        android:layout_height="match_parent"
+                        tools:targetApi="lollipop" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/underBodySlideLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+                </LinearLayout>
             </LinearLayout>
+
 
 
 
@@ -1013,14 +909,32 @@
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="107dp"
+                android:orientation="vertical"
                 android:background="#faeeed">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/underHoodCheck"
+                    android:paddingRight="23dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    app:srcCompat="@drawable/ic_check_circle"/>
+
 
                 <RelativeLayout
                     android:onClick="@{() -> viewModel.onUnderHoodFeature()}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="29dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginRight="23dp"
+                    android:layout_marginTop="23dp"
                     android:layout_marginLeft="34dp">
 
                     <TextView
@@ -1043,7 +957,7 @@
                         android:lineSpacingMultiplier="1.2"
                         android:fontFamily="@font/montserrat"
                         android:layout_marginRight="85dp"
-                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+                        android:text="@string/underhood"/>
 
                     <ImageView
                         android:id="@+id/underHoodToggle"
@@ -1055,44 +969,75 @@
                         android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/underHoodFeature"
                 android:visibility="gone"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_marginTop="18dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:paddingBottom="18dp"
-                android:background="@drawable/carousel_border"
-                android:layout_height="450dp">
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/underHoodPager"
+                android:orientation="vertical"
+                android:paddingBottom="15dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:elevation="9dp"
-                    android:layout_height="match_parent"
-                    tools:targetApi="lollipop" />
+                    android:layout_marginTop="18dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:paddingBottom="18dp"
+                    android:background="@drawable/carousel_border"
+                    android:layout_height="450dp">
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/underHoodPager"
+                        android:layout_width="match_parent"
+                        android:elevation="9dp"
+                        android:layout_height="match_parent"
+                        tools:targetApi="lollipop" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/underHoodSlideLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+                </LinearLayout>
             </LinearLayout>
-
-
 
 
             <LinearLayout
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="107dp"
+                android:orientation="vertical"
                 android:background="#faeeed">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/interiorCheck"
+                   android:layout_alignParentRight="true"
+                    android:paddingRight="23dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    app:srcCompat="@drawable/ic_check_circle"/>
+
 
                 <RelativeLayout
                     android:onClick="@{() -> viewModel.onInteriorFeature()}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="29dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginRight="23dp"
+                    android:layout_marginTop="23dp"
                     android:layout_marginLeft="34dp">
 
                     <TextView
@@ -1115,7 +1060,7 @@
                         android:lineSpacingMultiplier="1.2"
                         android:fontFamily="@font/montserrat"
                         android:layout_marginRight="85dp"
-                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+                        android:text="@string/interior"/>
 
                     <ImageView
                         android:id="@+id/interiorToggle"
@@ -1127,44 +1072,75 @@
                         android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
+                </RelativeLayout>
             </LinearLayout>
-
-
-
             <LinearLayout
                 android:id="@+id/interiorFeature"
                 android:visibility="gone"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_marginTop="18dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:paddingBottom="18dp"
-                android:background="@drawable/carousel_border"
-                android:layout_height="450dp">
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/interiorPager"
+                android:orientation="vertical"
+                android:paddingBottom="15dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:elevation="9dp"
-                    android:layout_height="match_parent"
-                    tools:targetApi="lollipop" />
+                    android:layout_marginTop="18dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:paddingBottom="18dp"
+                    android:background="@drawable/carousel_border"
+                    android:layout_height="450dp">
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/interiorPager"
+                        android:layout_width="match_parent"
+                        android:elevation="9dp"
+                        android:layout_height="match_parent"
+                        tools:targetApi="lollipop" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/interiorSliderLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+                </LinearLayout>
             </LinearLayout>
+
 
 
             <LinearLayout
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="107dp"
+                android:orientation="vertical"
                 android:background="#faeeed">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/electricCheck"
+                   android:layout_alignParentRight="true"
+                    android:paddingRight="23dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    app:srcCompat="@drawable/ic_check_circle"/>
+
 
                 <RelativeLayout
                     android:onClick="@{() -> viewModel.onElectricFeature()}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="29dp"
+                    android:layout_marginTop="23dp"
                     android:layout_marginRight="23dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="34dp">
 
                     <TextView
@@ -1187,11 +1163,10 @@
                         android:lineSpacingMultiplier="1.2"
                         android:fontFamily="@font/montserrat"
                         android:layout_marginRight="85dp"
-                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+                        android:text="@string/electric"/>
 
                     <ImageView
                         android:id="@+id/electricToggle"
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_icon"
@@ -1199,42 +1174,74 @@
                         android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
+                </RelativeLayout>
             </LinearLayout>
-
             <LinearLayout
                 android:id="@+id/electricFeature"
                 android:visibility="gone"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_marginTop="18dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:paddingBottom="18dp"
-                android:background="@drawable/carousel_border"
-                android:layout_height="450dp">
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/electricPager"
+                android:orientation="vertical"
+                android:paddingBottom="15dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:elevation="9dp"
-                    android:layout_height="match_parent"
-                    tools:targetApi="lollipop" />
+                    android:layout_marginTop="18dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:paddingBottom="18dp"
+                    android:background="@drawable/carousel_border"
+                    android:layout_height="450dp">
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/electricPager"
+                        android:layout_width="match_parent"
+                        android:elevation="9dp"
+                        android:layout_height="match_parent"
+                        tools:targetApi="lollipop" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/electricSlideLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+                </LinearLayout>
             </LinearLayout>
+
 
 
             <LinearLayout
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="107dp"
+                android:orientation="vertical"
                 android:background="#faeeed">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/roadTestCheck"
+                    android:layout_marginTop="10dp"
+                    android:paddingRight="23dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    app:srcCompat="@drawable/ic_check_circle"/>
+
 
                 <RelativeLayout
                     android:onClick="@{() -> viewModel.onRoadTestFeature()}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="29dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginRight="23dp"
+                    android:layout_marginTop="23dp"
                     android:layout_marginLeft="34dp">
 
                     <TextView
@@ -1257,7 +1264,7 @@
                         android:lineSpacingMultiplier="1.2"
                         android:fontFamily="@font/montserrat"
                         android:layout_marginRight="85dp"
-                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+                        android:text="@string/road"/>
 
                     <ImageView
                         android:id="@+id/roadTestToggle"
@@ -1269,28 +1276,63 @@
                         android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
+                </RelativeLayout>
             </LinearLayout>
-
             <LinearLayout
                 android:id="@+id/roadTestFeature"
                 android:visibility="gone"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_marginTop="18dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:paddingBottom="18dp"
-                android:background="@drawable/carousel_border"
-                android:layout_height="450dp">
-
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/roadTestPager"
+                android:orientation="vertical"
+                android:paddingBottom="15dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:elevation="9dp"
-                    android:layout_height="match_parent"
-                    tools:targetApi="lollipop" />
+                    android:layout_marginTop="18dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:paddingBottom="18dp"
+                    android:background="@drawable/carousel_border"
+                    android:layout_height="450dp">
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/roadTestPager"
+                        android:layout_width="match_parent"
+                        android:elevation="9dp"
+                        android:layout_height="match_parent"
+                        tools:targetApi="lollipop" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/roadTestSlideLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+                </LinearLayout>
             </LinearLayout>
+
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/roadTestFeature"-->
+<!--                android:visibility="gone"-->
+<!--                android:orientation="vertical"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_marginTop="18dp"-->
+<!--                android:layout_marginLeft="24dp"-->
+<!--                android:layout_marginRight="24dp"-->
+<!--                android:paddingBottom="18dp"-->
+<!--                android:background="@drawable/carousel_border"-->
+<!--                android:layout_height="450dp">-->
+
+<!--                <androidx.viewpager.widget.ViewPager-->
+<!--                    android:id="@+id/roadTestPager"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:elevation="9dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    tools:targetApi="lollipop" />-->
+
+<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_marginTop="4dp"
@@ -1327,10 +1369,9 @@
                         android:lineSpacingMultiplier="1.2"
                         android:fontFamily="@font/montserrat"
                         android:layout_marginRight="85dp"
-                        android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed"/>
+                        android:text="@string/signaturetext"/>
 
                     <ImageView
-
                         android:id="@+id/signatureToggle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1430,6 +1471,10 @@
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
+        </LinearLayout>
+        </LinearLayout>
+
+
 
 
 

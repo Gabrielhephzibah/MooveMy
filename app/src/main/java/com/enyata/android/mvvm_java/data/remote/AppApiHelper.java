@@ -4,7 +4,9 @@ import android.util.Log;
 
 import com.enyata.android.mvvm_java.data.model.api.myData.VinHeaders;
 import com.enyata.android.mvvm_java.data.model.api.request.CreateReportRequest;
+import com.enyata.android.mvvm_java.data.model.api.request.IntakeRuleRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
+import com.enyata.android.mvvm_java.data.model.api.request.RegNumberCheckRequest;
 import com.enyata.android.mvvm_java.data.model.api.response.CreateReportResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorDetailData;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorDetailReport;
@@ -80,6 +82,26 @@ public class AppApiHelper implements  ApiHelper  {
                 .addHeaders(headers)
                 .build()
                 .getObjectFlowable(VinResponseData.class);
+    }
+
+    @Override
+    public Single<CreateReportResponse> checkRegNo(RegNumberCheckRequest.Request request) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.REG_NUMBER_CHECK)
+                .addBodyParameter(request)
+                .addHeaders(mApiHeader.getProtectedApiHeader())
+                .build()
+                .getObjectSingle(CreateReportResponse.class);
+
+    }
+
+    @Override
+    public Single<CreateReportResponse> checkIntakeRule(IntakeRuleRequest.Request request) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.INTAKE_RULE_CHECK)
+                .addBodyParameter(request)
+                .addHeaders(mApiHeader.getProtectedApiHeader())
+                .build()
+                .getObjectSingle(CreateReportResponse.class);
+
     }
 
 

@@ -144,6 +144,14 @@ public class RepairsViewModel extends BaseViewModel<RepairsNavigator> {
         onCleared();
     }
 
+    public void deleteRepairReport(List<VehiclePartRepair> repair){
+        getDataManager().deleteRepairReport(repair);
+    }
+
+    public  void deleteAll(){
+        getDataManager().deleteAll();
+    }
+
     public void sendRepair(VehicleRepairReport request) {
         mAPIService = ApiUtils.getAPIService();
         getNavigator().onStarting();

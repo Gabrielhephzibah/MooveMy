@@ -93,7 +93,7 @@ public class BrakeSystemFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
+//        createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
         config = new HashMap();
         config.put("cloud_name", "dtt1nmogz");
@@ -275,6 +275,6 @@ public class BrakeSystemFragment extends Fragment {
     public void onResume() {
         super.onResume();
         BrakeSystem = new VehicleCollection("brake system", result, status);
-        createReportViewModel.isVehicleSave(BrakeSystem,goodd,fairr,badd, BrakeSystemFragment.this,firstImage,secondImage,thirdImage);
+//        createReportViewModel.isVehicleSave(BrakeSystem,goodd,fairr,badd, BrakeSystemFragment.this,firstImage,secondImage,thirdImage);
     }
 }

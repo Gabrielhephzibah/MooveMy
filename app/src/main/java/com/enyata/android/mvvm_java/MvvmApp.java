@@ -41,8 +41,6 @@ public class MvvmApp extends Application implements HasActivityInjector {
         config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
         MediaManager.init(getApplicationContext().getApplicationContext(), config);
 
-//        FirebaseApp.initializeApp(this);
-
         DaggerAppComponent.builder()
                 .application(this)
                 .build()

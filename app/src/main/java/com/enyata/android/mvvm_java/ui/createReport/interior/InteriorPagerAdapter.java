@@ -66,4 +66,5 @@ public class InteriorPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return 12;
     }
+
 }

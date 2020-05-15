@@ -51,7 +51,7 @@ import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class HoodFragment extends Fragment {
-    String  status = "", imageURL, cloudinaryID;
+    String status = "", imageURL, cloudinaryID;
     RadioGroup hoodRadioGroup;
     RadioButton badd, goodd, fairr;
     Context mContext;
@@ -59,7 +59,7 @@ public class HoodFragment extends Fragment {
     Bitmap bitmap;
     ImageView firstImage, secondImage, thirdImage, cancel1, cancel2, cancel3;
     File photoFile = null;
-    Button saveHood,deleteData;
+    Button saveHood, deleteData;
     CreateReportViewModel createReportViewModel;
     ImageDataArray imageDataArray;
     private String mCurrentPhotoPath;
@@ -67,7 +67,7 @@ public class HoodFragment extends Fragment {
     private Uri mImageUri = null;
     ProgressBar progressBar;
     CharSequence radio;
-    List<String>result;
+    List<String> result;
     String cloudinaryImage;
     Map config;
     VehicleCollection hood;
@@ -94,14 +94,6 @@ public class HoodFragment extends Fragment {
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
 
-
-        config = new HashMap();
-            config.put("cloud_name", "dtt1nmogz");
-            config.put("api_key", "754277299533971");
-            config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
-            Log.d("oooooo", "ffffff");
-
-
     }
 
 
@@ -126,11 +118,9 @@ public class HoodFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         return inflater.inflate(R.layout.hood_layout, container, false);
-
 
 
     }
@@ -146,42 +136,6 @@ public class HoodFragment extends Fragment {
         firstImage = view.findViewById(R.id.firstImage);
         secondImage = view.findViewById(R.id.secondImage);
         thirdImage = view.findViewById(R.id.thirdImage);
-
-
-
-//
-//        if (createReportViewModel.getHoodTrackingStatus()){
-//            if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()){
-//                goodd.setChecked(false);
-//                fairr.setChecked(false);
-//                badd.setChecked(false);
-//                firstImage.setImageResource(0);
-//                secondImage.setImageResource(0);
-//                thirdImage.setImageResource(0);
-//
-//            }else {
-//                List<VehicleCollection> myCollection = createReportViewModel.getIntakeVehicleReport();
-//                for (int i = 0; i < myCollection.size(); i++) {
-//                    if (myCollection.get(i).getPart().equals("hood")) {
-//                        if (myCollection.get(i).getRemark().equals("good")) {
-//                            goodd.setChecked(true);
-//                        } else if (myCollection.get(i).getRemark().equals("fair")) {
-//                            fairr.setChecked(true);
-//                        } else {
-//                            badd.setChecked(true);
-//                        }
-//                        List<String> images = myCollection.get(i).getImageUrl();
-//                        GlideApp.with(HoodFragment.this).load(images.get(0)).into(firstImage);
-//                        GlideApp.with(HoodFragment.this).load(images.get(1)).into(secondImage);
-//                        GlideApp.with(HoodFragment.this).load(images.get(2)).into(thirdImage);
-//
-//                    }
-//                }
-//            }
-//
-//        }
-
-
         progressBar = (ProgressBar) view.findViewById(R.id.pBar);
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
@@ -190,9 +144,9 @@ public class HoodFragment extends Fragment {
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getHoodTrackingStatus()){
+                if (createReportViewModel.getHoodTrackingStatus()) {
                     Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
+                } else {
 
 
                     saveReport();
@@ -203,14 +157,13 @@ public class HoodFragment extends Fragment {
         });
 
 
-
         cancel1 = view.findViewById(R.id.cancel1);
         cancel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (firstImage.getDrawable() == null){
-                    Alert.showFailed(getActivity(),"image is empty");
-                }else {
+                if (firstImage.getDrawable() == null) {
+                    Alert.showFailed(getActivity(), "image is empty");
+                } else {
                     takePicture.removefirstImage();
                     Alert.showSuccess(getActivity(), "this image has been removed");
                     firstImage.setImageResource(0);
@@ -221,12 +174,11 @@ public class HoodFragment extends Fragment {
         cancel2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (secondImage.getDrawable() == null){
-                    Alert.showFailed(getActivity(),"Image is empty");
-                }else {
+                if (secondImage.getDrawable() == null) {
+                    Alert.showFailed(getActivity(), "Image is empty");
+                } else {
                     takePicture.removeSecondImage();
                     Alert.showSuccess(getActivity(), "this image has been removed");
-//                Toast.makeText(getActivity(), "this image has been removed", Toast.LENGTH_LONG).show();
                     secondImage.setImageResource(0);
                 }
             }
@@ -235,9 +187,9 @@ public class HoodFragment extends Fragment {
         cancel3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (thirdImage.getDrawable()==null){
+                if (thirdImage.getDrawable() == null) {
                     Alert.showFailed(getActivity(), "Image is empty");
-                }else {
+                } else {
                     takePicture.removeThirdImage();
                     Alert.showSuccess(getActivity(), "this image has been removed");
                     thirdImage.setImageResource(0);
@@ -248,7 +200,7 @@ public class HoodFragment extends Fragment {
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (takePicture.whenImageIsThree(getActivity())){
+                if (takePicture.whenImageIsThree(getActivity())) {
                 } else {
                     int currentapiVersion = android.os.Build.VERSION.SDK_INT;
                     if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
@@ -259,8 +211,7 @@ public class HoodFragment extends Fragment {
                     }
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                    if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null)
-                    {
+                    if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                         startActivityForResult(cameraIntent, 100);
                     }
 
@@ -341,42 +292,9 @@ public class HoodFragment extends Fragment {
     public void onResume() {
         Log.i("IMAGEARRAY", String.valueOf(result));
         Log.i("Status", status);
+        hood = new VehicleCollection("hood", result, status);
+        createReportViewModel.isVehicleSave(hood, goodd, fairr, badd, HoodFragment.this, firstImage, secondImage, thirdImage);
 
-
-            hood = new VehicleCollection("hood", result, status);
-            createReportViewModel.isVehicleSave(hood, goodd, fairr, badd, HoodFragment.this, firstImage, secondImage, thirdImage);
-
-//
-//        if (createReportViewModel.getHoodTrackingStatus()){
-//            if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()){
-//                goodd.setChecked(false);
-//                fairr.setChecked(false);
-//                badd.setChecked(false);
-//                firstImage.setImageResource(0);
-//                secondImage.setImageResource(0);
-//                thirdImage.setImageResource(0);
-//
-//            }else {
-//                List<VehicleCollection> myCollection = createReportViewModel.getIntakeVehicleReport();
-//                for (int i = 0; i < myCollection.size(); i++) {
-//                    if (myCollection.get(i).getPart().equals("hood")) {
-//                        if (myCollection.get(i).getRemark().equals("good")) {
-//                            goodd.setChecked(true);
-//                        } else if (myCollection.get(i).getRemark().equals("fair")) {
-//                            fairr.setChecked(true);
-//                        } else {
-//                            badd.setChecked(true);
-//                        }
-//                        List<String> images = myCollection.get(i).getImageUrl();
-//                        GlideApp.with(HoodFragment.this).load(images.get(0)).into(firstImage);
-//                        GlideApp.with(HoodFragment.this).load(images.get(1)).into(secondImage);
-//                        GlideApp.with(HoodFragment.this).load(images.get(2)).into(thirdImage);
-//
-//                    }
-//                }
-//            }
-//
-//        }
         super.onResume();
     }
 
@@ -388,10 +306,10 @@ public class HoodFragment extends Fragment {
             Bundle extras = data.getExtras();
 
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            takePicture.pictureCapture(imageBitmap,HoodFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
+            takePicture.pictureCapture(imageBitmap, HoodFragment.this, firstImage, secondImage, thirdImage, progressBar, getActivity());
 
         } else if (requestCode == RESULT_CANCELED) {
-          Alert.showFailed(getActivity(),"The request has been cancelled");
+            Alert.showFailed(getActivity(), "The request has been cancelled");
 
         }
     }
@@ -401,10 +319,9 @@ public class HoodFragment extends Fragment {
         if (takePicture.areImagesNotComplete(getActivity())) {
             return;
         } else if (status.isEmpty()) {
-            Alert.showFailed(getActivity(),"please fill all fields");
+            Alert.showFailed(getActivity(), "please fill all fields");
             return;
-        }else {
-
+        } else {
             imageArray = takePicture.getPictureArray();
             value = imageArray.values();
             result = new ArrayList<>(value);

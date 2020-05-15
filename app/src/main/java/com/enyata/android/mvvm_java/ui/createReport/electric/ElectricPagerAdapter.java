@@ -7,20 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.enyata.android.mvvm_java.ui.createReport.interior.AirCondFragment;
-import com.enyata.android.mvvm_java.ui.createReport.interior.CarpetFragment;
-import com.enyata.android.mvvm_java.ui.createReport.interior.DashGuagesFragment;
-import com.enyata.android.mvvm_java.ui.createReport.interior.DashboardFragment;
-import com.enyata.android.mvvm_java.ui.createReport.interior.DefrosterFragment;
-import com.enyata.android.mvvm_java.ui.createReport.interior.DoorPanelFragment;
-import com.enyata.android.mvvm_java.ui.createReport.interior.GloveBoxFragment;
-import com.enyata.android.mvvm_java.ui.createReport.interior.HeadLinerFragment;
-import com.enyata.android.mvvm_java.ui.createReport.interior.HeaterFragment;
-import com.enyata.android.mvvm_java.ui.createReport.interior.InteriorTrimFragment;
-import com.enyata.android.mvvm_java.ui.createReport.interior.SeatsFragment;
-import com.enyata.android.mvvm_java.ui.createReport.interior.VanityMirrorFragment;
-import com.enyata.android.mvvm_java.ui.createReport.underbody.BrakeSystemFragment;
-
 public class ElectricPagerAdapter extends FragmentPagerAdapter {
     Context context;
 

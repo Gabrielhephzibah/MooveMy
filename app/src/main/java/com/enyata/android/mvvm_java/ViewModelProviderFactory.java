@@ -7,10 +7,15 @@ import com.enyata.android.mvvm_java.data.DataManager;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.login.LoginViewModel;
 import com.enyata.android.mvvm_java.ui.mainActivity.MainActivityViewModel;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleList.VehicleListViewModel;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMaintenance.MaintenanceActivity;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMaintenance.MaintenanceViewModel;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportViewModel;
 import com.enyata.android.mvvm_java.ui.repair.repairList.RepairListViewModel;
 import com.enyata.android.mvvm_java.ui.repair.repairs.RepairsViewModel;
 import com.enyata.android.mvvm_java.ui.response.ResponseViewModel;
 import com.enyata.android.mvvm_java.ui.response.failedResponse.FailedViewModel;
+import com.enyata.android.mvvm_java.ui.signature.MonthlySignature.MonthlySignatureViewModel;
 import com.enyata.android.mvvm_java.ui.signature.SignatureViewModel;
 import com.enyata.android.mvvm_java.ui.splash.SplashViewModel;
 import com.enyata.android.mvvm_java.utils.rx.SchedulerProvider;
@@ -69,6 +74,22 @@ public class ViewModelProviderFactory extends ViewModelProvider.NewInstanceFacto
         else if (modelClass.isAssignableFrom(RepairsViewModel.class)) {
             //noinspection unchecked
             return (T) new RepairsViewModel(dataManager,schedulerProvider);
+        }
+        else if (modelClass.isAssignableFrom(MonthlyReportViewModel.class)) {
+            //noinspection unchecked
+            return (T) new MonthlyReportViewModel(dataManager,schedulerProvider);
+        }
+        else if (modelClass.isAssignableFrom(MonthlySignatureViewModel.class)) {
+            //noinspection unchecked
+            return (T) new MonthlySignatureViewModel(dataManager,schedulerProvider);
+        }
+        else if (modelClass.isAssignableFrom(VehicleListViewModel.class)) {
+            //noinspection unchecked
+            return (T) new VehicleListViewModel(dataManager,schedulerProvider);
+        }
+        else if (modelClass.isAssignableFrom(MaintenanceViewModel.class)) {
+            //noinspection unchecked
+            return (T) new MaintenanceViewModel(dataManager,schedulerProvider);
         }
             throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
 

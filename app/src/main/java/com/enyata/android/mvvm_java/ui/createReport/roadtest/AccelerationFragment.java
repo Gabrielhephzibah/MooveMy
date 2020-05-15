@@ -96,12 +96,6 @@ public class AccelerationFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
-
-
     }
 
 
@@ -127,20 +121,7 @@ public class AccelerationFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-//        deleteData = view.findViewById(R.id.deletedata);
-//        deleteData.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.i("DELETE", "Delete data");
-//                createReportViewModel.deleteAll();
-////                createReportViewModel.deleteData(createReportViewModel.getIntakeVehicleReport());
-//                Log.i("NEWARRAY", String.valueOf(createReportViewModel.getIntakeVehicleReport()));
-//                Log.i("MAKE",String.valueOf(createReportViewModel.getCarMake()));
-//                Log.i("MODEL",String.valueOf(createReportViewModel.getCarModel()));
-//                Log.i("Color",String.valueOf(createReportViewModel.getCarColor()));
-//                Log.i("Year", String.valueOf(createReportViewModel.getCarYear()));
-//            }
-//        });
+
 
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override

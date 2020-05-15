@@ -190,6 +190,16 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     private  static  final  String PREF_KEY_IMAGE_ARRAY__SAVED = "PREF_KEY_IMAGE_ARRAY_SAVED";
 
+    private  static  final  String PREF_KEY_MOOVE_ID = "PREF_KEY_MOOVE_ID";
+
+    private  static  final  String PREF_KEY_CAR_YEAR_MAINT = "PREF_KEY_CAR_YEAR_MAINT";
+
+    private  static  final  String PREF_KEY_CAR_MODEL_MAINT = "PREF_KEY_CAR_MODEL_MAINT";
+
+    private  static  final  String PREF_KEY_CAR_MAKE_MAINT = "PREF_KEY_CAR_MAKE_MAINT";
+
+    private  static  final  String PREF_KEY_TIME_ON_STOP = "PREF_KEY_TIME_ON_STOP";
+
 
 
 
@@ -1514,6 +1524,49 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
+    public void setMooveId(String mooveId) {
+        mPrefs.edit().putString(PREF_KEY_MOOVE_ID,mooveId).apply();
+    }
+
+    @Override
+    public String getMooveId() {
+        return mPrefs.getString(PREF_KEY_MOOVE_ID, null);
+    }
+
+    @Override
+    public void setCarYearMaint(String carYearMaint) {
+        mPrefs.edit().putString(PREF_KEY_CAR_YEAR_MAINT,carYearMaint).apply();
+
+    }
+
+    @Override
+    public String getCarYearMaint() {
+        return mPrefs.getString(PREF_KEY_CAR_YEAR_MAINT,null);
+    }
+
+    @Override
+    public void setCarMakeMaint(String carMakeMaint) {
+        mPrefs.edit().putString(PREF_KEY_CAR_MAKE_MAINT, carMakeMaint).apply();
+
+    }
+
+    @Override
+    public String getCarMakeMaint() {
+        return mPrefs.getString(PREF_KEY_CAR_MAKE_MAINT,null);
+    }
+
+    @Override
+    public void setCarModelMaint(String carModelMaint) {
+        mPrefs.edit().putString(PREF_KEY_CAR_MODEL_MAINT, carModelMaint).apply();
+
+    }
+
+    @Override
+    public String getCarModelMaint() {
+        return mPrefs.getString(PREF_KEY_CAR_MODEL_MAINT,null);
+    }
+
+    @Override
     public void setRepairReport(List<VehiclePartRepair> partRepair) {
         Gson gson = new Gson();
         String json = gson.toJson(partRepair);
@@ -1599,6 +1652,16 @@ public class AppPreferencesHelper implements PreferencesHelper {
     public void deleteReportType(String reportType) {
         mPrefs.edit().remove("PREF_KEY_REPORT_TYPE").apply();
 
+    }
+
+    @Override
+    public void setTimeOnStop(long currentTimeOnStop) {
+        mPrefs.edit().putLong(PREF_KEY_TIME_ON_STOP,currentTimeOnStop).apply();
+    }
+
+    @Override
+    public long getTimeOnStop() {
+        return mPrefs.getLong(PREF_KEY_TIME_ON_STOP,0);
     }
 
 

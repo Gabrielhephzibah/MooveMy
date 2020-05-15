@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
@@ -43,6 +44,8 @@ import com.enyata.android.mvvm_java.utils.CommonUtils;
 import com.enyata.android.mvvm_java.utils.NetworkUtils;
 
 
+import java.util.Calendar;
+
 import dagger.android.AndroidInjection;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -57,6 +60,8 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     private ProgressDialog mProgressDialog;
     private T mViewDataBinding;
     private V mViewModel;
+    private long pausedMillis;
+    private long currentMillis;
     JWT jwt;
 
     /**
@@ -169,8 +174,40 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        pausedMillis = Calendar.getInstance().getTimeInMillis();
+        Log.i("StopCurrentTime", String.valueOf(pausedMillis));
+        mViewModel.setTimeOnStop(pausedMillis);
+        Log.i("sharePrefrenece", String.valueOf(mViewModel.getTimeOnStop()));
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        try {
+            currentMillis = Calendar.getInstance().getTimeInMillis();
+            Log.i("ResumeCurrentTime", String.valueOf(currentMillis));
+            Log.i("New StopCurrentTime", String.valueOf(mViewModel.getTimeOnStop()));
+            Log.i("What is the difference", String.valueOf(currentMillis - mViewModel.getTimeOnStop()));
+
+            if ( !(this instanceof LoginActivity) && currentMillis - mViewModel.getTimeOnStop()  > 1000 * 60 * 15 ) {
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+                Toast.makeText(BaseActivity.this, "Time out, please sign in again ", Toast.LENGTH_LONG).show();
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
     }
 }

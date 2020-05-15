@@ -33,6 +33,15 @@ public class InspectorData {
     @SerializedName("status")
     private String status;
 
+    @Expose
+    @SerializedName("inspector_comment")
+    private String inspectorComment;
+
+    @Expose
+    @SerializedName("type")
+    private String type;
+
+
 
     public int getId() {
         return id;
@@ -60,5 +69,13 @@ public class InspectorData {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getInspectorComment() {
+        return inspectorComment;
+    }
+
+    public String getType() {
+        return type;
     }
 }

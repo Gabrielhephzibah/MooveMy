@@ -1,0 +1,1596 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMaintenance.MaintenanceActivity">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMaintenance.MaintenanceViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+
+            <ImageView
+                android:onClick="@{()->viewModel.onBack()}"
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="25dp"
+                app:srcCompat="@drawable/ic_arrow_back_black" />
+
+            <RelativeLayout
+                android:layout_marginTop="25dp"
+               android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_maintenancelogosmall" />
+                <TextView
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/image"
+                    android:layout_width="wrap_content"
+                    android:textColor="#000000"
+                    android:fontFamily="@font/montserrat"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:layout_height="wrap_content"
+                    android:text="Vehicle Maintenance"/>
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:background="#fbf6f6"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_marginRight="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_marginTop="18dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="146dp"
+                    android:background="#faeeed">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginLeft="20dp">
+
+                        <LinearLayout
+                            android:id="@+id/leftSide"
+                            android:layout_width="match_parent"
+                            android:orientation="vertical"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/mooveIdmaint"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="MVANCC001-16TOCRGY008"
+                                android:textSize="14dp"
+                                android:fontFamily="@font/montserrat"
+                                android:textStyle="bold"
+                                android:textColor="#000000"/>
+                            <TextView
+                                android:id="@+id/makeyearmodel"
+                                android:layout_marginTop="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2016 Toyota Hilux"
+                                android:textSize="14dp"
+                                android:textColor="#373737"
+                                android:fontFamily="@font/montserrat"/>
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="25dp">
+
+                                <LinearLayout
+                                    android:id="@+id/initialMileageLayout"
+                                    android:layout_width="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="INITIAL MILAGE"
+                                        android:textSize="10sp"
+                                        android:textColor="#E53012"
+                                        android:fontFamily="@font/montserrat"
+                                        android:textStyle="bold"/>
+
+                                    <TextView
+                                        android:id="@+id/initialMileage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0"
+                                        android:textSize="10sp"
+                                        android:textColor="#E53012"
+                                        android:fontFamily="@font/montserrat"/>
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_marginLeft="35dp"
+                                    android:layout_toRightOf="@+id/initialMileageLayout"
+                                    android:layout_width="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="CURRENT MILAGE"
+                                        android:textSize="10sp"
+                                        android:textColor="#E53012"
+                                        android:fontFamily="@font/montserrat"
+                                        android:textStyle="bold"/>
+
+                                    <TextView
+                                        android:id="@+id/currentMileage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0"
+                                        android:textSize="10sp"
+                                        android:textColor="#E53012"
+                                        android:fontFamily="@font/montserrat"/>
+
+                                </LinearLayout>
+
+
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+
+
+                        <ImageView
+                            android:translationY="-15dp"
+                           android:layout_alignParentEnd="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitEnd"
+                            android:src="@drawable/halfcar"/>
+
+
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="37dp"
+                    android:background="@drawable/maintenance_dotted_border">
+                    <RelativeLayout
+                        android:onClick="@{()->viewModel.addCurrentMileage()}"
+                        android:layout_gravity="center"
+                        android:gravity="center_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/addImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/ic_add_maintenance"/>
+
+                        <TextView
+                            android:paddingLeft="10dp"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/addImage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add Current Mileage"
+                            android:fontFamily="@font/montserrat"
+                            android:textStyle="bold"
+                            android:textColor="#707070"
+                            android:textSize="12sp"/>
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/maintenanceListWrapper"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/maintenanceListLayout"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="100dp"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_marginTop="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:textColor="#000000"
+                        android:text="Choose any of the Vehicle Part"/>
+
+
+<!--                    ****FIRST ROWWWW****-->
+
+                    <LinearLayout
+                        android:layout_marginTop="30dp"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onEngineOil()}"
+                                android:id="@+id/engineOil"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                app:cardCornerRadius="10dp"
+                                android:layout_weight="1"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:id="@+id/engineOilImage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/ic_engineoil_sec"/>
+
+                                    <TextView
+                                        android:id="@+id/engineOilText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Engine oil"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+
+                            </androidx.cardview.widget.CardView>
+
+
+
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onOilFilter()}"
+                                android:layout_marginLeft="8dp"
+                                android:id="@+id/oilFilterBox"
+                                app:cardCornerRadius="10dp"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="110dp">
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/oilFilterImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_oilfilter"/>
+
+                                    <TextView
+                                        android:id="@+id/oilFilterText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Oil filter"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onAirFilter()}"
+                                android:layout_marginLeft="8dp"
+                                android:id="@+id/airFilterBox"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/airFilterImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_airfilter"/>
+
+                                    <TextView
+                                        android:id="@+id/airFilterText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Air filter"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+
+                            </androidx.cardview.widget.CardView>
+                        </LinearLayout>
+                    </LinearLayout>
+
+<!--                    ***SECONDROW***-->
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onPollenFilter()}"
+                                android:id="@+id/pollenFilterBox"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/pollenFilterImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_pollenfilter"/>
+
+                                    <TextView
+                                        android:id="@+id/pollenFilterText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Pollen filter"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onBrakePad()}"
+                                android:id="@+id/brakePadBox"
+                                android:layout_marginLeft="8dp"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                app:cardCornerRadius="10dp"
+                                android:layout_weight="1"
+                                android:layout_height="110dp">
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/brakePadImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_brakepad"/>
+
+                                    <TextView
+                                        android:id="@+id/brakePadText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Brake pad"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+
+
+
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onSuspensionSystem()}"
+                                android:id="@+id/suspensionSystemBox"
+                                android:layout_marginLeft="8dp"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                app:cardCornerRadius="10dp"
+                                android:layout_weight="1"
+                                android:layout_height="110dp">
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/suspensionSystemImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_suspension_system"/>
+
+                                    <TextView
+                                        android:id="@+id/suspensionSystemText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Suspension \n\t system"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+<!--                    THIRD ROWWWWWWW-->
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onVariousBelt()}"
+                                android:id="@+id/variousBeltBox"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                               app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/variousBeltImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_variousbelt"/>
+
+                                    <TextView
+                                        android:id="@+id/variousBeltText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Various belts"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onSparkPlug()}"
+                                android:id="@+id/sparkPlugBox"
+                                android:layout_marginLeft="8dp"
+                                android:orientation="vertical"
+                                app:cardCornerRadius="10dp"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="110dp">
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/sparkPlugImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_sparkplug"/>
+
+                                    <TextView
+                                        android:id="@+id/sparkPlugText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Spark Plug"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onFuelFilter()}"
+                                android:id="@+id/fuelFilterBox"
+                                android:layout_marginLeft="8dp"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                               app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/fuelFilterImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_fuelfilter"/>
+
+                                    <TextView
+                                        android:id="@+id/fuelFilterText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Fuel filter"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+                        </LinearLayout>
+                    </LinearLayout>
+
+<!--                    FOURTH ******** ROW-->
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onEngineCooling()}"
+                                android:id="@+id/engineCoolingBox"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/engineCoolingImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_enginecooling"/>
+
+                                    <TextView
+                                        android:id="@+id/engineCoolingText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Engine cooling \n\t\t system"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onWiperBlade()}"
+                                android:id="@+id/wiperBladeBox"
+                                android:layout_marginLeft="8dp"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                               app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/wiperBladeImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_wiperblade"/>
+
+                                    <TextView
+                                        android:id="@+id/wiperBladeText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Wiper blade"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onChargingSystem()}"
+                                android:id="@+id/chargingSystemBox"
+                                android:layout_marginLeft="8dp"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/chargingSystemImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_chargingsystem"/>
+
+                                    <TextView
+                                        android:id="@+id/chargingSystemText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Charging \n\tsystem"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+                        </LinearLayout>
+                    </LinearLayout>
+
+<!--                    FIFTH*******ROW-->
+
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onPowerSteering()}"
+                                android:id="@+id/powerSteeringBox"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                               app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"/>
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/powerSteeringImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_powersteering"/>
+
+                                    <TextView
+                                        android:id="@+id/powerSteeringText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Power steering \n\t\t\t fluid"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onTransmissionOil()}"
+                                android:id="@+id/transmissionOilBox"
+                                android:layout_marginLeft="8dp"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/transmissionOilImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_transmissionfluid"/>
+
+                                    <TextView
+                                        android:id="@+id/transmissionOilText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Transmission \n\t\t\t oil"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onBrakeFluid()}"
+                                android:id="@+id/breakFluidBox"
+                                android:layout_marginLeft="8dp"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/brakeFluidImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_brakefluid"/>
+
+                                    <TextView
+                                        android:id="@+id/brakeFluidText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Brake fluid"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+                        </LinearLayout>
+                    </LinearLayout>
+
+<!--                    SIXTH*****ROW-->
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onFuelSystem()}"
+                                android:id="@+id/fuelSystemBox"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                               app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/fuelSystemImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_fuelsystem"/>
+
+                                    <TextView
+                                        android:id="@+id/fuelSystemText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Fuel system"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+
+
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onTireRotation()}"
+                                android:id="@+id/tireRotationBox"
+                                android:layout_marginLeft="8dp"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                               app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/tireRotationImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_tirerotation"/>
+
+                                    <TextView
+                                        android:id="@+id/tireRotationText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Tire rotation"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onAlignment()}"
+                                android:id="@+id/alignmentBox"
+                                android:layout_marginLeft="8dp"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/alignmentImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_alignment"/>
+
+                                    <TextView
+                                        android:id="@+id/alignmentText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Alignment"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+                        </LinearLayout>
+                    </LinearLayout>
+
+<!--                    SEVENTH******ROW-->
+
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onAirFlow()}"
+                                android:id="@+id/airflowBox"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint" />
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/airFlowImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_airflow"/>
+
+                                    <TextView
+                                        android:id="@+id/airFlowText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Air flow \n system"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onAirCondition()}"
+                                android:id="@+id/airConditionBox"
+                                android:layout_marginLeft="8dp"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                               app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint" />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/airConditionImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_aircondition"/>
+
+                                    <TextView
+                                        android:id="@+id/airConditionText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Air conditioning\n\t\t\t system"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onElectronic()}"
+                                android:id="@+id/electronicBox"
+                                android:layout_marginLeft="8dp"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                               app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/electronicImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_electronic"/>
+
+                                    <TextView
+                                        android:id="@+id/electronicText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Electronic/\n Lighting"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+                        </LinearLayout>
+                    </LinearLayout>
+
+<!--                    EIGTH ******* ROW-->
+
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content">
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onExhaust()}"
+                                android:id="@+id/exhaustBox"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                               app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/exhaustImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_exhaust"/>
+
+                                    <TextView
+                                        android:id="@+id/exhaustText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Exhaust pipe"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onTireInflation()}"
+                                android:id="@+id/tireInflationBox"
+                                android:layout_marginLeft="8dp"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                               app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/tireInflationImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_tireinflation"/>
+
+                                    <TextView
+                                        android:id="@+id/tireInflationText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Tire inflation/\n\t\t thread"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:onClick="@{()->viewModel.onWheel()}"
+                                android:id="@+id/wheelBox"
+                                android:layout_marginLeft="8dp"
+                                android:orientation="vertical"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                               app:cardCornerRadius="10dp"
+                                android:layout_height="110dp">
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint"
+                                    />
+
+                                <LinearLayout
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical"
+                                    android:layout_height="match_parent">
+
+                                    <ImageView
+                                        android:id="@+id/wheelImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_wheel"/>
+
+                                    <TextView
+                                        android:id="@+id/wheelText"
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Wheel rim"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        android:fontFamily="@font/montserrat" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <androidx.cardview.widget.CardView
+                            android:onClick="@{()->viewModel.onTransmissionFilter()}"
+                            android:layout_width="117dp"
+                            android:id="@+id/transmissionFilterBox"
+                            android:orientation="vertical"
+                            android:layout_height="110dp"
+                            app:cardCornerRadius="10dp">
+
+                            <ImageView
+                                android:visibility="gone"
+                                android:layout_gravity="end"
+                                android:paddingRight="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_circlecheck_maint"
+                                />
+
+                            <LinearLayout
+                                android:layout_gravity="center_horizontal"
+                                android:layout_width="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:id="@+id/transmissionFilterImage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/ic_wheel"/>
+
+                                <TextView
+                                    android:id="@+id/transmissionFilterText"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Transmission \n \t \t Filter"
+                                    android:textColor="#000000"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"
+                                    android:fontFamily="@font/montserrat" />
+
+                            </LinearLayout>
+
+
+
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+
+                    <Button
+                        android:layout_marginTop="50dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="SUBMIT"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/montserrat"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:background="@drawable/button_radius_background"/>
+
+
+
+                </LinearLayout>
+
+                </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+    </LinearLayout>
+
+
+</layout>

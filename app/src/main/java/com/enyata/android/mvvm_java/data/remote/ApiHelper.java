@@ -3,11 +3,13 @@ package com.enyata.android.mvvm_java.data.remote;
 import com.enyata.android.mvvm_java.data.model.api.request.CreateReportRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.IntakeRuleRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
+import com.enyata.android.mvvm_java.data.model.api.request.MaintenanceScheduleRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.RegNumberCheckRequest;
 import com.enyata.android.mvvm_java.data.model.api.response.CreateReportResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorDetailReport;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorListResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.LoginResponse;
+import com.enyata.android.mvvm_java.data.model.api.response.MaintenanceScheduleResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.VinResponseData;
 
 import io.reactivex.Flowable;
@@ -28,6 +30,10 @@ public interface ApiHelper {
     Single<CreateReportResponse>checkRegNo(RegNumberCheckRequest.Request request);
 
     Single<CreateReportResponse>checkIntakeRule(IntakeRuleRequest.Request request);
+
+    Flowable<InspectorListResponse>getMonthlyVehicleList();
+
+    Flowable<MaintenanceScheduleResponse>getMaintenanceSchedule(MaintenanceScheduleRequest.Request request);
 
 
 

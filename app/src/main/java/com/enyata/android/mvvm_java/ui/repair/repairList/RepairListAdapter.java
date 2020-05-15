@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RepairListAdapter extends RecyclerView.Adapter<RepairListAdapter.RepairViewHolder> {
-
     public Context context;
     private List<RepairItemList> lists;
     ArrayList<RepairItemList> repairItemList;

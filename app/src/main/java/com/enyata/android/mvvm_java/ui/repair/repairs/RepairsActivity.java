@@ -216,7 +216,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
         repairsViewModel.getInspectorDetails(repairItemList.getId());
 
         carMooveId.setText(repairItemList.getMooveId());
-        yearMakeModel.setText(repairItemList.getYear() + " " + repairItemList.getMake() + " " + repairItemList.getModel());
+        yearMakeModel.setText(String.format("%s %s %s", repairItemList.getYear(), repairItemList.getMake(), repairItemList.getModel()));
 
 
     }

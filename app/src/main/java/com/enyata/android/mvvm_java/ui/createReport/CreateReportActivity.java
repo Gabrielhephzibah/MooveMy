@@ -60,7 +60,7 @@ import javax.inject.Inject;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-public class CreateReportActivity extends BaseActivity<ActivityCreateReportBinding, CreateReportViewModel> implements CreateReportNavigator,AdapterView.OnItemSelectedListener {
+public class CreateReportActivity extends BaseActivity<ActivityCreateReportBinding, CreateReportViewModel> implements CreateReportNavigator, AdapterView.OnItemSelectedListener {
 
     @Inject
     ViewModelProviderFactory factory;
@@ -71,29 +71,30 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
     CreateReportViewModel createReportViewModel;
     ActivityCreateReportBinding activityCreateReportBinding;
     ViewPager exteriorPager, glassPager, tiresPager, underBodyPager, underHoodPager, interiorPager, electricPager, roadTestPager;
-    RelativeLayout exteriorLayout,glassLayout;
+    RelativeLayout exteriorLayout, glassLayout;
     LinearLayout inspectFeature, exteriorFeature, glassfeature, tiresFeature, underBodyFeature, underHoodFeature, interiorFeature, electricFeature, roadTestFeature, signatureFeature;
     ImageView inspectToggle, exteriorToggle, glassToggle, tiresToggle, underBodyToggle, underHoodToggle, interiorToggle, electricToggle, roadTestToggle, signatureToggle;
     Spinner finalAssessSpinner;
-    String[] intakeFinalAssess = {"","accepted","not accepted"};
-    String[] monthlyFinalAssess = {"","failed","passed"};
-    EditText carColoredit, mileageEdit,regNumEdit,vinEdit,editVin;
-    String carColor,mileage, regNum,vin,finalComment, editVinNo;
+    String[] intakeFinalAssess = {"", "accepted", "not accepted"};
+    String[] monthlyFinalAssess = {"", "failed", "passed"};
+    EditText carColoredit, mileageEdit, regNumEdit, vinEdit, editVin;
+    String carColor, mileage, regNum, vin, finalComment, editVinNo;
     Button save;
-    int[] exteriorLayouts = {R.layout.hood_layout, R.layout.front_bumper_layout,R.layout.fenders_layout,R.layout.door_layout,R.layout.roof_layout,R.layout.rear_layout,R.layout.rear_bumper_layout,R.layout.trunk_layout,R.layout.trim_layout,R.layout.fuel_door_layout,R.layout.paint_layout};
-    int[]glassLayouts = {R.layout.windshield_layout,R.layout.window_layout,R.layout.mirrors_layout,R.layout.rear_window_layout};
-    int []tiresLayouts = {R.layout.tires_layout,R.layout.wheel_layout,R.layout.spare_tire_layout};
-    int[]underBodyLayouts = {R.layout.frame_layout,R.layout.exhaust_layout,R.layout.transmission_layout,R.layout.drive_axle_layout,R.layout.suspension_layout,R.layout.brake_system_layout};
-    int[] underHoodLayouts = {R.layout.engine_com_layout,R.layout.battery_layout,R.layout.oil_layout,R.layout.fluid_layout,R.layout.wiring_layout,R.layout.belt_layout,R.layout.hoses_layout};
-    int[] interiorLayouts = {R.layout.seats_layout,R.layout.headliner_layout,R.layout.carpet_layout,R.layout.door_panel_layout,R.layout.glove_box_layout,R.layout.vanity_mirror_layout,R.layout.interior_trim_layout,R.layout.dashboard_layout,R.layout.dash_guage_layout,R.layout.air_cond_layout,R.layout.heater_layout,R.layout.defroster_layout};
-    int[] electricalLayouts = {R.layout.power_lock_layout,R.layout.power_seat_layout,R.layout.power_stering_layout,R.layout.power_window_layout,R.layout.power_mirror_layout,R.layout.audio_system_layout,R.layout.computer_layout,R.layout.headlight_layout,R.layout.tail_light_layout,R.layout.signal_light_layout,R.layout.brake_light_layout,R.layout.parking_light_layout};
-    int[]roadTestLayouts = {R.layout.starting_layout,R.layout.idling_layout,R.layout.engine_layout,R.layout.accelaration_layout,R.layout.transmisssion_shift_layout,R.layout.steering_layout,R.layout.braking_layout,R.layout.suspension_performance_layout};
+    int[] exteriorLayouts = {R.layout.hood_layout, R.layout.front_bumper_layout, R.layout.fenders_layout, R.layout.door_layout, R.layout.roof_layout, R.layout.rear_layout, R.layout.rear_bumper_layout, R.layout.trunk_layout, R.layout.trim_layout, R.layout.fuel_door_layout, R.layout.paint_layout};
+    int[] glassLayouts = {R.layout.windshield_layout, R.layout.window_layout, R.layout.mirrors_layout, R.layout.rear_window_layout};
+    int[] tiresLayouts = {R.layout.tires_layout, R.layout.wheel_layout, R.layout.spare_tire_layout};
+    int[] underBodyLayouts = {R.layout.frame_layout, R.layout.exhaust_layout, R.layout.transmission_layout, R.layout.drive_axle_layout, R.layout.suspension_layout, R.layout.brake_system_layout};
+    int[] underHoodLayouts = {R.layout.engine_com_layout, R.layout.battery_layout, R.layout.oil_layout, R.layout.fluid_layout, R.layout.wiring_layout, R.layout.belt_layout, R.layout.hoses_layout};
+    int[] interiorLayouts = {R.layout.seats_layout, R.layout.headliner_layout, R.layout.carpet_layout, R.layout.door_panel_layout, R.layout.glove_box_layout, R.layout.vanity_mirror_layout, R.layout.interior_trim_layout, R.layout.dashboard_layout, R.layout.dash_guage_layout, R.layout.air_cond_layout, R.layout.heater_layout, R.layout.defroster_layout};
+    int[] electricalLayouts = {R.layout.power_lock_layout, R.layout.power_seat_layout, R.layout.power_stering_layout, R.layout.power_window_layout, R.layout.power_mirror_layout, R.layout.audio_system_layout, R.layout.computer_layout, R.layout.headlight_layout, R.layout.tail_light_layout, R.layout.signal_light_layout, R.layout.brake_light_layout, R.layout.parking_light_layout};
+    int[] roadTestLayouts = {R.layout.starting_layout, R.layout.idling_layout, R.layout.engine_layout, R.layout.accelaration_layout, R.layout.transmisssion_shift_layout, R.layout.steering_layout, R.layout.braking_layout, R.layout.suspension_performance_layout};
     ImageView[] slider_dash;
-    ImageView vehincleInfoCheck,glasscheck,exteriorCheck,tiresCheck,underBodyCheck,underHoodCheck,interiorCheck,roadTestCheck,electricCheck;
-    TextView yearText,modelText,makeText;
-    LinearLayout exteriorSlide,glassSlide,tireSlide,underBodySlide,underHoodSlide,interiorSlide,electricSlide,roadTestSlide,allInspection,allinspectionWraper;
+    ImageView vehincleInfoCheck, glasscheck, exteriorCheck, tiresCheck, underBodyCheck, underHoodCheck, interiorCheck, roadTestCheck, electricCheck;
+    TextView yearText, modelText, makeText;
+    LinearLayout exteriorSlide, glassSlide, tireSlide, underBodySlide, underHoodSlide, interiorSlide, electricSlide, roadTestSlide, allInspection, allinspectionWraper;
     ProgressDialog dialog;
-    String selectedYear, selectedModel,selectedMake,selectedFinalAssess;
+    String selectedYear, selectedModel, selectedMake, selectedFinalAssess;
+    AlertDialog alert;
 
     @Override
     public int getBindingVariable() {
@@ -125,9 +126,8 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
             }
         }
 
-        Log.i("REPORT_TYPE",createReportViewModel.getReportType());
         inspectToggle = activityCreateReportBinding.inspectToggle;
-        exteriorLayout =activityCreateReportBinding.exteriorLayout;
+        exteriorLayout = activityCreateReportBinding.exteriorLayout;
         signatureToggle = activityCreateReportBinding.signatureToggle;
         exteriorPager = activityCreateReportBinding.exteriorPager;
         glassPager = activityCreateReportBinding.glassPager;
@@ -160,68 +160,62 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         makeText = activityCreateReportBinding.makeText;
         carColoredit = activityCreateReportBinding.editColor;
         finalAssessSpinner = activityCreateReportBinding.spinnerFinalAssess;
-       editVin = activityCreateReportBinding.editVinNumber;
-       mileageEdit = activityCreateReportBinding.editMillage;
-       regNumEdit = activityCreateReportBinding.editCarRegNum;
-       exteriorSlide = activityCreateReportBinding.slideLayout;
-       glassSlide = findViewById(R.id.glassSlideLayout);
-       interiorSlide = findViewById(R.id.interiorSliderLayout);
-       tireSlide = findViewById(R.id.tireSlideLayout);
-       underBodySlide = findViewById(R.id.underBodySlideLayout);
-       underHoodSlide = findViewById(R.id.underHoodSlideLayout);
-       roadTestSlide = findViewById(R.id.roadTestSlideLayout);
-       electricSlide = findViewById(R.id.electricSlideLayout);
-       vehincleInfoCheck = findViewById(R.id.vehicleInfoCheck);
-
-
-       glasscheck = findViewById(R.id.glassCheck);
-       exteriorCheck = findViewById(R.id.exteriorCheck);
-       tiresCheck = findViewById(R.id.tiresCheck);
-       electricCheck = findViewById(R.id.electricCheck);
-       roadTestCheck = findViewById(R.id.roadTestCheck);
-       underBodyCheck = findViewById(R.id.underBodyCheck);
-       underHoodCheck = findViewById(R.id.underHoodCheck);
-       interiorCheck = findViewById(R.id.interiorCheck);
-      createReportViewModel.checkExterior(exteriorCheck);
-      createReportViewModel.checkGlass(glasscheck);
-      createReportViewModel.checkTires(tiresCheck);
-      createReportViewModel.checkUnderBody(underBodyCheck);
+        editVin = activityCreateReportBinding.editVinNumber;
+        mileageEdit = activityCreateReportBinding.editMillage;
+        regNumEdit = activityCreateReportBinding.editCarRegNum;
+        exteriorSlide = activityCreateReportBinding.slideLayout;
+        glassSlide = findViewById(R.id.glassSlideLayout);
+        interiorSlide = findViewById(R.id.interiorSliderLayout);
+        tireSlide = findViewById(R.id.tireSlideLayout);
+        underBodySlide = findViewById(R.id.underBodySlideLayout);
+        underHoodSlide = findViewById(R.id.underHoodSlideLayout);
+        roadTestSlide = findViewById(R.id.roadTestSlideLayout);
+        electricSlide = findViewById(R.id.electricSlideLayout);
+        vehincleInfoCheck = findViewById(R.id.vehicleInfoCheck);
+        glasscheck = findViewById(R.id.glassCheck);
+        exteriorCheck = findViewById(R.id.exteriorCheck);
+        tiresCheck = findViewById(R.id.tiresCheck);
+        electricCheck = findViewById(R.id.electricCheck);
+        roadTestCheck = findViewById(R.id.roadTestCheck);
+        underBodyCheck = findViewById(R.id.underBodyCheck);
+        underHoodCheck = findViewById(R.id.underHoodCheck);
+        interiorCheck = findViewById(R.id.interiorCheck);
+        createReportViewModel.checkExterior(exteriorCheck);
+        createReportViewModel.checkGlass(glasscheck);
+        createReportViewModel.checkTires(tiresCheck);
+        createReportViewModel.checkUnderBody(underBodyCheck);
         createReportViewModel.checkUnderHood(underHoodCheck);
         createReportViewModel.checkRoadTest(roadTestCheck);
         createReportViewModel.checkElectric(electricCheck);
         createReportViewModel.checkInterior(interiorCheck);
+        allInspection = findViewById(R.id.allInspectionLayout);
+        allinspectionWraper = findViewById(R.id.allInspectionWrapper);
+        if (createReportViewModel.getVehincleInfo()) {
+            vehincleInfoCheck.setVisibility(View.VISIBLE);
+            editVin.setText(createReportViewModel.getVin());
+            yearText.setText(createReportViewModel.getCarYear());
+            modelText.setText(createReportViewModel.getCarModel());
+            makeText.setText(createReportViewModel.getCarMake());
+            mileageEdit.setText(createReportViewModel.getMilage());
+            regNumEdit.setText(createReportViewModel.getregNo());
+            carColoredit.setText(createReportViewModel.getCarColor());
+            setViewAndChildrenEnabled(allInspection, true);
+            allInspection.setAlpha(1);
+        } else {
+            setViewAndChildrenEnabled(allInspection, false);
+            allinspectionWraper.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Alert.showFailed(getApplicationContext(), "Please fill Vehicle Information");
+                }
+            });
+        }
 
-       allInspection = findViewById(R.id.allInspectionLayout);
-       allinspectionWraper = findViewById(R.id.allInspectionWrapper);
-       if (createReportViewModel.getVehincleInfo()){
-           vehincleInfoCheck.setVisibility(View.VISIBLE);
-           editVin.setText(createReportViewModel.getVin());
-           yearText.setText(createReportViewModel.getCarYear());
-           modelText.setText(createReportViewModel.getCarModel());
-           makeText.setText(createReportViewModel.getCarMake());
-           mileageEdit.setText(createReportViewModel.getMilage());
-           regNumEdit.setText(createReportViewModel.getregNo());
-           carColoredit.setText(createReportViewModel.getCarColor());
-           setViewAndChildrenEnabled(allInspection,true);
-           allInspection.setAlpha(1);
-       }else {
-           setViewAndChildrenEnabled(allInspection, false);
-           allinspectionWraper.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View view) {
-                   Alert.showFailed(getApplicationContext(), "Please fill Vehicle Information");
-               }
-           });
-       }
-
-       Log.i("BIG ARRAY", String.valueOf(createReportViewModel.getIntakeVehicleReport()));
-
-
-
+        Log.i("BIG ARRAY", String.valueOf(createReportViewModel.getIntakeVehicleReport()));
 
 
         finalAssessSpinner.setOnItemSelectedListener(this);
-        dialog = new ProgressDialog(this,R.style.MyAlertDialogStyle);
+        dialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setMessage("Please wait .....");
         dialog.setCancelable(false);
@@ -244,9 +238,6 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
 
             @Override
             public void onPageScrollStateChanged(int state) {
-//                exteriorPager.setOffscreenPageLimit(9);
-
-
 
 
             }
@@ -404,17 +395,18 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
             }
         });
 
-            switch (createReportViewModel.getReportType()){
-                case "intake":{
-                    ArrayAdapter<String>finalAssessAdapter = new ArrayAdapter<>(CreateReportActivity.this, android.R.layout.simple_spinner_item, intakeFinalAssess);
-                    finalAssessSpinner.setAdapter(finalAssessAdapter);
-                    break;
-                }case "monthly":{
-                    ArrayAdapter<String> finalAssessAdapter2 = new ArrayAdapter<>(CreateReportActivity.this, android.R.layout.simple_spinner_item, monthlyFinalAssess);
-                    finalAssessSpinner.setAdapter(finalAssessAdapter2);
-                    break;
-                }
+        switch (createReportViewModel.getReportType()) {
+            case "intake": {
+                ArrayAdapter<String> finalAssessAdapter = new ArrayAdapter<>(CreateReportActivity.this, android.R.layout.simple_spinner_item, intakeFinalAssess);
+                finalAssessSpinner.setAdapter(finalAssessAdapter);
+                break;
             }
+            case "monthly": {
+                ArrayAdapter<String> finalAssessAdapter2 = new ArrayAdapter<>(CreateReportActivity.this, android.R.layout.simple_spinner_item, monthlyFinalAssess);
+                finalAssessSpinner.setAdapter(finalAssessAdapter2);
+                break;
+            }
+        }
 
     }
 
@@ -431,9 +423,9 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         finalComment = activityCreateReportBinding.finalCommentEditText.getText().toString();
         Log.i("Final Comment", finalComment);
         createReportViewModel.setFinalComment(finalComment);
-       selectedFinalAssess  = finalAssessSpinner.getSelectedItem().toString();
-       Log.i("FINAL ASSESS", selectedFinalAssess);
-       createReportViewModel.setFinalStatus(selectedFinalAssess);
+        selectedFinalAssess = finalAssessSpinner.getSelectedItem().toString();
+        Log.i("FINAL ASSESS", selectedFinalAssess);
+        createReportViewModel.setFinalStatus(selectedFinalAssess);
         Intent intent = new Intent(getApplicationContext(), SignatureActivity.class);
         startActivity(intent);
     }
@@ -471,7 +463,7 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
             glassfeature.setVisibility(View.VISIBLE);
             glassToggle.setImageResource(R.drawable.icon);
             createReportViewModel.checkGlass(glasscheck);
-            } else {
+        } else {
             glassfeature.setVisibility(View.GONE);
             glassToggle.setImageResource(R.drawable.ic_icon);
             createReportViewModel.checkGlass(glasscheck);
@@ -490,7 +482,6 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
             tiresFeature.setVisibility(View.GONE);
             tiresToggle.setImageResource(R.drawable.ic_icon);
             createReportViewModel.checkTires(tiresCheck);
-
 
 
         }
@@ -586,92 +577,52 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
     public void onSaveVehicleInfo() {
         hideKeyboard();
         carColor = activityCreateReportBinding.editColor.getText().toString();
-     mileage = activityCreateReportBinding.editMillage.getText().toString();
-     regNum = activityCreateReportBinding.editCarRegNum.getText().toString();
-     vin =  activityCreateReportBinding.editVinNumber.getText().toString();
-     if (TextUtils.isEmpty(carColor)){
+        mileage = activityCreateReportBinding.editMillage.getText().toString();
+        regNum = activityCreateReportBinding.editCarRegNum.getText().toString();
+        vin = activityCreateReportBinding.editVinNumber.getText().toString();
+        if (TextUtils.isEmpty(carColor)) {
             carColoredit.setError(" Vehicle color is required");
             carColoredit.requestFocus();
             return;
-        }else if(TextUtils.isEmpty(mileage)){
+        } else if (TextUtils.isEmpty(mileage)) {
             mileageEdit.setError("Vehicle Mileage is required");
             mileageEdit.requestFocus();
             return;
-        }else if (TextUtils.isEmpty(regNum)){
+        } else if (TextUtils.isEmpty(regNum)) {
             regNumEdit.setError("Registration Number is required");
             regNumEdit.requestFocus();
             return;
-        }else if (yearText.getText().toString().isEmpty()){
-            Alert.showFailed(getApplicationContext(),"Vehicle year is required");
+        } else if (yearText.getText().toString().isEmpty()) {
+            Alert.showFailed(getApplicationContext(), "Vehicle year is required");
             yearText.requestFocus();
             return;
-        }else if (modelText.getText().toString().isEmpty()){
-            Alert.showFailed(getApplicationContext(),"Vehicle model is required");
+        } else if (modelText.getText().toString().isEmpty()) {
+            Alert.showFailed(getApplicationContext(), "Vehicle model is required");
             modelText.requestFocus();
             return;
-        }else if(makeText.getText().toString().isEmpty()) {
-            Alert.showFailed(getApplicationContext(),"Vehicle make is required");
+        } else if (makeText.getText().toString().isEmpty()) {
+            Alert.showFailed(getApplicationContext(), "Vehicle make is required");
             makeText.requestFocus();
             return;
-        }else {
+        } else {
 
-         switch (createReportViewModel.getReportType()) {
-             case "intake": {
-                 Log.i("Intake", "INTAKE");
-                 IntakeRuleRequest.Request request = new IntakeRuleRequest.Request(selectedMake, selectedModel, selectedYear, carColor, vin, mileage, regNum);
-                 createReportViewModel.checkIntakeRule(request);
-                 break;
-             }
-             case "monthly": {
-                 RegNumberCheckRequest.Request request = new RegNumberCheckRequest.Request(activityCreateReportBinding.editCarRegNum.getText().toString());
-                 createReportViewModel.checkRegNumber(request);
-                 break;
-             }
-         }
+            switch (createReportViewModel.getReportType()) {
+                case "intake": {
+                    Log.i("Intake", "INTAKE");
+                    IntakeRuleRequest.Request request = new IntakeRuleRequest.Request(selectedMake, selectedModel, selectedYear, carColor, vin, mileage, regNum);
+                    createReportViewModel.checkIntakeRule(request);
+                    break;
+                }
+                case "monthly": {
+                    RegNumberCheckRequest.Request request = new RegNumberCheckRequest.Request(activityCreateReportBinding.editCarRegNum.getText().toString());
+                    createReportViewModel.checkRegNumber(request);
+                    break;
+                }
+            }
 
-     }
+        }
 
-        Log.i("Button clicked","Buttonnnnnnn");
-//        carColor = activityCreateReportBinding.editColor.getText().toString();
-//        mileage = activityCreateReportBinding.editMillage.getText().toString();
-//        regNum = activityCreateReportBinding.editCarRegNum.getText().toString();
-//        vin =  activityCreateReportBinding.editVinNumber.getText().toString();
-//        if (TextUtils.isEmpty(carColor)){
-//            carColoredit.setError(" Car color is required");
-//            carColoredit.requestFocus();
-//            return;
-//        }else if(TextUtils.isEmpty(mileage)){
-//            mileageEdit.setError("Car Mileage is required");
-//            mileageEdit.requestFocus();
-//            return;
-//        }else if (TextUtils.isEmpty(regNum)){
-//            regNumEdit.setError("Registration Number is required");
-//            regNumEdit.requestFocus();
-//            return;
-//        }else if (yearText.equals("")){
-//            yearText.setError("Car year is required");
-//            yearText.requestFocus();
-//        }else if (modelText.equals("")){
-//            modelText.setError("Car Model is required");
-//            modelText.requestFocus();
-//        }else if(makeText.equals("")) {
-//            makeText.setError("Car Make is required");
-//            makeText.requestFocus();
-//        }
-//        else {
-//            Alert.showSuccess(getApplicationContext(),"Vehicle Information Saved Successfully");
-//            createReportViewModel.setCarYear(selectedYear);
-//            createReportViewModel.setCarModel(selectedModel);
-//            createReportViewModel.setCarMake(selectedMake);
-//            createReportViewModel.setCarColor(carColor);
-//            createReportViewModel.setMillage(mileage);
-//            createReportViewModel.setVin(vin);
-//            createReportViewModel.setRegNo(regNum);
-//            inspectFeature.setVisibility(View.GONE);
-//        }
-
-
-
+        Log.i("Button clicked", "Buttonnnnnnn");
 
 
     }
@@ -679,84 +630,40 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
     @Override
     public void onSubmitVin() {
         hideKeyboard();
-     editVinNo = activityCreateReportBinding.editVinNumber.getText().toString();
-        if (TextUtils.isEmpty(editVinNo)){
+        editVinNo = activityCreateReportBinding.editVinNumber.getText().toString();
+        if (TextUtils.isEmpty(editVinNo)) {
             editVin.setError("VIN number is required");
             editVin.requestFocus();
             return;
         }
-      createReportViewModel.getCarVin(activityCreateReportBinding.editVinNumber.getText().toString());
+        createReportViewModel.getCarVin(activityCreateReportBinding.editVinNumber.getText().toString());
     }
 
     @Override
     public void validateData(CreateReportResponse response) {
         hideLoading();
         Alert.showSuccess(getApplicationContext(), response.getMessage());
-        Log.i("REG REQUEST","REG NUMBER VALIDATED");
-       setViewAndChildrenEnabled(allInspection,true);
-       allInspection.setAlpha(1);
-      allinspectionWraper.setEnabled(false);
-        Alert.showSuccess(getApplicationContext(),"Vehicle Information Saved Successfully");
-            createReportViewModel.setCarYear(selectedYear);
-            createReportViewModel.setCarModel(selectedModel);
-            createReportViewModel.setCarMake(selectedMake);
-            createReportViewModel.setCarColor(carColor);
-            createReportViewModel.setMillage(mileage);
-            createReportViewModel.setVin(vin);
-            createReportViewModel.setRegNo(regNum);
-            inspectFeature.setVisibility(View.GONE);
-            createReportViewModel.setVehicleInfo(true);
-            vehincleInfoCheck.setVisibility(View.VISIBLE);
+        Log.i("REG REQUEST", "REG NUMBER VALIDATED");
+        setViewAndChildrenEnabled(allInspection, true);
+        allInspection.setAlpha(1);
+        allinspectionWraper.setEnabled(false);
+        Alert.showSuccess(getApplicationContext(), "Vehicle Information Saved Successfully");
+        createReportViewModel.setCarYear(selectedYear);
+        createReportViewModel.setCarModel(selectedModel);
+        createReportViewModel.setCarMake(selectedMake);
+        createReportViewModel.setCarColor(carColor);
+        createReportViewModel.setMillage(mileage);
+        createReportViewModel.setVin(vin);
+        createReportViewModel.setRegNo(regNum);
+        inspectFeature.setVisibility(View.GONE);
+        createReportViewModel.setVehicleInfo(true);
+        vehincleInfoCheck.setVisibility(View.VISIBLE);
 
     }
 
 
 
-//    public boolean checkIfTire() {
-//        boolean result = false;
-//        boolean found = Boolean.parseBoolean(null);
-//        if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()) {
-//            result = false;
-//             found = false;
-//
-////
-//        } else {
-//            List<VehicleCollection> oldArray = createReportViewModel.getIntakeVehicleReport();
-//            Pattern p = Pattern.compile("wheels| && |tires| &&| spare tyre");
-//
-//            for (VehicleCollection s : oldArray) {
-//                if (p.matcher(s.getPart()).find()) {
-//                    found = true;
-//                    break;
-//                }
-//
-//            }
-//
-//        }
-//return found;
-//    }
-
-
-
-
-    public boolean checkTire() {
-        if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()) {
-
-        } else {
-            List<VehicleCollection> oldArray = createReportViewModel.getIntakeVehicleReport();
-            for (int i = 0; i < oldArray.size(); i++) {
-                if (oldArray.get(i).getPart().matches(" wheels && tires && spare tyre ")) {
-
-                    return true;
-                }
-            }
-            return true;
-
-        }
-        return false;
-    }
-
-        @Override
+    @Override
     public void onResponse(VinResponseData response) {
         hideLoading();
         selectedYear = response.getData().getYear();
@@ -766,23 +673,9 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         modelText.setText(selectedModel);
         makeText.setText(selectedMake);
 
-       Log.i("Response Success","VIN RESPONSE SUCCESSful");
+        Log.i("Response Success", "VIN RESPONSE SUCCESSful");
 
     }
-
-    //            for ( VehicleCollection collection: oldArray) {
-//                Log.i("OLDARRAY",collection.getPart());
-//                if (collection.getPart().contains("windshield") && collection.getPart().contains("windows") && collection.getPart().contains("mirrors") && collection.getPart().contains("rear window")) {
-//                    Log.i("IFFFFF","GOT HERW");
-//                   result = true;
-//
-//                   break;
-//
-//                }else {
-//                    Log.i("ESLS","GOT INTO ELSE");
-//                }
-//
-//            }
 
 
     @Override
@@ -807,11 +700,23 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
     @Override
     public void handleValidateError(Throwable throwable) {
         hideLoading();
-        if (throwable!=null){
+        if (throwable != null) {
             ANError error = (ANError) throwable;
             CreateReportResponse response = gson.fromJson(error.getErrorBody(), CreateReportResponse.class);
             if (error.getErrorBody() != null) {
-                Alert.showFailed(getApplicationContext(), response.getMessage());
+                AlertDialog.Builder dialog =  new AlertDialog.Builder(this);
+                dialog.setTitle("Intake Rule Message");
+                dialog.setMessage(response.getMessage());
+                dialog.setCancelable(false);
+                dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        alert.dismiss();
+                    }
+                });
+
+                 alert = dialog.create();
+                alert.show();
             } else {
                 Alert.showFailed(getApplicationContext(), "Poor internet connection");
             }

@@ -275,36 +275,6 @@ public class FendersFragment extends Fragment {
 
         createReportViewModel.isVehicleSave(fenders,goodd,fairr,badd,FendersFragment.this,firstImage,secondImage,thirdImage);
 
-//        if (createReportViewModel.getFenderTracking()){
-//            if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()){
-//                goodd.setChecked(false);
-//                fairr.setChecked(false);
-//                badd.setChecked(false);
-//                firstImage.setImageResource(0);
-//                secondImage.setImageResource(0);
-//                thirdImage.setImageResource(0);
-//
-//            }else {
-//                List<VehicleCollection> myCollection = createReportViewModel.getIntakeVehicleReport();
-//                for (int i = 0; i < myCollection.size(); i++) {
-//                    if (myCollection.get(i).getPart().equals("fenders")) {
-//                        if (myCollection.get(i).getRemark().equals("good")) {
-//                            goodd.setChecked(true);
-//                        } else if (myCollection.get(i).getRemark().equals("fair")) {
-//                            fairr.setChecked(true);
-//                        } else {
-//                            badd.setChecked(true);
-//                        }
-//                        List<String> images = myCollection.get(i).getImageUrl();
-//                        GlideApp.with(FendersFragment.this).load(images.get(0)).into(firstImage);
-//                        GlideApp.with(FendersFragment.this).load(images.get(1)).into(secondImage);
-//                        GlideApp.with(FendersFragment.this).load(images.get(2)).into(thirdImage);
-//
-//                    }
-//                }
-//            }
-//
-//        }
     }
 
 

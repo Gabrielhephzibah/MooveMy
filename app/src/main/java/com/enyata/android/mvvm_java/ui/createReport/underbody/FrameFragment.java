@@ -125,20 +125,6 @@ public class FrameFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-//        deleteData = view.findViewById(R.id.deletedata);
-//        deleteData.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.i("DELETE", "Delete data");
-//                createReportViewModel.deleteAll();
-////                createReportViewModel.deleteData(createReportViewModel.getIntakeVehicleReport());
-//                Log.i("NEWARRAY", String.valueOf(createReportViewModel.getIntakeVehicleReport()));
-//                Log.i("MAKE",String.valueOf(createReportViewModel.getCarMake()));
-//                Log.i("MODEL",String.valueOf(createReportViewModel.getCarModel()));
-//                Log.i("Color",String.valueOf(createReportViewModel.getCarColor()));
-//                Log.i("Year", String.valueOf(createReportViewModel.getCarYear()));
-//            }
-//        });
 
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override

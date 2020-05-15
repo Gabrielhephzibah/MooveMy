@@ -8,12 +8,14 @@ import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.data.model.api.request.CreateReportRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.IntakeRuleRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
+import com.enyata.android.mvvm_java.data.model.api.request.MaintenanceScheduleRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.RegNumberCheckRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.VehiclePartRepair;
 import com.enyata.android.mvvm_java.data.model.api.response.CreateReportResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorDetailReport;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorListResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.LoginResponse;
+import com.enyata.android.mvvm_java.data.model.api.response.MaintenanceScheduleResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.VinResponseData;
 import com.enyata.android.mvvm_java.data.remote.ApiHeader;
 import com.enyata.android.mvvm_java.data.remote.ApiHelper;
@@ -1412,6 +1414,59 @@ public class AppDataManager implements  DataManager {
 
     }
 
+    @Override
+    public void setMooveId(String mooveId) {
+        mPreferencesHelper.setMooveId(mooveId);
+    }
+
+    @Override
+    public String getMooveId() {
+        return mPreferencesHelper.getMooveId();
+    }
+
+    @Override
+    public void setCarYearMaint(String carYearMaint) {
+        mPreferencesHelper.setCarYearMaint(carYearMaint);
+
+    }
+
+    @Override
+    public String getCarYearMaint() {
+        return mPreferencesHelper.getCarYearMaint();
+    }
+
+    @Override
+    public void setCarMakeMaint(String carMakeMaint) {
+        mPreferencesHelper.setCarMakeMaint(carMakeMaint);
+
+    }
+
+    @Override
+    public String getCarMakeMaint() {
+        return mPreferencesHelper.getCarMakeMaint();
+    }
+
+    @Override
+    public void setCarModelMaint(String carModelMaint) {
+        mPreferencesHelper.setCarModelMaint(carModelMaint);
+
+    }
+
+    @Override
+    public String getCarModelMaint() {
+        return mPreferencesHelper.getCarModelMaint();
+    }
+
+    @Override
+    public void setTimeOnStop(long currentTimeOnStop) {
+        mPreferencesHelper.setTimeOnStop(currentTimeOnStop);
+    }
+
+    @Override
+    public long getTimeOnStop() {
+        return mPreferencesHelper.getTimeOnStop();
+    }
+
 //    @Override
 //    public void deleteArray(List<VehicleCollection> delete) {
 //         mPreferencesHelper.deleteArray(delete);
@@ -1456,6 +1511,16 @@ public class AppDataManager implements  DataManager {
     @Override
     public Single<CreateReportResponse> checkIntakeRule(IntakeRuleRequest.Request request) {
         return mApiHelper.checkIntakeRule(request);
+    }
+
+    @Override
+    public Flowable<InspectorListResponse> getMonthlyVehicleList() {
+        return mApiHelper.getMonthlyVehicleList();
+    }
+
+    @Override
+    public Flowable<MaintenanceScheduleResponse> getMaintenanceSchedule(MaintenanceScheduleRequest.Request request) {
+        return mApiHelper.getMaintenanceSchedule(request);
     }
 
 

@@ -6,12 +6,14 @@ import com.enyata.android.mvvm_java.data.model.api.myData.VinHeaders;
 import com.enyata.android.mvvm_java.data.model.api.request.CreateReportRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.IntakeRuleRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
+import com.enyata.android.mvvm_java.data.model.api.request.MaintenanceScheduleRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.RegNumberCheckRequest;
 import com.enyata.android.mvvm_java.data.model.api.response.CreateReportResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorDetailData;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorDetailReport;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorListResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.LoginResponse;
+import com.enyata.android.mvvm_java.data.model.api.response.MaintenanceScheduleResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.VinData;
 import com.enyata.android.mvvm_java.data.model.api.response.VinResponseData;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
@@ -102,6 +104,23 @@ public class AppApiHelper implements  ApiHelper  {
                 .build()
                 .getObjectSingle(CreateReportResponse.class);
 
+    }
+
+    @Override
+    public Flowable<InspectorListResponse>getMonthlyVehicleList() {
+        return Rx2AndroidNetworking.get(ApiEndPoint.MONTHLY_VEHICLE_LIST)
+                .addHeaders(mApiHeader.getProtectedApiHeader())
+                .build()
+                .getObjectFlowable(InspectorListResponse.class);
+    }
+
+    @Override
+    public Flowable<MaintenanceScheduleResponse> getMaintenanceSchedule(MaintenanceScheduleRequest.Request request) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.MAINTENANCE_SCHEDULE)
+                .addBodyParameter(request)
+                .addHeaders(mApiHeader.getProtectedApiHeader())
+                .build()
+                .getObjectFlowable(MaintenanceScheduleResponse.class);
     }
 
 

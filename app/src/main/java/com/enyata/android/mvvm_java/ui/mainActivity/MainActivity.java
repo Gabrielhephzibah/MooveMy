@@ -1,13 +1,10 @@
 package com.enyata.android.mvvm_java.ui.mainActivity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.enyata.android.mvvm_java.BR;
 import com.enyata.android.mvvm_java.R;
@@ -15,6 +12,8 @@ import com.enyata.android.mvvm_java.ViewModelProviderFactory;
 import com.enyata.android.mvvm_java.databinding.ActivityMainBinding;
 import com.enyata.android.mvvm_java.ui.base.BaseActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleList.VehicleListActivity;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
 import com.enyata.android.mvvm_java.ui.repair.repairList.RepairListActivity;
 import com.enyata.android.mvvm_java.utils.Alert;
 
@@ -70,7 +69,7 @@ private MainActivityViewModel mainActivityViewModel;
     public void onMonthlyReport() {
         String reportType = "monthly";
         mainActivityViewModel.setReportType(reportType);
-        Intent intent = new Intent(getApplicationContext(), CreateReportActivity.class);
+        Intent intent = new Intent(getApplicationContext(), VehicleListActivity.class);
         startActivity(intent);
 
     }

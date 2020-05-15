@@ -16,6 +16,8 @@
     <string name="intake">Create report for newly on boarded vehicle.</string>
     <string name="monthly">Create report for newly on boarded vehicle.</string>
     <string name="repair">Create repair report for vehicle that needs repair.</string>
+    <string name="confirm_change">Confirm Change</string>
+    <string name="confirm_check">Confirm Check</string>
 
 </resources>
 

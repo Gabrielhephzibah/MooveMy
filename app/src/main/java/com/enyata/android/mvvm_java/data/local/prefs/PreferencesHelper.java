@@ -497,6 +497,27 @@ public interface PreferencesHelper {
 
     void  deleteWiringTracking(boolean wiringTracking);
 
+    void  setMooveId (String mooveId);
+
+    String getMooveId();
+
+    void  setCarYearMaint (String carYearMaint);
+
+    String getCarYearMaint();
+
+    void  setCarMakeMaint (String carMakeMaint);
+
+    String getCarMakeMaint();
+
+    void  setCarModelMaint (String carModelMaint);
+
+    String getCarModelMaint();
+
+    void setTimeOnStop(long currentTimeOnStop);
+
+    long getTimeOnStop();
+
+
 
 
 

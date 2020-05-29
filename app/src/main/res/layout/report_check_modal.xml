@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@drawable/check_modal_background"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/check_modal_background"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="30dp"
+            android:paddingBottom="40dp"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/report_check_image"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_gravity="center"
+                android:layout_marginTop="22dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Completed"
+                android:textColor="#373737"
+                android:textSize="24sp"
+                android:fontFamily="@font/montserrat"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/messageText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Monthly report has been\n\t\t\t\t\t\t\t\t taken"
+                android:textColor="#7d8487"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BACK"
+                android:textColor="#E53012"
+                android:textSize="14sp"
+                android:fontFamily="@font/montserrat_bold"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginTop="27dp"
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

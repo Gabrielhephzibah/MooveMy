@@ -11,6 +11,7 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.ViewModelProviderFactory;
 import com.enyata.android.mvvm_java.databinding.ActivityFailedBinding;
 import com.enyata.android.mvvm_java.ui.base.BaseActivity;
+import com.enyata.android.mvvm_java.ui.mainActivity.MainActivity;
 import com.enyata.android.mvvm_java.ui.signature.SignatureActivity;
 
 import javax.inject.Inject;
@@ -46,7 +47,7 @@ public class FailedActivity extends BaseActivity<ActivityFailedBinding, FailedVi
 
     @Override
     public void ontryAgain() {
-        Intent intent = new Intent(getApplicationContext(), SignatureActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
 }

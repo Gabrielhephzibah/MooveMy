@@ -1,6 +1,7 @@
 package com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.exteriorMonthly;
 
 import android.content.Context;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -59,10 +60,20 @@ public class ExteriorViewPagerAdapterM extends FragmentPagerAdapter {
 
     }
 
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
 
+    }
+
+    //    @Override
+//    public float getPageWidth(int position) {
+//        return 0.93f;
+//    }
 
     @Override
     public int getCount() {
         return 11;
     }
+
+
 }

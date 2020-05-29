@@ -37,6 +37,7 @@ import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.glide.GlideApp;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
+import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.squareup.picasso.Picasso;
@@ -77,6 +78,7 @@ public class PaintFragment extends Fragment {
     Map config;
     View fragment;
     VehicleCollection paint;
+    CreateReportActivity createReportActivity;
     RelativeLayout relativeLayout;
     TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
@@ -94,10 +96,7 @@ public class PaintFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
+        createReportActivity = (CreateReportActivity) getActivity();
 
 
     }
@@ -157,7 +156,7 @@ public class PaintFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -170,7 +169,7 @@ public class PaintFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -183,7 +182,7 @@ public class PaintFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -236,7 +235,7 @@ public class PaintFragment extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             takePicture.pictureCapture(imageBitmap,PaintFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
         } else if (requestCode == RESULT_CANCELED) {
-            Alert.showFailed(getActivity(),"This request has been cancelled");
+            Alert.showFailed(getActivity(),"The request was cancelled");
 
         }
     }
@@ -248,23 +247,23 @@ public class PaintFragment extends Fragment {
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
+        }else {
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            paint = new VehicleCollection("paint", "Exterior", result, status);
+            createReportViewModel.saveReportToLocalStorage(paint);
+            createReportViewModel.setPaintTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-         paint = new VehicleCollection("paint", result, status);
-        createReportViewModel.saveReportToLocalStorage(paint);
-        createReportViewModel.setPaintTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
 
     }
 
     @Override
     public void onResume() {
 
-        paint = new VehicleCollection("paint", result, status);
+        paint = new VehicleCollection("paint","Exterior",result, status);
         createReportViewModel.isVehicleSave(paint,goodd,fairr,badd,PaintFragment.this,firstImage,secondImage,thirdImage);
 
 //        if (createReportViewModel.getPaintTracking()){

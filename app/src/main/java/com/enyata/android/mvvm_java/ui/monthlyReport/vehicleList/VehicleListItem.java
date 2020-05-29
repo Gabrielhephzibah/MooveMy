@@ -9,14 +9,16 @@ public class VehicleListItem implements Serializable {
     private String model;
     private  String vehicleId;
     private  String id;
+    private  String mileage;
 
-    public VehicleListItem(String mooveId, String year, String make, String model,String vehicleId,String id) {
+    public VehicleListItem(String mooveId, String year, String make, String model,String vehicleId,String id, String mileage ) {
         this.mooveId = mooveId;
         this.year = year;
         this.make = make;
         this.model = model;
         this.vehicleId = vehicleId;
         this.id = id;
+        this.mileage = mileage;
 
     }
 
@@ -67,5 +69,13 @@ public class VehicleListItem implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(String mileage) {
+        this.mileage = mileage;
     }
 }

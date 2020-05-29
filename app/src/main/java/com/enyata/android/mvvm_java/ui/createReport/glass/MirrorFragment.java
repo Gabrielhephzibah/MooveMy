@@ -35,7 +35,9 @@ import com.enyata.android.mvvm_java.BuildConfig;
 import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
+import com.enyata.android.mvvm_java.glide.GlideApp;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
+import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.DoorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.FrontBumperFragment;
@@ -79,7 +81,9 @@ public class MirrorFragment extends Fragment {
     Map config;
     View fragment;
     VehicleCollection mirror;
+    CreateReportActivity createReportActivity;
     TakePicture takePicture = new TakePicture();
+
     HashMap<String, String> imageArray = new HashMap<>();
 
     public MirrorFragment(){
@@ -95,10 +99,7 @@ public class MirrorFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
+
 
 
     }
@@ -122,10 +123,19 @@ public class MirrorFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         progressBar = (ProgressBar) view.findViewById(R.id.pBar);
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+        firstImage = view.findViewById(R.id.firstImage);
+        secondImage = view.findViewById(R.id.secondImage);
+        thirdImage = view.findViewById(R.id.thirdImage);
+        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+        goodd = view.findViewById(R.id.good);
+        badd = view.findViewById(R.id.poor);
+        fairr = view.findViewById(R.id.fair);
+        Log.i("Mirror tracking",String.valueOf(createReportViewModel.getMirrorTracking()));
 
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,15 +143,15 @@ public class MirrorFragment extends Fragment {
                 if (createReportViewModel.getMirrorTracking()){
                     Alert.showSuccess(getActivity(), "Item already saved");
                 }else {
+                    Log.i("STATUSSS", status);
                     saveReport();
                 }
+
             }
         });
 
 
-        firstImage = view.findViewById(R.id.firstImage);
-        secondImage = view.findViewById(R.id.secondImage);
-        thirdImage = view.findViewById(R.id.thirdImage);
+
         cancel1 = view.findViewById(R.id.cancel1);
         cancel1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +160,7 @@ public class MirrorFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -163,7 +173,7 @@ public class MirrorFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -176,7 +186,7 @@ public class MirrorFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                 takePicture.removeThirdImage();
-                Alert.showSuccess(getActivity(),"this image has been removed");
+                Alert.showSuccess(getActivity(),"Image removed");
                 thirdImage.setImageResource(0);}
 
             }
@@ -198,10 +208,7 @@ public class MirrorFragment extends Fragment {
             }
         });
 
-        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-        goodd = view.findViewById(R.id.good);
-        badd = view.findViewById(R.id.poor);
-        fairr = view.findViewById(R.id.fair);
+
         hoodRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -233,37 +240,37 @@ public class MirrorFragment extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             takePicture.pictureCapture(imageBitmap,MirrorFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
         } else if (requestCode == RESULT_CANCELED) {
-            Alert.showFailed(getActivity(),"The request has been cancelled");
+            Alert.showFailed(getActivity(),"The request was cancelled");
 
         }
     }
 
     public void saveReport() {
-
         if (takePicture.areImagesNotComplete(getActivity())) {
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
+        }else {
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            mirror = new VehicleCollection("mirrors", "Glass", result, status);
+            createReportViewModel.saveReportToLocalStorage(mirror);
+            createReportViewModel.setMirrorTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-         mirror = new VehicleCollection("mirrors", result, status);
-        createReportViewModel.saveReportToLocalStorage(mirror);
-        createReportViewModel.setMirrorTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-        mirror = new VehicleCollection("mirrors", result, status);
+        Log.i("RESUME MIRROR TRACKING",String.valueOf(createReportViewModel.getMirrorTracking()));
+        mirror = new VehicleCollection("mirrors","Glass", result, status);
         createReportViewModel.isVehicleSave(mirror,goodd,fairr,badd, MirrorFragment.this,firstImage,secondImage,thirdImage);
+
 
     }
 

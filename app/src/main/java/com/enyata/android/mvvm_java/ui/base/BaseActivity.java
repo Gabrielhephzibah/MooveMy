@@ -102,15 +102,9 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
-//        remove();
         performDependencyInjection();
         super.onCreate(savedInstanceState);
         performDataBinding();
-
-
-
-
 
     }
 
@@ -201,7 +195,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
-                Toast.makeText(BaseActivity.this, "Time out, please sign in again ", Toast.LENGTH_LONG).show();
+                Toast.makeText(BaseActivity.this, "You have left the app idle for some time, please login again", Toast.LENGTH_LONG).show();
             }
 
         }catch (Exception e){

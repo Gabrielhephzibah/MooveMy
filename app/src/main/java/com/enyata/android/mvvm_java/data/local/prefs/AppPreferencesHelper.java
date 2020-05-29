@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.enyata.android.mvvm_java.data.DataManager;
+import com.enyata.android.mvvm_java.data.model.api.myData.MaintenanceListData;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.data.model.api.request.VehiclePartRepair;
 import com.enyata.android.mvvm_java.di.PreferenceInfo;
@@ -48,13 +49,13 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     private static final String PREF_KEY_CAR_MAKE = "PREF_KEY_CAR_MILEAGE";
 
-    private static final String PREF_INTAKE_VEHICLE_REPORT = "INTAKE_VEHICLE_REPORT";
+    private static final String PREF_KEY_INTAKE_VEHICLE_REPORT = "PREF_KEY_INTAKE_VEHICLE_REPORT";
 
-    private static final String PREF_INTAKE_FINAL_STATUS = "INTAKE_FINAL_STATUS";
+    private static final String PREF_KEY_INTAKE_FINAL_STATUS = "PREF_KEY_INTAKE_FINAL_STATUS";
 
-    private static final String PREF_INTAKE_FINAL_COMMENT = "INTAKE_FINAL_COMMENT";
+    private static final String PREF_KEY_INTAKE_FINAL_COMMENT = "PREF_KEY_INTAKE_FINAL_COMMENT";
 
-    private static final  String PREF_REPORT_TYPE = "PREF_KEY_REPORT_TYPE";
+    private static final  String PREF_KEY_REPORT_TYPE = "PREF_KEY_REPORT_TYPE";
 
     private  static  final String PREF_KEY_VEHICLE_ID = "PREF_KEY_VEHICLE_ID";
 
@@ -82,7 +83,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     private static  final  String PREF_KEY_TRUNK_TRACKING_STATUS = "PREF_KEY_TRUNK_TRACKING_STATUS";
 
-    private static  final  String PREF_KEY_VEHICLE_INFO = "PREF_VEHICLE_INFO";
+    private static  final  String PREF_KEY_VEHICLE_INFO = "PREF_KEY_VEHICLE_INFO";
 
     private  static  final  String PREF_KEY_MIRROR_TRACKING = "PREF_MIRROR_TRACKING";
 
@@ -158,7 +159,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     private  static  final  String PREF_KEY_POWER_STEERING_TRACKING = "PREF_KEY_POWER_STEERING_TRACKING";
 
-    private  static  final  String PREF_KEY_POWER_WINDOW_TRACKING = "PREF_KEY_POWER_LOCK_TRACKING";
+    private  static  final  String PREF_KEY_POWER_WINDOW_TRACKING = "PREF_KEY_POWER_WINDOW_TRACKING";
 
     private  static  final  String PREF_KEY_SIGNAL_LIGHT_TRACKING = "PREF_KEY_SIGNAL_LIGHT_TRACKING";
 
@@ -200,16 +201,21 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     private  static  final  String PREF_KEY_TIME_ON_STOP = "PREF_KEY_TIME_ON_STOP";
 
+    private static  final  String PREF_KEY_MAINTENANCE_REPORT = "PREF_KEY_MAINTENANCE_REPORT";
 
+    private static  final  String PREF_KEY_VEHICLE_ID_MAINT= "PREF_KEY_VEHICLE_ID_MAINT";
 
+    private static  final  String PREF_KEY_VEHICLE_MONTHLY_REPORT= "PREF_KEY_VEHICLE_MONTHLY_REPORT";
 
+    private static  final  String PREF_KEY_MONTHLY_FINAL_ASSESSMENT = "PREF_KEY_MONTHLY_FINAL_ASSESSMENT";
 
+    private static  final  String PREF_KEY_MONTHLY_FINAL_COMMENT = "PREF_KEY_MONTHLY_FINAL_COMMENT";
 
+    private static  final  String PREF_KEY_INTAKE_ACCEPTANCE_VALUE = "PREF_KEY_INTAKE_ACCEPTANCE_VALUE";
 
+    private static  final  String PREF_KEY_MONTHLY_ACCEPTANCE_VALUE = "PREF_KEY_MONTHLY_ACCEPTANCE_VALUE";
 
-
-
-
+    private static  final  String PREF_KEY_INITIAL_MILEAGE = "PREF_KEY_INITIAL_MILEAGE";
 
 
 
@@ -377,13 +383,13 @@ public class AppPreferencesHelper implements PreferencesHelper {
     public void setInTakeVehicleReport(List<VehicleCollection> vehiclePart) {
         Gson gson = new Gson();
         String json = gson.toJson(vehiclePart);
-        mPrefs.edit().putString(PREF_INTAKE_VEHICLE_REPORT, json).apply();
+        mPrefs.edit().putString(PREF_KEY_INTAKE_VEHICLE_REPORT, json).apply();
     }
 
     @Override
     public List<VehicleCollection> getInTakeVehicleReport() {
         Gson gson = new Gson();
-        String json = mPrefs.getString(PREF_INTAKE_VEHICLE_REPORT, null);
+        String json = mPrefs.getString(PREF_KEY_INTAKE_VEHICLE_REPORT, null);
         Type type = new TypeToken<List<VehicleCollection>>() {
         }.getType();
         return gson.fromJson(json, type);
@@ -391,34 +397,50 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
+    public void setMonthlyVehicleReport(List<VehicleCollection> monthlyReport) {
+        Gson gson = new Gson();
+        String json = gson.toJson(monthlyReport);
+        mPrefs.edit().putString(PREF_KEY_VEHICLE_MONTHLY_REPORT, json).apply();
+    }
+
+    @Override
+    public List<VehicleCollection> getMonthlyVehicleReport() {
+        Gson gson = new Gson();
+        String json = mPrefs.getString(PREF_KEY_VEHICLE_MONTHLY_REPORT, null);
+        Type type = new TypeToken<List<VehicleCollection>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+    @Override
     public void setIntakeFinalStatus(String status) {
-        mPrefs.edit().putString(PREF_INTAKE_FINAL_STATUS,status).apply();
+        mPrefs.edit().putString(PREF_KEY_INTAKE_FINAL_STATUS,status).apply();
     }
 
     @Override
     public String getIntakeFinalStatus() {
-        return mPrefs.getString(PREF_INTAKE_FINAL_STATUS,null);
+        return mPrefs.getString(PREF_KEY_INTAKE_FINAL_STATUS,null);
     }
 
     @Override
     public void setIntakeFinalComment(String comment) {
-        mPrefs.edit().putString(PREF_INTAKE_FINAL_COMMENT,comment).apply();
+        mPrefs.edit().putString(PREF_KEY_INTAKE_FINAL_COMMENT,comment).apply();
 
     }
 
     @Override
     public String getIntakeFinalComment() {
-        return mPrefs.getString(PREF_INTAKE_FINAL_COMMENT,null);
+        return mPrefs.getString(PREF_KEY_INTAKE_FINAL_COMMENT,null);
     }
 
     @Override
     public void setReportType(String reportType) {
-        mPrefs.edit().putString(PREF_REPORT_TYPE,reportType).apply();
+        mPrefs.edit().putString(PREF_KEY_REPORT_TYPE,reportType).apply();
     }
 
     @Override
     public String getReportType() {
-        return mPrefs.getString(PREF_REPORT_TYPE,null);
+        return mPrefs.getString(PREF_KEY_REPORT_TYPE,null);
     }
 
     @Override
@@ -566,7 +588,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public void deleteVehicleInfo(boolean deleteVehicleInfo) {
-        mPrefs.edit().remove("PREF_VEHICLE_INFO").apply();
+        mPrefs.edit().remove("PREF_KEY_VEHICLE_INFO").apply();
 
     }
 
@@ -978,7 +1000,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
-    public boolean getPoweWindowTracking() {
+    public boolean getPowerWindowTracking() {
         return mPrefs.getBoolean(PREF_KEY_POWER_WINDOW_TRACKING,false);
     }
 
@@ -1429,13 +1451,13 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public void deleteSpareTireTracking(boolean spareTireTracking) {
-        mPrefs.edit().remove("PREF_KEY_SPARE_TIRE_TRACKING").apply();
+        mPrefs.edit().remove("PREF_KEY_SPARE_TYRE_TRACKING").apply();
 
     }
 
     @Override
     public void deleteTireTracking(boolean tireTracking) {
-        mPrefs.edit().remove("PREF_KEY_TIRE_TRACKING").apply();
+        mPrefs.edit().remove("PREF_KEY_TIRES_TRACKING").apply();
 
     }
 
@@ -1567,6 +1589,16 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
+    public void setVehicleIdMaint(String vehicleIdMaint) {
+        mPrefs.edit().putString(PREF_KEY_VEHICLE_ID_MAINT, vehicleIdMaint).apply();
+    }
+
+    @Override
+    public String getVehicleIdMaint() {
+        return mPrefs.getString(PREF_KEY_VEHICLE_ID_MAINT,null);
+    }
+
+    @Override
     public void setRepairReport(List<VehiclePartRepair> partRepair) {
         Gson gson = new Gson();
         String json = gson.toJson(partRepair);
@@ -1589,8 +1621,8 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
-    public void deleteIntakeReport(List<VehicleCollection> delete) {
-        mPrefs.edit().remove("INTAKE_VEHICLE_REPORT").apply();
+    public void deleteIntakeReport(List<VehicleCollection> vehicleCollections) {
+        mPrefs.edit().remove("PREF_KEY_INTAKE_VEHICLE_REPORT").apply();
 
     }
 
@@ -1638,13 +1670,13 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public void deleteIntakeFinalStatus(String status) {
-        mPrefs.edit().remove("INTAKE_FINAL_STATUS").apply();
+        mPrefs.edit().remove("PREF_KEY_INTAKE_FINAL_STATUS").apply();
 
     }
 
     @Override
     public void deleteIntakeFinalComment(String comment) {
-        mPrefs.edit().remove("INTAKE_FINAL_COMMENT").apply();
+        mPrefs.edit().remove("PREF_KEY_INTAKE_FINAL_COMMENT").apply();
 
     }
 
@@ -1664,6 +1696,96 @@ public class AppPreferencesHelper implements PreferencesHelper {
         return mPrefs.getLong(PREF_KEY_TIME_ON_STOP,0);
     }
 
+    @Override
+    public void setMaintenanceReport(List<MaintenanceListData> maintenanceData) {
+        Gson gson = new Gson();
+        String json = gson.toJson(maintenanceData);
+        mPrefs.edit().putString(PREF_KEY_MAINTENANCE_REPORT, json).apply();
+    }
+
+    @Override
+    public List<MaintenanceListData> getMaintenanceReport() {
+        Gson gson = new Gson();
+        String json = mPrefs.getString(PREF_KEY_MAINTENANCE_REPORT, null);
+        Type type = new TypeToken<List<MaintenanceListData>>() {
+        }.getType();
+        return gson.fromJson(json, type);
+    }
+
+    @Override
+    public void deleteMaintenanceReport(List<MaintenanceListData> maintenanceListData) {
+        mPrefs.edit().remove("PREF_KEY_MAINTENANCE_REPORT").apply();
+
+    }
+
+    @Override
+    public void deleteMonthlyReport(List<VehicleCollection> vehicleCollections) {
+        mPrefs.edit().remove("PREF_KEY_VEHICLE_MONTHLY_REPORT").apply();
+    }
+
+    @Override
+    public void setMonthlyFinalAssessment(String finalAssessment) {
+        mPrefs.edit().putString(PREF_KEY_MONTHLY_FINAL_ASSESSMENT,finalAssessment).apply();
+    }
+
+    @Override
+    public String getMonthlyFinalAssessment() {
+        return mPrefs.getString(PREF_KEY_MONTHLY_FINAL_ASSESSMENT, null);
+    }
+
+    @Override
+    public void setMonthlyFinalComment(String finalComment) {
+        mPrefs.edit().putString(PREF_KEY_MONTHLY_FINAL_COMMENT, finalComment).apply();
+
+    }
+
+    @Override
+    public String getMonthlyFinalComment() {
+        return mPrefs.getString(PREF_KEY_MONTHLY_FINAL_COMMENT,null);
+    }
+
+    @Override
+    public void setIntakeAcceptanceValue(String intakeAcceptanceValue) {
+        mPrefs.edit().putString(PREF_KEY_INTAKE_ACCEPTANCE_VALUE,intakeAcceptanceValue).apply();
+    }
+
+    @Override
+    public String getIntakeAcceptanceValue() {
+        return mPrefs.getString(PREF_KEY_INTAKE_ACCEPTANCE_VALUE,null);
+    }
+
+    @Override
+    public void setMonthlyAcceptanceValue(String monthlyAcceptanceValue) {
+        mPrefs.edit().putString(PREF_KEY_MONTHLY_ACCEPTANCE_VALUE,monthlyAcceptanceValue).apply();
+
+    }
+
+    @Override
+    public String getMonthlyAcceptanceValue() {
+        return mPrefs.getString(PREF_KEY_MONTHLY_ACCEPTANCE_VALUE,null);
+    }
+
+    @Override
+    public void deleteIntakeAcceptanceValue(String intakeAcceptance) {
+        mPrefs.edit().remove("PREF_KEY_INTAKE_ACCEPTANCE_VALUE").apply();
+
+    }
+
+    @Override
+    public void deleteMonthlyAcceptanceValue(String monthlyAcceptance) {
+        mPrefs.edit().remove("PREF_KEY_MONTHLY_ACCEPTANCE_VALUE").apply();
+
+    }
+
+    @Override
+    public void setInitialMileage(String initialMileage) {
+        mPrefs.edit().putString(PREF_KEY_INITIAL_MILEAGE, initialMileage).apply();
+    }
+
+    @Override
+    public String getInitialMileage() {
+        return mPrefs.getString(PREF_KEY_INITIAL_MILEAGE, null);
+    }
 
 
 //    @Override

@@ -1,6 +1,7 @@
 package com.enyata.android.mvvm_java.ui.createReport.electric;
 
 import android.content.Context;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -38,20 +39,24 @@ public class ElectricPagerAdapter extends FragmentPagerAdapter {
             return  HeadlightFragment.newInstance();
         }else  if (position == 8){
             return TailLightFragment.newInstance();
-        }else if (position == 9){
+        }else  {
             return SignalLightFragment.newInstance();
-        }else if (position == 10){
-            return BrakeLightFragment.newInstance();
-        }else {
-            return ParkingLightFragment.newInstance();
         }
+//        }else if (position == 10){
+//            return BrakeLightFragment.newInstance();
+//        }else {
+//            return ParkingLightFragment.newInstance();
+//        }
 
     }
 
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
 
+    }
 
     @Override
     public int getCount() {
-        return 12;
+        return 10;
     }
 }

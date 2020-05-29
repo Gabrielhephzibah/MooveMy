@@ -36,6 +36,7 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
+import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.DoorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.FrontBumperFragment;
@@ -79,6 +80,7 @@ public class AudioSystemFragment extends Fragment {
     String cloudinaryImage;
     Map config;
     View fragment;
+    CreateReportActivity createReportActivity;
     VehicleCollection audioSystem;
     TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
@@ -96,10 +98,6 @@ public class AudioSystemFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
 
 
     }
@@ -157,7 +155,7 @@ public class AudioSystemFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -170,7 +168,7 @@ public class AudioSystemFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -183,7 +181,7 @@ public class AudioSystemFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -239,7 +237,7 @@ public class AudioSystemFragment extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             takePicture.pictureCapture(imageBitmap,AudioSystemFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
         } else if (requestCode == RESULT_CANCELED) {
-           Alert.showFailed(getActivity(),"The request has been cancelled");
+           Alert.showFailed(getActivity(),"The request was cancelled");
 
         }
     }
@@ -250,25 +248,27 @@ public class AudioSystemFragment extends Fragment {
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
-            return;
+
+        }else {
+
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+            audioSystem = new VehicleCollection("audio system", "Electrical System", result, status);
+            createReportViewModel.saveReportToLocalStorage(audioSystem);
+            createReportViewModel.setAudioSystemTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! proceed");
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        audioSystem = new VehicleCollection("audio system", result, status);
-        createReportViewModel.saveReportToLocalStorage(audioSystem);
-        createReportViewModel.setAudioSystemTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        audioSystem = new VehicleCollection("audio system", result, status);
+        audioSystem = new VehicleCollection("audio system","Electrical System",result,status);
         createReportViewModel.isVehicleSave(audioSystem,goodd,fairr,badd, AudioSystemFragment.this,firstImage,secondImage,thirdImage);
 
     }
+
+//    audioSystem = new VehicleCollection("audio system", result, status);
 }

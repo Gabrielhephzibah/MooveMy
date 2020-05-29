@@ -29,8 +29,8 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
-import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
-import com.enyata.android.mvvm_java.ui.createReport.interior.CarpetFragment;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 
 import java.io.File;
@@ -53,11 +53,12 @@ public class CarpetFragmentM extends Fragment {
     ImageView firstImage, secondImage, thirdImage, cancel1, cancel2, cancel3;
     File photoFile = null;
     Button saveHood,deleteData;
-    CreateReportViewModel createReportViewModel;
+    MonthlyReportViewModel monthlyReportViewModel;
     ImageDataArray imageDataArray;
     private String mCurrentPhotoPath;
     private static final int REQUEST_CAMERA = 1;
     private Uri mImageUri = null;
+    MonthlyReportActivity activity;
     ProgressBar progressBar;
     CharSequence radio;
     List<String> result;
@@ -79,8 +80,9 @@ public class CarpetFragmentM extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
+      monthlyReportViewModel = ViewModelProviders.of(requireActivity()).get(MonthlyReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
+        activity = (MonthlyReportActivity) getActivity();
 
 
 
@@ -113,12 +115,8 @@ public class CarpetFragmentM extends Fragment {
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getCarpetTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
                     Log.i("STATUSSS", status);
                     saveReport();
-                }
             }
         });
 
@@ -134,7 +132,7 @@ public class CarpetFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -147,7 +145,7 @@ public class CarpetFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -160,7 +158,7 @@ public class CarpetFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -226,25 +224,25 @@ public class CarpetFragmentM extends Fragment {
         if (takePicture.areImagesNotComplete(getActivity())) {
             return;
         } else if (status.isEmpty()) {
-            Alert.showFailed(getActivity(),"please fill all fields");
+            Alert.showFailed(getActivity(), "please fill all fields");
             return;
+        } else {
+            activity.carpet = true;
+            activity.checkInteriorFragment();
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            carpet = new VehicleCollection("carpets","Interior", result, status);
+            monthlyReportViewModel.saveMonthlyReportToLocalStorage(carpet);
+//        monthlyReportViewModel.setCarpetTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
+
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        carpet = new VehicleCollection("'carpets", result, status);
-        createReportViewModel.saveReportToLocalStorage(carpet);
-        createReportViewModel.setCarpetTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        carpet = new VehicleCollection("'carpets", result, status);
-//        createReportViewModel.isVehicleSave(carpet,goodd,fairr,badd, CarpetFragmentM.this,firstImage,secondImage,thirdImage);
     }
 }

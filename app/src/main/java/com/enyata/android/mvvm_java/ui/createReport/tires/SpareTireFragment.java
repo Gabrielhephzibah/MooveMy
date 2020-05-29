@@ -36,12 +36,14 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
+import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.DoorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.FrontBumperFragment;
 import com.enyata.android.mvvm_java.ui.createReport.glass.MirrorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.glass.RearWindowFragment;
 import com.enyata.android.mvvm_java.ui.createReport.glass.WindShieldFragment;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.squareup.picasso.Picasso;
 
@@ -58,7 +60,7 @@ import java.util.Map;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class SpareTireFragment extends Fragment {
+public class SpareTireFragment extends Fragment implements TireInterface {
     String status = "", imageURL, cloudinaryID;
     RadioGroup hoodRadioGroup;
     RadioButton badd, goodd, fairr;
@@ -67,7 +69,7 @@ public class SpareTireFragment extends Fragment {
     Bitmap bitmap;
     ImageView firstImage, secondImage, thirdImage, cancel1, cancel2, cancel3;
     File photoFile = null;
-    Button saveHood,deleteData;
+    Button saveHood;
     CreateReportViewModel createReportViewModel;
     ImageDataArray imageDataArray;
     private String mCurrentPhotoPath;
@@ -78,8 +80,9 @@ public class SpareTireFragment extends Fragment {
     List<String>result;
     String cloudinaryImage;
     Map config;
-    View fragment;
     VehicleCollection spareTire;
+    CreateReportActivity createReportActivity;
+    boolean saveSatus = false;
     TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
 
@@ -96,10 +99,7 @@ public class SpareTireFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
+
 
 
     }
@@ -166,7 +166,7 @@ public class SpareTireFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -180,7 +180,7 @@ public class SpareTireFragment extends Fragment {
                 }else
                 {
                 takePicture.removeSecondImage();
-                Alert.showSuccess(getActivity(),"this image has been removed");
+                Alert.showSuccess(getActivity(),"Image removed");
                 secondImage.setImageResource(0);}
             }
         });
@@ -191,7 +191,7 @@ public class SpareTireFragment extends Fragment {
                 if (thirdImage.getDrawable()==null){
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -249,7 +249,7 @@ public class SpareTireFragment extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             takePicture.pictureCapture(imageBitmap,SpareTireFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
         } else if (requestCode == RESULT_CANCELED) {
-            Alert.showFailed(getActivity(), "The request has been cancelled");
+            Alert.showFailed(getActivity(), "The request was cancelled");
 
         }
     }
@@ -261,25 +261,30 @@ public class SpareTireFragment extends Fragment {
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
+        }else {
+
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+            spareTire = new VehicleCollection("spare tyre","Tyres and Wheels", result, status);
+            createReportViewModel.saveReportToLocalStorage(spareTire);
+            createReportViewModel.setSpareTireTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-         spareTire = new VehicleCollection("spare tyre", result, status);
-        createReportViewModel.saveReportToLocalStorage(spareTire);
-        createReportViewModel.setSpareTireTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        spareTire = new VehicleCollection("spare tyre", result, status);
+        spareTire = new VehicleCollection("spare tyre","Tyres and Wheels", result, status);
         createReportViewModel.isVehicleSave(spareTire,goodd,fairr,badd, SpareTireFragment.this,firstImage,secondImage,thirdImage);
 
 
+    }
+
+    @Override
+    public boolean getSaveStatus() {
+        return false;
     }
 }

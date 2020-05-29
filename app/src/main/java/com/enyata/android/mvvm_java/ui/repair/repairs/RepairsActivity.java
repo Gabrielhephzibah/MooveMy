@@ -1,5 +1,6 @@
 package com.enyata.android.mvvm_java.ui.repair.repairs;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -36,11 +38,14 @@ import com.enyata.android.mvvm_java.data.model.api.response.CreateReportResponse
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorDetailData;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorDetailReport;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorListResponse;
+import com.enyata.android.mvvm_java.data.model.api.response.MaintenanceErrorResponse;
 import com.enyata.android.mvvm_java.data.remote.ApiService;
 import com.enyata.android.mvvm_java.data.remote.ApiUtils;
+import com.enyata.android.mvvm_java.data.remote.RetrofitClient;
 import com.enyata.android.mvvm_java.databinding.ActivityRepairsBinding;
 import com.enyata.android.mvvm_java.ui.base.BaseActivity;
 import com.enyata.android.mvvm_java.ui.loading.LoadingActivity;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleList.VehicleListActivity;
 import com.enyata.android.mvvm_java.ui.repair.repairList.RepairItemList;
 import com.enyata.android.mvvm_java.ui.repair.repairList.RepairListActivity;
 import com.enyata.android.mvvm_java.ui.response.ResponseActivity;
@@ -51,8 +56,12 @@ import com.enyata.android.mvvm_java.utils.InternetConnection;
 import com.github.gcacace.signaturepad.views.SignaturePad;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +72,8 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
 
 import static com.enyata.android.mvvm_java.BR.viewModel;
 
@@ -85,7 +96,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
     TextView hoodStatus,fontBumperStatus,fenderStatus,doorStatus,roofStatus,rearStatus,rearBumperStatus,trunkStatus,trimStatus,fuelDoorStatus,paintStatus,windShieldStatus,windowStatus,mirrorStatus,rearWindowStatus,tyresStatus,wheelStatus,spareTyreStatus,frameStatus,exhaustStatus,transmissionStatus,driveAxleStatus,suspensionStatus,brakeSystemStatus,engineCompartmentStatus,batteryStatus,oilStatus,fluidStatus,wiringStatus,beltStatus,hosesStatus,seatStatus,headlinerStatus,carpetStatus,doorPanelStatus,gloveBoxStatus,vanityMirrorStatus,interiorTrimStatus,dashboardStatus,dashGuagesStatus,airConditionerStatus,heaterStatus,defrosterStatus,powerLockStatus,powerSeatStatus,powerSteeringStatus,powerWindowStatus,powerMirrorStatus,audioSystemStatus,computerStatus,headlightStatus,tailLightStatus,signalLightStatus,brakeLightStatus,parkingLightStatus,startingStatus,idlingStatus,enginePerformanceStatus,accelerationStatus,transmissionShiftStatus,steeringStatus,brakingStatus,suspensionPerformanceStatus;
     private ApiService mAPIService;
     TextView carMooveId, yearMakeModel;
-
+    RetrofitClient retrofitClient = new RetrofitClient();
     String hoodEditComment, fontBumperEditComment, fenderEditComment, doorEditComment, roofEditComment, rearEditComment, rearBumperEditComment, trunkEditComment, trimEditComment, fuelDoorEditComment, paintEditComment, windShieldEditComment, windowEditComment, mirrorsEditComment, rearWindowEditComment, tiresEditComment, wheelEditComment, spareTireEditComment, frameEditComment, exhaustEditComment, transmissionEditComment, driveAxleEditComment, suspensionEditComment, brakeSystemEditComment, engineCompEditComment, batteryEditComment, oilEditComment, fluidEditComment, wiringEditComment, beltEditComment, hosesEditComment, seatsEditComment, headlinerEditComment, carpetEditComment, doorPanelEditComment, gloveBoxEditComment, vanityMirrorEditComment, interiorTrimEdittComment, dashBoardEditComment, dashGuagesEditComment, airCondEditComment, heaterEditComment, defrosterEditComment, powerLockEditComment, powerSeatEditComment, powerSteeringEditComment, powerWindowEditComment, powerMirrorEditComment, audioSystemEditComment, computerEditComment, headLightEditComment, tailLightEditComment, signalLightEditComment, brakeLightEditComment, parkingLightEditComment, startingEditComment, idlingEditComment, enginePerfEditComment, accelerationEditComment, transShiftEditComment, steeringEditComment, brakingEditComment, suspensionPerfEditComment;
 
 
@@ -110,15 +121,6 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
         super.onCreate(savedInstanceState);
         repairsViewModel.setNavigator(this);
         activityRepairsBinding = getViewDataBinding();
-        Map config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
-
-
-        mAPIService = ApiUtils.getAPIService();
-
-
         extriorToggle = activityRepairsBinding.exteriorToggle;
         exteriorFragment = activityRepairsBinding.exteriorFragment;
         glassFragment = activityRepairsBinding.glassFragment;
@@ -203,7 +205,6 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
         brakingComment = activityRepairsBinding.brakingComment;
         suspensionPrefComment = activityRepairsBinding.suspensionPrefComment;
 
-
         repairItemList = (RepairItemList) getIntent().getSerializableExtra("data");
 
         Log.i("ID", repairItemList.getMooveId());
@@ -214,6 +215,11 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
         Log.i("IDD", repairItemList.getId());
         repairsViewModel.setVehicleId(repairItemList.getVehicleId());
         repairsViewModel.getInspectorDetails(repairItemList.getId());
+        if (InternetConnection.getInstance(this).isOnline()){
+            repairsViewModel.checkRepairsReport(repairItemList.getVehicleId());
+        }else {
+            Alert.showFailed(getApplicationContext(),"Unable to connect to the internet");
+        }
 
         carMooveId.setText(repairItemList.getMooveId());
         yearMakeModel.setText(String.format("%s %s %s", repairItemList.getYear(), repairItemList.getMake(), repairItemList.getModel()));
@@ -333,6 +339,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
     @Override
     public void onAddSignature() {
+        if (repairsViewModel.getRepairReport() != null) {
         BottomSheetDialog bottomSheet = new BottomSheetDialog(RepairsActivity.this);
         View bottomView = getLayoutInflater().inflate(R.layout.repair_signature_layout, null);
         Button repairSubmit = bottomView.findViewById(R.id.repairSubmit);
@@ -409,11 +416,6 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                             public void onStart(String requestId) {
                                 Log.i("START", "STARTTTTT");
                                 showLoading();
-//                                dialog = new ProgressDialog(RepairsActivity.this);
-//                                dialog.setMessage("Saving......");
-//                                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//                                dialog.setCancelable(false);
-//                                dialog.show();
 
                             }
 
@@ -421,7 +423,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                             public void onProgress(String requestId, long bytes, long totalBytes) {
                                 Double progress = (double) bytes / totalBytes;
                                 Log.i("PROGRESS", "PROGRESS");
-//                                dialog.show();
+//
                             }
 
                             @Override
@@ -430,9 +432,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                                     Log.i("SUCCESS", "SUCCESS");
                                     imageURL = (String) resultData.get("url");
                                     hideLoading();
-//                                    dialog.dismiss();
-                                    Alert.showSuccess(getApplicationContext(),"Signature Saved");
-//                                    Toast.makeText(RepairsActivity.this, "Signature Saved", Toast.LENGTH_SHORT).show();
+                                    Alert.showSuccess(getApplicationContext(), "Signature Saved");
                                     String cloudinaryID = (String) resultData.get("public_id");
                                     supervisorSignatureUrl = imageURL;
                                     Log.i("SupervisorSignature", supervisorSignatureUrl);
@@ -451,16 +451,12 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                             @Override
                             public void onReschedule(String requestId, ErrorInfo error) {
                                 hideLoading();
-                                Alert.showFailed(RepairsActivity.this,"Signature upload is taking time,please sign again");
+                                Alert.showFailed(RepairsActivity.this, "Signature upload is taking time,please sign again");
                                 Log.i("SCHEDULE", "SCHEDULE");
 
                             }
                         })
                         .dispatch();
-
-
-//                uploadToCloudinary(inspectorByteArray);
-
 
             }
         });
@@ -490,11 +486,6 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                             public void onStart(String requestId) {
                                 Log.i("START", "STARTTTTT");
                                 showLoading();
-//                                dialog = new ProgressDialog(RepairsActivity.this);
-//                                dialog.setMessage("Saving......");
-//                                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//                                dialog.setCancelable(false);
-//                                dialog.show();
 
                             }
 
@@ -510,8 +501,8 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                                 if (resultData != null) {
                                     Log.i("SUCCESS", "SUCCESS");
                                     imageURL = (String) resultData.get("url");
-                                   hideLoading();
-                                    Alert.showSuccess(RepairsActivity.this,"Signature saved");
+                                    hideLoading();
+                                    Alert.showSuccess(RepairsActivity.this, "Signature saved");
                                     String cloudinaryID = (String) resultData.get("public_id");
                                     mechanicSignatureUrl = imageURL;
                                     Log.i("mechanic", mechanicSignatureUrl);
@@ -529,8 +520,8 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
                             @Override
                             public void onReschedule(String requestId, ErrorInfo error) {
-                               hideLoading();
-                               Alert.showFailed(RepairsActivity.this,"Signature upload is taking time,please sign again");
+                                hideLoading();
+                                Alert.showFailed(RepairsActivity.this, "Signature upload is taking time,please sign again");
                                 Log.i("SCHEDULE", "SCHEDULE");
 
                             }
@@ -550,16 +541,23 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
         repairSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                VehicleRepairReport request = new VehicleRepairReport(supervisorSignatureUrl, mechanicSignatureUrl, repairsViewModel.getRepairReport());
-                if (InternetConnection.getInstance(getApplicationContext()).isOnline())
-                    repairsViewModel.sendRepair(request);
-                else {
-                    Alert.showFailed(getApplicationContext(), "Please Check Your Internet Connection and try again");
+                if (supervisorSignatureUrl != null && mechanicSignatureUrl != null) {
+                    VehicleRepairReport request = new VehicleRepairReport(supervisorSignatureUrl, mechanicSignatureUrl, repairsViewModel.getRepairReport());
+                    if (InternetConnection.getInstance(getApplicationContext()).isOnline())
+                        repairsViewModel.sendRepair(request);
+                    else {
+                        Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
+                    }
+                } else {
+                    Alert.showFailed(getApplicationContext(), "Signature is required");
                 }
+
             }
         });
 
-
+    }else {
+            Alert.showFailed(getApplicationContext(),"Make sure all components that requires repair are saved");
+        }
     }
 
     @Override
@@ -1522,20 +1520,30 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
     public void handleError(Throwable throwable) {
         Intent intent = new Intent(getApplicationContext(), FailedActivity.class);
         startActivity(intent);
-        Alert.showFailed(getApplicationContext(),"Report cannot be submitted to the database");
-//        if (throwable != null) {
-//            ANError error = (ANError) throwable;
-//            CreateReportResponse response = gson.fromJson(error.getErrorBody(), CreateReportResponse.class);
-//            if (error.getErrorBody() != null) {
-//                Alert.showFailed(getApplicationContext(), response.getMessage());
-//            } else {
-//                Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
-//            }
-//        }
+        deleteData();
+        try {
+            if (throwable instanceof HttpException) {
+                Log.i("HTTP", "HTTP");
+                Converter<ResponseBody, CreateReportResponse> errorConverter = retrofitClient.getRetrofit().responseBodyConverter(CreateReportResponse.class, new Annotation[0]);
+                try {
+                    CreateReportResponse error = errorConverter.convert(((HttpException) throwable).response().errorBody());
+                    Alert.showFailed(getApplicationContext(), error.getMessage());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Alert.showFailed(getApplicationContext(), "Unable to connect to internet");
+            }
+        }catch (IllegalStateException | JsonSyntaxException | NullPointerException | ClassCastException exception ) {
+            Alert.showFailed(getApplicationContext(), "An unknown error occurred");
+        }
+
     }
 
     @Override
-    public void onResponse() {
+    public void onResponse(CreateReportResponse response) {
+        Alert.showSuccess(getApplicationContext(),response.getMessage());
         Intent intent = new Intent(getApplicationContext(), ResponseActivity.class);
         startActivity(intent);
         deleteData();
@@ -1550,6 +1558,26 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
         startActivity(intent);
 
     }
+
+    @Override
+    public void onInspectorHandleError(Throwable throwable) {
+            if (throwable != null) {
+                try {
+                    ANError error = (ANError) throwable;
+                    CreateReportResponse response = gson.fromJson(error.getErrorBody(), CreateReportResponse.class);
+                    if (error.getErrorBody() != null) {
+                        Alert.showFailed(getApplicationContext(), response.getMessage());
+                    } else {
+                        Alert.showFailed(getApplicationContext(), "Unable to Connect to the Internet");
+                    }
+                }
+                catch (IllegalStateException | JsonSyntaxException | NullPointerException | ClassCastException exception ) {
+                    Alert.showFailed(getApplicationContext(), "An unknown error occurred");
+                }
+            }
+
+        }
+
 
     public void changeColor(TextView text){
         if (status.equals("good")){
@@ -1577,9 +1605,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
         List<InspectorDetailData> detailData = response.getData();
         for (int i = 0; i < detailData.size(); i++) {
             InspectorDetailData data = detailData.get(i);
-            status = data.getRemark();
-
-
+            status = data.getRemark().trim();
             switch (data.getPart()) {
 
                 case "hood": {
@@ -1940,8 +1966,59 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
 
         }
 
+    @Override
+    public void onCheckRepairsResponse(CreateReportResponse response) {
+        hideLoading();
+        Alert.showSuccess(getApplicationContext(),response.getMessage());
 
     }
+
+    @Override
+    public void onCheckRepairError(Throwable throwable) {
+        hideLoading();
+        if (throwable != null) {
+            try {
+                ANError error = (ANError) throwable;
+                CreateReportResponse response = gson.fromJson(error.getErrorBody(), CreateReportResponse.class);
+                if (error.getErrorBody() != null) {
+                    Dialog dialog = new Dialog(this,android.R.style.Theme_Material_Dialog_Alert);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setCancelable(false);
+                    dialog.setContentView(R.layout.report_check_modal);
+                    TextView title = dialog.findViewById(R.id.title);
+                    TextView message = dialog.findViewById(R.id.messageText);
+                    TextView back = dialog.findViewById(R.id.button);
+                    message.setText(response.getMessage());
+                    dialog.show();
+                    back.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(getApplicationContext(), RepairListActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                } else {
+                    Alert.showFailed(getApplicationContext(), "Poor internet connection");
+                }
+
+            }catch (IllegalStateException | JsonSyntaxException  | NullPointerException | ClassCastException exception ) {
+                Alert.showFailed(getApplicationContext(), "An unknown error occurred");
+            }
+        }
+
+
+
+
+    }
+
+    @Override
+    public void onStartingCheck() {
+        showLoading();
+
+    }
+
+
+}
 
 
 

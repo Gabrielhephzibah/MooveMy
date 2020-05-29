@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.ViewModelProviderFactory;
+import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.data.model.api.request.Vehicle;
 import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
 import com.enyata.android.mvvm_java.ui.repair.repairList.RepairItemList;
@@ -30,6 +31,8 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
     private List<VehicleListItem> lists;
     ArrayList<VehicleListItem> vehicleListItems;
     VehicleListViewModel vehicleListViewModel;
+    List<VehicleCollection>monthlyVehicleReport;
+
     ViewModelProviderFactory factory;
 
     TextView mooveId, carMake, carModel, carYear;
@@ -38,6 +41,7 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
         this.context = context;
         this.lists = lists;
         vehicleListViewModel = ViewModelProviders.of((VehicleListActivity) context).get(VehicleListViewModel.class);
+        monthlyVehicleReport = vehicleListViewModel.getMonthlyVehicleReport();
     }
 
     public Filter getFilter() {
@@ -110,10 +114,13 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
         @Override
         public void onClick(View view) {
             VehicleListItem data = lists.get(getAdapterPosition());
+            vehicleListViewModel.deleteMonthlyReport(monthlyVehicleReport);
             vehicleListViewModel.setMooveId(data.getMooveId());
             vehicleListViewModel.setCarMakeMaint(data.getMake());
             vehicleListViewModel.setCarYearMaint(data.getYear());
             vehicleListViewModel.setcarModelMaint(data.getModel());
+            vehicleListViewModel.setVehicleIdMaint(data.getVehicleId());
+            vehicleListViewModel.setInitialMileage(data.getMileage());
             Intent intent = new Intent(context, MonthlyReportActivity.class);
 //            intent.putExtra("data", data);
             context.startActivity(intent);

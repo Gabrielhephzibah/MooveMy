@@ -37,6 +37,7 @@ import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.glide.GlideApp;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
+import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.squareup.picasso.Picasso;
@@ -78,6 +79,7 @@ public class RearFragment extends Fragment {
     View fragment;
     VehicleCollection rear;
     RelativeLayout relativeLayout;
+    CreateReportActivity createReportActivity;
     TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
 
@@ -94,11 +96,7 @@ public class RearFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
-
+        createReportActivity = (CreateReportActivity) getActivity();
 
     }
 
@@ -134,37 +132,6 @@ public class RearFragment extends Fragment {
         fairr = view.findViewById(R.id.fair);
         setRetainInstance(true);
 
-//        if (createReportViewModel.getRearTracking()){
-//            if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()){
-//                goodd.setChecked(false);
-//                fairr.setChecked(false);
-//                badd.setChecked(false);
-//                firstImage.setImageResource(0);
-//                secondImage.setImageResource(0);
-//                thirdImage.setImageResource(0);
-//
-//            }else {
-//                List<VehicleCollection> myCollection = createReportViewModel.getIntakeVehicleReport();
-//                for (int i = 0; i < myCollection.size(); i++) {
-//                    if (myCollection.get(i).getPart().equals("hood")) {
-//                        if (myCollection.get(i).getRemark().equals("good")) {
-//                            goodd.setChecked(true);
-//                        } else if (myCollection.get(i).getRemark().equals("fair")) {
-//                            fairr.setChecked(true);
-//                        } else {
-//                            badd.setChecked(true);
-//                        }
-//                        List<String> images = myCollection.get(i).getImageUrl();
-//                        GlideApp.with(RearFragment.this).load(images.get(0)).into(firstImage);
-//                        GlideApp.with(RearFragment.this).load(images.get(1)).into(secondImage);
-//                        GlideApp.with(RearFragment.this).load(images.get(2)).into(thirdImage);
-//
-//                    }
-//                }
-//            }
-//
-//        }
-
 
 
         saveHood.setOnClickListener(new View.OnClickListener() {
@@ -189,7 +156,7 @@ public class RearFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -202,7 +169,7 @@ public class RearFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -215,7 +182,7 @@ public class RearFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -269,7 +236,7 @@ public class RearFragment extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             takePicture.pictureCapture(imageBitmap,RearFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
         } else if (requestCode == RESULT_CANCELED) {
-            Alert.showFailed(getActivity(), "This request has been cancelled");
+            Alert.showFailed(getActivity(), "The request was cancelled");
 
 
         }
@@ -281,16 +248,16 @@ public class RearFragment extends Fragment {
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
+        }else {
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            rear = new VehicleCollection("rear", "Exterior", result, status);
+            createReportViewModel.saveReportToLocalStorage(rear);
+            createReportViewModel.setRearTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-         rear = new VehicleCollection("rear", result, status);
-        createReportViewModel.saveReportToLocalStorage(rear);
-        createReportViewModel.setRearTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
 
     }
 
@@ -299,7 +266,7 @@ public class RearFragment extends Fragment {
     public void onResume() {
 
 
-        rear = new VehicleCollection("rear", result, status);
+        rear = new VehicleCollection("rear","Exterior", result, status);
         createReportViewModel.isVehicleSave(rear,goodd,fairr,badd,RearFragment.this,firstImage,secondImage,thirdImage);
 
 

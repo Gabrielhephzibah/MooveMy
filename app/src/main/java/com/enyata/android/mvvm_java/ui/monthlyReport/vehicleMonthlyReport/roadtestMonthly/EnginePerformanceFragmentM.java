@@ -30,7 +30,8 @@ import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
-import com.enyata.android.mvvm_java.ui.createReport.roadtest.EnginePerformanceFragment;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 
 import java.io.File;
@@ -53,7 +54,7 @@ public class EnginePerformanceFragmentM extends Fragment {
     ImageView firstImage, secondImage, thirdImage, cancel1, cancel2, cancel3;
     File photoFile = null;
     Button saveHood,deleteData;
-    CreateReportViewModel createReportViewModel;
+    MonthlyReportViewModel monthlyReportViewModel;
     ImageDataArray imageDataArray;
     private String mCurrentPhotoPath;
     private static final int REQUEST_CAMERA = 1;
@@ -62,6 +63,7 @@ public class EnginePerformanceFragmentM extends Fragment {
     CharSequence radio;
     List<String> result;
     String cloudinaryImage;
+    MonthlyReportActivity activity;
     Map config;
     View fragment;
     VehicleCollection enginePerf;
@@ -79,8 +81,9 @@ public class EnginePerformanceFragmentM extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
+      monthlyReportViewModel = ViewModelProviders.of(requireActivity()).get(MonthlyReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
+        activity = (MonthlyReportActivity) getActivity();
 
 
 
@@ -113,12 +116,8 @@ public class EnginePerformanceFragmentM extends Fragment {
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getEnginePerfTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
                     Log.i("STATUSSS", status);
                     saveReport();
-                }
             }
         });
 
@@ -134,7 +133,7 @@ public class EnginePerformanceFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -147,7 +146,7 @@ public class EnginePerformanceFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(),"this image has been removed");
+                    Alert.showSuccess(getActivity(),"Image removed");
                     secondImage.setImageResource(0);}
             }
         });
@@ -159,7 +158,7 @@ public class EnginePerformanceFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -230,25 +229,24 @@ public class EnginePerformanceFragmentM extends Fragment {
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
+        }else {
+            activity.enginePerf = true;
+            activity.checkRoadTestFragment();
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            enginePerf = new VehicleCollection("engine performance","Road Test Findings", result, status);
+            monthlyReportViewModel.saveMonthlyReportToLocalStorage(enginePerf);
+//        monthlyReportViewModel.setEnginePerfTracking(true);
+
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        enginePerf = new VehicleCollection("engine performance", result, status);
-        createReportViewModel.saveReportToLocalStorage(enginePerf);
-        createReportViewModel.setEnginePerfTracking(true);
-
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        enginePerf = new VehicleCollection("engine performance", result, status);
-//        createReportViewModel.isVehicleSave(enginePerf,goodd,fairr,badd, EnginePerformanceFragmentM.this,firstImage,secondImage,thirdImage);
 
     }
 }

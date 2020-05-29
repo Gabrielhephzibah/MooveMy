@@ -37,6 +37,7 @@ import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.glide.GlideApp;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
+import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.squareup.picasso.Picasso;
@@ -78,6 +79,7 @@ public class RearBumperFragment extends Fragment {
     View fragment;
     VehicleCollection rearBumper;
     RelativeLayout relativeLayout;
+    CreateReportActivity createReportActivity;
     TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
 
@@ -94,10 +96,7 @@ public class RearBumperFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
+        createReportActivity = (CreateReportActivity) getActivity();
 
 
     }
@@ -133,36 +132,6 @@ public class RearBumperFragment extends Fragment {
         secondImage = view.findViewById(R.id.secondImage);
         thirdImage = view.findViewById(R.id.thirdImage);
 
-//        if (createReportViewModel.getRearBumperTracking()){
-//            if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()){
-//                goodd.setChecked(false);
-//                fairr.setChecked(false);
-//                badd.setChecked(false);
-//                firstImage.setImageResource(0);
-//                secondImage.setImageResource(0);
-//                thirdImage.setImageResource(0);
-//
-//            }else {
-//                List<VehicleCollection> myCollection = createReportViewModel.getIntakeVehicleReport();
-//                for (int i = 0; i < myCollection.size(); i++) {
-//                    if (myCollection.get(i).getPart().equals("hood")) {
-//                        if (myCollection.get(i).getRemark().equals("good")) {
-//                            goodd.setChecked(true);
-//                        } else if (myCollection.get(i).getRemark().equals("fair")) {
-//                            fairr.setChecked(true);
-//                        } else {
-//                            badd.setChecked(true);
-//                        }
-//                        List<String> images = myCollection.get(i).getImageUrl();
-//                        GlideApp.with(RearBumperFragment.this).load(images.get(0)).into(firstImage);
-//                        GlideApp.with(RearBumperFragment.this).load(images.get(1)).into(secondImage);
-//                        GlideApp.with(RearBumperFragment.this).load(images.get(2)).into(thirdImage);
-//
-//                    }
-//                }
-//            }
-//
-//        }
 
 
 
@@ -188,7 +157,7 @@ public class RearBumperFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -201,7 +170,7 @@ public class RearBumperFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -214,7 +183,7 @@ public class RearBumperFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -267,7 +236,7 @@ public class RearBumperFragment extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             takePicture.pictureCapture(imageBitmap,RearBumperFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
         } else if (requestCode == RESULT_CANCELED) {
-            Alert.showFailed(getActivity(),"This request has been cancelled");
+            Alert.showFailed(getActivity(),"The request was cancelled");
         }
     }
 
@@ -278,16 +247,16 @@ public class RearBumperFragment extends Fragment {
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
+        }else {
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            rearBumper = new VehicleCollection("rear bumper", "Exterior", result, status);
+            createReportViewModel.saveReportToLocalStorage(rearBumper);
+            createReportViewModel.setRearBumperTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        rearBumper = new VehicleCollection("rear bumper", result, status);
-        createReportViewModel.saveReportToLocalStorage(rearBumper);
-        createReportViewModel.setRearBumperTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
 
     }
 
@@ -295,7 +264,7 @@ public class RearBumperFragment extends Fragment {
     @Override
     public void onResume() {
 
-        rearBumper = new VehicleCollection("rear bumper", result, status);
+        rearBumper = new VehicleCollection("rear bumper","Exterior", result, status);
         createReportViewModel.isVehicleSave(rearBumper,goodd,fairr,badd,RearBumperFragment.this,firstImage,secondImage,thirdImage);
 
 

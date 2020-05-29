@@ -9,11 +9,11 @@ public class InspectorDetailData {
     private int id;
 
     @Expose
-    @SerializedName("part")
+    @SerializedName("component")
     private String part;
 
     @Expose
-    @SerializedName("class")
+    @SerializedName("section")
     private String classPart;
 
     @Expose

@@ -160,15 +160,9 @@ public class RepairsViewModel extends BaseViewModel<RepairsNavigator> {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(reportRequest -> {
-                            getNavigator().onResponse();
-//                            Intent i = new Intent(getApplicationContext(), ResponseActivity.class);
-//                            startActivity(i);
-//                            Log.i("RESPONSE","RESPONSE IS SUCESSFULK");
+                            getNavigator().onResponse(reportRequest);
                         },throwable -> {
                             getNavigator().handleError(throwable);
-//                            Log.i("Error","ERRROR");
-//                            Intent intent1 = new Intent(getApplicationContext(), FailedActivity.class);
-//                            startActivity(intent1);
                         }));
     }
 
@@ -180,7 +174,20 @@ public class RepairsViewModel extends BaseViewModel<RepairsNavigator> {
                 .subscribe(response -> {
                     getNavigator().onInspectorResponse(response);
                 }, throwable -> {
-                    getNavigator().handleError(throwable);
+                    getNavigator().onInspectorHandleError(throwable);
+                }));
+    }
+
+    public void checkRepairsReport(String vehicleId){
+        getNavigator().onStartingCheck();
+        getCompositeDisposable().add(getDataManager()
+                .checkRepairsReport(vehicleId)
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(response -> {
+                    getNavigator().onCheckRepairsResponse(response);
+                }, throwable -> {
+                    getNavigator().onCheckRepairError(throwable);
                 }));
     }
 

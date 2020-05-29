@@ -29,8 +29,8 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
-import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
-import com.enyata.android.mvvm_java.ui.createReport.interior.InteriorTrimFragment;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 
 import java.io.File;
@@ -53,7 +53,7 @@ public class InteriorTrimFragmentM extends Fragment {
     ImageView firstImage, secondImage, thirdImage, cancel1, cancel2, cancel3;
     File photoFile = null;
     Button saveHood,deleteData;
-    CreateReportViewModel createReportViewModel;
+    MonthlyReportViewModel monthlyReportViewModel;
     ImageDataArray imageDataArray;
     private String mCurrentPhotoPath;
     private static final int REQUEST_CAMERA = 1;
@@ -64,6 +64,7 @@ public class InteriorTrimFragmentM extends Fragment {
     String cloudinaryImage;
     Map config;
     View fragment;
+    MonthlyReportActivity activity;
     VehicleCollection interiorTrim;
     TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
@@ -79,9 +80,9 @@ public class InteriorTrimFragmentM extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
+        monthlyReportViewModel = ViewModelProviders.of(requireActivity()).get(MonthlyReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-
+        activity = (MonthlyReportActivity) getActivity();
 
 
     }
@@ -113,12 +114,8 @@ public class InteriorTrimFragmentM extends Fragment {
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getInteriorTrimTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
                     Log.i("STATUSSS", status);
                     saveReport();
-                }
             }
         });
 
@@ -134,7 +131,7 @@ public class InteriorTrimFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(),"this image has been removed");
+                    Alert.showSuccess(getActivity(),"Image removed");
                     firstImage.setImageResource(0);}
             }
         });
@@ -146,7 +143,7 @@ public class InteriorTrimFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(),"this image has been removed");
+                    Alert.showSuccess(getActivity(),"Image removed");
                     secondImage.setImageResource(0);}
             }
         });
@@ -155,7 +152,7 @@ public class InteriorTrimFragmentM extends Fragment {
             @Override
             public void onClick(View view) {
                 takePicture.removeThirdImage();
-                Alert.showSuccess(getActivity(),"this image has been removed");
+                Alert.showSuccess(getActivity(),"Image removed");
                 thirdImage.setImageResource(0);
             }
         });
@@ -221,26 +218,26 @@ public class InteriorTrimFragmentM extends Fragment {
         if (takePicture.areImagesNotComplete(getActivity())) {
             return;
         } else if (status.isEmpty()) {
-            Alert.showFailed(getActivity(),"please fill all fields");
+            Alert.showFailed(getActivity(), "please fill all fields");
             return;
+        } else {
+            activity.intriorTrim = true;
+            activity.checkInteriorFragment();
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            interiorTrim = new VehicleCollection("interior trim","Interior", result, status);
+            monthlyReportViewModel.saveMonthlyReportToLocalStorage(interiorTrim);
+//        monthlyReportViewModel.setInteriorTrimTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
+
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        interiorTrim = new VehicleCollection("interior trim", result, status);
-        createReportViewModel.saveReportToLocalStorage(interiorTrim);
-        createReportViewModel.setInteriorTrimTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
-
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
-        interiorTrim = new VehicleCollection("interior trim", result, status);
-//        createReportViewModel.isVehicleSave(interiorTrim,goodd,fairr,badd, InteriorTrimFragmentM.this,firstImage,secondImage,thirdImage);
     }
 }

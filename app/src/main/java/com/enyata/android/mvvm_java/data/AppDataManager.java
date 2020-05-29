@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.enyata.android.mvvm_java.data.local.prefs.PreferencesHelper;
+import com.enyata.android.mvvm_java.data.model.api.myData.MaintenanceListData;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
+import com.enyata.android.mvvm_java.data.model.api.request.CheckIntakeRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.CreateReportRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.IntakeRuleRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
@@ -203,6 +205,16 @@ public class AppDataManager implements  DataManager {
     @Override
     public List<VehicleCollection> getInTakeVehicleReport() {
         return mPreferencesHelper.getInTakeVehicleReport();
+    }
+
+    @Override
+    public void setMonthlyVehicleReport(List<VehicleCollection> monthlyReport) {
+        mPreferencesHelper.setMonthlyVehicleReport(monthlyReport);
+    }
+
+    @Override
+    public List<VehicleCollection> getMonthlyVehicleReport() {
+        return mPreferencesHelper.getMonthlyVehicleReport();
     }
 
     @Override
@@ -870,8 +882,8 @@ public class AppDataManager implements  DataManager {
     }
 
     @Override
-    public boolean getPoweWindowTracking() {
-        return mPreferencesHelper.getPoweWindowTracking();
+    public boolean getPowerWindowTracking() {
+        return mPreferencesHelper.getPowerWindowTracking();
     }
 
     @Override
@@ -1368,7 +1380,7 @@ public class AppDataManager implements  DataManager {
 
     @Override
     public void deleteTransmissionTracking(boolean transmissionTracking) {
-        mPreferencesHelper.deleteTransmissionShiftTracking(transmissionTracking);
+        mPreferencesHelper.deleteTransmissionTracking(transmissionTracking);
 
     }
 
@@ -1458,6 +1470,16 @@ public class AppDataManager implements  DataManager {
     }
 
     @Override
+    public void setVehicleIdMaint(String vehicleIdMaint) {
+        mPreferencesHelper.setVehicleIdMaint(vehicleIdMaint);
+    }
+
+    @Override
+    public String getVehicleIdMaint() {
+        return mPreferencesHelper.getVehicleIdMaint();
+    }
+
+    @Override
     public void setTimeOnStop(long currentTimeOnStop) {
         mPreferencesHelper.setTimeOnStop(currentTimeOnStop);
     }
@@ -1465,6 +1487,90 @@ public class AppDataManager implements  DataManager {
     @Override
     public long getTimeOnStop() {
         return mPreferencesHelper.getTimeOnStop();
+    }
+
+    @Override
+    public void setMaintenanceReport(List<MaintenanceListData> maintenanceData) {
+        mPreferencesHelper.setMaintenanceReport(maintenanceData);
+    }
+
+    @Override
+    public List<MaintenanceListData> getMaintenanceReport() {
+        return mPreferencesHelper.getMaintenanceReport();
+    }
+
+    @Override
+    public void deleteMaintenanceReport(List<MaintenanceListData> maintenanceListData) {
+        mPreferencesHelper.deleteMaintenanceReport(maintenanceListData);
+
+    }
+
+    @Override
+    public void deleteMonthlyReport(List<VehicleCollection> vehicleCollections) {
+        mPreferencesHelper.deleteMonthlyReport(vehicleCollections);
+    }
+
+    @Override
+    public void setMonthlyFinalAssessment(String finalAssessment) {
+        mPreferencesHelper.setMonthlyFinalAssessment(finalAssessment);
+    }
+
+    @Override
+    public String getMonthlyFinalAssessment() {
+        return mPreferencesHelper.getMonthlyFinalAssessment();
+    }
+
+    @Override
+    public void setMonthlyFinalComment(String finalComment) {
+        mPreferencesHelper.setMonthlyFinalComment(finalComment);
+
+    }
+
+    @Override
+    public String getMonthlyFinalComment() {
+        return mPreferencesHelper.getMonthlyFinalComment();
+    }
+
+    @Override
+    public void setIntakeAcceptanceValue(String intakeAcceptanceValue) {
+        mPreferencesHelper.setIntakeAcceptanceValue(intakeAcceptanceValue);
+    }
+
+    @Override
+    public String getIntakeAcceptanceValue() {
+        return mPreferencesHelper.getIntakeAcceptanceValue();
+    }
+
+    @Override
+    public void setMonthlyAcceptanceValue(String monthlyAcceptanceValue) {
+        mPreferencesHelper.setMonthlyAcceptanceValue(monthlyAcceptanceValue);
+
+    }
+
+    @Override
+    public String getMonthlyAcceptanceValue() {
+        return mPreferencesHelper.getMonthlyAcceptanceValue();
+    }
+
+    @Override
+    public void deleteIntakeAcceptanceValue(String intakeAcceptance) {
+        mPreferencesHelper.deleteIntakeAcceptanceValue(intakeAcceptance);
+    }
+
+    @Override
+    public void deleteMonthlyAcceptanceValue(String monthlyAcceptance) {
+        mPreferencesHelper.deleteMonthlyAcceptanceValue(monthlyAcceptance);
+
+    }
+
+    @Override
+    public void setInitialMileage(String initialMileage) {
+        mPreferencesHelper.setInitialMileage(initialMileage);
+    }
+
+    @Override
+    public String getInitialMileage() {
+        return mPreferencesHelper.getInitialMileage();
     }
 
 //    @Override
@@ -1521,6 +1627,26 @@ public class AppDataManager implements  DataManager {
     @Override
     public Flowable<MaintenanceScheduleResponse> getMaintenanceSchedule(MaintenanceScheduleRequest.Request request) {
         return mApiHelper.getMaintenanceSchedule(request);
+    }
+
+    @Override
+    public Single<CreateReportResponse> checkIntakeReport(CheckIntakeRequest.Request request) {
+        return mApiHelper.checkIntakeReport(request);
+    }
+
+    @Override
+    public Single<CreateReportResponse>checkMonthlyReport(String vehicleId) {
+        return mApiHelper.checkMonthlyReport(vehicleId);
+    }
+
+    @Override
+    public Single<CreateReportResponse> checkMaintenanceReport(String vehicleId) {
+        return mApiHelper.checkMaintenanceReport(vehicleId);
+    }
+
+    @Override
+    public Single<CreateReportResponse> checkRepairsReport(String vehicleId) {
+        return mApiHelper.checkRepairsReport(vehicleId);
     }
 
 

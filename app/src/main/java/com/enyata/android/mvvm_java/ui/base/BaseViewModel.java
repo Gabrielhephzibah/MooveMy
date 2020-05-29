@@ -91,6 +91,6 @@ public abstract class BaseViewModel<N> extends ViewModel {
     }
 
     public long getTimeOnStop(){
-        return   getDataManager().getTimeOnStop();
+        return getDataManager().getTimeOnStop();
     }
 }

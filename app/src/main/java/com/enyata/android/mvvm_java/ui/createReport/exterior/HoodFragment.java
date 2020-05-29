@@ -35,6 +35,7 @@ import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.glide.GlideApp;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
+import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 
@@ -76,7 +77,7 @@ public class HoodFragment extends Fragment {
     ImageView imageView;
     Collection<String> value;
     RelativeLayout relativeLayout;
-
+    CreateReportActivity createReportActivity;
     TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
 
@@ -147,8 +148,6 @@ public class HoodFragment extends Fragment {
                 if (createReportViewModel.getHoodTrackingStatus()) {
                     Alert.showSuccess(getActivity(), "Item already saved");
                 } else {
-
-
                     saveReport();
 
                 }
@@ -165,7 +164,7 @@ public class HoodFragment extends Fragment {
                     Alert.showFailed(getActivity(), "image is empty");
                 } else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -178,7 +177,7 @@ public class HoodFragment extends Fragment {
                     Alert.showFailed(getActivity(), "Image is empty");
                 } else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -191,7 +190,7 @@ public class HoodFragment extends Fragment {
                     Alert.showFailed(getActivity(), "Image is empty");
                 } else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -292,7 +291,7 @@ public class HoodFragment extends Fragment {
     public void onResume() {
         Log.i("IMAGEARRAY", String.valueOf(result));
         Log.i("Status", status);
-        hood = new VehicleCollection("hood", result, status);
+        hood = new VehicleCollection("hood","Exterior", result, status);
         createReportViewModel.isVehicleSave(hood, goodd, fairr, badd, HoodFragment.this, firstImage, secondImage, thirdImage);
 
         super.onResume();
@@ -309,7 +308,7 @@ public class HoodFragment extends Fragment {
             takePicture.pictureCapture(imageBitmap, HoodFragment.this, firstImage, secondImage, thirdImage, progressBar, getActivity());
 
         } else if (requestCode == RESULT_CANCELED) {
-            Alert.showFailed(getActivity(), "The request has been cancelled");
+            Alert.showFailed(getActivity(), "The request was cancelled");
 
         }
     }
@@ -325,10 +324,10 @@ public class HoodFragment extends Fragment {
             imageArray = takePicture.getPictureArray();
             value = imageArray.values();
             result = new ArrayList<>(value);
-            hood = new VehicleCollection("hood", result, status);
+            hood = new VehicleCollection("hood","Exterior", result, status);
             createReportViewModel.saveReportToLocalStorage(hood);
             createReportViewModel.setHoodTrackingStatus(true);
-            Alert.showSuccess(getActivity(), "Item saved please swipe to proceed");
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
         }
 
     }

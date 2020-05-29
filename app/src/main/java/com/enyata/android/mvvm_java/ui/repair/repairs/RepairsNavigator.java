@@ -27,8 +27,12 @@ public interface RepairsNavigator {
     void onSaveElectric();
     void onSaveRoadTest();
     void handleError(Throwable throwable);
-    void onResponse();
+    void onResponse(CreateReportResponse response);
     void onStarting();
+    void onInspectorHandleError(Throwable throwable);
     void onInspectorResponse(InspectorDetailReport response);
+    void onCheckRepairsResponse(CreateReportResponse response);
+    void  onCheckRepairError(Throwable throwable);
+    void onStartingCheck();
 
 }

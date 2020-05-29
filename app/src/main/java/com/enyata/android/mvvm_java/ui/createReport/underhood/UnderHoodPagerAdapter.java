@@ -1,6 +1,7 @@
 package com.enyata.android.mvvm_java.ui.createReport.underhood;
 
 import android.content.Context;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -46,5 +47,10 @@ public class UnderHoodPagerAdapter extends FragmentPagerAdapter {
         }else {
             return HosesFragment.newInstance();
         }
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+
     }
 }

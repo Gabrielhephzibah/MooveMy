@@ -3,6 +3,7 @@ package com.enyata.android.mvvm_java.ui.cameraPicture;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.ContactsContract;
@@ -17,10 +18,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.cloudinary.Transformation;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
+import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.DataManager;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.glide.GlideApp;
@@ -60,17 +66,7 @@ public class TakePicture extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
-
-
     }
-
-//    public DataManager getDataManager() {
-//        return mDataManager;
-//    }
-
-
-
 
     public void pictureCapture(Bitmap bitmap, Fragment fragment, ImageView image1, ImageView image2, ImageView image3, ProgressBar progressBar, Activity activity) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -104,14 +100,11 @@ public class TakePicture extends Fragment {
                             imageURL = (String) resultData.get("url");
                             cloudinaryID = (String) resultData.get("public_id").toString();
                             cloudinaryImage = MediaManager.get().url().transformation(new Transformation()).resourceType("image").generate(cloudinaryID + ".jpg");
-//                                cloudinaryImage = MediaManager.get().url().transformation(new Transformation().startOffset("5").width(100).height(100).generate(publicId+".jpg"))
-
-                            Alert.showSuccess(activity, "Image uploaded Successfully, you can take another picture now");
-//                                Toast.makeText(getActivity(), "Image uploaded Successfully, You can take another picture now", Toast.LENGTH_LONG).show();
+                            Alert.showSuccess(activity, "Image uploaded Successfully! Proceed");
                             Log.i("imageURL", imageURL);
                             Log.i("cloudinaryID", cloudinaryID);
 
-                            showImage(fragment, image1, image2, image3);
+                            showImage(fragment, image1, image2, image3, activity);
                         }
 
                     }
@@ -127,7 +120,7 @@ public class TakePicture extends Fragment {
                     public void onReschedule(String requestId, ErrorInfo error) {
                         Log.i("SCHEDULE", "SCHEDULE");
                         progressBar.setVisibility(View.GONE);
-                        Alert.showFailed(activity, "Uploading is taking time,please take picture again");
+                        Alert.showFailed(activity, "Uploading is taking time,take picture again");
 
                     }
                 })
@@ -139,19 +132,48 @@ public class TakePicture extends Fragment {
 
 
 
-    public void showImage(Fragment fragment, ImageView imageView1, ImageView imageView2, ImageView imageView3  ) {
+    public void showImage(Fragment fragment, ImageView imageView1, ImageView imageView2, ImageView imageView3, Activity activity) {
 
         if (imageDataArray.isArrayEmpty()) {
 
             Log.i("ISEMPTY", "ISWMPTRRRR");
             imageDataArray.addUrl("image0", imageURL);
-            GlideApp.with(fragment).load(cloudinaryImage).into(imageView1);
+            GlideApp.with(fragment)
+                    .load(cloudinaryImage)
+                    .error(R.drawable.error_image)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            Alert.showFailed(activity,"Error while loading image");
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            return false;
+                        }
+                    }).into(imageView1);
 
         } else {
             if (!imageDataArray.containKey("image0")) {
 
                 imageDataArray.addUrl("image0", imageURL);
-                GlideApp.with(fragment).load(cloudinaryImage).into(imageView1);
+                GlideApp.with(fragment)
+                        .load(cloudinaryImage)
+                        .error(R.drawable.error_image)
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                Alert.showFailed(activity,"Error while loading image");
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                return false;
+                            }
+                        })
+                        .into(imageView1);
 
 
 
@@ -159,14 +181,44 @@ public class TakePicture extends Fragment {
                 if (imageDataArray.containKey("image1")) {
                     if (!imageDataArray.containKey("image2")) {
                         imageDataArray.addUrl("image2", imageURL);
-                        GlideApp.with(fragment).load(cloudinaryImage).into(imageView3);
+                        GlideApp.with(fragment)
+                                .load(cloudinaryImage)
+                                .error(R.drawable.error_image)
+                                .listener(new RequestListener<Drawable>() {
+                                    @Override
+                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                        Alert.showFailed(activity,"Error while loading image");
+                                        return false;
+                                    }
+
+                                    @Override
+                                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                        return false;
+                                    }
+                                })
+                                .into(imageView3);
 
 
 
                     }
                 } else {
                     imageDataArray.addUrl("image1", imageURL);
-                    GlideApp.with(fragment).load(cloudinaryImage).into(imageView2);
+                    GlideApp.with(fragment)
+                            .load(cloudinaryImage)
+                            .error(R.drawable.error_image)
+                            .listener(new RequestListener<Drawable>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    Alert.showFailed(activity,"Error while loading image");
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    return false;
+                                }
+                            })
+                            .into(imageView2);
 
 
 
@@ -198,12 +250,12 @@ public class TakePicture extends Fragment {
 
     public boolean whenImageIsThree(Activity activity) {
         if (imageDataArray.containKey("image1") && imageDataArray.containKey("image2") && imageDataArray.containKey("image0")) {
-            Alert.showFailed(activity, "You have already uploaded three picture,please swipe to proceed or click on delete icon to remove any of the pictures taken");
+            Alert.showFailed(activity, "you have uploaded three pictures! Proceed or delete any of the picture");
             return true;
 
         } else {
             return false;
-//            showImage(fragment,imageView1,imageView2,imageView3);
+
         }
 
     }
@@ -211,7 +263,7 @@ public class TakePicture extends Fragment {
 
     public boolean areImagesNotComplete(Activity activity){
         if (!imageDataArray.containKey("image1") || !imageDataArray.containKey("image2") || !imageDataArray.containKey("image0")){
-            Alert.showFailed(activity,"Please make sure you upload all images");
+            Alert.showFailed(activity,"Upload all images");
             return true;
 
         }else {
@@ -224,25 +276,6 @@ public class TakePicture extends Fragment {
     public HashMap<String,String>getPictureArray(){
         return imageArray;
 }
-
-
-
-//        public void  ifImageArraynotempty(){
-//        if (imageDataArray.isArrayEmpty()){
-//            Log.i("it is empty","IT IS EMPTY");
-//        }else {
-//            Log.i("ARRAYSAVED", String.valueOf(getImageArraySave()));
-//        }
-//
-//        }
-//
-//    public void  setImageArraysave(boolean imageArraysave){
-//        getDataManager().setImageArraySaved(imageArraysave);
-//    }
-//
-//    public boolean getImageArraySave(){
-//        return  getDataManager().getImageArraySaved();
-//    }
 
 
 }

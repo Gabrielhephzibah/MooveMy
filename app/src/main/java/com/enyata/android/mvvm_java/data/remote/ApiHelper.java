@@ -1,5 +1,6 @@
 package com.enyata.android.mvvm_java.data.remote;
 
+import com.enyata.android.mvvm_java.data.model.api.request.CheckIntakeRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.CreateReportRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.IntakeRuleRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
@@ -35,6 +36,13 @@ public interface ApiHelper {
 
     Flowable<MaintenanceScheduleResponse>getMaintenanceSchedule(MaintenanceScheduleRequest.Request request);
 
+    Single<CreateReportResponse>checkIntakeReport(CheckIntakeRequest.Request request);
+
+    Single<CreateReportResponse>checkMonthlyReport(String vehicleId);
+
+    Single<CreateReportResponse>checkMaintenanceReport(String vehicleId);
+
+    Single<CreateReportResponse>checkRepairsReport(String vehicleId);
 
 
 

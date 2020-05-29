@@ -15,26 +15,39 @@ import java.util.Objects;
 public class VehicleCollection {
 
 
-    @SerializedName("part")
+//    @SerializedName("part")
+//    @Expose
+//    private String part;
+
+    @SerializedName("component")
     @Expose
-    private String part;
+    private String part ;
+
+    @SerializedName("section")
+    @Expose
+    private String section;
+
     @SerializedName("image_url")
     @Expose
     private List<String> imageUrl = null;
+
     @SerializedName("remark")
     @Expose
     private String remark;
 
-
-
-
-
-    public VehicleCollection(String part, List<String> imageUrl, String remark) {
+    public VehicleCollection(String part, String section, List<String> imageUrl, String remark) {
         this.part = part;
+        this.section = section;
         this.imageUrl = imageUrl;
         this.remark = remark;
-
     }
+
+//    public VehicleCollection(String part, List<String> imageUrl, String remark) {
+//        this.part = part;
+//        this.imageUrl = imageUrl;
+//        this.remark = remark;
+//
+//    }
 
 
     public String getPart() {
@@ -43,6 +56,14 @@ public class VehicleCollection {
 
     public void setPart(String part) {
         this.part = part;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
     }
 
     public List<String> getImageUrl() {
@@ -61,9 +82,6 @@ public class VehicleCollection {
         this.remark = remark;
     }
 
-
-
-
     @Override
 
         public boolean equals(Object o) {
@@ -72,6 +90,7 @@ public class VehicleCollection {
             VehicleCollection request = (VehicleCollection) o;
             return Objects.equals(remark, request.remark) &&
                     Objects.equals(imageUrl, request.imageUrl) &&
+                    Objects.equals(section, request.section) &&
                     Objects.equals(part, request.part);
 
         }
@@ -79,7 +98,7 @@ public class VehicleCollection {
 
         @Override
         public int hashCode() {
-            int result = Objects.hash(remark, part);
+            int result = Objects.hash(remark, section,part);
             result = 31 * result + Objects.hashCode(imageUrl);
 
             return result;
@@ -88,7 +107,8 @@ public class VehicleCollection {
     @Override
     public String toString() {
         return "VehicleCollection{" +
-                "part=" + part + " " +
+                "component='" + part + '\'' +
+                ", section='" + section + '\'' +
                 ", imageUrl=" + imageUrl +
                 ", remark='" + remark + '\'' +
                 '}';

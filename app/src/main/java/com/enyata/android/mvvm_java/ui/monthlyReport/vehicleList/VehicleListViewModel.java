@@ -1,8 +1,11 @@
 package com.enyata.android.mvvm_java.ui.monthlyReport.vehicleList;
 
 import com.enyata.android.mvvm_java.data.DataManager;
+import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.ui.base.BaseViewModel;
 import com.enyata.android.mvvm_java.utils.rx.SchedulerProvider;
+
+import java.util.List;
 
 public class VehicleListViewModel extends BaseViewModel<VehicleListNavigator> {
     public VehicleListViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
@@ -46,5 +49,25 @@ public class VehicleListViewModel extends BaseViewModel<VehicleListNavigator> {
     }
     public  void  setcarModelMaint(String  carModelMaint){
         getDataManager().setCarModelMaint(carModelMaint);
+    }
+
+    public  void  setVehicleIdMaint(String  vehicleIdMaint){
+        getDataManager().setVehicleIdMaint(vehicleIdMaint);
+    }
+
+    public void  deleteMonthlyReport(List<VehicleCollection> vehicleCollections){
+        getDataManager().deleteMonthlyReport(vehicleCollections);
+    }
+
+    public List<VehicleCollection>getMonthlyVehicleReport(){
+        return  getDataManager().getMonthlyVehicleReport();
+    }
+
+    public void setInitialMileage(String initialMileage){
+        getDataManager().setInitialMileage(initialMileage);
+    }
+
+    public String getInitialMileage(){
+        return  getDataManager().getInitialMileage();
     }
 }

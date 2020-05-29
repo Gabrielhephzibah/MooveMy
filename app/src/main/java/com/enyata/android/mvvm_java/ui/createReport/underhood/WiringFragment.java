@@ -94,10 +94,7 @@ public class WiringFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
+
 
 
     }
@@ -164,7 +161,7 @@ public class WiringFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -177,7 +174,7 @@ public class WiringFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                 takePicture.removeSecondImage();
-                Alert.showSuccess(getActivity(),"this image has been removed");
+                Alert.showSuccess(getActivity(),"Image removed");
                 secondImage.setImageResource(0);}
             }
         });
@@ -189,7 +186,7 @@ public class WiringFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -263,17 +260,17 @@ public class WiringFragment extends Fragment {
         Collection<String> value = imageArray.values();
         result = new ArrayList<>(value);
 
-         wiring = new VehicleCollection("wiring", result, status);
+         wiring = new VehicleCollection("wiring","Underhood", result, status);
         createReportViewModel.saveReportToLocalStorage(wiring);
         createReportViewModel.setWiringTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
+        Alert.showSuccess(getActivity(),"Item saved! Proceed");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        wiring = new VehicleCollection("wiring", result, status);
+        wiring = new VehicleCollection("wiring", "Underhood",result, status);
         createReportViewModel.isVehicleSave(wiring,goodd,fairr,badd, WiringFragment.this,firstImage,secondImage,thirdImage);
     }
 }

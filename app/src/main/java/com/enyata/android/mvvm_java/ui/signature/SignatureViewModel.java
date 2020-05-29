@@ -30,6 +30,10 @@ public class SignatureViewModel extends BaseViewModel<SignatureNavigator> {
     CompositeDisposable disposable = new CompositeDisposable();
     private ApiService mAPIService;
 
+    public  String getIntakeAcceptanceValue(){
+        return  getDataManager().getIntakeAcceptanceValue();
+    }
+
     public void onSubmit(){
         getNavigator().onSubmit();
     }
@@ -620,7 +624,7 @@ public class SignatureViewModel extends BaseViewModel<SignatureNavigator> {
     }
 
     public  boolean getPowerWindowTracking(){
-        return getDataManager().getPoweWindowTracking();
+        return getDataManager().getPowerWindowTracking();
     }
 
 
@@ -797,8 +801,8 @@ public class SignatureViewModel extends BaseViewModel<SignatureNavigator> {
         getDataManager().deleteAll();
     }
 
-    public void deleteIntakeVehicleReportArray(List<VehicleCollection>delete){
-        getDataManager().deleteIntakeReport(delete);
+    public void deleteIntakeVehicleReportArray(List<VehicleCollection>vehicleCollections){
+        getDataManager().deleteIntakeReport(vehicleCollections);
     }
 
     public void deleteCarYear(String carYear){
@@ -845,6 +849,10 @@ public class SignatureViewModel extends BaseViewModel<SignatureNavigator> {
         getDataManager().deleteReportType(reportType);
     }
 
+    public void deleteIntakeAcceptanceValue(String acceptanceValue){
+        getDataManager().deleteIntakeAcceptanceValue(acceptanceValue);
+    }
+
 
 
 
@@ -855,43 +863,19 @@ public class SignatureViewModel extends BaseViewModel<SignatureNavigator> {
     public void createVehicleReport(CreateReportRequest request) {
         getNavigator().onStarting();
         mAPIService = ApiUtils.getAPIService();
-
-//        Intent intent = new Intent(getApplicationContext(), LoadingActivity.class);
-////        startActivity(intent);// RxJava
-
         disposable.add(
                 mAPIService.savePost(getDataManager().getAccessToken(), request )
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(response -> {
                             getNavigator().onResponse(response);
-//                            Intent i = new Intent(getApplicationContext(), ResponseActivity.class);
-//                            startActivity(i);
                             Log.i("RESPONSE","RESPONSE IS SUCESSFULK");
                         },throwable -> {
                             Log.i("Error","ERRROR");
                             getNavigator().handleError(throwable);
 
-//                            Intent intent1 = new Intent(getApplicationContext(), FailedActivity.class);
-//                            startActivity(intent1);
                         }));
     }
 
 
-    public  void createMonthlyReport(MonthlyReportRequest request){
-        getNavigator().onStarting();
-        mAPIService =ApiUtils.getAPIService();
-        disposable.add(
-                mAPIService.createMonthlyReport(getDataManager().getAccessToken(),request)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    getNavigator().onResponse(response);
-                    Log.i("MONTHLY","RESPONSE SUCCESSFUL");
-                },throwable -> {
-                    getNavigator().handleError(throwable);
-                    Log.i("ERROR","ERRROE");
-                })
-        );
-    }
 }

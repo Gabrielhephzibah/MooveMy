@@ -26,6 +26,11 @@ public class InspectorData {
     private String model;
 
     @Expose
+    @SerializedName("mileage")
+    private String mileage;
+
+
+    @Expose
     @SerializedName("year")
     private String year;
 
@@ -77,5 +82,9 @@ public class InspectorData {
 
     public String getType() {
         return type;
+    }
+
+    public String getMileage() {
+        return mileage;
     }
 }

@@ -1,6 +1,7 @@
 package com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.tiresMonthly;
 
 import android.content.Context;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -36,4 +37,15 @@ public class TirePagerAdapterM extends FragmentPagerAdapter {
             return SpareTireFragmentM.newInstance();
         }
     }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+
+    }
+//
+//    @NonNull
+//    @Override
+//    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+//        return super.instantiateItem(container, position);
+//    }
 }

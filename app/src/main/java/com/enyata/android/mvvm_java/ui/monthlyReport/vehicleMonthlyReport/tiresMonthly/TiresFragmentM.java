@@ -29,8 +29,8 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
-import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
-import com.enyata.android.mvvm_java.ui.createReport.tires.TiresFragment;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 
 import java.io.File;
@@ -43,7 +43,7 @@ import java.util.Map;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class TiresFragmentM extends Fragment {
+public class TiresFragmentM extends Fragment implements TireInterface {
     String status = "", imageURL, cloudinaryID;
     RadioGroup hoodRadioGroup;
     RadioButton badd, goodd, fairr;
@@ -53,7 +53,7 @@ public class TiresFragmentM extends Fragment {
     ImageView firstImage, secondImage, thirdImage, cancel1, cancel2, cancel3;
     File photoFile = null;
     Button saveHood,deleteData;
-    CreateReportViewModel createReportViewModel;
+    MonthlyReportViewModel monthlyReportViewModel;
     ImageDataArray imageDataArray;
     private String mCurrentPhotoPath;
     private static final int REQUEST_CAMERA = 1;
@@ -64,7 +64,9 @@ public class TiresFragmentM extends Fragment {
     String cloudinaryImage;
     Map config;
     View fragment;
+    String saveStatus = " ";
     VehicleCollection tiresFragment;
+    MonthlyReportActivity monthlyReportActivity;
     TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
 
@@ -79,7 +81,8 @@ public class TiresFragmentM extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
+        monthlyReportViewModel = ViewModelProviders.of(requireActivity()).get(MonthlyReportViewModel.class);
+        monthlyReportActivity = (MonthlyReportActivity) getActivity();
         imageDataArray = new ImageDataArray(imageArray);
 
 
@@ -112,12 +115,8 @@ public class TiresFragmentM extends Fragment {
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getTiresTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
                     Log.i("STATUSSS", status);
                     saveReport();
-                }
             }
         });
 
@@ -133,7 +132,7 @@ public class TiresFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -146,7 +145,7 @@ public class TiresFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -159,7 +158,7 @@ public class TiresFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(),"this image has been removed");
+                    Alert.showSuccess(getActivity(),"Image removed");
                     thirdImage.setImageResource(0);}
             }
         });
@@ -215,36 +214,42 @@ public class TiresFragmentM extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             takePicture.pictureCapture(imageBitmap,TiresFragmentM.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
         } else if (requestCode == RESULT_CANCELED) {
-            Alert.showFailed(getActivity(),"The request has been cancelled");
+            Alert.showFailed(getActivity(),"The request was cancelled");
 
         }
     }
 
     public void saveReport() {
-
+            saveStatus = "Saved";
         if (takePicture.areImagesNotComplete(getActivity())) {
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
+        }else {
+            monthlyReportActivity.tire = true;
+            monthlyReportActivity.checkTireFragment();
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            tiresFragment = new VehicleCollection("tyres", "Tyres and Wheels", result, status);
+            monthlyReportViewModel.saveMonthlyReportToLocalStorage(tiresFragment);
+//        monthlyReportViewModel.setTiresTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
+            Log.i("String", saveStatus);
+
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        tiresFragment = new VehicleCollection("tires", result, status);
-        createReportViewModel.saveReportToLocalStorage(tiresFragment);
-        createReportViewModel.setTiresTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
+    }
 
-        tiresFragment = new VehicleCollection("tires", result, status);
-//        createReportViewModel.isVehicleSave(tiresFragment,goodd,fairr,badd, TiresFragmentM.this,firstImage,secondImage,thirdImage);
+    @Override
+    public String getSavedStatus() {
+        return saveStatus;
     }
 }

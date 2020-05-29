@@ -36,6 +36,7 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
+import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.DoorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.FrontBumperFragment;
@@ -57,7 +58,7 @@ import java.util.Map;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class WheelFragment extends Fragment {
+public class WheelFragment extends Fragment implements TireInterface {
     String status = "", imageURL, cloudinaryID;
     RadioGroup hoodRadioGroup;
     RadioButton badd, goodd, fairr;
@@ -78,6 +79,8 @@ public class WheelFragment extends Fragment {
     String cloudinaryImage;
     Map config;
     View fragment;
+    CreateReportActivity createReportActivity;
+    boolean saveStatus = false;
     VehicleCollection wheel;
     TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
@@ -95,10 +98,6 @@ public class WheelFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
 
 
     }
@@ -126,21 +125,6 @@ public class WheelFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-//        deleteData = view.findViewById(R.id.deletedata);
-//        deleteData.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.i("DELETE", "Delete data");
-//                createReportViewModel.deleteAll();
-////                createReportViewModel.deleteData(createReportViewModel.getIntakeVehicleReport());
-//                Log.i("NEWARRAY", String.valueOf(createReportViewModel.getIntakeVehicleReport()));
-//                Log.i("MAKE",String.valueOf(createReportViewModel.getCarMake()));
-//                Log.i("MODEL",String.valueOf(createReportViewModel.getCarModel()));
-//                Log.i("Color",String.valueOf(createReportViewModel.getCarColor()));
-//                Log.i("Year", String.valueOf(createReportViewModel.getCarYear()));
-//            }
-//        });
-
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,7 +149,7 @@ public class WheelFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                 takePicture.removefirstImage();
-                Alert.showSuccess(getActivity(),"this image has been removed");
+                Alert.showSuccess(getActivity(),"Image removed");
                 firstImage.setImageResource(0);}
             }
         });
@@ -177,7 +161,7 @@ public class WheelFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -190,7 +174,7 @@ public class WheelFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -247,7 +231,7 @@ public class WheelFragment extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             takePicture.pictureCapture(imageBitmap,WheelFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
         } else if (requestCode == RESULT_CANCELED) {
-            Alert.showFailed(getActivity(),"The request has been cancelled");
+            Alert.showFailed(getActivity(),"The request was cancelled");
 
         }
     }
@@ -259,23 +243,28 @@ public class WheelFragment extends Fragment {
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
+        }else {
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            wheel = new VehicleCollection("wheels","Tyres and Wheels", result, status);
+            createReportViewModel.saveReportToLocalStorage(wheel);
+            createReportViewModel.setWheelTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        wheel = new VehicleCollection("wheels", result, status);
-        createReportViewModel.saveReportToLocalStorage(wheel);
-        createReportViewModel.setWheelTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        wheel = new VehicleCollection("wheels", result, status);
+        wheel = new VehicleCollection("wheels","Tyres and Wheels", result, status);
         createReportViewModel.isVehicleSave(wheel,goodd,fairr,badd, WheelFragment.this,firstImage,secondImage,thirdImage);
+    }
+
+    @Override
+    public boolean getSaveStatus() {
+        return false;
     }
 }

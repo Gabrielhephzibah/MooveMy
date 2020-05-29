@@ -1,6 +1,7 @@
 package com.enyata.android.mvvm_java.ui.createReport.underbody;
 
 import android.content.Context;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -53,5 +54,10 @@ public class UnderbodyPagerAdapter extends FragmentPagerAdapter {
         } else {
             return BrakeSystemFragment.newInstance();
         }
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+
     }
 }

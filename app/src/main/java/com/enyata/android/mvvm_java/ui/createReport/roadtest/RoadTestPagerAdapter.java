@@ -1,6 +1,7 @@
 package com.enyata.android.mvvm_java.ui.createReport.roadtest;
 
 import android.content.Context;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -50,5 +51,10 @@ public class RoadTestPagerAdapter extends FragmentPagerAdapter {
         }else {
             return SuspensionPerformanceFragment.newInstance();
         }
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+
     }
 }

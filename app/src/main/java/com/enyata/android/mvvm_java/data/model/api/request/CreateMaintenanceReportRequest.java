@@ -1,28 +1,21 @@
 package com.enyata.android.mvvm_java.data.model.api.request;
 
-import com.enyata.android.mvvm_java.data.model.api.myData.MaintenanceRoutineListData;
+import com.enyata.android.mvvm_java.data.model.api.myData.MaintenanceListData;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class CreateMaintenanceReportRequest {
-
-    private CreateMaintenanceReportRequest(){
-
-    }
-
-    public  static  class  Request{
-
         @Expose
         @SerializedName("vehicle_id")
         private String vehicleId;
 
         @Expose
         @SerializedName("data")
-        private List<MaintenanceRoutineListData> data;
+        private List<MaintenanceListData> data;
 
-        public Request(String vehicleId, List<MaintenanceRoutineListData> data) {
+        public CreateMaintenanceReportRequest(String vehicleId, List<MaintenanceListData> data) {
             this.vehicleId = vehicleId;
             this.data = data;
         }
@@ -32,7 +25,7 @@ public class CreateMaintenanceReportRequest {
             return vehicleId;
         }
 
-        public List<MaintenanceRoutineListData> getData() {
+        public List<MaintenanceListData> getData() {
             return data;
         }
 
@@ -47,7 +40,7 @@ public class CreateMaintenanceReportRequest {
                 return false;
             }
 
-            Request request = (Request) obj;
+            CreateMaintenanceReportRequest request = (CreateMaintenanceReportRequest) obj;
 
             if (vehicleId != null ? !vehicleId.equals(request.vehicleId) : request.vehicleId != null) {
                 return false;
@@ -62,7 +55,7 @@ public class CreateMaintenanceReportRequest {
             result = 31 * result + (vehicleId != null ? vehicleId.hashCode() : 0);
             result = 31 * result + (data != null ? data.hashCode() : 0);
             return result;
-        }
+
     }
 
 

@@ -95,10 +95,7 @@ public class HeadLinerFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
+
 
 
     }
@@ -165,7 +162,7 @@ public class HeadLinerFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                 takePicture.removefirstImage();
-                Alert.showSuccess(getActivity(),"this image has been removed");
+                Alert.showSuccess(getActivity(),"Image removed");
                 firstImage.setImageResource(0);}
             }
         });
@@ -177,7 +174,7 @@ public class HeadLinerFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -190,7 +187,7 @@ public class HeadLinerFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                 takePicture.removeThirdImage();
-                Alert.showSuccess(getActivity(),"this image has been removed");
+                Alert.showSuccess(getActivity(),"Image removed");
                 thirdImage.setImageResource(0);}
             }
         });
@@ -264,17 +261,17 @@ public class HeadLinerFragment extends Fragment {
         Collection<String> value = imageArray.values();
         result = new ArrayList<>(value);
 
-         headLiner = new VehicleCollection("headliner'", result, status);
+         headLiner = new VehicleCollection("headliner", "Interior", result, status);
         createReportViewModel.saveReportToLocalStorage(headLiner);
         createReportViewModel.setHeadLinerTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
+        Alert.showSuccess(getActivity(),"Item saved! Proceed");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        headLiner = new VehicleCollection("headliner'", result, status);
+        headLiner = new VehicleCollection("headliner", "Interior", result, status);
         createReportViewModel.isVehicleSave(headLiner,goodd,fairr,badd, HeadLinerFragment.this,firstImage,secondImage,thirdImage);
 
     }

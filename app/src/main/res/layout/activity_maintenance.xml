@@ -274,6 +274,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/engineOilCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -325,6 +326,7 @@
                                 android:layout_weight="1"
                                 android:layout_height="110dp">
                                 <ImageView
+                                    android:id="@+id/oilFilterCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -373,6 +375,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/airFilterCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -435,6 +438,7 @@
                                 app:cardCornerRadius="10dp"
                                 android:layout_height="110dp">
                                 <ImageView
+                                    android:id="@+id/pollenFilterCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -482,6 +486,7 @@
                                 android:layout_weight="1"
                                 android:layout_height="110dp">
                                 <ImageView
+                                    android:id="@+id/brakePadCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -533,6 +538,7 @@
                                 android:layout_weight="1"
                                 android:layout_height="110dp">
                                 <ImageView
+                                    android:id="@+id/suspensionSystemCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -595,6 +601,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/variousBeltCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -641,6 +648,7 @@
                                 android:layout_weight="1"
                                 android:layout_height="110dp">
                                 <ImageView
+                                    android:id="@+id/sparkPlugCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -689,6 +697,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/fuelFilterCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -749,6 +758,7 @@
                                 app:cardCornerRadius="10dp"
                                 android:layout_height="110dp">
                                 <ImageView
+                                    android:id="@+id/engineCoolingCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -796,6 +806,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/wiperBladeCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -844,6 +855,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/chargingSystemCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -906,6 +918,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/powerSteeringCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -953,6 +966,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/transmissionOilCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -1001,6 +1015,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/brakefluidCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -1064,6 +1079,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/fuelSystemCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -1114,6 +1130,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/tireRotationCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -1162,6 +1179,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/alignmentCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -1225,6 +1243,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/airFlowCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -1271,6 +1290,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/airConditionCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -1318,6 +1338,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/electronicCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -1380,6 +1401,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/exhaustCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -1427,6 +1449,7 @@
                                 android:layout_height="110dp">
 
                                 <ImageView
+                                    android:id="@+id/tireInflationCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -1474,6 +1497,7 @@
                                app:cardCornerRadius="10dp"
                                 android:layout_height="110dp">
                                 <ImageView
+                                    android:id="@+id/wheelCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -1528,6 +1552,7 @@
                             app:cardCornerRadius="10dp">
 
                             <ImageView
+                                android:id="@+id/transmissionFilterCheck"
                                 android:visibility="gone"
                                 android:layout_gravity="end"
                                 android:paddingRight="5dp"
@@ -1570,6 +1595,8 @@
                     </LinearLayout>
 
                     <Button
+                        android:onClick="@{()->viewModel.onSaveMaintenanceReport()}"
+                        android:id="@+id/saveMaintenanceReport"
                         android:layout_marginTop="50dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -1579,9 +1606,6 @@
                         android:textStyle="bold"
                         android:textColor="@color/white"
                         android:background="@drawable/button_radius_background"/>
-
-
-
                 </LinearLayout>
 
                 </LinearLayout>

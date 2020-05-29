@@ -29,8 +29,8 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
-import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
-import com.enyata.android.mvvm_java.ui.createReport.electric.SignalLightFragment;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 
 import java.io.File;
@@ -53,7 +53,7 @@ public class SignalLightFragmentM extends Fragment {
     ImageView firstImage, secondImage, thirdImage, cancel1, cancel2, cancel3;
     File photoFile = null;
     Button saveHood,deleteData;
-    CreateReportViewModel createReportViewModel;
+    MonthlyReportViewModel monthlyReportViewModel;
     ImageDataArray imageDataArray;
     private String mCurrentPhotoPath;
     private static final int REQUEST_CAMERA = 1;
@@ -62,6 +62,7 @@ public class SignalLightFragmentM extends Fragment {
     CharSequence radio;
     List<String> result;
     String cloudinaryImage;
+    MonthlyReportActivity activity;
     Map config;
     View fragment;
     VehicleCollection signalLight;
@@ -79,13 +80,9 @@ public class SignalLightFragmentM extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        monthlyReportViewModel = ViewModelProviders.of(requireActivity()).get(MonthlyReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
-
+        activity = (MonthlyReportActivity) getActivity();
 
     }
 
@@ -117,11 +114,7 @@ public class SignalLightFragmentM extends Fragment {
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getSignalLightTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
                     saveReport();
-                }
             }
         });
 
@@ -137,7 +130,7 @@ public class SignalLightFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -150,7 +143,7 @@ public class SignalLightFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -163,7 +156,7 @@ public class SignalLightFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -173,9 +166,6 @@ public class SignalLightFragmentM extends Fragment {
             @Override
             public void onClick(View view) {
                 if (takePicture.whenImageIsThree(getActivity())){
-                    firstImage.setImageResource(0);
-                    secondImage.setImageResource(0);
-                    thirdImage.setImageResource(0);
                 } else {
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -232,25 +222,25 @@ public class SignalLightFragmentM extends Fragment {
         if (takePicture.areImagesNotComplete(getActivity())) {
             return;
         } else if (status.isEmpty()) {
-            Alert.showFailed(getActivity(),"please fill all fields");
+            Alert.showFailed(getActivity(), "please fill all fields");
             return;
+        } else {
+            activity.signalLight = true;
+            activity.checkElectricFragment();
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            signalLight = new VehicleCollection("signal lights", "Electrical System", result, status);
+            monthlyReportViewModel.saveMonthlyReportToLocalStorage(signalLight);
+//        monthlyReportViewModel.setSignalLightTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
+
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        signalLight = new VehicleCollection("signal lights", result, status);
-        createReportViewModel.saveReportToLocalStorage(signalLight);
-        createReportViewModel.setSignalLightTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        signalLight = new VehicleCollection("signal lights", result, status);
-//        createReportViewModel.isVehicleSave(signalLight,goodd,fairr,badd, SignalLightFragmentM.this,firstImage,secondImage,thirdImage);
     }
 }

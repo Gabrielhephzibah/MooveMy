@@ -33,7 +33,7 @@
                     app:srcCompat="@drawable/ic_repaircar"/>
 
                 <LinearLayout
-                    android:paddingLeft="21dp"
+                    android:paddingLeft="20dp"
                     android:layout_toRightOf="@+id/carImage"
                     android:layout_width="match_parent"
                     android:orientation="vertical"
@@ -46,7 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="MVANCC001-16TOCRGY008"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         android:textColor="#000000"
                         android:textStyle="bold"
                         android:fontFamily="@font/montserrat"/>
@@ -63,7 +63,7 @@
                             android:fontFamily="@font/montserrat"
                             android:text="2016"
                             android:textColor="#000000"
-                            android:textSize="14dp"
+                            android:textSize="12dp"
                             android:textStyle="bold" />
                         <TextView
                             android:id="@+id/carMake"
@@ -74,7 +74,7 @@
                             android:paddingLeft="5dp"
                             android:text="Toyota"
                             android:textColor="#000000"
-                            android:textSize="14dp"
+                            android:textSize="12dp"
                             android:textStyle="bold" />
                         <TextView
                             android:id="@+id/carModel"
@@ -85,7 +85,7 @@
                             android:paddingLeft="5dp"
                             android:text="Hilux"
                             android:textColor="#000000"
-                            android:textSize="14dp"
+                            android:textSize="12dp"
                             android:textStyle="bold" />
 
 

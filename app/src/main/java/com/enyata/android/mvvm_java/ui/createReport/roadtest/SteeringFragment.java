@@ -95,11 +95,6 @@ public class SteeringFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
-
 
     }
 
@@ -165,7 +160,7 @@ public class SteeringFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                 takePicture.removefirstImage();
-                Alert.showSuccess(getActivity(),"this image has been removed");
+                Alert.showSuccess(getActivity(),"Image removed");
                 firstImage.setImageResource(0);}
             }
         });
@@ -177,7 +172,7 @@ public class SteeringFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                 takePicture.removeSecondImage();
-                Alert.showSuccess(getActivity(),"this image has been removed");
+                Alert.showSuccess(getActivity(),"Image removed");
                 secondImage.setImageResource(0);}
             }
         });
@@ -189,7 +184,7 @@ public class SteeringFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                 takePicture.removeThirdImage();
-                Alert.showSuccess(getActivity(),"this image has been removed");
+                Alert.showSuccess(getActivity(),"Image removed");
                 thirdImage.setImageResource(0);}
             }
         });
@@ -265,17 +260,17 @@ public class SteeringFragment extends Fragment {
         Collection<String> value = imageArray.values();
         result = new ArrayList<>(value);
 
-         steering = new VehicleCollection("steering", result, status);
+         steering = new VehicleCollection("steering","Road Test Findings", result, status);
         createReportViewModel.saveReportToLocalStorage(steering);
         createReportViewModel.setSteeringTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
+        Alert.showSuccess(getActivity(),"Item saved! Proceed");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        steering = new VehicleCollection("steering", result, status);
+        steering = new VehicleCollection("steering","Road Test Findings", result, status);
         createReportViewModel.isVehicleSave(steering,goodd,fairr,badd, SteeringFragment.this,firstImage,secondImage,thirdImage);
     }
 }

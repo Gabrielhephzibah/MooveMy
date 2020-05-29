@@ -1,6 +1,7 @@
 package com.enyata.android.mvvm_java.ui.createReport.interior;
 
 import android.content.Context;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -60,7 +61,10 @@ public class InteriorPagerAdapter extends FragmentPagerAdapter {
 
     }
 
-
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        
+    }
 
     @Override
     public int getCount() {

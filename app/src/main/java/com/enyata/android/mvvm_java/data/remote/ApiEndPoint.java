@@ -21,7 +21,15 @@ public class ApiEndPoint {
 
     public static final  String MAINTENANCE_SCHEDULE= BuildConfig.BASE_URL + "/vehiclereports/maintenance/schedule";
 
+    public static final  String CHECK_INTAKE_REPORT= BuildConfig.BASE_URL + "/vehiclereports/intake/check";
 
+    public static final  String CHECK_MONTHLY_REPORT= BuildConfig.BASE_URL + "/vehiclereports/monthly";
+
+    public static final  String CHECK_MAINTENANCE_REPORT= BuildConfig.BASE_URL + "/vehiclereports/maintenance";
+
+    public static final  String CHECK_REPAIRS_REPORT= BuildConfig.BASE_URL + "/vehiclereports/repairs";
+
+    public static final  String GET_ACCEPTANCE_RESULT= BuildConfig.BASE_URL + "/vehiclereports/acceptance/value";
 
     private ApiEndPoint() {
         // This class is not publicly instantiable

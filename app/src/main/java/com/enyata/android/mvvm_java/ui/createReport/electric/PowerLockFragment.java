@@ -36,6 +36,7 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
+import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.DoorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.FrontBumperFragment;
@@ -77,6 +78,7 @@ public class PowerLockFragment extends Fragment {
     String cloudinaryImage;
     Map config;
     View fragment;
+    CreateReportActivity createReportActivity;
     VehicleCollection powerLock;
     TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
@@ -94,10 +96,6 @@ public class PowerLockFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
 
 
     }
@@ -149,7 +147,7 @@ public class PowerLockFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                 takePicture.removefirstImage();
-                Alert.showSuccess(getActivity(),"this image has been removed");
+                Alert.showSuccess(getActivity(),"Image removed");
                 firstImage.setImageResource(0);
                 }
             }
@@ -162,7 +160,7 @@ public class PowerLockFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -175,7 +173,7 @@ public class PowerLockFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -185,9 +183,7 @@ public class PowerLockFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (takePicture.whenImageIsThree(getActivity())){
-                    firstImage.setImageResource(0);
-                    secondImage.setImageResource(0);
-                    thirdImage.setImageResource(0);
+
                 } else {
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -234,7 +230,7 @@ public class PowerLockFragment extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             takePicture.pictureCapture(imageBitmap,PowerLockFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
         } else if (requestCode == RESULT_CANCELED) {
-            Log.i("AAAAAAA", "Error");
+            Alert.showFailed(getActivity(),"The request was cancelled");
 
         }
     }
@@ -246,26 +242,24 @@ public class PowerLockFragment extends Fragment {
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
+        }else {
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            powerLock = new VehicleCollection("power locks", "Electrical System", result, status);
+            createReportViewModel.saveReportToLocalStorage(powerLock);
+            createReportViewModel.setPowerLockTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        powerLock = new VehicleCollection("power lock", result, status);
-        createReportViewModel.saveReportToLocalStorage(powerLock);
-        createReportViewModel.setPowerLockTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        powerLock = new VehicleCollection("power lock", result, status);
+        powerLock = new VehicleCollection("power locks","Electrical System", result, status);
         createReportViewModel.isVehicleSave(powerLock,goodd,fairr,badd, PowerLockFragment.this,firstImage,secondImage,thirdImage);
-
-
 
     }
 }

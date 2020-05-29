@@ -1,23 +1,28 @@
 package com.enyata.android.mvvm_java.ui.createReport;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,17 +31,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.androidnetworking.error.ANError;
 import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.ViewModelProviderFactory;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
+import com.enyata.android.mvvm_java.data.model.api.request.CheckIntakeRequest;
+import com.enyata.android.mvvm_java.data.model.api.request.GetAcceptanceResultRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.IntakeRuleRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.RegNumberCheckRequest;
 import com.enyata.android.mvvm_java.data.model.api.response.CreateReportResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorListResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.VinResponseData;
+import com.enyata.android.mvvm_java.data.remote.RetrofitClient;
 import com.enyata.android.mvvm_java.databinding.ActivityCreateReportBinding;
 import com.enyata.android.mvvm_java.ui.base.BaseActivity;
 import com.enyata.android.mvvm_java.ui.createReport.electric.ElectricPagerAdapter;
@@ -47,15 +56,24 @@ import com.enyata.android.mvvm_java.ui.createReport.roadtest.RoadTestPagerAdapte
 import com.enyata.android.mvvm_java.ui.createReport.tires.TirePagerAdapter;
 import com.enyata.android.mvvm_java.ui.createReport.underbody.UnderbodyPagerAdapter;
 import com.enyata.android.mvvm_java.ui.createReport.underhood.UnderHoodPagerAdapter;
+import com.enyata.android.mvvm_java.ui.loading.LoadingActivity;
 import com.enyata.android.mvvm_java.ui.mainActivity.MainActivity;
 import com.enyata.android.mvvm_java.ui.signature.SignatureActivity;
 import com.enyata.android.mvvm_java.utils.Alert;
+import com.enyata.android.mvvm_java.utils.InternetConnection;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
+import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
+
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -77,7 +95,7 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
     Spinner finalAssessSpinner;
     String[] intakeFinalAssess = {"", "accepted", "not accepted"};
     String[] monthlyFinalAssess = {"", "failed", "passed"};
-    EditText carColoredit, mileageEdit, regNumEdit, vinEdit, editVin;
+    EditText carColoredit, mileageEdit, regNumEdit, finalCommentEditText, editVin;
     String carColor, mileage, regNum, vin, finalComment, editVinNo;
     Button save;
     int[] exteriorLayouts = {R.layout.hood_layout, R.layout.front_bumper_layout, R.layout.fenders_layout, R.layout.door_layout, R.layout.roof_layout, R.layout.rear_layout, R.layout.rear_bumper_layout, R.layout.trunk_layout, R.layout.trim_layout, R.layout.fuel_door_layout, R.layout.paint_layout};
@@ -86,15 +104,17 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
     int[] underBodyLayouts = {R.layout.frame_layout, R.layout.exhaust_layout, R.layout.transmission_layout, R.layout.drive_axle_layout, R.layout.suspension_layout, R.layout.brake_system_layout};
     int[] underHoodLayouts = {R.layout.engine_com_layout, R.layout.battery_layout, R.layout.oil_layout, R.layout.fluid_layout, R.layout.wiring_layout, R.layout.belt_layout, R.layout.hoses_layout};
     int[] interiorLayouts = {R.layout.seats_layout, R.layout.headliner_layout, R.layout.carpet_layout, R.layout.door_panel_layout, R.layout.glove_box_layout, R.layout.vanity_mirror_layout, R.layout.interior_trim_layout, R.layout.dashboard_layout, R.layout.dash_guage_layout, R.layout.air_cond_layout, R.layout.heater_layout, R.layout.defroster_layout};
-    int[] electricalLayouts = {R.layout.power_lock_layout, R.layout.power_seat_layout, R.layout.power_stering_layout, R.layout.power_window_layout, R.layout.power_mirror_layout, R.layout.audio_system_layout, R.layout.computer_layout, R.layout.headlight_layout, R.layout.tail_light_layout, R.layout.signal_light_layout, R.layout.brake_light_layout, R.layout.parking_light_layout};
+    int[] electricalLayouts = {R.layout.power_lock_layout, R.layout.power_seat_layout, R.layout.power_stering_layout, R.layout.power_window_layout, R.layout.power_mirror_layout, R.layout.audio_system_layout, R.layout.computer_layout, R.layout.headlight_layout, R.layout.tail_light_layout, R.layout.signal_light_layout,};
     int[] roadTestLayouts = {R.layout.starting_layout, R.layout.idling_layout, R.layout.engine_layout, R.layout.accelaration_layout, R.layout.transmisssion_shift_layout, R.layout.steering_layout, R.layout.braking_layout, R.layout.suspension_performance_layout};
     ImageView[] slider_dash;
     ImageView vehincleInfoCheck, glasscheck, exteriorCheck, tiresCheck, underBodyCheck, underHoodCheck, interiorCheck, roadTestCheck, electricCheck;
-    TextView yearText, modelText, makeText;
+    TextView yearText, modelText, makeText,acceptanceResult;
     LinearLayout exteriorSlide, glassSlide, tireSlide, underBodySlide, underHoodSlide, interiorSlide, electricSlide, roadTestSlide, allInspection, allinspectionWraper;
     ProgressDialog dialog;
     String selectedYear, selectedModel, selectedMake, selectedFinalAssess;
     AlertDialog alert;
+    Dialog dialogAlert;
+    RetrofitClient retrofitClient = new RetrofitClient();
 
     @Override
     public int getBindingVariable() {
@@ -130,6 +150,7 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         exteriorLayout = activityCreateReportBinding.exteriorLayout;
         signatureToggle = activityCreateReportBinding.signatureToggle;
         exteriorPager = activityCreateReportBinding.exteriorPager;
+        finalCommentEditText = activityCreateReportBinding.finalCommentEditText;
         glassPager = activityCreateReportBinding.glassPager;
         tiresPager = activityCreateReportBinding.tiresPager;
         underHoodPager = activityCreateReportBinding.underHoodPager;
@@ -180,6 +201,7 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         underBodyCheck = findViewById(R.id.underBodyCheck);
         underHoodCheck = findViewById(R.id.underHoodCheck);
         interiorCheck = findViewById(R.id.interiorCheck);
+        acceptanceResult = activityCreateReportBinding.acceptanceResulTextView;
         createReportViewModel.checkExterior(exteriorCheck);
         createReportViewModel.checkGlass(glasscheck);
         createReportViewModel.checkTires(tiresCheck);
@@ -188,6 +210,7 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         createReportViewModel.checkRoadTest(roadTestCheck);
         createReportViewModel.checkElectric(electricCheck);
         createReportViewModel.checkInterior(interiorCheck);
+
         allInspection = findViewById(R.id.allInspectionLayout);
         allinspectionWraper = findViewById(R.id.allInspectionWrapper);
         if (createReportViewModel.getVehincleInfo()) {
@@ -200,7 +223,6 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
             regNumEdit.setText(createReportViewModel.getregNo());
             carColoredit.setText(createReportViewModel.getCarColor());
             setViewAndChildrenEnabled(allInspection, true);
-            allInspection.setAlpha(1);
         } else {
             setViewAndChildrenEnabled(allInspection, false);
             allinspectionWraper.setOnClickListener(new View.OnClickListener() {
@@ -212,8 +234,6 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         }
 
         Log.i("BIG ARRAY", String.valueOf(createReportViewModel.getIntakeVehicleReport()));
-
-
         finalAssessSpinner.setOnItemSelectedListener(this);
         dialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -421,13 +441,31 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
     public void onAddSignature() {
         hideKeyboard();
         finalComment = activityCreateReportBinding.finalCommentEditText.getText().toString();
-        Log.i("Final Comment", finalComment);
-        createReportViewModel.setFinalComment(finalComment);
         selectedFinalAssess = finalAssessSpinner.getSelectedItem().toString();
-        Log.i("FINAL ASSESS", selectedFinalAssess);
-        createReportViewModel.setFinalStatus(selectedFinalAssess);
-        Intent intent = new Intent(getApplicationContext(), SignatureActivity.class);
-        startActivity(intent);
+        if (TextUtils.isEmpty(finalComment)){
+           finalCommentEditText.setError("Final Comment is required");
+           finalCommentEditText.requestFocus();
+           return;
+        }else if (selectedFinalAssess.isEmpty()){
+            Alert.showFailed(getApplicationContext(),"Final Assessment is required");
+            return;
+        }else if (createReportViewModel.getIntakeVehicleReport()==null){
+//           exteriorCheck.getVisibility()!=View.VISIBLE || glasscheck.getVisibility()!=View.VISIBLE || tiresCheck.getVisibility()!=View.VISIBLE || underBodyCheck.getVisibility()!=View.VISIBLE || underHoodCheck.getVisibility()!=View.VISIBLE || interiorCheck.getVisibility()!=View.VISIBLE || electricCheck.getVisibility()!=View.VISIBLE  || roadTestCheck.getVisibility()!=View.VISIBLE)
+            Alert.showFailed(getApplicationContext(),"Make sure all vehicle Component has been saved");
+            return;
+        }else if (acceptanceResult.getText().toString().equals("0")){
+            Alert.showFailed(getApplicationContext(),"Total score must be greater than 0");
+            acceptanceResult.requestFocus();
+            return;
+        }
+        else {
+            Log.i("Final Comment", finalComment);
+            createReportViewModel.setFinalComment(finalComment);
+            Log.i("FINAL ASSESS", selectedFinalAssess);
+            createReportViewModel.setFinalStatus(selectedFinalAssess);
+            Intent intent = new Intent(getApplicationContext(), SignatureActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -605,26 +643,15 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
             makeText.requestFocus();
             return;
         } else {
-
-            switch (createReportViewModel.getReportType()) {
-                case "intake": {
-                    Log.i("Intake", "INTAKE");
-                    IntakeRuleRequest.Request request = new IntakeRuleRequest.Request(selectedMake, selectedModel, selectedYear, carColor, vin, mileage, regNum);
-                    createReportViewModel.checkIntakeRule(request);
-                    break;
-                }
-                case "monthly": {
-                    RegNumberCheckRequest.Request request = new RegNumberCheckRequest.Request(activityCreateReportBinding.editCarRegNum.getText().toString());
-                    createReportViewModel.checkRegNumber(request);
-                    break;
-                }
+            if (InternetConnection.getInstance(this).isOnline()) {
+                Log.i("Intake", "INTAKE");
+                CheckIntakeRequest.Request request = new CheckIntakeRequest.Request(regNum);
+                createReportViewModel.checkIntakeReport(request);
+            }else {
+                Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
             }
-
         }
-
         Log.i("Button clicked", "Buttonnnnnnn");
-
-
     }
 
     @Override
@@ -645,7 +672,6 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
         Alert.showSuccess(getApplicationContext(), response.getMessage());
         Log.i("REG REQUEST", "REG NUMBER VALIDATED");
         setViewAndChildrenEnabled(allInspection, true);
-        allInspection.setAlpha(1);
         allinspectionWraper.setEnabled(false);
         Alert.showSuccess(getApplicationContext(), "Vehicle Information Saved Successfully");
         createReportViewModel.setCarYear(selectedYear);
@@ -682,45 +708,56 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
     public void handleError(Throwable throwable) {
         hideLoading();
         if (throwable != null) {
-            yearText.setText("");
-            modelText.setText("");
-            makeText.setText("");
-            ANError error = (ANError) throwable;
-            VinResponseData response = gson.fromJson(error.getErrorBody(), VinResponseData.class);
-            if (error.getErrorBody() != null) {
-                Alert.showFailed(getApplicationContext(), response.getMessage().getMessage());
-            } else {
-                Alert.showFailed(getApplicationContext(), "Invalid Vin number or poor internet connection");
+            try {
+                yearText.setText("");
+                modelText.setText("");
+                makeText.setText("");
+                ANError error = (ANError) throwable;
+                VinResponseData response = gson.fromJson(error.getErrorBody(), VinResponseData.class);
+                if (error.getErrorBody() != null) {
+                    Alert.showFailed(getApplicationContext(), response.getMessage().getMessage());
+                } else {
+                    Alert.showFailed(getApplicationContext(), "Invalid Vin number or poor internet connection");
+                }
+            }catch (IllegalStateException | JsonSyntaxException | NullPointerException | ClassCastException exception ) {
+                Alert.showFailed(getApplicationContext(), "An unknown error occurred");
             }
+
         }
-
-
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void handleValidateError(Throwable throwable) {
         hideLoading();
         if (throwable != null) {
-            ANError error = (ANError) throwable;
-            CreateReportResponse response = gson.fromJson(error.getErrorBody(), CreateReportResponse.class);
-            if (error.getErrorBody() != null) {
-                AlertDialog.Builder dialog =  new AlertDialog.Builder(this);
-                dialog.setTitle("Intake Rule Message");
-                dialog.setMessage(response.getMessage());
-                dialog.setCancelable(false);
-                dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        alert.dismiss();
-                    }
-                });
+            try {
+                ANError error = (ANError) throwable;
+                CreateReportResponse response = gson.fromJson(error.getErrorBody(), CreateReportResponse.class);
+                if (error.getErrorBody() != null) {
+                    dialogAlert = new Dialog(this,android.R.style.Theme_Material_Dialog_Alert);
+                    dialogAlert.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialogAlert.setCancelable(false);
+                    dialogAlert.setContentView(R.layout.report_check_modal);
+                    TextView title = dialogAlert.findViewById(R.id.title);
+                    TextView message = dialogAlert.findViewById(R.id.messageText);
+                    TextView back = dialogAlert.findViewById(R.id.button);
+                    title.setText("Vehicle Exist");
+                    message.setText(response.getMessage());
+                    dialogAlert.show();
+                    back.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialogAlert.dismiss();
+                        }
+                    });
+                } else {
+                    Alert.showFailed(getApplicationContext(), "Poor internet connection");
+                }
 
-                 alert = dialog.create();
-                alert.show();
-            } else {
-                Alert.showFailed(getApplicationContext(), "Poor internet connection");
+            }catch (IllegalStateException | JsonSyntaxException  | NullPointerException | ClassCastException exception ) {
+                Alert.showFailed(getApplicationContext(), "An unknown error occurred");
             }
-
         }
 
     }
@@ -825,8 +862,6 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
             params.setMargins(4, 0, 4, 0);
             params.gravity = Gravity.CENTER_HORIZONTAL;
             tireSlide.setLayoutParams(params);
-
-
             tireSlide.addView(slider_dash[i], params);
         }
 
@@ -932,6 +967,59 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
     }
 
     @Override
+    public void onGetIntakeResult() {
+        if (createReportViewModel.getIntakeVehicleReport()!= null) {
+            if (InternetConnection.getInstance(this).isOnline()) {
+                GetAcceptanceResultRequest resultRequest = new GetAcceptanceResultRequest(createReportViewModel.getIntakeVehicleReport());
+                createReportViewModel.getAcceptanceResult(resultRequest);
+            } else {
+                Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
+            }
+
+        }else {
+            Alert.showFailed(getApplicationContext(),"Intake report cannot be empty");
+        }
+
+    }
+
+    @Override
+    public void onAcceptanceResultResponse(CreateReportResponse response) {
+        hideLoading();
+        acceptanceResult.setText(response.getData());
+        createReportViewModel.setIntakeAcceptanceValue(response.getData());
+        Log.i("RESPONSE", "This is the response"+response);
+
+    }
+
+    @Override
+    public void onAcceptanceResultError(Throwable throwable) {
+        hideLoading();
+        Log.i("AcceptanceError", "AcceptanceError");
+        if (throwable!=null){
+            try {
+                if (throwable instanceof HttpException) {
+                    Log.i("HTTP", "HTTP");
+                    Converter<ResponseBody, CreateReportResponse> errorConverter = retrofitClient.getRetrofit().responseBodyConverter(CreateReportResponse.class, new Annotation[0]);
+                    try {
+                        CreateReportResponse error = errorConverter.convert(((HttpException) throwable).response().errorBody());
+                        Alert.showFailed(getApplicationContext(), error.getMessage());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    Alert.showFailed(getApplicationContext(), "Unable to connect to internet");
+                }
+            }catch (IllegalStateException | JsonSyntaxException | NullPointerException | ClassCastException exception ) {
+                Alert.showFailed(getApplicationContext(), "An unknown error occurred");
+            }
+
+
+        }
+
+    }
+
+    @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
     }
 
@@ -949,7 +1037,6 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
 
     private void requestPermission() {
         ActivityCompat.requestPermissions(CreateReportActivity.this, new String[]{CAMERA, WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA);
-
 
     }
 
@@ -1006,8 +1093,27 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
                 View child = viewGroup.getChildAt(i);
                 setViewAndChildrenEnabled(child, enabled);
 
+
             }
         }
     }
 
+    public boolean checkIfAllCheckMarkAreVisible(){
+        if (exteriorCheck.getVisibility()==View.VISIBLE && glasscheck.getVisibility()==View.VISIBLE && tiresCheck.getVisibility()==View.VISIBLE && underBodyCheck.getVisibility()==View.VISIBLE && underHoodCheck.getVisibility()==View.VISIBLE && interiorCheck.getVisibility()==View.VISIBLE && electricCheck.getVisibility()==View.VISIBLE  && roadTestCheck.getVisibility()==View.VISIBLE){
+            return true;
+
+        }
+        Alert.showFailed(getApplicationContext(),"Make sure all vehicle Component has been saved");
+    return false;
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        createReportViewModel.onDispose();
+        if (dialogAlert!=null && dialogAlert.isShowing() ){
+            dialogAlert.cancel();
+        }
+    }
 }

@@ -94,10 +94,6 @@ public class VanityMirrorFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
 
 
     }
@@ -149,7 +145,7 @@ public class VanityMirrorFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -162,7 +158,7 @@ public class VanityMirrorFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -175,7 +171,7 @@ public class VanityMirrorFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -250,17 +246,17 @@ public class VanityMirrorFragment extends Fragment {
         Collection<String> value = imageArray.values();
         result = new ArrayList<>(value);
 
-        vanityMirror = new VehicleCollection("vanity mirror", result, status);
+        vanityMirror = new VehicleCollection("vanity mirror", "Interior", result, status);
         createReportViewModel.saveReportToLocalStorage(vanityMirror);
         createReportViewModel.setVanityMirrorTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
+        Alert.showSuccess(getActivity(),"Item saved! Proceed");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        vanityMirror = new VehicleCollection("vanity mirror", result, status);
+        vanityMirror = new VehicleCollection("vanity mirror", "Interior", result, status);
         createReportViewModel.isVehicleSave(vanityMirror,goodd,fairr,badd, VanityMirrorFragment.this,firstImage,secondImage,thirdImage);
 
 

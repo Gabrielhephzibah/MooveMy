@@ -37,6 +37,7 @@ import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.glide.GlideApp;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
+import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.squareup.picasso.Picasso;
@@ -78,6 +79,7 @@ public class TrimFragment extends Fragment {
     View fragment;
     VehicleCollection trim;
     RelativeLayout relativeLayout;
+    CreateReportActivity createReportActivity;
     TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
 
@@ -94,11 +96,6 @@ public class TrimFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
-
 
     }
 
@@ -186,7 +183,7 @@ public class TrimFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -199,7 +196,7 @@ public class TrimFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -212,7 +209,7 @@ public class TrimFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -266,7 +263,7 @@ public class TrimFragment extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             takePicture.pictureCapture(imageBitmap,TrimFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
         } else if (requestCode == RESULT_CANCELED) {
-           Alert.showFailed(getActivity(),"The request has been cancelled");
+           Alert.showFailed(getActivity(),"The request was cancelled");
 
         }
     }
@@ -278,16 +275,16 @@ public class TrimFragment extends Fragment {
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
+        }else {
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            trim = new VehicleCollection("trim", "Exterior", result, status);
+            createReportViewModel.saveReportToLocalStorage(trim);
+            createReportViewModel.setTrimTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-         trim = new VehicleCollection("trim", result, status);
-        createReportViewModel.saveReportToLocalStorage(trim);
-        createReportViewModel.setTrimTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
 
     }
 
@@ -295,7 +292,7 @@ public class TrimFragment extends Fragment {
     @Override
     public void onResume() {
 
-        trim = new VehicleCollection("trim", result, status);
+        trim = new VehicleCollection("trim", "Exterior", result, status);
         createReportViewModel.isVehicleSave(trim,goodd,fairr,badd,TrimFragment.this,firstImage,secondImage,thirdImage);
 
 

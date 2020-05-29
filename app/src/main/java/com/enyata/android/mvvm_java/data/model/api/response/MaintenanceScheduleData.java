@@ -89,8 +89,8 @@ public class MaintenanceScheduleData {
     private String airConditioningSystem;
 
     @Expose
-    @SerializedName("Electronic/Ligthng")
-    private String electronic;
+    @SerializedName("Electronic/Ligthing")
+    private String electronicLighting;
 
     @Expose
     @SerializedName("Exhaust Pipe")
@@ -189,9 +189,7 @@ public class MaintenanceScheduleData {
         return airConditioningSystem;
     }
 
-    public String getElectronic() {
-        return electronic;
-    }
+    public String getElectronic() { return electronicLighting; }
 
     public String getExhaustPipe() {
         return exhaustPipe;

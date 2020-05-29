@@ -16,6 +16,10 @@ public class CreateReportResponse {
     @SerializedName("status")
     private String status;
 
+    @Expose
+    @SerializedName("data")
+    private String data;
+
     public String getMessage() {
         return message;
     }
@@ -26,5 +30,9 @@ public class CreateReportResponse {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getData() {
+        return data;
     }
 }

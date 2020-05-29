@@ -19,9 +19,14 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.enyata.android.mvvm_java.data.DataManager;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
+import com.enyata.android.mvvm_java.data.model.api.request.CheckIntakeRequest;
+import com.enyata.android.mvvm_java.data.model.api.request.CreateReportRequest;
+import com.enyata.android.mvvm_java.data.model.api.request.GetAcceptanceResultRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.IntakeRuleRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.RegNumberCheckRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.Vehicle;
+import com.enyata.android.mvvm_java.data.remote.ApiService;
+import com.enyata.android.mvvm_java.data.remote.ApiUtils;
 import com.enyata.android.mvvm_java.glide.GlideApp;
 import com.enyata.android.mvvm_java.ui.base.BaseViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
@@ -34,8 +39,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> {
     Context context;
@@ -43,6 +51,9 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
     public CreateReportViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
     }
+
+    CompositeDisposable disposable = new CompositeDisposable();
+    private ApiService mAPIService;
 
     public void onBack() {
         getNavigator().back();
@@ -177,6 +188,10 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
         return getDataManager().getVehicleInfo();
     }
 
+    public void onGetIntakeResult(){
+        getNavigator().onGetIntakeResult();
+    }
+
 
     public void getCarVin(String vinNo) {
         getNavigator().onStarting();
@@ -212,10 +227,27 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
 
     }
 
-    public void checkIntakeRule(IntakeRuleRequest.Request request){
+//    public void checkIntakeRule(IntakeRuleRequest.Request request){
+//        getNavigator().onStarting();
+//        getCompositeDisposable().add(getDataManager()
+//                .checkIntakeRule(request)
+//                .subscribeOn(getSchedulerProvider().io())
+//                .observeOn(getSchedulerProvider().ui())
+//                .subscribe(response -> {
+//                    setIsLoading(false);
+//                    getNavigator().validateData(response);
+//                }, throwable -> {
+//                    setIsLoading(false);
+//                    getNavigator().handleValidateError(throwable);
+//
+//                }));
+//    }
+
+
+    public void checkIntakeReport(CheckIntakeRequest.Request request){
         getNavigator().onStarting();
         getCompositeDisposable().add(getDataManager()
-                .checkIntakeRule(request)
+                .checkIntakeReport(request)
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(response -> {
@@ -226,6 +258,8 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
                     getNavigator().handleValidateError(throwable);
 
                 }));
+
+
     }
 
 
@@ -283,8 +317,6 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
     Bitmap bitmap;
 
     public boolean isVehicleSave(VehicleCollection vehicle, RadioButton good, RadioButton fair, RadioButton bad,Fragment fragment,ImageView firstImage, ImageView secondImage, ImageView thirdImage) {
-
-
         if (checkIfIntakeVehicleReportIsEmpty()) {
         } else {
             List<VehicleCollection> part = getIntakeVehicleReport();
@@ -292,9 +324,10 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
                 if (part.get(k).getPart().equals(vehicle.getPart())) {
                     part.get(k).getImageUrl();
                     part.get(k).getRemark();
+                    part.get(k).getSection();
 
                     if (part.get(k).getRemark().equals("good")){
-                       good.setChecked(true); ;
+                       good.setChecked(true);
                     }else if (part.get(k).getRemark().equals("fair")){
                         fair.setChecked(true);
                     }else {
@@ -318,11 +351,6 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
 
 
 
-    public boolean checkIfObjectExist() {
-        return getIntakeVehicleReport() == null;
-    }
-
-    public boolean vehincleSave;
 
     public void saveReportToLocalStorage(VehicleCollection vehiclePart) {
         if (checkIfIntakeVehicleReportIsEmpty()) {
@@ -337,6 +365,7 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
                 if (oldArray.get(i).getPart().equals(vehiclePart.getPart())) {
                     oldArray.get(i).setRemark(vehiclePart.getRemark());
                     oldArray.get(i).setImageUrl(vehiclePart.getImageUrl());
+                    oldArray.get(i).setSection(vehiclePart.getSection());
                     Log.i("part", vehiclePart.getPart());
                     setIntakeVehincleReport(oldArray);
                     Log.i("NEW NEW", String.valueOf(getIntakeVehicleReport()));
@@ -357,7 +386,7 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
             List<VehicleCollection> addArray = getIntakeVehicleReport();
             addArray.add(vehiclePart);
             setIntakeVehincleReport(addArray);
-            vehincleSave = true;
+
         }
 
 
@@ -743,7 +772,7 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
     }
 
     public  boolean getPowerWindowTracking(){
-        return getDataManager().getPoweWindowTracking();
+        return getDataManager().getPowerWindowTracking();
     }
 
     public void  setSignalLightTracking(boolean signalLightTracking){
@@ -857,21 +886,6 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void setImageArraySaved(boolean imageArraySaved ){
         getDataManager().setImageArraySaved(imageArraySaved);
     }
@@ -967,7 +981,7 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
         if (checkIfIntakeVehicleReportIsEmpty()){
 
         }else {
-            if (getPowerLockTracking() && getPowerSeatTracking() && getPowerSteeringTracking() && getPowerWindowTracking() && getPowerMiirorTracking() && getAudioSystemTracking() && getComputerTracking() && getHeadLightTracking() && getTailLightTracking() && getSignalLightTracking() && getBrakeLightTracking() && getParkingLightTracking()){
+            if (getPowerLockTracking() && getPowerSeatTracking() && getPowerSteeringTracking() && getPowerWindowTracking() && getPowerMiirorTracking() && getAudioSystemTracking() && getComputerTracking() && getHeadLightTracking() && getTailLightTracking() && getSignalLightTracking()){
                 imageView.setVisibility(View.VISIBLE);
                 return true;
             }
@@ -992,130 +1006,35 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
 
 
 
+    public void getAcceptanceResult(GetAcceptanceResultRequest request) {
+        getNavigator().onStarting();
+        mAPIService = ApiUtils.getAPIService();
+        disposable.add(
+                mAPIService.getAcceptanceResult(getDataManager().getAccessToken(), request )
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(response -> {
+                            getNavigator().onAcceptanceResultResponse(response);
+                            Log.i("RESPONSE","RESPONSE IS SUCESSFULK");
+                        },throwable -> {
+                            Log.i("Error","ERRROR");
+                            getNavigator().onAcceptanceResultError(throwable);
 
+                        }));
+    }
 
-
-
-
-
-
-
-
-    public void checkifExteriorComplete(ImageView imageView) {
-        if (checkIfIntakeVehicleReportIsEmpty()) {
-            imageView.setVisibility(View.GONE);
-        } else {
-            List<VehicleCollection> oldArray = getIntakeVehicleReport();
-            for (int i = 0; i < oldArray.size(); i++) {
-                if (oldArray.get(i).getPart().equals("hood") && oldArray.get(i).getPart().equals("front bumper") && oldArray.get(i).getPart().equals("fenders'") && oldArray.get(i).getPart().equals("doors") && oldArray.get(i).getPart().equals("roof'")
-                        | oldArray.get(i).getPart().equals("rear") || oldArray.get(i).getPart().equals("rear bumper") || oldArray.get(i).getPart().equals("trunk") || oldArray.get(i).getPart().equals("trim") || oldArray.get(i).getPart().equals("fuel door") || oldArray.get(i).getPart().equals("paint")) {
-
-                        imageView.setVisibility(View.VISIBLE);
-
-                    break;
-                }
-
-            }
-        }
+    public  void setIntakeAcceptanceValue(String intakeAcceptanceValue){
+        getDataManager().setIntakeAcceptanceValue(intakeAcceptanceValue);
     }
 
 
 
-
-//    for(let k = 0; k<parts.length; k++){
-//        for(let j = 0; j<result.length; j++){
-//            if(result[j].class == "exterior"){
-//                if(parts[k] == result[j].part){
-//                    // Set the remark here O(N)
-//
-//                    console.log(result[j].remark)
-//                }
-//            }
-//        }
-
-    public boolean checkIfTireComplete(ImageView imageView){
-        String[] tire = {"wheels","tires","spare tyre"};
-        List<String>list = Arrays.asList(tire);
-        if (checkIfIntakeVehicleReportIsEmpty()){
-        }else {
-            List<VehicleCollection> oldArray = getIntakeVehicleReport();
-            for (VehicleCollection collection :oldArray){
-                if (!collection.getPart().equals("tires") || !collection.getPart().equals("wheels") || !collection.getPart().equals("spare tyre")){
-                    imageView.setVisibility(View.GONE);
-                    return false;
+    public void onDispose(){
+        onCleared();
+}
 
 
-                }else {
-                    imageView.setVisibility(View.VISIBLE);
-                    return  true;
-
-                }
-            }
-
-            }
-        return false;
-        }
-
-
-
-
-        public void checkIfUnderBodyComplete (ImageView imageView){
-            if (checkIfIntakeVehicleReportIsEmpty()) {
-                imageView.setVisibility(View.GONE);
-            } else {
-                List<VehicleCollection> oldArray = getIntakeVehicleReport();
-                for (int i = 0; i < oldArray.size(); i++) {
-                    if (oldArray.get(i).getPart().equals("frame") || oldArray.get(i).getPart().equals("exhaust") || oldArray.get(i).getPart().equals("transmission") || oldArray.get(i).getPart().equals("drive axle") || oldArray.get(i).getPart().equals("suspension") || oldArray.get(i).getPart().equals("brake system")) {
-                        if (imageView.getVisibility() == View.GONE) {
-                            imageView.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                    }
-
-                }
-            }
-
-        }
-
-        public void checkUnderHoodComplete (ImageView imageView){
-            if (checkIfIntakeVehicleReportIsEmpty()) {
-                imageView.setVisibility(View.GONE);
-            } else {
-                List<VehicleCollection> oldArray = getIntakeVehicleReport();
-                for (int i = 0; i < oldArray.size(); i++) {
-                    if (oldArray.get(i).getPart().equals("engine compartment") || oldArray.get(i).getPart().equals("battery") || oldArray.get(i).getPart().equals("oil") || oldArray.get(i).getPart().equals("fluids") || oldArray.get(i).getPart().equals("wiring") || oldArray.get(i).getPart().equals("belts") || oldArray.get(i).getPart().equals("hoses")) {
-                        if (imageView.getVisibility() == View.GONE) {
-                            imageView.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                    }
-
-                }
-            }
-
-        }
-
-        public void checkInteriorComplete (ImageView imageView){
-            if (checkIfIntakeVehicleReportIsEmpty()) {
-                imageView.setVisibility(View.GONE);
-            } else {
-                List<VehicleCollection> oldArray = getIntakeVehicleReport();
-                for (int i = 0; i < oldArray.size(); i++) {
-                    if (oldArray.get(i).getPart().equals("seats") || oldArray.get(i).getPart().equals("headliner") || oldArray.get(i).getPart().equals("carpets") || oldArray.get(i).getPart().equals("door panels") || oldArray.get(i).getPart().equals("glove box")
-                            || oldArray.get(i).getPart().equals("vanity mirror") || oldArray.get(i).getPart().equals("interior trim") || oldArray.get(i).getPart().equals("dashboard") || oldArray.get(i).getPart().equals("dash guages") || oldArray.get(i).getPart().equals("air conditioner") || oldArray.get(i).getPart().equals("heater") || oldArray.get(i).getPart().equals("defroster")) {
-                        if (imageView.getVisibility() == View.GONE) {
-                            imageView.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                    }
-
-                }
-            }
-
-        }
-
-
-    }
+}
 
 
 

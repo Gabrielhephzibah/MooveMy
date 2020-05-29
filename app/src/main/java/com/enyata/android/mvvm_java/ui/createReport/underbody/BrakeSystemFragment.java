@@ -78,7 +78,7 @@ public class BrakeSystemFragment extends Fragment {
     String cloudinaryImage;
     Map config;
     View fragment;
-    VehicleCollection BrakeSystem;
+   VehicleCollection brakeSystem;
     TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
 
@@ -93,12 +93,9 @@ public class BrakeSystemFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
+        createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
+
 
 
     }
@@ -165,7 +162,7 @@ public class BrakeSystemFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -178,7 +175,7 @@ public class BrakeSystemFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -191,7 +188,7 @@ public class BrakeSystemFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                 takePicture.removeThirdImage();
-                Alert.showSuccess(getActivity(),"this image has been removed");
+                Alert.showSuccess(getActivity(),"Image removed");
                 thirdImage.setImageResource(0);}
             }
         });
@@ -259,22 +256,24 @@ public class BrakeSystemFragment extends Fragment {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
         }
-
         imageArray = takePicture.getPictureArray();
         Collection<String> value = imageArray.values();
         result = new ArrayList<>(value);
-
-        BrakeSystem = new VehicleCollection("brake system", result, status);
-        createReportViewModel.saveReportToLocalStorage(BrakeSystem);
+        brakeSystem = new VehicleCollection("brake system","Underbody",result,status);
+        createReportViewModel.saveReportToLocalStorage(brakeSystem);
         createReportViewModel.setBrakeSystemTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
+//        brakeSystem = new VehicleCollection("brake system","Underbody", result, status);
+//        createReportViewModel.saveReportToLocalStorage(brakeSystem);
+//        createReportViewModel.setBrakeSystemTracking(true);
+        Alert.showSuccess(getActivity(),"Item saved! Proceed");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        BrakeSystem = new VehicleCollection("brake system", result, status);
-//        createReportViewModel.isVehicleSave(BrakeSystem,goodd,fairr,badd, BrakeSystemFragment.this,firstImage,secondImage,thirdImage);
+        brakeSystem = new VehicleCollection("brake system","Underbody", result, status);
+        createReportViewModel.isVehicleSave(brakeSystem,goodd,fairr,badd, BrakeSystemFragment.this,firstImage,secondImage,thirdImage);
+
     }
 }

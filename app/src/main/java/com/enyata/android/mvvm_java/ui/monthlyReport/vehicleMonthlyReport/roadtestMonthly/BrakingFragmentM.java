@@ -30,7 +30,8 @@ import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
-import com.enyata.android.mvvm_java.ui.createReport.roadtest.BrakingFragment;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 
 import java.io.File;
@@ -53,7 +54,7 @@ public class BrakingFragmentM extends Fragment {
     ImageView firstImage, secondImage, thirdImage, cancel1, cancel2, cancel3;
     File photoFile = null;
     Button saveHood,deleteData;
-    CreateReportViewModel createReportViewModel;
+    MonthlyReportViewModel monthlyReportViewModel;
     ImageDataArray imageDataArray;
     private String mCurrentPhotoPath;
     private static final int REQUEST_CAMERA = 1;
@@ -62,6 +63,7 @@ public class BrakingFragmentM extends Fragment {
     CharSequence radio;
     List<String> result;
     String cloudinaryImage;
+    MonthlyReportActivity activity;
     Map config;
     View fragment;
     VehicleCollection braking;
@@ -79,14 +81,9 @@ public class BrakingFragmentM extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
+       monthlyReportViewModel = ViewModelProviders.of(requireActivity()).get(MonthlyReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
-
-
+        activity = (MonthlyReportActivity) getActivity();
     }
 
 
@@ -117,12 +114,8 @@ public class BrakingFragmentM extends Fragment {
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getBrakingTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
                     Log.i("STATUSSS", status);
                     saveReport();
-                }
             }
         });
 
@@ -138,7 +131,7 @@ public class BrakingFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -151,7 +144,7 @@ public class BrakingFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -164,7 +157,7 @@ public class BrakingFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -233,26 +226,25 @@ public class BrakingFragmentM extends Fragment {
         if (takePicture.areImagesNotComplete(getActivity())) {
             return;
         } else if (status.isEmpty()) {
-            Alert.showFailed(getActivity(),"please fill all fields");
+            Alert.showFailed(getActivity(), "please fill all fields");
             return;
+        } else {
+            activity.braking = true;
+            activity.checkRoadTestFragment();
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            braking = new VehicleCollection("braking", "Road Test Findings", result, status);
+            monthlyReportViewModel.saveMonthlyReportToLocalStorage(braking);
+//        monthlyReportViewModel.setBrakingTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
+
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        braking = new VehicleCollection("braking", result, status);
-        createReportViewModel.saveReportToLocalStorage(braking);
-        createReportViewModel.setBrakingTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        braking = new VehicleCollection("braking", result, status);
-//        createReportViewModel.isVehicleSave(braking,goodd,fairr,badd, BrakingFragmentM.this,firstImage,secondImage,thirdImage);
-
     }
 }

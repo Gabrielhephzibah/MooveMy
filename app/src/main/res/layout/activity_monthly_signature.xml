@@ -176,6 +176,7 @@
                         android:layout_marginTop="39dp">
 
                         <Button
+                            android:id="@+id/submitReport"
                             android:onClick="@{()->viewModel.onSubmit()}"
                             android:layout_width="200dp"
                             android:layout_height="wrap_content"

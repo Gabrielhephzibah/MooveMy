@@ -27,6 +27,7 @@ import com.enyata.android.mvvm_java.data.model.api.response.CreateReportResponse
 import com.enyata.android.mvvm_java.data.model.api.response.LoginResponse;
 import com.enyata.android.mvvm_java.data.remote.ApiService;
 import com.enyata.android.mvvm_java.data.remote.ApiUtils;
+import com.enyata.android.mvvm_java.data.remote.RetrofitClient;
 import com.enyata.android.mvvm_java.databinding.ActivitySignatureBinding;
 import com.enyata.android.mvvm_java.ui.base.BaseActivity;
 import com.enyata.android.mvvm_java.ui.loading.LoadingActivity;
@@ -36,8 +37,12 @@ import com.enyata.android.mvvm_java.utils.Alert;
 import com.enyata.android.mvvm_java.utils.InternetConnection;
 import com.github.gcacace.signaturepad.views.SignaturePad;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -49,6 +54,8 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
 
 public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,SignatureViewModel>implements SignatureNavigator {
 
@@ -62,11 +69,13 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
     TextView inspectorClear,inspectorSave,supplierClear,supplierSave;
     ProgressDialog dialog;
     SignatureImageArray signatureImageArray;
-    String  imageURL,carYear,carMake,carModel,carColor,mileage,vin,regno,intakeFinalComment,intakeFinalStatus,reportType;
+    String  imageURL,carYear,carMake,carModel,carColor,mileage,vin,regno,intakeFinalComment,intakeFinalStatus,reportType,acceptancevalue;
     List<String> signatureResult;
     boolean audioSystem,brakelight, computer,headlight,parkingLight,powerLock,powerMirror,powerSeat,powerSteering,powerWindow,signalLight,tailLight,door, fenders,frontBumper,fuelDoor,hood,paint,rearBumper,rear, roof,trim,trunk,mirror,rearWindow,window,winshield,
     airCond,carpet,dashboard,dashguages,defroster,doorPanel,gloveBox,headLiner,heater,interiorTrim,seats,vanityMirror,acceleration,braking,enginePerf,idling,starting,steering,suspensionPerf,transmissionShift,spareTire,tires,wheel,brakeSystem,driveAxle,exhaust,frame,suspension,transmission,
     battery,belt,engineComp,fluid,hoses,oil,wiring;
+    RetrofitClient retrofitClient = new RetrofitClient();
+
 
     boolean vehicleInfo;
     List<VehicleCollection> intakeVehicleDetails;
@@ -74,7 +83,6 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
     List<VehicleCollection>requests;
     TextView supplierTextView;
     String supplierSignatureUrl, inspectorSignatureUrl;
-
     private ApiService mAPIService;
     CompositeDisposable disposable = new CompositeDisposable();
     @Override
@@ -172,12 +180,6 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
         hoses = signatureViewModel.getHosesTracking();
         oil = signatureViewModel.getOilTracking();
         wiring = signatureViewModel.getWiringTracking();
-
-
-
-
-
-
         vehicleInfo = signatureViewModel.getVehincleInfoStatus();
         intakeFinalComment = signatureViewModel.getIntakeFinalComment();
         intakeFinalStatus = signatureViewModel.getIntakeFinalStatus();
@@ -189,6 +191,9 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
         supplierSave = activitySignatureBinding.saveSupplierSignature;
         supplierClear = activitySignatureBinding.clearSupplierSignature;
         supplierTextView = activitySignatureBinding.supplierTextView;
+        acceptancevalue = signatureViewModel.getIntakeAcceptanceValue();
+        Log.i("AcceptanceValue", acceptancevalue);
+
 
         supplierSave.setEnabled(false);
         inspectorSave.setEnabled(false);
@@ -213,11 +218,7 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
 
         mAPIService = ApiUtils.getAPIService();
 
-        Map config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
-        Log.d("oooooo", "ffffff");
+
         supplierSignature.setOnSignedListener(new SignaturePad.OnSignedListener() {
             @Override
             public void onStartSigning() {
@@ -282,12 +283,6 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
                     public void onStart(String requestId) {
                         Log.i("START", "STARTTTTT");
                         showLoading();
-//                        dialog = new ProgressDialog(SignatureActivity.this);
-//                        dialog.setMessage("Saving......");
-//                        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//                        dialog.setCancelable(false);
-//                        dialog.show();
-
                     }
                     @Override
                     public void onProgress(String requestId, long bytes, long totalBytes) {
@@ -330,7 +325,7 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
                     }
                 })
                 .dispatch();
-//        uploadToCloudinary(inspectorByteArray);
+
 
     }
 
@@ -356,12 +351,6 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
                     public void onStart(String requestId) {
                         Log.i("START", "STARTTTTT");
                         showLoading();
-//                        dialog = new ProgressDialog(SignatureActivity.this);
-//                        dialog.setMessage("Saving......");
-//                        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-//                        dialog.setCancelable(false);
-//                        dialog.show();
-
                     }
                     @Override
                     public void onProgress(String requestId, long bytes, long totalBytes) {
@@ -404,7 +393,7 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
                     }
                 })
                 .dispatch();
-//        uploadToCloudinary(suplierByteArray);
+//
     }
 
     @Override
@@ -421,14 +410,41 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
 
     @Override
     public void handleError(Throwable throwable) {
-        Log.i("RESPONSEEE","REQUEST FAILEDDDD");
-        Alert.showFailed(getApplicationContext(),"Monthly report could not be saved to database");
+        deleteData();
         Intent intent = new Intent(getApplicationContext(), FailedActivity.class);
         startActivity(intent);
+        try {
+
+            if (throwable instanceof HttpException) {
+                Log.i("HTTP", "HTTP");
+                Converter<ResponseBody, CreateReportResponse> errorConverter = retrofitClient.getRetrofit().responseBodyConverter(CreateReportResponse.class, new Annotation[0]);
+                try {
+                    CreateReportResponse error = errorConverter.convert(((HttpException) throwable).response().errorBody());
+                    Alert.showFailed(getApplicationContext(), error.getMessage());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                Alert.showFailed(getApplicationContext(), "Unable to connect to internet");
+            }
+        }catch (IllegalStateException | JsonSyntaxException | NullPointerException | ClassCastException exception ) {
+            Alert.showFailed(getApplicationContext(), "An unknown error occurred");
+        }
+
+        Log.i("TRanm", String.valueOf(signatureViewModel.getTransmissionTracking()));
+        Log.i("spare",String.valueOf(signatureViewModel.getSpareTireTracking()));
+        Log.i("Tire", String.valueOf(signatureViewModel.getTiresTracking()));
+        Log.i("powerseats",String.valueOf(signatureViewModel.getPowerSeatTracking()));
+        Log.i("powerwindow", String.valueOf(signatureViewModel.getPowerWindowTracking()));
 
 
 
     }
+
+
+
+
 
     @Override
     public void onStarting() {
@@ -439,7 +455,6 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
     @Override
     public void onResponse(CreateReportResponse response) {
         Log.i("RESPONSEEE","REQUEST WAS SUCCESSFULLLL");
-
         Intent i = new Intent(getApplicationContext(), ResponseActivity.class);
         startActivity(i);
         deleteData();
@@ -449,6 +464,11 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
         Log.i("CarMake",String.valueOf(signatureViewModel.getCarMake()));
         Log.i("HOODTRACKIN", String.valueOf(signatureViewModel.getHoodTrackingStatus()));
         Log.i("FENDERS",String.valueOf(signatureViewModel.getFenderTracking()));
+        Log.i("TRanm", String.valueOf(signatureViewModel.getTransmissionTracking()));
+        Log.i("spare",String.valueOf(signatureViewModel.getSpareTireTracking()));
+        Log.i("Tire", String.valueOf(signatureViewModel.getTiresTracking()));
+        Log.i("powerseats",String.valueOf(signatureViewModel.getPowerSeatTracking()));
+        Log.i("powerwindow", String.valueOf(signatureViewModel.getPowerWindowTracking()));
 
 
 
@@ -469,17 +489,15 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
 
     @Override
     public void onSubmit() {
-
-
-        Log.i("Carmake",carMake);
-        Log.i("CarYear",carYear);
-        Log.i("CarColor",carColor);
-        Log.i("Carmodel",carModel);
-        Log.i("Carmillage",mileage);
-        Log.i("regno",regno);
-        Log.i("vin",vin);
-        Log.i("finalComment",intakeFinalComment);
-        Log.i("finalStatus",intakeFinalStatus);
+        Log.i("Carmake", carMake);
+        Log.i("CarYear", carYear);
+        Log.i("CarColor", carColor);
+        Log.i("Carmodel", carModel);
+        Log.i("Carmillage", mileage);
+        Log.i("regno", regno);
+        Log.i("vin", vin);
+        Log.i("finalComment", intakeFinalComment);
+        Log.i("finalStatus", intakeFinalStatus);
         Log.i("Carmake", String.valueOf(intakeVehicleDetails));
 
         vehicleInfo = signatureViewModel.getVehincleInfoStatus();
@@ -489,39 +507,28 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
         carModel = signatureViewModel.getCarModel();
         mileage = signatureViewModel.getMilage();
         regno = signatureViewModel.getregNo();
-        vin =signatureViewModel.getVin();
+        vin = signatureViewModel.getVin();
         intakeFinalComment = signatureViewModel.getIntakeFinalComment();
         intakeFinalStatus = signatureViewModel.getIntakeFinalStatus();
         intakeVehicleDetails = signatureViewModel.vehincleReportArray();
         Collection<String> value = signatureImage.values();
         signatureResult = new ArrayList<>(value);
         Log.i("SignatureImage", String.valueOf(signatureResult));
-
-
-        switch (signatureViewModel.getReportType()){
-            case "intake":{
-                CreateReportRequest request = new CreateReportRequest(carMake, carModel, carYear, carColor, vin, mileage, regno, supplierSignatureUrl,inspectorSignatureUrl, intakeFinalStatus, intakeFinalComment, "intake",
-                        intakeVehicleDetails);
+        if (inspectorSignatureUrl!=null && supplierSignatureUrl!= null) {
                 if (InternetConnection.getInstance(this).isOnline()) {
+
+                    CreateReportRequest request = new CreateReportRequest(carMake, carModel, carYear, carColor, vin, mileage, regno, supplierSignatureUrl, inspectorSignatureUrl, intakeFinalStatus, intakeFinalComment, "intake", acceptancevalue, intakeVehicleDetails);
                     signatureViewModel.createVehicleReport(request);
                 }else {
-                    Alert.showFailed(getApplicationContext(), "Please Check your internet connection and try again");
+                    Alert.showFailed(getApplicationContext(),"Unable to connect to the internet");
                 }
-                break;
-            }case "monthly":{
-                MonthlyReportRequest request = new MonthlyReportRequest(carMake, carModel, carYear, carColor, vin, mileage, regno, supplierSignatureUrl,inspectorSignatureUrl, intakeFinalStatus, intakeFinalComment, "monthly",
-                        intakeVehicleDetails);
-                if (InternetConnection.getInstance(this).isOnline()) {
-                    signatureViewModel.createMonthlyReport(request);
-                }else {
-                    Alert.showFailed(getApplicationContext(), "Please Check your internet connection and try again");
-                }
-                break;
-            }
+        }else {
+            Alert.showFailed(getApplicationContext(),"Signature is required");
         }
+            }
 
 
-    }
+
 
 
     @Override
@@ -550,7 +557,7 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
         signatureViewModel.deleteParkingLightTracking(parkingLight);
         signatureViewModel.deletePowerLockTracking(powerLock);
         signatureViewModel.deletePowerMirrorTracking(powerMirror);
-        signatureViewModel.deleteSeatTracking(powerSeat);
+        signatureViewModel.deletePowerSeatTracking(powerSeat);
         signatureViewModel.deletePowerSteeringTracking(powerSteering);
         signatureViewModel.deletePowerWindowTracking(powerWindow);
         signatureViewModel.deleteSignalLightTracking(signalLight);
@@ -606,14 +613,7 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
         signatureViewModel.deleteHosesTracking(hoses);
         signatureViewModel.deleteOilTracking(oil);
         signatureViewModel.deleteWiringTracking(wiring);
-
-
-
-
-
-
-
-
+        signatureViewModel.deleteIntakeAcceptanceValue(acceptancevalue);
     }
 
 }

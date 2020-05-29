@@ -101,6 +101,8 @@
                     android:layout_marginTop="39dp">
 
                     <Button
+                        android:enabled="false"
+                        android:id="@+id/saveReport"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/button_radius_background"

@@ -25,6 +25,7 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.ViewModelProviderFactory;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorData;
 import com.enyata.android.mvvm_java.data.model.api.response.InspectorListResponse;
+import com.enyata.android.mvvm_java.data.model.api.response.MaintenanceErrorResponse;
 import com.enyata.android.mvvm_java.databinding.ActivityRepairListBinding;
 import com.enyata.android.mvvm_java.ui.base.BaseActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
@@ -33,6 +34,7 @@ import com.enyata.android.mvvm_java.ui.repair.repairs.RepairsActivity;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.enyata.android.mvvm_java.utils.InternetConnection;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,13 +128,17 @@ public class RepairListActivity extends BaseActivity<ActivityRepairListBinding, 
 
     @Override
     public void handleError(Throwable throwable) {
-        if (throwable != null) {
-            ANError error = (ANError) throwable;
-            InspectorListResponse response = gson.fromJson(error.getErrorBody(), InspectorListResponse.class);
-            if (error.getErrorBody() != null) {
-                Alert.showFailed(getApplicationContext(), response.getMessage());
-            } else {
-                Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
+        if (throwable != null ) {
+            try {
+                ANError error = (ANError) throwable;
+                InspectorListResponse response = gson.fromJson(error.getErrorBody(), InspectorListResponse.class);
+                if (error.getErrorBody() != null) {
+                    Alert.showFailed(getApplicationContext(), response.getMessage());
+                } else {
+                    Alert.showFailed(getApplicationContext(), "Unable to Connect to the Internet");
+                }
+            } catch (IllegalStateException | JsonSyntaxException | NullPointerException | ClassCastException exception) {
+                Alert.showFailed(getApplicationContext(), "An unknown error occurred");
             }
         }
     }
@@ -142,20 +148,25 @@ public class RepairListActivity extends BaseActivity<ActivityRepairListBinding, 
     public void onResponse(InspectorListResponse response) {
         Log.i("RRRR", "respoinse is successful");
         Log.i("RRRR", String.valueOf(response));
+        try {
 
-        List<InspectorData> array = response.getData();
-        for (int i = 0; i < array.size(); i++) {
-            InspectorData data = array.get(i);
-            String mooveId = data.getMooveId();
-            String carYear = data.getYear();
-            String carMake = data.getMake();
-            String carModel = data.getModel();
-            String id = String.valueOf(data.getId());
-            String vehincleId = data.getVehicleId();
-            repairItemList.add(new RepairItemList(mooveId, carYear, carMake, carModel,vehincleId, id));
-            repairListAdapter = new RepairListAdapter(RepairListActivity.this, repairItemList);
-            recyclerView.setAdapter(repairListAdapter);
 
+            List<InspectorData> array = response.getData();
+            for (int i = 0; i < array.size(); i++) {
+                InspectorData data = array.get(i);
+                String mooveId = data.getMooveId();
+                String carYear = data.getYear();
+                String carMake = data.getMake();
+                String carModel = data.getModel();
+                String id = String.valueOf(data.getId());
+                String vehincleId = data.getVehicleId();
+                repairItemList.add(new RepairItemList(mooveId, carYear, carMake, carModel, vehincleId, id));
+                repairListAdapter = new RepairListAdapter(RepairListActivity.this, repairItemList);
+                recyclerView.setAdapter(repairListAdapter);
+
+            }
+        }catch (IllegalStateException | JsonSyntaxException | NullPointerException | ClassCastException exception) {
+            Alert.showFailed(getApplicationContext(), "An unknown error occurred");
         }
 
     }

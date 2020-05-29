@@ -36,6 +36,8 @@ import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.HoodFragment;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 
 import java.io.File;
@@ -61,7 +63,7 @@ public class HoodFragmentM extends Fragment {
     ImageView firstImage, secondImage, thirdImage, cancel1, cancel2, cancel3;
     File photoFile = null;
     Button saveHood, deleteData;
-    CreateReportViewModel createReportViewModel;
+    MonthlyReportViewModel monthlyReportViewModel;
     ImageDataArray imageDataArray;
     private String mCurrentPhotoPath;
     private static final int REQUEST_CAMERA = 1;
@@ -72,12 +74,12 @@ public class HoodFragmentM extends Fragment {
     String cloudinaryImage;
     Map config;
     VehicleCollection hood;
+    MonthlyReportActivity activity;
     View fragment;
     String newStatus;
     ImageView imageView;
     Collection<String> value;
     RelativeLayout relativeLayout;
-
     TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
 
@@ -92,8 +94,10 @@ public class HoodFragmentM extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
+        setRetainInstance(true);
+        monthlyReportViewModel = ViewModelProviders.of(requireActivity()).get(MonthlyReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
+        activity = (MonthlyReportActivity) getActivity();
 
     }
 
@@ -145,15 +149,7 @@ public class HoodFragmentM extends Fragment {
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getHoodTrackingStatus()) {
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                } else {
-
-
                     saveReport();
-
-                }
-
             }
         });
 
@@ -166,7 +162,7 @@ public class HoodFragmentM extends Fragment {
                     Alert.showFailed(getActivity(), "image is empty");
                 } else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -179,7 +175,7 @@ public class HoodFragmentM extends Fragment {
                     Alert.showFailed(getActivity(), "Image is empty");
                 } else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -192,7 +188,7 @@ public class HoodFragmentM extends Fragment {
                     Alert.showFailed(getActivity(), "Image is empty");
                 } else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -293,8 +289,7 @@ public class HoodFragmentM extends Fragment {
     public void onResume() {
         Log.i("IMAGEARRAY", String.valueOf(result));
         Log.i("Status", status);
-        hood = new VehicleCollection("hood", result, status);
-//        createReportViewModel.isVehicleSave(hood, goodd, fairr, badd, HoodFragmentM.this, firstImage, secondImage, thirdImage);
+       getRetainInstance();
 
         super.onResume();
     }
@@ -310,7 +305,7 @@ public class HoodFragmentM extends Fragment {
             takePicture.pictureCapture(imageBitmap, HoodFragmentM.this, firstImage, secondImage, thirdImage, progressBar, getActivity());
 
         } else if (requestCode == RESULT_CANCELED) {
-            Alert.showFailed(getActivity(), "The request has been cancelled");
+            Alert.showFailed(getActivity(), "The request was cancelled");
 
         }
     }
@@ -323,15 +318,18 @@ public class HoodFragmentM extends Fragment {
             Alert.showFailed(getActivity(), "please fill all fields");
             return;
         } else {
+            activity.hood = true;
+            activity.checkExteriorFragment();
             imageArray = takePicture.getPictureArray();
             value = imageArray.values();
             result = new ArrayList<>(value);
-            hood = new VehicleCollection("hood", result, status);
-            createReportViewModel.saveReportToLocalStorage(hood);
-            createReportViewModel.setHoodTrackingStatus(true);
-            Alert.showSuccess(getActivity(), "Item saved please swipe to proceed");
+            hood = new VehicleCollection("hood","Exterior", result, status);
+            monthlyReportViewModel.saveMonthlyReportToLocalStorage(hood);
+//            monthlyReportViewModel.setHoodTrackingStatus(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
         }
 
     }
+
 
 }

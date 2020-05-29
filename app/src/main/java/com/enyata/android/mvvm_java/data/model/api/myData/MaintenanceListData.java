@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
 
-public class MaintenanceRoutineListData {
+public class MaintenanceListData {
 
 
     @SerializedName("vehicle_system")
@@ -16,7 +16,7 @@ public class MaintenanceRoutineListData {
     @Expose
     private String routineActivity;
 
-    public MaintenanceRoutineListData(String vehicleSystem, String routineActivity) {
+    public MaintenanceListData(String vehicleSystem, String routineActivity) {
         this.vehicleSystem = vehicleSystem;
         this.routineActivity = routineActivity;
     }
@@ -29,12 +29,20 @@ public class MaintenanceRoutineListData {
         return routineActivity;
     }
 
+    public void setVehicleSystem(String vehicleSystem) {
+        this.vehicleSystem = vehicleSystem;
+    }
+
+    public void setRoutineActivity(String routineActivity) {
+        this.routineActivity = routineActivity;
+    }
+
     @Override
 
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MaintenanceRoutineListData request = (MaintenanceRoutineListData) o;
+        MaintenanceListData request = (MaintenanceListData) o;
         return Objects.equals(vehicleSystem, request.vehicleSystem) &&
                 Objects.equals(routineActivity, request.routineActivity);
 

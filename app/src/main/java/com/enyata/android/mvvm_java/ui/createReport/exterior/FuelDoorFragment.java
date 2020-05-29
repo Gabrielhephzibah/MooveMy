@@ -37,6 +37,7 @@ import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.glide.GlideApp;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
+import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.squareup.picasso.Picasso;
@@ -77,6 +78,7 @@ public class FuelDoorFragment extends Fragment {
     Map config;
     View fragment;
     VehicleCollection fuelDoor;
+    CreateReportActivity createReportActivity;
     RelativeLayout relativeLayout;
     TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
@@ -95,11 +97,6 @@ public class FuelDoorFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
-
 
     }
 
@@ -133,37 +130,6 @@ public class FuelDoorFragment extends Fragment {
         goodd = view.findViewById(R.id.good);
         badd = view.findViewById(R.id.poor);
         fairr = view.findViewById(R.id.fair);
-//        if (createReportViewModel.getFuelDoorTracking()){
-//            if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()){
-//                goodd.setChecked(false);
-//                fairr.setChecked(false);
-//                badd.setChecked(false);
-//                firstImage.setImageResource(0);
-//                secondImage.setImageResource(0);
-//                thirdImage.setImageResource(0);
-//
-//            }else {
-//                List<VehicleCollection> myCollection = createReportViewModel.getIntakeVehicleReport();
-//                for (int i = 0; i < myCollection.size(); i++) {
-//                    if (myCollection.get(i).getPart().equals("hood")) {
-//                        if (myCollection.get(i).getRemark().equals("good")) {
-//                            goodd.setChecked(true);
-//                        } else if (myCollection.get(i).getRemark().equals("fair")) {
-//                            fairr.setChecked(true);
-//                        } else {
-//                            badd.setChecked(true);
-//                        }
-//                        List<String> images = myCollection.get(i).getImageUrl();
-//                        GlideApp.with(FuelDoorFragment.this).load(images.get(0)).into(firstImage);
-//                        GlideApp.with(FuelDoorFragment.this).load(images.get(1)).into(secondImage);
-//                        GlideApp.with(FuelDoorFragment.this).load(images.get(2)).into(thirdImage);
-//
-//                    }
-//                }
-//            }
-//
-//        }
-
 
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,7 +153,7 @@ public class FuelDoorFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -200,7 +166,7 @@ public class FuelDoorFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -213,7 +179,7 @@ public class FuelDoorFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -261,38 +227,9 @@ public class FuelDoorFragment extends Fragment {
     @Override
     public void onResume() {
 
-        fuelDoor = new VehicleCollection("fuel door", result, status);
+        fuelDoor = new VehicleCollection("fuel door","Exterior", result, status);
         createReportViewModel.isVehicleSave(fuelDoor,goodd,fairr,badd,FuelDoorFragment.this,firstImage,secondImage,thirdImage);
-//        if (createReportViewModel.getFuelDoorTracking()){
-//            if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()){
-//                goodd.setChecked(false);
-//                fairr.setChecked(false);
-//                badd.setChecked(false);
-//                firstImage.setImageResource(0);
-//                secondImage.setImageResource(0);
-//                thirdImage.setImageResource(0);
-//
-//            }else {
-//                List<VehicleCollection> myCollection = createReportViewModel.getIntakeVehicleReport();
-//                for (int i = 0; i < myCollection.size(); i++) {
-//                    if (myCollection.get(i).getPart().equals("fuel door")) {
-//                        if (myCollection.get(i).getRemark().equals("good")) {
-//                            goodd.setChecked(true);
-//                        } else if (myCollection.get(i).getRemark().equals("fair")) {
-//                            fairr.setChecked(true);
-//                        } else {
-//                            badd.setChecked(true);
-//                        }
-//                        List<String> images = myCollection.get(i).getImageUrl();
-//                        GlideApp.with(FuelDoorFragment.this).load(images.get(0)).into(firstImage);
-//                        GlideApp.with(FuelDoorFragment.this).load(images.get(1)).into(secondImage);
-//                        GlideApp.with(FuelDoorFragment.this).load(images.get(2)).into(thirdImage);
-//
-//                    }
-//                }
-//            }
-//
-//        }
+
 
 
 
@@ -309,7 +246,7 @@ public class FuelDoorFragment extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             takePicture.pictureCapture(imageBitmap,FuelDoorFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
         } else if (requestCode == RESULT_CANCELED) {
-            Alert.showFailed(getActivity(),"The request has been cancelled");
+            Alert.showFailed(getActivity(),"The request was cancelled");
 
         }
     }
@@ -321,16 +258,16 @@ public class FuelDoorFragment extends Fragment {
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
+        }else {
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            fuelDoor = new VehicleCollection("fuel door", "Exterior", result, status);
+            createReportViewModel.saveReportToLocalStorage(fuelDoor);
+            createReportViewModel.setFuelDoorTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        fuelDoor = new VehicleCollection("fuel door", result, status);
-        createReportViewModel.saveReportToLocalStorage(fuelDoor);
-        createReportViewModel.setFuelDoorTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
 
     }
 

@@ -3,6 +3,7 @@ package com.enyata.android.mvvm_java.data.remote;
 import android.util.Log;
 
 import com.enyata.android.mvvm_java.data.model.api.myData.VinHeaders;
+import com.enyata.android.mvvm_java.data.model.api.request.CheckIntakeRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.CreateReportRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.IntakeRuleRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.LoginRequest;
@@ -121,6 +122,39 @@ public class AppApiHelper implements  ApiHelper  {
                 .addHeaders(mApiHeader.getProtectedApiHeader())
                 .build()
                 .getObjectFlowable(MaintenanceScheduleResponse.class);
+    }
+
+    @Override
+    public Single<CreateReportResponse> checkIntakeReport(CheckIntakeRequest.Request request) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.CHECK_INTAKE_REPORT)
+                .addBodyParameter(request)
+                .addHeaders(mApiHeader.getProtectedApiHeader())
+                .build()
+                .getObjectSingle(CreateReportResponse.class);
+    }
+
+    @Override
+    public Single<CreateReportResponse> checkMonthlyReport(String vehicleId) {
+        return Rx2AndroidNetworking.get(ApiEndPoint.CHECK_MONTHLY_REPORT + "/" + vehicleId + "/" + "check" )
+                .addHeaders(mApiHeader.getProtectedApiHeader())
+                .build()
+                .getObjectSingle(CreateReportResponse.class);
+    }
+
+    @Override
+    public Single<CreateReportResponse> checkMaintenanceReport(String vehicleId) {
+        return Rx2AndroidNetworking.get(ApiEndPoint.CHECK_MAINTENANCE_REPORT + "/" + vehicleId + "/" + "check" )
+                .addHeaders(mApiHeader.getProtectedApiHeader())
+                .build()
+                .getObjectSingle(CreateReportResponse.class);
+    }
+
+    @Override
+    public Single<CreateReportResponse> checkRepairsReport(String vehicleId) {
+        return Rx2AndroidNetworking.get(ApiEndPoint.CHECK_REPAIRS_REPORT + "/" + vehicleId + "/" + "check" )
+                .addHeaders(mApiHeader.getProtectedApiHeader())
+                .build()
+                .getObjectSingle(CreateReportResponse.class);
     }
 
 

@@ -94,10 +94,7 @@ public class EngineCompFragment extends Fragment {
         super.onCreate(savedInstanceState);
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
+
 
 
     }
@@ -164,7 +161,7 @@ public class EngineCompFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                 takePicture.removefirstImage();
-                Alert.showSuccess(getActivity(),"this image has been removed");
+                Alert.showSuccess(getActivity(),"Image removed");
                 firstImage.setImageResource(0);}
             }
         });
@@ -176,7 +173,7 @@ public class EngineCompFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -189,7 +186,7 @@ public class EngineCompFragment extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -246,7 +243,7 @@ public class EngineCompFragment extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             takePicture.pictureCapture(imageBitmap,EngineCompFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
         } else if (requestCode == RESULT_CANCELED) {
-           Alert.showFailed(getActivity(),"The request has been cancelled");
+           Alert.showFailed(getActivity(),"The request was cancelled");
 
         }
     }
@@ -264,17 +261,17 @@ public class EngineCompFragment extends Fragment {
         Collection<String> value = imageArray.values();
         result = new ArrayList<>(value);
 
-         engineComp = new VehicleCollection("engine compartment", result, status);
+         engineComp = new VehicleCollection("engine compartment","Underhood", result, status);
         createReportViewModel.saveReportToLocalStorage(engineComp);
         createReportViewModel.setEngineCompTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
+        Alert.showSuccess(getActivity(),"Item saved! Proceed");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        engineComp = new VehicleCollection("engine compartment", result, status);
+        engineComp = new VehicleCollection("engine compartment","Underhood", result, status);
         createReportViewModel.isVehicleSave(engineComp,goodd,fairr,badd, EngineCompFragment.this,firstImage,secondImage,thirdImage);
     }
 }

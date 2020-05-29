@@ -7,32 +7,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class MonthlyReportRequest {
-    @Expose
-    private String make;
-
-    @SerializedName("model")
-    @Expose
-    private String model;
-
-    @SerializedName("year")
-    @Expose
-    private String year;
-
-    @SerializedName("color")
-    @Expose
-    private String color;
-
-    @SerializedName("VIN")
-    @Expose
-    private String vIN;
-
-    @SerializedName("mileage")
-    @Expose
-    private String mileage;
-
-    @SerializedName("registration_number")
-    @Expose
-    private String registrationNumber;
 
     @SerializedName("inspector_signature")
     @Expose
@@ -54,81 +28,24 @@ public class MonthlyReportRequest {
     @Expose
     private String reportType;
 
+    @SerializedName("acceptance_value")
+    @Expose
+    private String acceptanceValue;
+
+
     @SerializedName("vehicle_part")
     @Expose
     private List<VehicleCollection> vehiclePart = null;
 
 
-    public MonthlyReportRequest(String make, String model, String year, String color, String vIN, String mileage, String registrationNumber, String inspectorSignature, String driverSignature, String status, String comment, String reportType, List<VehicleCollection> vehiclePart) {
-        this.make = make;
-        this.model = model;
-        this.year = year;
-        this.color = color;
-        this.vIN = vIN;
-        this.mileage = mileage;
-        this.registrationNumber = registrationNumber;
+    public MonthlyReportRequest(String inspectorSignature, String driverSignature, String status, String comment, String reportType, String acceptanceValue, List<VehicleCollection> vehiclePart) {
         this.inspectorSignature = inspectorSignature;
         this.driverSignature = driverSignature;
         this.status = status;
         this.comment = comment;
         this.reportType = reportType;
         this.vehiclePart = vehiclePart;
-    }
-
-    public String getMake() {
-        return make;
-    }
-
-    public void setMake(String make) {
-        this.make = make;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getvIN() {
-        return vIN;
-    }
-
-    public void setvIN(String vIN) {
-        this.vIN = vIN;
-    }
-
-    public String getMileage() {
-        return mileage;
-    }
-
-    public void setMileage(String mileage) {
-        this.mileage = mileage;
-    }
-
-    public String getRegistrationNumber() {
-        return registrationNumber;
-    }
-
-    public void setRegistrationNumber(String registrationNumber) {
-        this.registrationNumber = registrationNumber;
+        this.acceptanceValue = acceptanceValue;
     }
 
     public String getInspectorSignature() {
@@ -171,6 +88,14 @@ public class MonthlyReportRequest {
         this.reportType = reportType;
     }
 
+    public String getAcceptanceValue() {
+        return acceptanceValue;
+    }
+
+    public void setAcceptanceValue(String acceptanceValue) {
+        this.acceptanceValue = acceptanceValue;
+    }
+
     public List<VehicleCollection> getVehiclePart() {
         return vehiclePart;
     }
@@ -192,34 +117,6 @@ public class MonthlyReportRequest {
 
         MonthlyReportRequest request = (MonthlyReportRequest) obj;
 
-        if (make != null ? !make.equals(request.make) : request.make != null) {
-            return false;
-        }
-
-        if (model != null ? !model.equals(request.model) : request.model != null) {
-            return false;
-        }
-
-        if (year != null ? !year.equals(request.year) : request.year != null) {
-            return false;
-        }
-
-        if (color != null ? !color.equals(request.color) : request.color != null) {
-            return false;
-        }
-
-        if (vIN != null ? !vIN.equals(request.vIN) : request.vIN != null) {
-            return false;
-        }
-
-        if (mileage != null ? !mileage.equals(request.mileage) : request.mileage != null) {
-            return false;
-        }
-
-        if (registrationNumber != null ? !registrationNumber.equals(request.registrationNumber) : request.registrationNumber != null) {
-            return false;
-        }
-
         if (driverSignature != null ? !driverSignature.equals(request.driverSignature) : request.driverSignature != null) {
             return false;
         }
@@ -239,6 +136,9 @@ public class MonthlyReportRequest {
         if (reportType != null ? !reportType.equals(request.reportType) : request.reportType != null) {
             return false;
         }
+        if (acceptanceValue != null ? !acceptanceValue.equals(request.acceptanceValue) : request.acceptanceValue!= null) {
+            return false;
+        }
 
         return vehiclePart != null ? !vehiclePart.equals(request.vehiclePart) : request.vehiclePart != null;
 
@@ -251,18 +151,12 @@ public class MonthlyReportRequest {
     @Override
     public int hashCode() {
         int result = 0;
-        result = 31 * result + (make != null ? make.hashCode() : 0);
-        result = 31 * result + (model != null ? model.hashCode() : 0);
-        result = 31 * result + (year != null ? year.hashCode() : 0);
-        result = 31 * result + (color != null ? color.hashCode() : 0);
-        result = 31 * result + (vIN != null ? vIN.hashCode() : 0);
-        result = 31 * result + (mileage != null ? mileage.hashCode() : 0);
-        result = 31 * result + (registrationNumber != null ? registrationNumber.hashCode() : 0);
         result = 31 * result + (inspectorSignature != null ? inspectorSignature.hashCode() : 0);
         result = 31 * result + (driverSignature != null ? driverSignature.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
         result = 31 * result + (reportType != null ? reportType.hashCode() : 0);
+        result = 31 * result + (acceptanceValue != null ? acceptanceValue.hashCode() : 0);
         result = 31 * result + (vehiclePart != null ? vehiclePart.hashCode() : 0);
 
         return result;
@@ -272,18 +166,12 @@ public class MonthlyReportRequest {
     @Override
     public String toString() {
         return "CreateReportRequest{" +
-                "make='" + make + '\'' +
-                ", model='" + model + '\'' +
-                ", year='" + year + '\'' +
-                ", color='" + color + '\'' +
-                ", vIN='" + vIN + '\'' +
-                ", mileage='" + mileage + '\'' +
-                ", registrationNumber='" + registrationNumber + '\'' +
                 ", inspectorSignature='" + inspectorSignature + '\'' +
                 ", supplierSignature='" + driverSignature + '\'' +
                 ", status='" + status + '\'' +
                 ", comment='" + comment + '\'' +
                 ", reportType='" + reportType + '\'' +
+                ", reportType='" + acceptanceValue + '\'' +
                 ", vehiclePart=" + vehiclePart +
                 '}';
     }

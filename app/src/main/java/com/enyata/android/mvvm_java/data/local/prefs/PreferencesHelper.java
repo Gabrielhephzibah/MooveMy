@@ -1,8 +1,7 @@
 package com.enyata.android.mvvm_java.data.local.prefs;
 
-import android.content.SharedPreferences;
-
 import com.enyata.android.mvvm_java.data.DataManager;
+import com.enyata.android.mvvm_java.data.model.api.myData.MaintenanceListData;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.data.model.api.request.VehiclePartRepair;
 
@@ -64,6 +63,10 @@ public interface PreferencesHelper {
     void setInTakeVehicleReport(List<VehicleCollection>vehiclePart);
 
     List<VehicleCollection> getInTakeVehicleReport();
+
+    void setMonthlyVehicleReport(List<VehicleCollection>monthlyReport);
+
+    List<VehicleCollection> getMonthlyVehicleReport();
 
     void setIntakeFinalStatus(String status);
 
@@ -309,7 +312,7 @@ public interface PreferencesHelper {
 
     void  setPowerWindowTracking(boolean powerWindowTracking);
 
-    boolean getPoweWindowTracking();
+    boolean getPowerWindowTracking();
 
     void  setSignalLightTracking(boolean signalLightTracking);
 
@@ -513,9 +516,47 @@ public interface PreferencesHelper {
 
     String getCarModelMaint();
 
+    void  setVehicleIdMaint(String vehicleIdMaint);
+
+    String getVehicleIdMaint();
+
     void setTimeOnStop(long currentTimeOnStop);
 
     long getTimeOnStop();
+
+    void setMaintenanceReport(List<MaintenanceListData> maintenanceData);
+
+    List<MaintenanceListData> getMaintenanceReport();
+
+    void  deleteMaintenanceReport(List<MaintenanceListData> maintenanceListData);
+
+    void  deleteMonthlyReport(List<VehicleCollection> vehicleCollections);
+
+    void  setMonthlyFinalAssessment( String finalAssessment);
+
+    String getMonthlyFinalAssessment();
+
+    void setMonthlyFinalComment( String finalComment);
+
+    String getMonthlyFinalComment();
+
+    void setIntakeAcceptanceValue(String intakeAcceptanceValue);
+
+    String getIntakeAcceptanceValue();
+
+    void setMonthlyAcceptanceValue(String monthlyAcceptanceValue);
+
+    String getMonthlyAcceptanceValue();
+
+    void  deleteIntakeAcceptanceValue(String intakeAcceptance);
+
+    void deleteMonthlyAcceptanceValue(String monthlyAcceptance);
+
+    void setInitialMileage(String initialMileage);
+
+    String getInitialMileage();
+
+
 
 
 

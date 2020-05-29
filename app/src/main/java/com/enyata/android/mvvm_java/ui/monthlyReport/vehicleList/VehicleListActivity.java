@@ -28,6 +28,7 @@ import com.enyata.android.mvvm_java.ui.repair.repairList.RepairListAdapter;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.enyata.android.mvvm_java.utils.InternetConnection;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,17 +118,22 @@ public class VehicleListActivity extends BaseActivity<ActivityVehicleListBinding
     public void onResponse(InspectorListResponse response) {
         Log.i("RESPONSE", response.toString());
         List<InspectorData> array = response.getData();
-        for (int i = 0; i < array.size(); i++) {
-            InspectorData data = array.get(i);
-            String mooveId = data.getMooveId();
-            String carYear = data.getYear();
-            String carMake = data.getMake();
-            String carModel = data.getModel();
-            String id = String.valueOf(data.getId());
-            String vehincleId = data.getVehicleId();
-            vehicleListItems.add(new VehicleListItem(mooveId, carYear, carMake, carModel, vehincleId, id));
-            vehicleListAdapter = new VehicleListAdapter(VehicleListActivity.this, vehicleListItems);
-            recyclerView.setAdapter(vehicleListAdapter);
+        try {
+            for (int i = 0; i < array.size(); i++) {
+                InspectorData data = array.get(i);
+                String mooveId = data.getMooveId();
+                String carYear = data.getYear();
+                String carMake = data.getMake();
+                String carModel = data.getModel();
+                String initialMileage = data.getMileage();
+                String id = String.valueOf(data.getId());
+                String vehincleId = data.getVehicleId();
+                vehicleListItems.add(new VehicleListItem(mooveId, carYear, carMake, carModel, vehincleId, id,initialMileage));
+                vehicleListAdapter = new VehicleListAdapter(VehicleListActivity.this, vehicleListItems);
+                recyclerView.setAdapter(vehicleListAdapter);
+            }
+        }catch (IllegalStateException | JsonSyntaxException  | NullPointerException | ClassCastException exception ) {
+            Alert.showFailed(getApplicationContext(), "An unknown error occurred");
         }
 
     }
@@ -135,12 +141,17 @@ public class VehicleListActivity extends BaseActivity<ActivityVehicleListBinding
     @Override
     public void handleError(Throwable throwable) {
         if (throwable != null) {
-            ANError error = (ANError) throwable;
-            InspectorListResponse response = gson.fromJson(error.getErrorBody(), InspectorListResponse.class);
-            if (error.getErrorBody() != null) {
-                Alert.showFailed(getApplicationContext(), response.getMessage());
-            } else {
-                Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
+            try {
+
+                ANError error = (ANError) throwable;
+                InspectorListResponse response = gson.fromJson(error.getErrorBody(), InspectorListResponse.class);
+                if (error.getErrorBody() != null) {
+                    Alert.showFailed(getApplicationContext(), response.getMessage());
+                } else {
+                    Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
+                }
+            }catch (IllegalStateException | JsonSyntaxException | NullPointerException | ClassCastException exception ) {
+                Alert.showFailed(getApplicationContext(), "An unknown error occurred");
             }
         }
     }

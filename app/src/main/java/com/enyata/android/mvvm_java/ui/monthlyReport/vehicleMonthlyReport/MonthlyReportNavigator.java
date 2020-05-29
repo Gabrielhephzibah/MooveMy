@@ -1,5 +1,7 @@
 package com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport;
 
+import com.enyata.android.mvvm_java.data.model.api.response.CreateReportResponse;
+
 public interface MonthlyReportNavigator {
     void  back();
     void onAddSignature();
@@ -24,4 +26,11 @@ public interface MonthlyReportNavigator {
     void undeBodySliderDash(int current_position);
     void underHoodSliderDash(int current_position);
     void  onVehicleMaint();
+    void onStarting();
+    void onResponse(CreateReportResponse response);
+    void handleError(Throwable throwable);
+    void onGetMonthlyResult();
+    void onAcceptanceMonthlyResult(CreateReportResponse response);
+    void onAcceptanceMonthlyResultError(Throwable throwable);
+
 }

@@ -52,18 +52,12 @@ public class LoginViewModel extends BaseViewModel<LoginNavigator> {
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(response -> {
                     setIsLoading(false);
-                    getNavigator().onResponse(response);
                     String token = response.getData().getToken();
                     String userEmail = response.getData().getEmail();
                     getDataManager().updateLoginStatus(DataManager.LoggedInMode.LOGGED_IN_MODE_LOGGED_IN);
                     String firstname = response.getData().getFirstName();
                     getDataManager().updateUserInfo(token,firstname,userEmail);
-                    JWT jwt = new JWT(token);
-                    Log.i("JWT", String.valueOf(jwt));
-                    Date expires = jwt.getExpiresAt();
-                    Date issuedAt = jwt.getIssuedAt();
-                    Log.i("EXPIRES", String.valueOf(expires));
-                    Log.i("TIME ISSUED", String.valueOf(issuedAt));
+                    getNavigator().onResponse(response);
 
 
                 }, throwable -> {

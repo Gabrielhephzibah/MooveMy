@@ -29,8 +29,8 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
-import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
-import com.enyata.android.mvvm_java.ui.createReport.exterior.DoorFragment;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 
 import java.io.File;
@@ -54,7 +54,7 @@ public class DoorFragmentM extends Fragment {
     ImageView firstImage, secondImage, thirdImage, cancel1, cancel2, cancel3;
     File photoFile = null;
     Button saveHood,deleteData;
-    CreateReportViewModel createReportViewModel;
+    MonthlyReportViewModel monthlyReportViewModel;
     ImageDataArray imageDataArray;
     private String mCurrentPhotoPath;
     private static final int REQUEST_CAMERA = 1;
@@ -65,6 +65,7 @@ public class DoorFragmentM extends Fragment {
     String cloudinaryImage;
     Map config;
     RelativeLayout relativeLayout;
+    MonthlyReportActivity activity;
     View fragment;
     TakePicture takePicture = new TakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
@@ -81,16 +82,9 @@ public class DoorFragmentM extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
+        monthlyReportViewModel = ViewModelProviders.of(requireActivity()).get(MonthlyReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
-
-
-
+        activity = (MonthlyReportActivity) getActivity();
 
     }
 
@@ -150,12 +144,10 @@ public class DoorFragmentM extends Fragment {
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getDoorTrackingStatus()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
+
                     Log.i("STATUSSS", status);
                     saveReport();
-                }
+
             }
         });
 
@@ -167,7 +159,7 @@ public class DoorFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -180,7 +172,7 @@ public class DoorFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -193,7 +185,7 @@ public class DoorFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -224,9 +216,9 @@ public class DoorFragmentM extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        door = new VehicleCollection("doors", result, status);
+//        door = new VehicleCollection("doors", result, status);
 
-//        createReportViewModel.isVehicleSave(door,goodd,fairr,badd,DoorFragmentM.this,firstImage,secondImage,thirdImage);
+//        monthlyReportViewModel.isVehicleSave(door,goodd,fairr,badd,DoorFragmentM.this,firstImage,secondImage,thirdImage);
 
 
     }
@@ -245,7 +237,7 @@ public class DoorFragmentM extends Fragment {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             takePicture.pictureCapture(imageBitmap,DoorFragmentM.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
         } else if (requestCode == RESULT_CANCELED) {
-            Alert.showFailed(getActivity(), "The request has been cancelled");
+            Alert.showFailed(getActivity(), "The request was cancelled");
 
         }
     }
@@ -255,20 +247,21 @@ public class DoorFragmentM extends Fragment {
         if (takePicture.areImagesNotComplete(getActivity())) {
             return;
         } else if (status.isEmpty()) {
-            Alert.showFailed(getActivity(),"please fill all fields");
+            Alert.showFailed(getActivity(), "please fill all fields");
             return;
+        } else {
+            activity.door = true;
+            activity.checkExteriorFragment();
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            door = new VehicleCollection("doors","Exterior", result, status);
+            monthlyReportViewModel.saveMonthlyReportToLocalStorage(door);
+//        monthlyReportViewModel.setDoorTrackingStatus(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
+
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        door = new VehicleCollection("doors", result, status);
-
-        createReportViewModel.saveReportToLocalStorage(door);
-        createReportViewModel.setDoorTrackingStatus(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
-
     }
 
 }

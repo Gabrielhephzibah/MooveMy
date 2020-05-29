@@ -31,6 +31,10 @@ public interface CreateReportNavigator {
    void underHoodSliderDash(int current_position);
    void electricSliderDash(int current_position);
    void interiorSliderDash(int current_position);
+   void onGetIntakeResult();
+   void onAcceptanceResultResponse(CreateReportResponse response);
+   void onAcceptanceResultError(Throwable throwable);
+
 
 
 

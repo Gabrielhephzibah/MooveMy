@@ -28,9 +28,12 @@ import androidx.lifecycle.ViewModelProviders;
 import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
+import com.enyata.android.mvvm_java.data.model.api.request.MonthlyReportRequest;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.createReport.electric.BrakeLightFragment;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 
 import java.io.File;
@@ -53,7 +56,7 @@ public class BrakeLightFragmentM extends Fragment {
     ImageView firstImage, secondImage, thirdImage, cancel1, cancel2, cancel3;
     File photoFile = null;
     Button saveHood,deleteData;
-    CreateReportViewModel createReportViewModel;
+    MonthlyReportViewModel monthlyReportViewModel;
     ImageDataArray imageDataArray;
     private String mCurrentPhotoPath;
     private static final int REQUEST_CAMERA = 1;
@@ -62,6 +65,7 @@ public class BrakeLightFragmentM extends Fragment {
     CharSequence radio;
     List<String> result;
     String cloudinaryImage;
+    MonthlyReportActivity activity;
     Map config;
     View fragment;
     VehicleCollection brakeLight;
@@ -79,12 +83,9 @@ public class BrakeLightFragmentM extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        monthlyReportViewModel = ViewModelProviders.of(requireActivity()).get(MonthlyReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
-        config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
+        activity = (MonthlyReportActivity) getActivity();
 
 
     }
@@ -124,11 +125,7 @@ public class BrakeLightFragmentM extends Fragment {
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getBrakeLightTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
                     saveReport();
-                }
             }
         });
 
@@ -142,7 +139,7 @@ public class BrakeLightFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removefirstImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
             }
@@ -155,7 +152,7 @@ public class BrakeLightFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeSecondImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
             }
@@ -168,7 +165,7 @@ public class BrakeLightFragmentM extends Fragment {
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
                     takePicture.removeThirdImage();
-                    Alert.showSuccess(getActivity(), "this image has been removed");
+                    Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
             }
@@ -178,9 +175,6 @@ public class BrakeLightFragmentM extends Fragment {
             @Override
             public void onClick(View view) {
                 if (takePicture.whenImageIsThree(getActivity())){
-                    firstImage.setImageResource(0);
-                    secondImage.setImageResource(0);
-                    thirdImage.setImageResource(0);
                 } else {
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -236,23 +230,23 @@ public class BrakeLightFragmentM extends Fragment {
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
+        }else {
+                activity.brakeLight = true;
+                activity.checkElectricFragment();
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+
+            brakeLight = new VehicleCollection("brake light","Electrical System", result, status);
+            monthlyReportViewModel.saveMonthlyReportToLocalStorage(brakeLight);
+//        monthlyReportViewModel.setBrakelightTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        brakeLight = new VehicleCollection("brake light", result, status);
-        createReportViewModel.saveReportToLocalStorage(brakeLight);
-        createReportViewModel.setBrakelightTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved please swipe to proceed");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        brakeLight = new VehicleCollection("brake light", result, status);
-//        createReportViewModel.isVehicleSave(brakeLight,goodd,fairr,badd, BrakeLightFragmentM.this,firstImage,secondImage,thirdImage);
     }
 }

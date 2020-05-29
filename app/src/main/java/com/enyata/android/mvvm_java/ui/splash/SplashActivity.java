@@ -28,7 +28,7 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
     ActivitySpashBinding activitySpashBinding;
 
    private SplashViewModel splashViewModel;
-    private static int SPLASH_TIME_OUT = 2000;
+    private static int SPLASH_TIME_OUT = 1000;
 
    @Inject
     ViewModelProviderFactory factory;
@@ -71,9 +71,9 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
         splash2.animate().translationY(-20).translationX(200).setDuration(1500);
         splash3.animate().translationY(-100).translationXBy(50).setDuration(1500);
 
-        if (getIntent().getBooleanExtra("EXIT", false)) {
-            finish();
-        } else {
+//        if (getIntent().getBooleanExtra("EXIT", false)) {
+//            finish();
+//        } else {
 
             new Handler().postDelayed(new Runnable() {
 
@@ -82,7 +82,7 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
                     splashViewModel.decideNextActivity();
                 }
             }, SPLASH_TIME_OUT);
-        }
+//        }
 
     }
 
@@ -101,20 +101,19 @@ public class SplashActivity extends BaseActivity<ActivitySpashBinding, SplashVie
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (getIntent().getBooleanExtra("EXIT", false)) {
-            finish();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (getIntent().getBooleanExtra("EXIT", false)) {
-            finish();
-        }
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (getIntent().getBooleanExtra("EXIT", false)) {
+//            finish();
+//        }
+//    }
+//
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        if (getIntent().getBooleanExtra("EXIT", false)) {
+//            finish();
+//        }
+//    }
 }

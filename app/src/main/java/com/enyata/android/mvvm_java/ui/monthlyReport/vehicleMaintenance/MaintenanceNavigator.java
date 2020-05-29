@@ -1,5 +1,6 @@
 package com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMaintenance;
 
+import com.enyata.android.mvvm_java.data.model.api.response.CreateReportResponse;
 import com.enyata.android.mvvm_java.data.model.api.response.MaintenanceScheduleResponse;
 
 public interface MaintenanceNavigator {
@@ -32,5 +33,12 @@ public interface MaintenanceNavigator {
     void  onTransmissionFilter();
     void onResponse(MaintenanceScheduleResponse response);
     void handleError(Throwable throwable);
+    void onSaveMaintenanceReport();
+    void maintenanceResponse(CreateReportResponse response);
+    void onStarting();
+    void handleMaintError(Throwable throwable);
+    void onCheckMaintenanceResponse(CreateReportResponse response);
+    void handleCheckMaintenanceError(Throwable throwable);
+    void  onStartingCheck();
 
 }

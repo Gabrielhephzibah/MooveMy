@@ -56,12 +56,16 @@ public class CreateReportRequest {
         @Expose
         private String reportType;
 
+        @SerializedName("acceptance_value")
+        @Expose
+        private String acceptanceValue;
+
         @SerializedName("vehicle_part")
         @Expose
         private List<VehicleCollection> vehiclePart = null;
 
 
-    public CreateReportRequest(String make, String model, String year, String color, String vIN, String mileage, String registrationNumber, String inspectorSignature, String supplierSignature,  String status, String comment, String reportType, List<VehicleCollection> vehiclePart) {
+    public CreateReportRequest(String make, String model, String year, String color, String vIN, String mileage, String registrationNumber, String inspectorSignature, String supplierSignature,  String status, String comment, String reportType,String acceptanceValue, List<VehicleCollection> vehiclePart) {
         this.make = make;
         this.model = model;
         this.year = year;
@@ -74,6 +78,7 @@ public class CreateReportRequest {
         this.status = status;
         this.comment = comment;
         this.reportType = reportType;
+        this.acceptanceValue = acceptanceValue;
         this.vehiclePart = vehiclePart;
     }
 
@@ -173,7 +178,15 @@ public class CreateReportRequest {
             this.reportType = reportType;
         }
 
-        public List<VehicleCollection> getVehiclePart() {
+        public String getAcceptanceValue() {
+            return acceptanceValue;
+        }
+
+        public void setAcceptanceValue(String acceptanceValue) {
+            this.acceptanceValue = acceptanceValue;
+        }
+
+    public List<VehicleCollection> getVehiclePart() {
             return vehiclePart;
         }
 
@@ -241,6 +254,9 @@ public class CreateReportRequest {
             if (reportType != null ? !reportType.equals(request.reportType) : request.reportType != null) {
                 return false;
             }
+            if (acceptanceValue != null ? !acceptanceValue.equals(request.acceptanceValue) : request.acceptanceValue != null) {
+                return false;
+            }
 
             return vehiclePart != null ? !vehiclePart.equals(request.vehiclePart) : request.vehiclePart != null;
 
@@ -265,6 +281,7 @@ public class CreateReportRequest {
             result = 31 * result + (status != null ? status.hashCode() : 0);
             result = 31 * result + (comment != null ? comment.hashCode() : 0);
             result = 31 * result + (reportType != null ? reportType.hashCode() : 0);
+            result = 31 * result + (acceptanceValue != null ? acceptanceValue.hashCode() : 0);
             result = 31 * result + (vehiclePart != null ? vehiclePart.hashCode() : 0);
 
             return result;
@@ -286,6 +303,7 @@ public class CreateReportRequest {
                 ", status='" + status + '\'' +
                 ", comment='" + comment + '\'' +
                 ", reportType='" + reportType + '\'' +
+                ", reportType='" + acceptanceValue + '\'' +
                 ", vehiclePart=" + vehiclePart +
                 '}';
     }

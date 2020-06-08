@@ -122,24 +122,33 @@ public class DoorPanelFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-
-        saveHood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (createReportViewModel.getDoorPanelTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
-                    Log.i("STATUSSS", status);
-                    saveReport();
-                }
-            }
-        });
-
-
         firstImage = view.findViewById(R.id.firstImage);
         secondImage = view.findViewById(R.id.secondImage);
         thirdImage = view.findViewById(R.id.thirdImage);
         cancel1 = view.findViewById(R.id.cancel1);
+        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+        goodd = view.findViewById(R.id.good);
+        badd = view.findViewById(R.id.poor);
+        fairr = view.findViewById(R.id.fair);
+
+
+        doorPanel = new VehicleCollection("door panels","Interior", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(doorPanel, goodd, fairr, badd, DoorPanelFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
+        saveHood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    Log.i("STATUSSS", status);
+                    saveReport();
+            }
+        });
+
+
+
         cancel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -193,10 +202,7 @@ public class DoorPanelFragment extends Fragment {
             }
         });
 
-        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-        goodd = view.findViewById(R.id.good);
-        badd = view.findViewById(R.id.poor);
-        fairr = view.findViewById(R.id.fair);
+
         hoodRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -235,29 +241,30 @@ public class DoorPanelFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
+        }else {
+
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+            doorPanel = new VehicleCollection("door panels", "Interior", result, status);
+            createReportViewModel.saveReportToLocalStorage(doorPanel);
+            createReportViewModel.setDoorPanelTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        doorPanel= new VehicleCollection("door panels", "Interior",result, status);
-        createReportViewModel.saveReportToLocalStorage(doorPanel);
-        createReportViewModel.setDoorPanelTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved! Proceed");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        doorPanel= new VehicleCollection("door panels", "Interior", result, status);
-        createReportViewModel.isVehicleSave(doorPanel,goodd,fairr,badd, DoorPanelFragment.this,firstImage,secondImage,thirdImage);
+//        doorPanel= new VehicleCollection("door panels", "Interior", result, status);
+//        createReportViewModel.isVehicleSave(doorPanel,goodd,fairr,badd, DoorPanelFragment.this,firstImage,secondImage,thirdImage);
 
     }
 }

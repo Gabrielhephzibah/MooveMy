@@ -132,6 +132,13 @@ public class RoofFragment extends Fragment {
         badd = view.findViewById(R.id.poor);
         fairr = view.findViewById(R.id.fair);
 
+        roof = new VehicleCollection("roof","Exterior", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(roof, goodd, fairr, badd, RoofFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
+
 
 //        if (createReportViewModel.getRoofTracking()){
 //            if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()){
@@ -169,12 +176,7 @@ public class RoofFragment extends Fragment {
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getRoofTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
-
                     saveReport();
-                }
             }
         });
 
@@ -276,7 +278,8 @@ public class RoofFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all Images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -299,9 +302,9 @@ public class RoofFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        roof = new VehicleCollection("roof","Exterior",result, status);
-        createReportViewModel.isVehicleSave(roof,goodd,fairr,badd,RoofFragment.this,firstImage,secondImage,thirdImage);
-//        if (createReportViewModel.getRoofTracking()){
+//        roof = new VehicleCollection("roof","Exterior",result, status);
+//        createReportViewModel.isVehicleSave(roof,goodd,fairr,badd,RoofFragment.this,firstImage,secondImage,thirdImage);
+////        if (createReportViewModel.getRoofTracking()){
 //            if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()){
 //                goodd.setChecked(false);
 //                fairr.setChecked(false);

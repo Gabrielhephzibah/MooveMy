@@ -122,23 +122,32 @@ public class PowerSteeringFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-
-        saveHood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (createReportViewModel.getPowerSteeringTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
-                    saveReport();
-                }
-            }
-        });
-
-
         firstImage = view.findViewById(R.id.firstImage);
         secondImage = view.findViewById(R.id.secondImage);
         thirdImage = view.findViewById(R.id.thirdImage);
         cancel1 = view.findViewById(R.id.cancel1);
+        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+        goodd = view.findViewById(R.id.good);
+        badd = view.findViewById(R.id.poor);
+        fairr = view.findViewById(R.id.fair);
+
+        powerSteering = new VehicleCollection("power steering","Electrical System", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(powerSteering, goodd, fairr, badd, PowerSteeringFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
+        saveHood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    saveReport();
+            }
+        });
+
+
+
         cancel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -195,10 +204,7 @@ public class PowerSteeringFragment extends Fragment {
             }
         });
 
-        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-        goodd = view.findViewById(R.id.good);
-        badd = view.findViewById(R.id.poor);
-        fairr = view.findViewById(R.id.fair);
+
         hoodRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -236,7 +242,8 @@ public class PowerSteeringFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(), imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all Images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -257,8 +264,8 @@ public class PowerSteeringFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        powerSteering = new VehicleCollection("power steering","Electrical System", result, status);
-        createReportViewModel.isVehicleSave(powerSteering,goodd,fairr,badd, PowerSteeringFragment.this,firstImage,secondImage,thirdImage);
+//        powerSteering = new VehicleCollection("power steering","Electrical System", result, status);
+//        createReportViewModel.isVehicleSave(powerSteering,goodd,fairr,badd, PowerSteeringFragment.this,firstImage,secondImage,thirdImage);
 
 
     }

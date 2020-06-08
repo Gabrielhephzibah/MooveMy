@@ -122,38 +122,33 @@ public class TransmissionShiftFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-//        deleteData = view.findViewById(R.id.deletedata);
-//        deleteData.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.i("DELETE", "Delete data");
-//                createReportViewModel.deleteAll();
-////                createReportViewModel.deleteData(createReportViewModel.getIntakeVehicleReport());
-//                Log.i("NEWARRAY", String.valueOf(createReportViewModel.getIntakeVehicleReport()));
-//                Log.i("MAKE",String.valueOf(createReportViewModel.getCarMake()));
-//                Log.i("MODEL",String.valueOf(createReportViewModel.getCarModel()));
-//                Log.i("Color",String.valueOf(createReportViewModel.getCarColor()));
-//                Log.i("Year", String.valueOf(createReportViewModel.getCarYear()));
-//            }
-//        });
-
-        saveHood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (createReportViewModel.getTransmissionShiftTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
-                    Log.i("STATUSSS", status);
-                    saveReport();
-                }
-            }
-        });
-
-
         firstImage = view.findViewById(R.id.firstImage);
         secondImage = view.findViewById(R.id.secondImage);
         thirdImage = view.findViewById(R.id.thirdImage);
         cancel1 = view.findViewById(R.id.cancel1);
+        goodd = view.findViewById(R.id.good);
+        badd = view.findViewById(R.id.poor);
+        fairr = view.findViewById(R.id.fair);
+
+
+        tranShift= new VehicleCollection("transmission shift","Road Test Findings", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(tranShift, goodd, fairr, badd, TransmissionShiftFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
+
+        saveHood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    Log.i("STATUSSS", status);
+                    saveReport();
+            }
+        });
+
+
+
         cancel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -197,9 +192,7 @@ public class TransmissionShiftFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (takePicture.whenImageIsThree(getActivity())){
-                    firstImage.setImageResource(0);
-                    secondImage.setImageResource(0);
-                    thirdImage.setImageResource(0);
+
                 } else {
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -212,10 +205,7 @@ public class TransmissionShiftFragment extends Fragment {
             }
         });
 
-        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-        goodd = view.findViewById(R.id.good);
-        badd = view.findViewById(R.id.poor);
-        fairr = view.findViewById(R.id.fair);
+
         hoodRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -253,7 +243,8 @@ public class TransmissionShiftFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -274,7 +265,7 @@ public class TransmissionShiftFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        tranShift = new VehicleCollection("transmission shift","Road Test Findings", result, status);
-        createReportViewModel.isVehicleSave(tranShift,goodd,fairr,badd, TransmissionShiftFragment.this,firstImage,secondImage,thirdImage);
+//        tranShift = new VehicleCollection("transmission shift","Road Test Findings", result, status);
+//        createReportViewModel.isVehicleSave(tranShift,goodd,fairr,badd, TransmissionShiftFragment.this,firstImage,secondImage,thirdImage);
     }
 }

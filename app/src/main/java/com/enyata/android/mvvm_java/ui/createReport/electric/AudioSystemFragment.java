@@ -40,6 +40,7 @@ import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.DoorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.FrontBumperFragment;
+import com.enyata.android.mvvm_java.ui.createReport.exterior.HoodFragment;
 import com.enyata.android.mvvm_java.ui.createReport.glass.MirrorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.interior.GloveBoxFragment;
 import com.enyata.android.mvvm_java.ui.signature.SignatureActivity;
@@ -134,14 +135,20 @@ public class AudioSystemFragment extends Fragment {
         fairr = view.findViewById(R.id.fair);
 
 
+       audioSystem = new VehicleCollection("audio system","Electrical System", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(audioSystem, goodd, fairr, badd, AudioSystemFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
+
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getAudioSystemTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
+
                     saveReport();
-                }
+
             }
         });
 
@@ -244,7 +251,7 @@ public class AudioSystemFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -265,8 +272,8 @@ public class AudioSystemFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        audioSystem = new VehicleCollection("audio system","Electrical System",result,status);
-        createReportViewModel.isVehicleSave(audioSystem,goodd,fairr,badd, AudioSystemFragment.this,firstImage,secondImage,thirdImage);
+//        audioSystem = new VehicleCollection("audio system","Electrical System",result,status);
+//        createReportViewModel.isVehicleSave(audioSystem,goodd,fairr,badd, AudioSystemFragment.this,firstImage,secondImage,thirdImage);
 
     }
 

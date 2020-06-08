@@ -4,7 +4,9 @@ import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -238,7 +240,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onEngineOil() {
         if (engineOilBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && engineOilCheck.getVisibility() == View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
       else if (engineOilCheck.getVisibility() == View.VISIBLE && engineOilBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white )) {
@@ -266,6 +268,8 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
+
                     }
                 }
             });
@@ -290,7 +294,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onOilFilter() {
         if (oilFilterBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && oilFilterCheck.getVisibility() == View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (oilFilterCheck.getVisibility() == View.VISIBLE && oilFilterBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) ){
@@ -323,6 +327,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -342,7 +347,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onAirFilter() {
         if (airFilterBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && airFilterCheck.getVisibility()==View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (airFilterCheck.getVisibility() == View.VISIBLE && airFilterBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white)) {
@@ -359,7 +364,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
             TextView message = bottomView.findViewById(R.id.message);
             image.setImageResource(R.drawable.ic_airfilter);
             name.setText("Air filter");
-            message.setText("Clean and Change air filter as per recommended\nservice interval");
+            message.setText("Clean and Change air filter as per recommended service interval");
             bottomSheet.setContentView(bottomView);
             bottomSheet.show();
             checkedTextView.setOnClickListener(new View.OnClickListener() {
@@ -373,6 +378,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -393,7 +399,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onPollenFilter() {
         if (pollenFilterBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && pollenFilterCheck.getVisibility()==View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (pollenFilterCheck.getVisibility() == View.VISIBLE && pollenFilterBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) ) {
@@ -424,6 +430,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saverReport.setEnabled(false);
                     }
                 }
             });
@@ -444,7 +451,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onBrakePad() {
         if (brakePadBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && brakePadCheck.getVisibility() == View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (brakePadCheck.getVisibility() == View.VISIBLE && brakePadBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) ){
@@ -476,6 +483,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -496,7 +504,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onSuspensionSystem() {
         if (suspensionSystemBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && suspensionSystemCheck.getVisibility()==View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
         else if (suspensionSystemCheck.getVisibility() == View.VISIBLE && suspensionSystemBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white)) {
@@ -513,7 +521,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
             TextView message = bottomView.findViewById(R.id.message);
             image.setImageResource(R.drawable.ic_suspension_system);
             name.setText("Suspension system");
-            message.setText("Check All Suspension Parts as per recommended\nservice interval ");
+            message.setText("Check All Suspension Parts as per recommended service interval ");
             bottomSheet.setContentView(bottomView);
             bottomSheet.show();
             checkedTextView.setOnClickListener(new View.OnClickListener() {
@@ -527,6 +535,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -546,7 +555,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onVariousBelt() {
         if (variousBeltBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && variousBeltCheck.getVisibility() == View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (variousBeltCheck.getVisibility() == View.VISIBLE && variousBeltBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white)) {
@@ -566,6 +575,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
             message.setText("Check All Belts and Hoses as per recommended\nservice interval");
             bottomSheet.setContentView(bottomView);
             bottomSheet.show();
+
             checkedTextView.setOnClickListener(new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
@@ -577,6 +587,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -598,7 +609,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onSparkPlug() {
         if (sparkPlugBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && sparkPlugCheck.getVisibility() == View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (sparkPlugCheck.getVisibility() == View.VISIBLE && sparkPlugBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white)) {
@@ -629,6 +640,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -650,7 +662,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onFuelFilter() {
         if (fuelFilterBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && fuelFilterCheck.getVisibility() == View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
         else if (fuelFilterCheck.getVisibility() == View.VISIBLE && fuelFilterBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white)) {
@@ -681,6 +693,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -700,7 +713,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onEngineCooling() {
         if (engineCoolingaBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && engineCoolingCheck.getVisibility() ==View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
       else if (engineCoolingCheck.getVisibility() == View.VISIBLE && engineCoolingaBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) ) {
@@ -731,6 +744,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -751,7 +765,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onWiperBlade() {
         if (wiperBladeBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && wiperBladeCheck.getVisibility()==View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (wiperBladeCheck.getVisibility() == View.VISIBLE && wiperBladeBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) ) {
@@ -782,6 +796,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -802,7 +817,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onChargingSystem() {
         if (chargingSytemBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white)&& chargingSytemCheck.getVisibility() ==View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
       else if (chargingSytemCheck.getVisibility() == View.VISIBLE && chargingSytemBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) ) {
@@ -833,6 +848,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -853,7 +869,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onPowerSteering() {
         if (powerSteeringBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && powerSteeringCheck.getVisibility() ==View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (powerSteeringCheck.getVisibility() == View.VISIBLE && powerSteeringBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) ) {
@@ -884,6 +900,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -904,7 +921,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onTransmissionOil() {
         if (transmissionOilBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && transmissionOilCheck.getVisibility() == View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (transmissionOilCheck.getVisibility() == View.VISIBLE && transmissionOilBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white)) {
@@ -935,6 +952,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -955,7 +973,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onBrakeFluid() {
         if (brakeFluidBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && brakeFluidCheck.getVisibility() ==View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
       else if (brakeFluidCheck.getVisibility() == View.VISIBLE && brakeFluidBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white)) {
@@ -986,6 +1004,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -1006,7 +1025,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onFuelSystem() {
         if (fuelSystemBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && fuelSystemCheck.getVisibility() == View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
         else if (fuelSystemCheck.getVisibility() == View.VISIBLE && fuelSystemBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white)){
@@ -1038,6 +1057,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -1060,7 +1080,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onTireRotation() {
         if (tireRotationBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && tireRotationCheck.getVisibility() ==View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (tireRotationCheck.getVisibility() == View.VISIBLE && tireRotationBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white)) {
@@ -1091,6 +1111,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -1112,7 +1133,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onAlignment() {
         if (alignmentBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && alignmentCheck.getVisibility() == View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (alignmentCheck.getVisibility() == View.VISIBLE && alignmentBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) ) {
@@ -1143,6 +1164,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -1163,7 +1185,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onAirFlow() {
         if (airFlowBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && airFlowCheck.getVisibility() == View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (airFlowCheck.getVisibility() == View.VISIBLE && airFlowBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white)) {
@@ -1194,6 +1216,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -1214,7 +1237,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onAirCondition() {
         if (airConditionBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && airConditionCheck.getVisibility() == View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (airConditionCheck.getVisibility() == View.VISIBLE && airConditionBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white)) {
@@ -1245,6 +1268,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -1265,7 +1289,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onElectronic() {
         if (electronicBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && electronicCheck.getVisibility()==View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (electronicCheck.getVisibility() == View.VISIBLE && electronicBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white)) {
@@ -1296,6 +1320,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -1317,7 +1342,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onExhaustPipe() {
         if (exhaustPipeBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && exhaustPipeCheck.getVisibility() ==View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (exhaustPipeCheck.getVisibility() == View.VISIBLE && exhaustPipeBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white)) {
@@ -1348,6 +1373,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -1368,7 +1394,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onTireInflation() {
         if (tireInflationBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && tireInflationCheck.getVisibility() == View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (tireInflationCheck.getVisibility() == View.VISIBLE && tireInflationBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white)) {
@@ -1399,6 +1425,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -1419,7 +1446,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onWheel() {
         if (wheelRimBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && wheelRimCheck.getVisibility() == View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
       else if (wheelRimCheck.getVisibility() == View.VISIBLE && wheelRimBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) ) {
@@ -1450,6 +1477,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -1470,7 +1498,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
     @Override
     public void onTransmissionFilter() {
         if (transmissionFilterBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) && transmissionFilterCheck.getVisibility() ==View.GONE){
-            Alert.showSuccess(getApplicationContext(),"Maintenance not needed");
+            Alert.showSuccess(getApplicationContext(),"Does not require maintenance");
             return;
         }
        else if (transmissionFilterCheck.getVisibility() == View.VISIBLE && transmissionFilterBox.getCardBackgroundColor().getDefaultColor() == getResources().getColor(R.color.white) ) {
@@ -1501,6 +1529,7 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                         checkedTextView.setCheckMarkTintList(ColorStateList.valueOf(Color.parseColor("#BEBEBE")));
                         checkedTextView.setTextColor(Color.parseColor("#373737"));
                         linearLayout.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E4E4E4")));
+                        saveReport.setEnabled(false);
                     }
                 }
             });
@@ -2235,7 +2264,18 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
                 ANError error = (ANError) throwable;
                 CreateReportResponse response = gson.fromJson(error.getErrorBody(), CreateReportResponse.class);
                 if (error.getErrorBody() != null) {
-                    Alert.showFailed(getApplicationContext(), response.getMessage());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setCancelable(false);
+                    builder.setMessage(response.getMessage());
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+//                    Alert.showFailed(getApplicationContext(), response.getMessage());
                 } else {
                     Alert.showFailed(getApplicationContext(), "Unable to Connect to the Internet");
                 }
@@ -2266,7 +2306,6 @@ public class MaintenanceActivity extends BaseActivity<ActivityMaintenanceBinding
 
     @Override
     public void maintenanceResponse(CreateReportResponse response) {
-        hideLoading();
         Alert.showSuccess(getApplicationContext(), response.getMessage());
         Intent intent = new Intent(getApplicationContext(), ResponseActivity.class);
         startActivity(intent);

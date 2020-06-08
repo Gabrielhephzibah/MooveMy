@@ -17,6 +17,7 @@ import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 public interface ApiHelper {
+
     ApiHeader getApiHeader();
     Single<LoginResponse>loginInspector(LoginRequest.Request request);
 
@@ -43,6 +44,8 @@ public interface ApiHelper {
     Single<CreateReportResponse>checkMaintenanceReport(String vehicleId);
 
     Single<CreateReportResponse>checkRepairsReport(String vehicleId);
+
+    Flowable<InspectorListResponse>getAllVehicleInDataBase(int limit, int offset);
 
 
 

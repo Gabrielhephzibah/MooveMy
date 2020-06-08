@@ -43,6 +43,7 @@ import com.enyata.android.mvvm_java.ui.createReport.exterior.DoorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.FrontBumperFragment;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.HoodFragment;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.PaintFragment;
+import com.enyata.android.mvvm_java.ui.createReport.exterior.TrunkFragment;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.squareup.picasso.Picasso;
 
@@ -135,17 +136,20 @@ public class MirrorFragment extends Fragment {
         goodd = view.findViewById(R.id.good);
         badd = view.findViewById(R.id.poor);
         fairr = view.findViewById(R.id.fair);
-        Log.i("Mirror tracking",String.valueOf(createReportViewModel.getMirrorTracking()));
+
+        mirror = new VehicleCollection("mirrors","Glass", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(mirror, goodd, fairr, badd, MirrorFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
 
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getMirrorTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
+
                     Log.i("STATUSSS", status);
                     saveReport();
-                }
 
             }
         });
@@ -246,7 +250,8 @@ public class MirrorFragment extends Fragment {
     }
 
     public void saveReport() {
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -255,7 +260,6 @@ public class MirrorFragment extends Fragment {
             imageArray = takePicture.getPictureArray();
             Collection<String> value = imageArray.values();
             result = new ArrayList<>(value);
-
             mirror = new VehicleCollection("mirrors", "Glass", result, status);
             createReportViewModel.saveReportToLocalStorage(mirror);
             createReportViewModel.setMirrorTracking(true);
@@ -268,8 +272,8 @@ public class MirrorFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.i("RESUME MIRROR TRACKING",String.valueOf(createReportViewModel.getMirrorTracking()));
-        mirror = new VehicleCollection("mirrors","Glass", result, status);
-        createReportViewModel.isVehicleSave(mirror,goodd,fairr,badd, MirrorFragment.this,firstImage,secondImage,thirdImage);
+//        mirror = new VehicleCollection("mirrors","Glass", result, status);
+//        createReportViewModel.isVehicleSave(mirror,goodd,fairr,badd, MirrorFragment.this,firstImage,secondImage,thirdImage);
 
 
     }

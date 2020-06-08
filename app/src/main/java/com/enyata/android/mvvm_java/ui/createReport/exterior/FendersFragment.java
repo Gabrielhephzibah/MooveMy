@@ -136,15 +136,19 @@ public class FendersFragment extends Fragment {
         badd = view.findViewById(R.id.poor);
         fairr = view.findViewById(R.id.fair);
 
+
+        fenders = new VehicleCollection("fenders","Exterior", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(fenders, goodd, fairr, badd, FendersFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getFenderTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
+
                     Log.i("STATUSSS", status);
                     saveReport();
-                }
             }
         });
 
@@ -244,7 +248,8 @@ public class FendersFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -266,9 +271,9 @@ public class FendersFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        fenders = new VehicleCollection("fenders","Exterior", result, status);
-
-        createReportViewModel.isVehicleSave(fenders,goodd,fairr,badd,FendersFragment.this,firstImage,secondImage,thirdImage);
+//        fenders = new VehicleCollection("fenders","Exterior", result, status);
+//
+//        createReportViewModel.isVehicleSave(fenders,goodd,fairr,badd,FendersFragment.this,firstImage,secondImage,thirdImage);
 
     }
 

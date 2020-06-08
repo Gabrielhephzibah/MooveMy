@@ -1573,6 +1573,59 @@ public class AppDataManager implements  DataManager {
         return mPreferencesHelper.getInitialMileage();
     }
 
+    @Override
+    public void setMooveIdRepairs(String mooveIdRepairs) {
+        mPreferencesHelper.setMooveIdRepairs(mooveIdRepairs);
+    }
+
+    @Override
+    public String getMooveIdRepair() {
+        return mPreferencesHelper.getMooveIdRepair();
+    }
+
+    @Override
+    public void setCarMakeRepairs(String carMakeRepairs) {
+        mPreferencesHelper.setCarMakeRepairs(carMakeRepairs);
+
+    }
+
+    @Override
+    public String getCarMakeRepair() {
+        return mPreferencesHelper.getCarMakeRepair();
+    }
+
+    @Override
+    public void setCarModelRepairs(String carModelRepairs) {
+        mPreferencesHelper.setCarModelRepairs(carModelRepairs);
+
+    }
+
+    @Override
+    public String getCarModelRepair() {
+        return mPreferencesHelper.getCarModelRepair();
+    }
+
+    @Override
+    public void setCarYearRepairs(String carYearRepairs) {
+        mPreferencesHelper.setCarYearRepairs(carYearRepairs);
+
+    }
+
+    @Override
+    public String getCarYearRepair() {
+        return mPreferencesHelper.getCarYearRepair();
+    }
+
+    @Override
+    public void setVehicleIdRepairs(String vehicleIdRepairs) {
+        mPreferencesHelper.setVehicleIdRepairs(vehicleIdRepairs);
+    }
+
+    @Override
+    public String getVehicleIdRepair() {
+        return mPreferencesHelper.getVehicleIdRepair();
+    }
+
 //    @Override
 //    public void deleteArray(List<VehicleCollection> delete) {
 //         mPreferencesHelper.deleteArray(delete);
@@ -1647,6 +1700,11 @@ public class AppDataManager implements  DataManager {
     @Override
     public Single<CreateReportResponse> checkRepairsReport(String vehicleId) {
         return mApiHelper.checkRepairsReport(vehicleId);
+    }
+
+    @Override
+    public Flowable<InspectorListResponse> getAllVehicleInDataBase(int limit, int offset) {
+        return mApiHelper.getAllVehicleInDataBase(limit,offset);
     }
 
 

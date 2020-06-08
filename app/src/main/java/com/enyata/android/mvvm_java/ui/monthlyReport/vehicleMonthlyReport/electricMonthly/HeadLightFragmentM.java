@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
+import com.enyata.android.mvvm_java.ui.cameraPicture.MonthlyTakePicture;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
 import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
 import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportViewModel;
@@ -66,7 +67,7 @@ public class HeadLightFragmentM extends Fragment {
     Map config;
     View fragment;
     VehicleCollection headLight;
-    TakePicture takePicture = new TakePicture();
+    MonthlyTakePicture takePicture = new MonthlyTakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
 
     public HeadLightFragmentM(){
@@ -221,7 +222,6 @@ public class HeadLightFragmentM extends Fragment {
     }
 
     public void saveReport() {
-
         if (takePicture.areImagesNotComplete(getActivity())) {
             return;
         } else if (status.isEmpty()) {

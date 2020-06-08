@@ -205,12 +205,12 @@ public class MonthlyReportActivity extends BaseActivity<ActivityMonthlyReport2Bi
         Log.i("MONTHLYLISTARRAY", String.valueOf(monthlyReportViewModel.getMonthlyVehicleReport()));
 
         finalAssessSpinner.setOnItemSelectedListener(this);
-        Log.i("ID", monthlyReportViewModel.getMooveId());
-        Log.i("Make", monthlyReportViewModel.getCarMakeMaint());
-        Log.i("MODEL", monthlyReportViewModel.getCarModelMaint());
-        Log.i("YEAR", monthlyReportViewModel.getCarYearMaint());
-        Log.i("VEHICLE ID", monthlyReportViewModel.getVehicleIdMaint());
-        Log.i("MILeage", monthlyReportViewModel.getInitialmileage());
+        Log.i("ID_Monthly", monthlyReportViewModel.getMooveId());
+        Log.i("Make_MONTHLY", monthlyReportViewModel.getCarMakeMaint());
+        Log.i("MODEL_MONthly", monthlyReportViewModel.getCarModelMaint());
+        Log.i("YEAR_Monthly", monthlyReportViewModel.getCarYearMaint());
+        Log.i("VEHICLE ID_Monthly", monthlyReportViewModel.getVehicleIdMaint());
+        Log.i("MILeage_Monthly", monthlyReportViewModel.getInitialmileage());
         if (InternetConnection.getInstance(this).isOnline()){
             monthlyReportViewModel.checkMonthlyReport(monthlyReportViewModel.getVehicleIdMaint());
         }else {
@@ -415,8 +415,6 @@ public class MonthlyReportActivity extends BaseActivity<ActivityMonthlyReport2Bi
 
 
     }
-
-
 
     @Override
     public void back() {
@@ -877,19 +875,21 @@ public class MonthlyReportActivity extends BaseActivity<ActivityMonthlyReport2Bi
 
     @Override
     public void onGetMonthlyResult() {
-        if (monthlyReportViewModel.getMonthlyVehicleReport()!=null){
+        if ( exteriorCheck.getVisibility()!=View.VISIBLE || glasscheck.getVisibility()!=View.VISIBLE || tireCheck.getVisibility()!=View.VISIBLE || underBodyCheck.getVisibility()!=View.VISIBLE || underHoodCheck.getVisibility()!=View.VISIBLE || interiorCheck.getVisibility()!=View.VISIBLE || electricCheck.getVisibility()!=View.VISIBLE  || roadTestCheck.getVisibility()!=View.VISIBLE){
+            Alert.showFailed(getApplicationContext(),"Make sure all vehicle components are saved");
+            return;
+        }else {
             if (InternetConnection.getInstance(this).isOnline()){
                 GetAcceptanceResultRequest resultRequest = new GetAcceptanceResultRequest(monthlyReportViewModel.getMonthlyVehicleReport());
-                monthlyReportViewModel.getAcceptanceResult(resultRequest);
+               monthlyReportViewModel.getAcceptanceResult(resultRequest);
             }else {
-                Alert.showFailed(getApplicationContext(),"Unable to connect to the internet");
+                Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
             }
-        }else {
-            Alert.showFailed(getApplicationContext(),"Monthly report cannot be empty");
+        }
         }
 
 
-    }
+
 
     @Override
     public void onAcceptanceMonthlyResult(CreateReportResponse response) {
@@ -1023,7 +1023,7 @@ public class MonthlyReportActivity extends BaseActivity<ActivityMonthlyReport2Bi
     }
 
     public void checkElectricFragment(){
-        if (audioSystem && brakeLight && computer && headlight && parkingLight && powerLock && powerMirror && powerSeat && powerSteering && powerWindow && signalLight && tailLight){
+        if (audioSystem  && computer && headlight && powerLock && powerMirror && powerSeat && powerSteering && powerWindow && signalLight && tailLight){
             Log.i("TRUE", "SHOW CHECK");
             electricCheck.setVisibility(View.VISIBLE);
         }else {

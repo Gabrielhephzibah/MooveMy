@@ -152,11 +152,11 @@ public class RepairsViewModel extends BaseViewModel<RepairsNavigator> {
         getDataManager().deleteAll();
     }
 
-    public void sendRepair(VehicleRepairReport request) {
+    public void sendRepair(VehicleRepairReport request, String vehicleId) {
         mAPIService = ApiUtils.getAPIService();
         getNavigator().onStarting();
         disposable.add(
-                mAPIService.repairReport(getDataManager().getAccessToken(),getDataManager().getVehicleId(),request)
+                mAPIService.repairReport(getDataManager().getAccessToken(),vehicleId,request)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(reportRequest -> {
@@ -189,6 +189,26 @@ public class RepairsViewModel extends BaseViewModel<RepairsNavigator> {
                 }, throwable -> {
                     getNavigator().onCheckRepairError(throwable);
                 }));
+    }
+
+    public String  getMooveIdRepairs(){
+        return getDataManager().getMooveIdRepair();
+    }
+
+    public String getCarYearRepairs(){
+        return  getDataManager().getCarYearRepair();
+    }
+
+    public String getCarModelRepairs(){
+        return  getDataManager().getCarModelRepair();
+    }
+
+    public  String getCarMakeRepairs(){
+        return getDataManager().getCarMakeRepair();
+    }
+
+    public String getVehicleIdRepairs(){
+        return getDataManager().getVehicleIdRepair();
     }
 
 

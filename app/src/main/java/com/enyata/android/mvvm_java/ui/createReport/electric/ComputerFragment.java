@@ -97,9 +97,6 @@ public class ComputerFragment extends Fragment {
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
 
-
-
-
     }
 
 
@@ -133,15 +130,20 @@ public class ComputerFragment extends Fragment {
         secondImage = view.findViewById(R.id.secondImage);
         thirdImage = view.findViewById(R.id.thirdImage);
 
+        computer = new VehicleCollection("computer","Electrical System", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(computer, goodd, fairr, badd, ComputerFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
 
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getComputerTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
+
                     saveReport();
-                }
+
             }
         });
 
@@ -241,7 +243,8 @@ public class ComputerFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -262,7 +265,7 @@ public class ComputerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        computer = new VehicleCollection("computer","Electrical System", result, status);
-        createReportViewModel.isVehicleSave(computer,goodd,fairr,badd, ComputerFragment.this,firstImage,secondImage,thirdImage);
+//        computer = new VehicleCollection("computer","Electrical System", result, status);
+//        createReportViewModel.isVehicleSave(computer,goodd,fairr,badd, ComputerFragment.this,firstImage,secondImage,thirdImage);
     }
 }

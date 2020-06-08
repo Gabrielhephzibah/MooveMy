@@ -15,10 +15,28 @@ public class VehicleListViewModel extends BaseViewModel<VehicleListNavigator> {
 
     public void onVehicleList(){getNavigator().onVehicleList();}
 
-    public void getMonthlyVehicleList(){
+//    public void getMonthlyVehicleList(){
+//        setIsLoading(true);
+//        getCompositeDisposable().add(getDataManager()
+//                .getMonthlyVehicleList()
+//                .subscribeOn(getSchedulerProvider().io())
+//                .observeOn(getSchedulerProvider().ui())
+//                .subscribe(response -> {
+//                    setIsLoading(false);
+//                    getNavigator().onResponse(response);
+//                }, throwable -> {
+//                    setIsLoading(false);
+//                    getNavigator().handleError(throwable);
+//
+//                }));
+//
+//    }
+
+
+    public void getAllVehicleInDataBase(int limit, int offset){
         setIsLoading(true);
         getCompositeDisposable().add(getDataManager()
-                .getMonthlyVehicleList()
+                .getAllVehicleInDataBase(limit,offset)
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(response -> {
@@ -31,6 +49,7 @@ public class VehicleListViewModel extends BaseViewModel<VehicleListNavigator> {
                 }));
 
     }
+
 
     public void onDispose(){
         onCleared();

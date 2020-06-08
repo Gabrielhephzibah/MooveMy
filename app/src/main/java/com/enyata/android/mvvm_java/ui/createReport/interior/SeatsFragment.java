@@ -122,25 +122,33 @@ public class SeatsFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+        firstImage = view.findViewById(R.id.firstImage);
+        secondImage = view.findViewById(R.id.secondImage);
+        thirdImage = view.findViewById(R.id.thirdImage);
+        cancel1 = view.findViewById(R.id.cancel1);
+        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+        goodd = view.findViewById(R.id.good);
+        badd = view.findViewById(R.id.poor);
+        fairr = view.findViewById(R.id.fair);
+
+        seat = new VehicleCollection("seats","Interior", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(seat, goodd, fairr, badd, SeatsFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
 
 
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getSeatTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
+
                     Log.i("STATUSSS", status);
                     saveReport();
-                }
             }
         });
 
 
-        firstImage = view.findViewById(R.id.firstImage);
-        secondImage = view.findViewById(R.id.secondImage);
-        thirdImage = view.findViewById(R.id.thirdImage);
-        cancel1 = view.findViewById(R.id.cancel1);
+
         cancel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,10 +204,6 @@ public class SeatsFragment extends Fragment {
             }
         });
 
-        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-        goodd = view.findViewById(R.id.good);
-        badd = view.findViewById(R.id.poor);
-        fairr = view.findViewById(R.id.fair);
         hoodRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -237,7 +241,8 @@ public class SeatsFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -247,8 +252,7 @@ public class SeatsFragment extends Fragment {
         imageArray = takePicture.getPictureArray();
         Collection<String> value = imageArray.values();
         result = new ArrayList<>(value);
-
-         seat = new VehicleCollection("seats", "Interior", result, status);
+        seat = new VehicleCollection("seats", "Interior", result, status);
         createReportViewModel.saveReportToLocalStorage(seat);
         createReportViewModel.setSeatTracking(true);
         Alert.showSuccess(getActivity(),"Item saved! Proceed");
@@ -258,8 +262,8 @@ public class SeatsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        seat = new VehicleCollection("seats", "Interior", result, status);
-        createReportViewModel.isVehicleSave(seat,goodd,fairr,badd, SeatsFragment.this,firstImage,secondImage,thirdImage);
+//        seat = new VehicleCollection("seats", "Interior", result, status);
+//        createReportViewModel.isVehicleSave(seat,goodd,fairr,badd, SeatsFragment.this,firstImage,secondImage,thirdImage);
 
     }
 }

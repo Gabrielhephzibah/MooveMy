@@ -142,15 +142,18 @@ public class FrontBumperFragment extends Fragment {
         badd = view.findViewById(R.id.poor);
         fairr = view.findViewById(R.id.fair);
 
+        frontBumper = new VehicleCollection("front bumper","Exterior", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(frontBumper, goodd, fairr, badd, FrontBumperFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getFrontBumperTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
+
                     Log.i("STATUSSS", status);
                     saveReport();
-                }
             }
         });
 
@@ -237,8 +240,8 @@ public class FrontBumperFragment extends Fragment {
     @Override
     public void onResume() {
 
-        frontBumper = new VehicleCollection("front bumper","Exterior", result, status);
-        createReportViewModel.isVehicleSave(frontBumper,goodd,fairr,badd,FrontBumperFragment.this,firstImage,secondImage,thirdImage);
+//        frontBumper = new VehicleCollection("front bumper","Exterior", result, status);
+//        createReportViewModel.isVehicleSave(frontBumper,goodd,fairr,badd,FrontBumperFragment.this,firstImage,secondImage,thirdImage);
 //        if (createReportViewModel.getFrontBumperTracking()){
 //            if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()){
 //                goodd.setChecked(false);
@@ -293,7 +296,8 @@ public class FrontBumperFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -302,7 +306,6 @@ public class FrontBumperFragment extends Fragment {
             imageArray = takePicture.getPictureArray();
             Collection<String> value = imageArray.values();
             result = new ArrayList<>(value);
-
             frontBumper = new VehicleCollection("front bumper", "Exterior", result, status);
             createReportViewModel.saveReportToLocalStorage(frontBumper);
             createReportViewModel.setFrontBumperTracking(true);

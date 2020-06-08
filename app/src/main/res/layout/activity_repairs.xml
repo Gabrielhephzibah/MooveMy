@@ -4597,16 +4597,8 @@
                     android:background="@drawable/changing_button_bg"
                     android:text="SAVE"
                     android:textColor="@drawable/button_changing_text" />
-
-
-
-
-
             </LinearLayout>
         </LinearLayout>
-
-
-
 
                 <LinearLayout
                 android:layout_marginTop="4dp"
@@ -4655,7 +4647,6 @@
 
                 </RelativeLayout>
             </LinearLayout>
-
 
         <LinearLayout
             android:visibility="gone"

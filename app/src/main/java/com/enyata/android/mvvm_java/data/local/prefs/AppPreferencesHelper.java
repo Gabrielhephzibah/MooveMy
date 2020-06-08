@@ -217,6 +217,18 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     private static  final  String PREF_KEY_INITIAL_MILEAGE = "PREF_KEY_INITIAL_MILEAGE";
 
+    private  static  final  String PREF_KEY_CAR_YEAR_REPAIRS = "PREF_KEY_CAR_YEAR_REPAIRS";
+
+    private  static  final  String PREF_KEY_CAR_MAKE_REPAIRS = "PREF_KEY_CAR_MAKE_REPAIRS";
+
+    private  static  final  String PREF_KEY_CAR_MODEL_REPAIRS = "PREF_KEY_CAR_MODEL_REPAIRS";
+
+    private  static  final  String PREF_KEY_MOOVE_ID_REPAIRS = "PREF_KEY_MOOVE_ID_REPAIRS";
+
+    private  static  final  String PREF_KEY_VEHICLE_ID_REPAIRS = "PREF_KEY_VEHICLE_ID_REPAIRS";
+
+
+
 
 
     private final SharedPreferences mPrefs;
@@ -1785,6 +1797,60 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public String getInitialMileage() {
         return mPrefs.getString(PREF_KEY_INITIAL_MILEAGE, null);
+    }
+
+    @Override
+    public void setMooveIdRepairs(String mooveIdRepairs) {
+        mPrefs.edit().putString(PREF_KEY_MOOVE_ID_REPAIRS,mooveIdRepairs).apply();
+    }
+
+    @Override
+    public String getMooveIdRepair() {
+        return mPrefs.getString(PREF_KEY_MOOVE_ID_REPAIRS,null);
+    }
+
+    @Override
+    public void setCarMakeRepairs(String carMakeRepairs) {
+        mPrefs.edit().putString(PREF_KEY_CAR_MAKE_REPAIRS,carMakeRepairs).apply();
+
+    }
+
+    @Override
+    public String getCarMakeRepair() {
+        return mPrefs.getString(PREF_KEY_CAR_MAKE_REPAIRS,null);
+    }
+
+    @Override
+    public void setCarModelRepairs(String carModelRepairs) {
+        mPrefs.edit().putString(PREF_KEY_CAR_MODEL_REPAIRS,carModelRepairs).apply();
+
+    }
+
+    @Override
+    public String getCarModelRepair() {
+        return mPrefs.getString(PREF_KEY_CAR_MODEL_REPAIRS,null);
+    }
+
+    @Override
+    public void setCarYearRepairs(String carYearRepairs) {
+        mPrefs.edit().putString(PREF_KEY_CAR_YEAR_REPAIRS, carYearRepairs).apply();
+
+    }
+
+    @Override
+    public String getCarYearRepair() {
+        return mPrefs.getString(PREF_KEY_CAR_YEAR_REPAIRS,null);
+    }
+
+    @Override
+    public void setVehicleIdRepairs(String vehicleIdRepairs) {
+        mPrefs.edit().putString(PREF_KEY_VEHICLE_ID_REPAIRS,vehicleIdRepairs).apply();
+
+    }
+
+    @Override
+    public String getVehicleIdRepair() {
+        return mPrefs.getString(PREF_KEY_VEHICLE_ID_REPAIRS,null);
     }
 
 

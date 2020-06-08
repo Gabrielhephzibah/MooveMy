@@ -29,6 +29,7 @@ import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.data.model.api.request.MonthlyReportRequest;
+import com.enyata.android.mvvm_java.ui.cameraPicture.MonthlyTakePicture;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.createReport.electric.BrakeLightFragment;
@@ -69,7 +70,7 @@ public class BrakeLightFragmentM extends Fragment {
     Map config;
     View fragment;
     VehicleCollection brakeLight;
-    TakePicture takePicture = new TakePicture();
+    MonthlyTakePicture takePicture = new MonthlyTakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
 
     public BrakeLightFragmentM(){

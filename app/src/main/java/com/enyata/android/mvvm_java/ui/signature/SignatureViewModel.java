@@ -278,9 +278,6 @@ public class SignatureViewModel extends BaseViewModel<SignatureNavigator> {
     }
 
 
-
-
-
     public void  deleteExhaustTracking(boolean exhaustTracking){
         getDataManager().deleteExhaustTracking(exhaustTracking);
     }
@@ -288,8 +285,6 @@ public class SignatureViewModel extends BaseViewModel<SignatureNavigator> {
     public boolean getExhaustTracking(){
         return getDataManager().getExhaustTracking();
     }
-
-
 
 
 
@@ -391,8 +386,6 @@ public class SignatureViewModel extends BaseViewModel<SignatureNavigator> {
 
     public void deleteOilTracking(boolean oilTracking){
         getDataManager().deleteOilTracking(oilTracking);
-
-
     }
 
     public  boolean getOilTracking(){
@@ -424,8 +417,6 @@ public class SignatureViewModel extends BaseViewModel<SignatureNavigator> {
     }
 
 
-
-
     public  void deleteBrakingTracking(boolean brakingTracking){
         getDataManager().deleteBrakingTraking(brakingTracking);
     }
@@ -445,8 +436,6 @@ public class SignatureViewModel extends BaseViewModel<SignatureNavigator> {
     public  boolean getEnginePerfTracking(){
         return getDataManager().getEnginePerfTracking();
     }
-
-
 
 
 
@@ -618,7 +607,6 @@ public class SignatureViewModel extends BaseViewModel<SignatureNavigator> {
 
 
 
-
     public void deletePowerWindowTracking(boolean powerWindowTracking){
         getDataManager().deletePowerWindowTracking(powerWindowTracking);
     }
@@ -695,8 +683,6 @@ public class SignatureViewModel extends BaseViewModel<SignatureNavigator> {
 
 
 
-
-
     public  void  deleteDefrosterTracking(boolean defrosterTracking){
         getDataManager().deleteDefrosterTracking(defrosterTracking);
     }
@@ -718,8 +704,6 @@ public class SignatureViewModel extends BaseViewModel<SignatureNavigator> {
 
 
 
-
-
     public void  deleteGloveBoxTracking(boolean gloveBoxTracking){
         getDataManager().deleteGloveBoxTracking(gloveBoxTracking);
     }
@@ -727,7 +711,6 @@ public class SignatureViewModel extends BaseViewModel<SignatureNavigator> {
     public boolean getGloveBoxTracking(){
         return  getDataManager().getGloveBoxTracking();
     }
-
 
 
 

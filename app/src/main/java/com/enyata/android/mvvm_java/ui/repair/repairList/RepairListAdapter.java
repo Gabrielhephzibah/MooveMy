@@ -46,8 +46,8 @@ public class RepairListAdapter extends RecyclerView.Adapter<RepairListAdapter.Re
                     if (repairItemList != null && repairItemList.size() > 0) {
                         for (final RepairItemList g : repairItemList) {
                             if (g.getMake().toLowerCase()
-                                    .contains(constraint.toString()) || g.getYear().toLowerCase().contains(constraint.toString()) || g.getModel().toLowerCase().contains(constraint.toString()) || g.getMooveId()
-                                    .toLowerCase().contains(constraint.toString()))
+                                    .contains(constraint.toString().toLowerCase()) || g.getYear().toLowerCase().contains(constraint.toString().toLowerCase()) || g.getModel().toLowerCase().contains(constraint.toString().toLowerCase()) || g.getMooveId()
+                                    .toLowerCase().contains(constraint.toString().toLowerCase()))
                                 results.add(g);
                         }
                     }

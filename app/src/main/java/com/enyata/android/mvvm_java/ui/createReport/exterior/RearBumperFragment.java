@@ -132,18 +132,21 @@ public class RearBumperFragment extends Fragment {
         secondImage = view.findViewById(R.id.secondImage);
         thirdImage = view.findViewById(R.id.thirdImage);
 
+        rearBumper = new VehicleCollection("rear bumper","Exterior", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(rearBumper, goodd, fairr, badd, RearBumperFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
+
 
 
 
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getRearBumperTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
                     Log.i("STATUSSS", status);
                     saveReport();
-                }
             }
         });
 
@@ -241,8 +244,8 @@ public class RearBumperFragment extends Fragment {
     }
 
     public void saveReport() {
-
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all Images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -251,7 +254,6 @@ public class RearBumperFragment extends Fragment {
             imageArray = takePicture.getPictureArray();
             Collection<String> value = imageArray.values();
             result = new ArrayList<>(value);
-
             rearBumper = new VehicleCollection("rear bumper", "Exterior", result, status);
             createReportViewModel.saveReportToLocalStorage(rearBumper);
             createReportViewModel.setRearBumperTracking(true);
@@ -264,8 +266,8 @@ public class RearBumperFragment extends Fragment {
     @Override
     public void onResume() {
 
-        rearBumper = new VehicleCollection("rear bumper","Exterior", result, status);
-        createReportViewModel.isVehicleSave(rearBumper,goodd,fairr,badd,RearBumperFragment.this,firstImage,secondImage,thirdImage);
+//        rearBumper = new VehicleCollection("rear bumper","Exterior", result, status);
+//        createReportViewModel.isVehicleSave(rearBumper,goodd,fairr,badd,RearBumperFragment.this,firstImage,secondImage,thirdImage);
 
 
 //        if (createReportViewModel.getRearBumperTracking()){

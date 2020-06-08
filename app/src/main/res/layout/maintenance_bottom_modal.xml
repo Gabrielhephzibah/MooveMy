@@ -90,8 +90,6 @@
                         android:textColor="#373737"
                         android:textSize="14sp"
                         android:fontFamily="@font/montserrat"/>
-
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -105,11 +103,12 @@
                         android:id="@+id/saveReport"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/button_radius_background"
+                        android:background="@drawable/maintenance_change_bg"
                         android:text="PROCEED"
+                        android:textStyle="bold"
                         android:fontFamily="@font/montserrat"
                         android:textSize="14sp"
-                        android:textColor="#FFFFFF" />
+                        android:textColor="@drawable/maintenanace_modal_change_text" />
 
                 </LinearLayout>
 

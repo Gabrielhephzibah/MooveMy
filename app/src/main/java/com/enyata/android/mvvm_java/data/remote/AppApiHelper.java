@@ -157,5 +157,13 @@ public class AppApiHelper implements  ApiHelper  {
                 .getObjectSingle(CreateReportResponse.class);
     }
 
+    @Override
+    public Flowable<InspectorListResponse> getAllVehicleInDataBase(int limit, int offset) {
+        return Rx2AndroidNetworking.get(ApiEndPoint.GET_ALL_VEHICLE_IN_DATABASE + limit + "&" + "offset" + "=" + offset )
+                .addHeaders(mApiHeader.getProtectedApiHeader())
+                .build()
+                .getObjectFlowable(InspectorListResponse.class);
+    }
+
 
 }

@@ -57,8 +57,8 @@ public class TakePicture extends Fragment {
     public boolean isImageArraysave = false;
 
 
-
     public TakePicture() {
+
         imageDataArray = new ImageDataArray(imageArray);
     }
 
@@ -127,15 +127,11 @@ public class TakePicture extends Fragment {
                 .dispatch();
 
 
-
     }
 
 
-
     public void showImage(Fragment fragment, ImageView imageView1, ImageView imageView2, ImageView imageView3, Activity activity) {
-
         if (imageDataArray.isArrayEmpty()) {
-
             Log.i("ISEMPTY", "ISWMPTRRRR");
             imageDataArray.addUrl("image0", imageURL);
             GlideApp.with(fragment)
@@ -144,7 +140,7 @@ public class TakePicture extends Fragment {
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            Alert.showFailed(activity,"Error while loading image");
+                            Alert.showFailed(activity, "Error while loading image");
                             return false;
                         }
 
@@ -164,7 +160,7 @@ public class TakePicture extends Fragment {
                         .listener(new RequestListener<Drawable>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                Alert.showFailed(activity,"Error while loading image");
+                                Alert.showFailed(activity, "Error while loading image");
                                 return false;
                             }
 
@@ -174,7 +170,6 @@ public class TakePicture extends Fragment {
                             }
                         })
                         .into(imageView1);
-
 
 
             } else {
@@ -187,7 +182,7 @@ public class TakePicture extends Fragment {
                                 .listener(new RequestListener<Drawable>() {
                                     @Override
                                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                        Alert.showFailed(activity,"Error while loading image");
+                                        Alert.showFailed(activity, "Error while loading image");
                                         return false;
                                     }
 
@@ -199,7 +194,6 @@ public class TakePicture extends Fragment {
                                 .into(imageView3);
 
 
-
                     }
                 } else {
                     imageDataArray.addUrl("image1", imageURL);
@@ -209,7 +203,7 @@ public class TakePicture extends Fragment {
                             .listener(new RequestListener<Drawable>() {
                                 @Override
                                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    Alert.showFailed(activity,"Error while loading image");
+                                    Alert.showFailed(activity, "Error while loading image");
                                     return false;
                                 }
 
@@ -221,29 +215,24 @@ public class TakePicture extends Fragment {
                             .into(imageView2);
 
 
-
                 }
             }
 
         }
 
+        Log.i("FIRSTARRAY", String.valueOf(imageDataArray.getImageArray()));
 
-
-
-
-
-        Log.i("IMAGE ARRAY", String.valueOf(imageArray));
     }
 
-    public void removefirstImage(){
+    public void removefirstImage() {
         imageDataArray.removeUrl("image0");
     }
 
-    public void removeSecondImage(){
+    public void removeSecondImage() {
         imageDataArray.removeUrl("image1");
     }
 
-    public void removeThirdImage(){
+    public void removeThirdImage() {
         imageDataArray.removeUrl("image2");
     }
 
@@ -261,21 +250,53 @@ public class TakePicture extends Fragment {
     }
 
 
-    public boolean areImagesNotComplete(Activity activity){
-        if (!imageDataArray.containKey("image1") || !imageDataArray.containKey("image2") || !imageDataArray.containKey("image0")){
-            Alert.showFailed(activity,"Upload all images");
+    public boolean areAllImagesNotUploaded(Activity activity, ImageDataArray dataArray) {
+        //Check if local storage is empty,this method will take to params (type of object)
+        //if local storage is empty show this methods that checks for hashmap key
+        //if local storage is not empty get
+        if (!dataArray.isArrayEmpty() && !imageDataArray.isArrayEmpty()) {
+            if (!imageDataArray.containKey("image0")) {
+                imageDataArray.addUrl("image0", dataArray.getUrl("image0"));
+            } else if (!imageDataArray.containKey("image1")) {
+                imageDataArray.addUrl("image1", dataArray.getUrl("image1"));
+            } else if (!imageDataArray.containKey("image2")) {
+                imageDataArray.addUrl("image2", dataArray.getUrl("image2"));
+            }
+            HashMap<String, String> newImages = new HashMap<>();
+            newImages.put("image0", imageDataArray.getUrl("image0"));
+            newImages.put("image1", imageDataArray.getUrl("image1"));
+            newImages.put("image2", imageDataArray.getUrl("image2"));
+            imageDataArray.updateImageArray(newImages);
+
+
+        } else if (!dataArray.isArrayEmpty()) {
+            imageDataArray.addUrl("image0", dataArray.getUrl("image0"));
+            imageDataArray.addUrl("image1", dataArray.getUrl("image1"));
+            imageDataArray.addUrl("image2", dataArray.getUrl("image2"));
+            Log.i("IMAGE ARRAY OLD ", String.valueOf(imageDataArray.getImageArray()));
+
+            HashMap<String, String> newImages = new HashMap<>();
+            newImages.put("image0", imageDataArray.getUrl("image0"));
+            newImages.put("image1", imageDataArray.getUrl("image1"));
+            newImages.put("image2", imageDataArray.getUrl("image2"));
+            imageDataArray.updateImageArray(newImages);
+
+        } else if (!imageDataArray.containKey("image1") || !imageDataArray.containKey("image2") || !imageDataArray.containKey("image0")) {
             return true;
 
-        }else {
-            return false;
         }
+
+        Log.i("NEWIMAGEARRAY", String.valueOf(imageDataArray.getImageArray()));
+
+        return false;
+
+
     }
 
 
-
-    public HashMap<String,String>getPictureArray(){
-        return imageArray;
-}
+    public HashMap<String, String> getPictureArray() {
+        return imageDataArray.getImageArray();
+    }
 
 
 }

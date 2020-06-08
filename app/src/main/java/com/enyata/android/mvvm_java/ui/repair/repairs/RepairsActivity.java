@@ -48,6 +48,7 @@ import com.enyata.android.mvvm_java.ui.loading.LoadingActivity;
 import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleList.VehicleListActivity;
 import com.enyata.android.mvvm_java.ui.repair.repairList.RepairItemList;
 import com.enyata.android.mvvm_java.ui.repair.repairList.RepairListActivity;
+import com.enyata.android.mvvm_java.ui.repair.repairList.ScrollListener;
 import com.enyata.android.mvvm_java.ui.response.ResponseActivity;
 import com.enyata.android.mvvm_java.ui.response.failedResponse.FailedActivity;
 import com.enyata.android.mvvm_java.ui.signature.SignatureActivity;
@@ -95,6 +96,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
     CompositeDisposable disposable = new CompositeDisposable();
     TextView hoodStatus,fontBumperStatus,fenderStatus,doorStatus,roofStatus,rearStatus,rearBumperStatus,trunkStatus,trimStatus,fuelDoorStatus,paintStatus,windShieldStatus,windowStatus,mirrorStatus,rearWindowStatus,tyresStatus,wheelStatus,spareTyreStatus,frameStatus,exhaustStatus,transmissionStatus,driveAxleStatus,suspensionStatus,brakeSystemStatus,engineCompartmentStatus,batteryStatus,oilStatus,fluidStatus,wiringStatus,beltStatus,hosesStatus,seatStatus,headlinerStatus,carpetStatus,doorPanelStatus,gloveBoxStatus,vanityMirrorStatus,interiorTrimStatus,dashboardStatus,dashGuagesStatus,airConditionerStatus,heaterStatus,defrosterStatus,powerLockStatus,powerSeatStatus,powerSteeringStatus,powerWindowStatus,powerMirrorStatus,audioSystemStatus,computerStatus,headlightStatus,tailLightStatus,signalLightStatus,brakeLightStatus,parkingLightStatus,startingStatus,idlingStatus,enginePerformanceStatus,accelerationStatus,transmissionShiftStatus,steeringStatus,brakingStatus,suspensionPerformanceStatus;
     private ApiService mAPIService;
+
     TextView carMooveId, yearMakeModel;
     RetrofitClient retrofitClient = new RetrofitClient();
     String hoodEditComment, fontBumperEditComment, fenderEditComment, doorEditComment, roofEditComment, rearEditComment, rearBumperEditComment, trunkEditComment, trimEditComment, fuelDoorEditComment, paintEditComment, windShieldEditComment, windowEditComment, mirrorsEditComment, rearWindowEditComment, tiresEditComment, wheelEditComment, spareTireEditComment, frameEditComment, exhaustEditComment, transmissionEditComment, driveAxleEditComment, suspensionEditComment, brakeSystemEditComment, engineCompEditComment, batteryEditComment, oilEditComment, fluidEditComment, wiringEditComment, beltEditComment, hosesEditComment, seatsEditComment, headlinerEditComment, carpetEditComment, doorPanelEditComment, gloveBoxEditComment, vanityMirrorEditComment, interiorTrimEdittComment, dashBoardEditComment, dashGuagesEditComment, airCondEditComment, heaterEditComment, defrosterEditComment, powerLockEditComment, powerSeatEditComment, powerSteeringEditComment, powerWindowEditComment, powerMirrorEditComment, audioSystemEditComment, computerEditComment, headLightEditComment, tailLightEditComment, signalLightEditComment, brakeLightEditComment, parkingLightEditComment, startingEditComment, idlingEditComment, enginePerfEditComment, accelerationEditComment, transShiftEditComment, steeringEditComment, brakingEditComment, suspensionPerfEditComment;
@@ -205,24 +207,31 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
         brakingComment = activityRepairsBinding.brakingComment;
         suspensionPrefComment = activityRepairsBinding.suspensionPrefComment;
 
-        repairItemList = (RepairItemList) getIntent().getSerializableExtra("data");
+        Log.i("IDREPAIRS", repairsViewModel.getMooveIdRepairs());
+        Log.i("MakeREPAIRS",repairsViewModel.getCarMakeRepairs());
+        Log.i("MODELREPAIS", repairsViewModel.getCarModelRepairs());
+        Log.i("YEARREPAIS", repairsViewModel.getCarYearRepairs());
+        Log.i("VEHICLE IDREPAIRS", repairsViewModel.getVehicleIdRepairs());
 
-        Log.i("ID", repairItemList.getMooveId());
-        Log.i("Make", repairItemList.getMake());
-        Log.i("MODEL", repairItemList.getModel());
-        Log.i("YEAR", repairItemList.getYear());
-        Log.i("VehincleId", repairItemList.getVehicleId());
-        Log.i("IDD", repairItemList.getId());
-        repairsViewModel.setVehicleId(repairItemList.getVehicleId());
-        repairsViewModel.getInspectorDetails(repairItemList.getId());
+//        repairItemList = (RepairItemList) getIntent().getSerializableExtra("data");
+//
+//        Log.i("ID", repairItemList.getMooveId());
+//        Log.i("Make", repairItemList.getMake());
+//        Log.i("MODEL", repairItemList.getModel());
+//        Log.i("YEAR", repairItemList.getYear());
+////        Log.i("VehincleId", repairItemList.getVehicleId());
+//        Log.i("IDD", repairItemList.getId());
+//        repairsViewModel.setVehicleId(repairItemList.getId());
+//
         if (InternetConnection.getInstance(this).isOnline()){
-            repairsViewModel.checkRepairsReport(repairItemList.getVehicleId());
+            repairsViewModel.checkRepairsReport(repairsViewModel.getVehicleIdRepairs());
+            repairsViewModel.getInspectorDetails(repairsViewModel.getVehicleIdRepairs());
         }else {
             Alert.showFailed(getApplicationContext(),"Unable to connect to the internet");
         }
 
-        carMooveId.setText(repairItemList.getMooveId());
-        yearMakeModel.setText(String.format("%s %s %s", repairItemList.getYear(), repairItemList.getMake(), repairItemList.getModel()));
+        carMooveId.setText(repairsViewModel.getMooveIdRepairs());
+        yearMakeModel.setText(String.format("%s %s %s", repairsViewModel.getCarYearRepairs(), repairsViewModel.getCarMakeRepairs(), repairsViewModel.getCarModelRepairs()));
 
 
     }
@@ -544,7 +553,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
                 if (supervisorSignatureUrl != null && mechanicSignatureUrl != null) {
                     VehicleRepairReport request = new VehicleRepairReport(supervisorSignatureUrl, mechanicSignatureUrl, repairsViewModel.getRepairReport());
                     if (InternetConnection.getInstance(getApplicationContext()).isOnline())
-                        repairsViewModel.sendRepair(request);
+                        repairsViewModel.sendRepair(request,repairsViewModel.getVehicleIdRepairs());
                     else {
                         Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
                     }
@@ -556,7 +565,7 @@ public class RepairsActivity extends BaseActivity<ActivityRepairsBinding, Repair
         });
 
     }else {
-            Alert.showFailed(getApplicationContext(),"Make sure all components that requires repair are saved");
+            Alert.showFailed(getApplicationContext(),"Repairs report cannot be empty");
         }
     }
 

@@ -43,6 +43,7 @@ import com.enyata.android.mvvm_java.ui.createReport.exterior.FrontBumperFragment
 import com.enyata.android.mvvm_java.ui.createReport.glass.MirrorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.glass.RearWindowFragment;
 import com.enyata.android.mvvm_java.ui.createReport.glass.WindShieldFragment;
+import com.enyata.android.mvvm_java.ui.createReport.roadtest.TransmissionShiftFragment;
 import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.squareup.picasso.Picasso;
@@ -127,38 +128,34 @@ public class SpareTireFragment extends Fragment implements TireInterface {
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-//        deleteData = view.findViewById(R.id.deletedata);
-//        deleteData.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.i("DELETE", "Delete data");
-//                createReportViewModel.deleteAll();
-////                createReportViewModel.deleteData(createReportViewModel.getIntakeVehicleReport());
-//                Log.i("NEWARRAY", String.valueOf(createReportViewModel.getIntakeVehicleReport()));
-//                Log.i("MAKE",String.valueOf(createReportViewModel.getCarMake()));
-//                Log.i("MODEL",String.valueOf(createReportViewModel.getCarModel()));
-//                Log.i("Color",String.valueOf(createReportViewModel.getCarColor()));
-//                Log.i("Year", String.valueOf(createReportViewModel.getCarYear()));
-//            }
-//        });
-
-        saveHood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (createReportViewModel.getSpareTireTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
-                    Log.i("STATUSSS", status);
-                    saveReport();
-                }
-            }
-        });
-
-
         firstImage = view.findViewById(R.id.firstImage);
         secondImage = view.findViewById(R.id.secondImage);
         thirdImage = view.findViewById(R.id.thirdImage);
         cancel1 = view.findViewById(R.id.cancel1);
+        goodd = view.findViewById(R.id.good);
+        badd = view.findViewById(R.id.poor);
+        fairr = view.findViewById(R.id.fair);
+
+
+        spareTire= new VehicleCollection("spare tyre","Tyres and Wheels", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(spareTire, goodd, fairr, badd, SpareTireFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
+
+
+        saveHood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    Log.i("STATUSSS", status);
+                    saveReport();
+            }
+        });
+
+
+
         cancel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -214,10 +211,7 @@ public class SpareTireFragment extends Fragment implements TireInterface {
             }
         });
 
-        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-        goodd = view.findViewById(R.id.good);
-        badd = view.findViewById(R.id.poor);
-        fairr = view.findViewById(R.id.fair);
+
         hoodRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -256,7 +250,8 @@ public class SpareTireFragment extends Fragment implements TireInterface {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -277,8 +272,8 @@ public class SpareTireFragment extends Fragment implements TireInterface {
     @Override
     public void onResume() {
         super.onResume();
-        spareTire = new VehicleCollection("spare tyre","Tyres and Wheels", result, status);
-        createReportViewModel.isVehicleSave(spareTire,goodd,fairr,badd, SpareTireFragment.this,firstImage,secondImage,thirdImage);
+//        spareTire = new VehicleCollection("spare tyre","Tyres and Wheels", result, status);
+//        createReportViewModel.isVehicleSave(spareTire,goodd,fairr,badd, SpareTireFragment.this,firstImage,secondImage,thirdImage);
 
 
     }

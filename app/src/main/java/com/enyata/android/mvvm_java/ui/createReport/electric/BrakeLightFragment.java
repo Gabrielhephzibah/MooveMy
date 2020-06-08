@@ -134,15 +134,19 @@ public class BrakeLightFragment extends Fragment {
         secondImage = view.findViewById(R.id.secondImage);
         thirdImage = view.findViewById(R.id.thirdImage);
 
+        brakeLight = new VehicleCollection("brake light","Electrical System", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(brakeLight, goodd, fairr, badd, BrakeLightFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
 
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getBrakeLightTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
+
                     saveReport();
-                }
             }
         });
 
@@ -243,7 +247,8 @@ public class BrakeLightFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all Images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -263,7 +268,7 @@ public class BrakeLightFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        brakeLight = new VehicleCollection("brake light","Electrical System",result, status);
-        createReportViewModel.isVehicleSave(brakeLight,goodd,fairr,badd, BrakeLightFragment.this,firstImage,secondImage,thirdImage);
+//        brakeLight = new VehicleCollection("brake light","Electrical System",result, status);
+//        createReportViewModel.isVehicleSave(brakeLight,goodd,fairr,badd, BrakeLightFragment.this,firstImage,secondImage,thirdImage);
     }
 }

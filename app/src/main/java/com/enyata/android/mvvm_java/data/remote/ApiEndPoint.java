@@ -31,6 +31,8 @@ public class ApiEndPoint {
 
     public static final  String GET_ACCEPTANCE_RESULT= BuildConfig.BASE_URL + "/vehiclereports/acceptance/value";
 
+    public static final  String GET_ALL_VEHICLE_IN_DATABASE= BuildConfig.BASE_URL + "/vehicle?limit=";
+
     private ApiEndPoint() {
         // This class is not publicly instantiable
     }

@@ -40,6 +40,7 @@ import com.enyata.android.mvvm_java.ui.createReport.CreateReportActivity;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.DoorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.FrontBumperFragment;
+import com.enyata.android.mvvm_java.ui.createReport.exterior.PaintFragment;
 import com.enyata.android.mvvm_java.ui.createReport.interior.GloveBoxFragment;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.squareup.picasso.Picasso;
@@ -132,16 +133,21 @@ public class ParkingLightFragment extends Fragment {
         badd = view.findViewById(R.id.poor);
         fairr = view.findViewById(R.id.fair);
 
+        parkingLight = new VehicleCollection("parking light","Electrical System", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(parkingLight, goodd, fairr, badd, ParkingLightFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
+
 
 
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getParkingLightTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
+
                     saveReport();
-                }
             }
         });
 
@@ -242,18 +248,16 @@ public class ParkingLightFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all Images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
         }else {
-//            createReportActivity.parkingLight = true;
-//            createReportActivity.checkElectricFragment();
             imageArray = takePicture.getPictureArray();
             Collection<String> value = imageArray.values();
             result = new ArrayList<>(value);
-
             parkingLight = new VehicleCollection("parking light", "Electrical System", result, status);
             createReportViewModel.saveReportToLocalStorage(parkingLight);
             createReportViewModel.setParkingLightTracking(true);
@@ -265,7 +269,7 @@ public class ParkingLightFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        parkingLight = new VehicleCollection("parking light","Electrical System", result, status);
-        createReportViewModel.isVehicleSave(parkingLight,goodd,fairr,badd, ParkingLightFragment.this,firstImage,secondImage,thirdImage);
+//        parkingLight = new VehicleCollection("parking light","Electrical System", result, status);
+//        createReportViewModel.isVehicleSave(parkingLight,goodd,fairr,badd, ParkingLightFragment.this,firstImage,secondImage,thirdImage);
     }
 }

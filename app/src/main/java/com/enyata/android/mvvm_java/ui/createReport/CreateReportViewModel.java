@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.enyata.android.mvvm_java.data.DataManager;
+import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.data.model.api.request.CheckIntakeRequest;
 import com.enyata.android.mvvm_java.data.model.api.request.CreateReportRequest;
@@ -316,9 +317,14 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
 
     Bitmap bitmap;
 
-    public boolean isVehicleSave(VehicleCollection vehicle, RadioButton good, RadioButton fair, RadioButton bad,Fragment fragment,ImageView firstImage, ImageView secondImage, ImageView thirdImage) {
+    public ImageDataArray isVehicleSave(VehicleCollection vehicle, RadioButton good, RadioButton fair, RadioButton bad, Fragment fragment, ImageView firstImage, ImageView secondImage, ImageView thirdImage, ImageDataArray imageDataArray) {
         if (checkIfIntakeVehicleReportIsEmpty()) {
         } else {
+            String status;
+            String  firstUrl;
+            String secondUrl;
+            String thirdUrl;
+
             List<VehicleCollection> part = getIntakeVehicleReport();
             for (int k = 0; k < part.size(); k++) {
                 if (part.get(k).getPart().equals(vehicle.getPart())) {
@@ -328,25 +334,37 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
 
                     if (part.get(k).getRemark().equals("good")){
                        good.setChecked(true);
+                       status = "good";
                     }else if (part.get(k).getRemark().equals("fair")){
                         fair.setChecked(true);
+                        status = "fair";
                     }else {
                         bad.setChecked(true);
+                        status = "poor";
                     }
                     List<String>images = part.get(k).getImageUrl();
                     GlideApp.with(fragment).load(images.get(0)).into(firstImage);
                     GlideApp.with(fragment).load(images.get(1)).into(secondImage);
                     GlideApp.with(fragment).load(images.get(2)).into(thirdImage);
 
+                    imageDataArray.addUrl("image0",images.get(0));
+                    imageDataArray.addUrl("image1", images.get(1));
+                    imageDataArray.addUrl("image2",images.get(2));
+                    imageDataArray.addStatus("status", status);
+
                     Log.i("Part", String.valueOf(part.get(k).getImageUrl()));
                     Log.i("Image", String.valueOf(part.get(k).getRemark()));
                     Log.i("REmark", vehicle.getRemark());
-                    return true;
+                    return imageDataArray;
                 }
             }
-            return false;
+            return imageDataArray;
         }
-        return false;
+        return imageDataArray;
+
+
+
+
     }
 
 
@@ -893,6 +911,142 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
     public  boolean getImageArraySaved(){
         return  getDataManager().getImageArraySaved();
     }
+
+    public void onClear(){
+        getNavigator().onClear();
+    }
+
+    public void deleteHoodTracking(boolean hoodTrackingStatus){ getDataManager().deleteHoodTracking(hoodTrackingStatus); }
+
+    public void deleteDoorTrackingStatus(boolean doorTrackingStatus){ getDataManager().deleteDoorTracking(doorTrackingStatus); }
+
+    public void deleteFenderTracking(boolean fenderTracking){getDataManager().deleteFenderTracking(fenderTracking);}
+
+    public void deleteFrontBumperTracking(boolean fontBumperTracking){getDataManager().deleteFrontBumperTracking(fontBumperTracking);}
+
+    public void deleteFuelDoorTracking(boolean fuelDoorTracking){getDataManager().deleteFuelDoorTracking(fuelDoorTracking);}
+
+    public void deletePaintTracking(boolean paintTracking){ getDataManager().deletePaintTracking(paintTracking); }
+
+    public void deleteRearBumperTracking(boolean rearBumperTracking){ getDataManager().deleteRearBumperTracking(rearBumperTracking); }
+
+    public void deleteRearTracking(boolean rearTracking){ getDataManager().deleteRearTracking(rearTracking); }
+
+    public void  deleteRoofTracking(boolean roofTracking){ getDataManager().deleteRoofTracking(roofTracking); }
+
+    public  void  deleteTrimTracking(boolean trimTracking){ getDataManager().deleteTrimTracking(trimTracking); }
+
+    public void deleteTrunkTracking(boolean trunkTracking) { getDataManager().deleteTrunkTracking(trunkTracking); }
+
+    public void deleteMirrorTracking(boolean mirrorTracking){ getDataManager().deleteMirrorTracking(mirrorTracking); }
+
+    public void deleteRearWindowTracking(boolean rearWindowTracking){ getDataManager().deleteRearWindowTracking(rearWindowTracking); }
+
+    public void  deleteWindowTracking(boolean windowTracking){ getDataManager().deleteWindowTracking(windowTracking); }
+
+    public void  deleteWinshieldTracking(boolean winshieldTracking){ getDataManager().deleteWindShieldTracking(winshieldTracking); }
+
+    public void deleteSpareTireTracking(boolean spareTireTracking){ getDataManager().deleteSpareTireTracking(spareTireTracking); }
+
+    public void deleteTiresTracking(boolean tiresTracking){ getDataManager().deleteTireTracking(tiresTracking); }
+
+    public void deleteWheelTracking(boolean wheelTracking){ getDataManager().deleteWheelTracking(wheelTracking); }
+
+    public void deleteBrakeSystemTracking(boolean brakeSystemTracking){ getDataManager().deleteBrakeSystemTracking(brakeSystemTracking); }
+
+    public  void  deleteDriveAxleTracking(boolean driveAxleTracking){ getDataManager().deleteDriveAxleTracking(driveAxleTracking); }
+
+    public void  deleteExhaustTracking(boolean exhaustTracking){ getDataManager().deleteExhaustTracking(exhaustTracking); }
+
+    public void deleteFrameTracking(boolean frameTracking){ getDataManager().deleteFrameTracking(frameTracking); }
+
+    public void  deleteSuspensionTracking(boolean suspensionTracking){ getDataManager().deleteSuspensionTracking(suspensionTracking); }
+
+    public void deleteTransmissionTracking(boolean transmissionTracking){ getDataManager().deleteTransmissionTracking(transmissionTracking); }
+
+    public void deleteBatteryTracking(boolean batteryTracking){ getDataManager().deleteBatteryTracking(batteryTracking); }
+
+    public void deleteBeltTracking(boolean beltTracking){ getDataManager().deleteBeltTracking(beltTracking); }
+
+    public void  deleteEngineCompTracking(boolean engineComp){ getDataManager().deleteEngineCompTracking(engineComp); }
+
+    public  void  deleteFluidTracking(boolean fluidTracking){ getDataManager().deleteFluidTracking(fluidTracking); }
+
+    public  void deleteHosesTracking(boolean hosesTracking){ getDataManager().deleteHosesTracking(hosesTracking); }
+
+    public void deleteOilTracking(boolean oilTracking){ getDataManager().deleteOilTracking(oilTracking); }
+
+    public void deleteWiringTracking(boolean wiringTracking){ getDataManager().deleteWiringTracking(wiringTracking); }
+
+    public void deleteAccelerationTracking(boolean accelerationTracking){ getDataManager().deleteAccelerationTracking(accelerationTracking); }
+
+    public  void deleteBrakingTracking(boolean brakingTracking){ getDataManager().deleteBrakingTraking(brakingTracking); }
+
+    public void  deleteEnginePerfTracking(boolean enginePerfTracking){ getDataManager().deleteEnginePerfTracking(enginePerfTracking); }
+
+    public  void  deleteIdlingTracking(boolean idlingTracking){ getDataManager().deleteIdlingTracking(idlingTracking); }
+
+    public  void  deleteStartingTracking(boolean startingTracking){ getDataManager().deleteStartingTracking(startingTracking); }
+
+    public  void  deleteSteeringTracking(boolean steeringTracking){ getDataManager().deleteSteeringTracking(steeringTracking); }
+
+    public  void  deleteSuspensionPerfTracking(boolean suspensionPerfTracking){ getDataManager().deleteSuspensionPerfTracking(suspensionPerfTracking); }
+
+    public  void  deleteTransmissionShiftTracking(boolean transmissionShiftTracking){ getDataManager().deleteTransmissionShiftTracking(transmissionShiftTracking); }
+
+    public void  deleteAudioSystemTracking(boolean audioSystemTracking){ getDataManager().deleteAudioSystemTracking(audioSystemTracking); }
+
+    public void  deleteBrakelightTracking(boolean brakelightTracking){ getDataManager().deleteBrakeLightTracking(brakelightTracking); }
+
+    public void deleteComputerTracking(boolean computerTracking){ getDataManager().deleteComputerTracking(computerTracking); }
+
+    public  void deleteHeadLightTracking(boolean headLightTracking){ getDataManager().deleteHeadlightTracking(headLightTracking); }
+
+    public  void  deleteParkingLightTracking(boolean parkingLightTracking){ getDataManager().deleteParkingLightTracking(parkingLightTracking); }
+
+    public  void  deletePowerLockTracking(boolean powerLockTracking){ getDataManager().deletePowerLockTracking(powerLockTracking); }
+
+    public void  deletePowerMirrorTracking(boolean powerMirrorTracking){ getDataManager().deletePowerMirrorTracking(powerMirrorTracking); }
+
+    public  void  deletePowerSeatTracking(boolean powerSeatTracking){ getDataManager().deletePowerSeatTracking(powerSeatTracking); }
+
+    public void  deletePowerSteeringTracking(boolean powerSteeringTracking){ getDataManager().deletePowerSteeringTracking(powerSteeringTracking); }
+
+    public void deletePowerWindowTracking(boolean powerWindowTracking){ getDataManager().deletePowerWindowTracking(powerWindowTracking); }
+
+    public void  deleteSignalLightTracking(boolean signalLightTracking){ getDataManager().deleteSignalLightTracking(signalLightTracking); }
+
+    public void  deleteTailLighTracking(boolean tailLighTracking){ getDataManager().deleteTailLightTracking(tailLighTracking); }
+
+    public void deleteAircondTracking(boolean aircondTracking){ getDataManager().deleteAirCondTracking(aircondTracking); }
+
+    public  void deleteCarpetTracking(boolean carpetTracking){ getDataManager().deleteCarpetTracking(carpetTracking); }
+
+    public void  deleteDashBoardTracking(boolean dashBoardTracking){ getDataManager().deleteDashBoardTracking(dashBoardTracking); }
+
+    public void  deleteDashGuageTracking(boolean dashGuageTracking){ getDataManager().deleteDashGuagesTracking(dashGuageTracking); }
+
+    public  void  deleteDefrosterTracking(boolean defrosterTracking){ getDataManager().deleteDefrosterTracking(defrosterTracking); }
+
+    public void deleteDoorPanelTracking(boolean doorPanelTracking){ getDataManager().deleteDoorPanelTracking(doorPanelTracking); }
+
+    public void  deleteGloveBoxTracking(boolean gloveBoxTracking){ getDataManager().deleteGloveBoxTracking(gloveBoxTracking); }
+
+    public void deleteHeadLinerTracking(boolean headLinerTracking){ getDataManager().deleteHeadLinerTracking(headLinerTracking); }
+
+    public void  deleteHeaterTracking(boolean heaterTracking){ getDataManager().deleteHeaterTracking(heaterTracking); }
+
+    public void deleteInteriorTrimTracking(boolean interiorTrimTracking){ getDataManager().deleteInteriorTrimTracking(interiorTrimTracking); }
+
+    public void deleteSeatTracking(boolean seatTracking){ getDataManager().deleteSeatTracking(seatTracking); }
+
+    public void  deleteVanityMirrorTracking(boolean vanityMirrorTracking){ getDataManager().deleteVanityMirror(vanityMirrorTracking); }
+
+    public void deleteIntakeVehicleReportArray(List<VehicleCollection>vehicleCollections){ getDataManager().deleteIntakeReport(vehicleCollections); }
+
+
+
+
 
 
 

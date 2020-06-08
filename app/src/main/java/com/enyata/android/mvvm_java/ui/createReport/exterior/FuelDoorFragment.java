@@ -131,15 +131,21 @@ public class FuelDoorFragment extends Fragment {
         badd = view.findViewById(R.id.poor);
         fairr = view.findViewById(R.id.fair);
 
+        fuelDoor = new VehicleCollection("fuel door","Exterior", result, status);
+        imageDataArray =  createReportViewModel.isVehicleSave(fuelDoor,goodd,fairr,badd,FuelDoorFragment.this,firstImage,secondImage,thirdImage,imageDataArray);
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
+
+
+
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getFuelDoorTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
+
                     Log.i("STATUSSS", status);
                     saveReport();
-                }
             }
         });
 
@@ -227,8 +233,8 @@ public class FuelDoorFragment extends Fragment {
     @Override
     public void onResume() {
 
-        fuelDoor = new VehicleCollection("fuel door","Exterior", result, status);
-        createReportViewModel.isVehicleSave(fuelDoor,goodd,fairr,badd,FuelDoorFragment.this,firstImage,secondImage,thirdImage);
+//        fuelDoor = new VehicleCollection("fuel door","Exterior", result, status);
+//        createReportViewModel.isVehicleSave(fuelDoor,goodd,fairr,badd,FuelDoorFragment.this,firstImage,secondImage,thirdImage);
 
 
 
@@ -253,7 +259,8 @@ public class FuelDoorFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");

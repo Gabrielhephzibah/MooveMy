@@ -21,7 +21,7 @@ public class ImageDataArray {
     }
 
     public HashMap<String, String> getImageArray() {
-        return imageArray;
+        return this.imageArray;
     }
 
     public void setImageArray(HashMap<String, String> imageArray) {
@@ -58,6 +58,14 @@ public class ImageDataArray {
        return imageArray.get(key);
     }
 
+    public  String getStatus(String key){
+        return imageArray.get(key);
+    }
+
+    public void addStatus(String key, String value) {
+        imageArray.put(key, value);
+
+    }
 
 
     public boolean containKey(String url) {
@@ -66,6 +74,10 @@ public class ImageDataArray {
         } else {
             return false;
         }
+    }
+
+    public void updateImageArray(HashMap<String, String> imageArray){
+        this.imageArray = imageArray;
     }
 
 

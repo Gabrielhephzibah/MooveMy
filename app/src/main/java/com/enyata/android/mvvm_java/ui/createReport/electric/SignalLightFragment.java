@@ -122,24 +122,34 @@ public class SignalLightFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+        firstImage = view.findViewById(R.id.firstImage);
+        secondImage = view.findViewById(R.id.secondImage);
+        thirdImage = view.findViewById(R.id.thirdImage);
+        cancel1 = view.findViewById(R.id.cancel1);
+        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+        goodd = view.findViewById(R.id.good);
+        badd = view.findViewById(R.id.poor);
+        fairr = view.findViewById(R.id.fair);
+
+        signalLight = new VehicleCollection("signal lights","Electrical System", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(signalLight, goodd, fairr, badd, SignalLightFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
 
 
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getSignalLightTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
+
                     saveReport();
-                }
             }
         });
 
 
-        firstImage = view.findViewById(R.id.firstImage);
-        secondImage = view.findViewById(R.id.secondImage);
-        thirdImage = view.findViewById(R.id.thirdImage);
-        cancel1 = view.findViewById(R.id.cancel1);
+
         cancel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,10 +206,7 @@ public class SignalLightFragment extends Fragment {
             }
         });
 
-        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-        goodd = view.findViewById(R.id.good);
-        badd = view.findViewById(R.id.poor);
-        fairr = view.findViewById(R.id.fair);
+
         hoodRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -237,7 +244,8 @@ public class SignalLightFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all Images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -247,7 +255,6 @@ public class SignalLightFragment extends Fragment {
             imageArray = takePicture.getPictureArray();
             Collection<String> value = imageArray.values();
             result = new ArrayList<>(value);
-
             signalLight = new VehicleCollection("signal lights", "Electrical System", result, status);
             createReportViewModel.saveReportToLocalStorage(signalLight);
             createReportViewModel.setSignalLightTracking(true);
@@ -259,7 +266,7 @@ public class SignalLightFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        signalLight = new VehicleCollection("signal lights","Electrical System", result, status);
-        createReportViewModel.isVehicleSave(signalLight,goodd,fairr,badd, SignalLightFragment.this,firstImage,secondImage,thirdImage);
+//        signalLight = new VehicleCollection("signal lights","Electrical System", result, status);
+//        createReportViewModel.isVehicleSave(signalLight,goodd,fairr,badd, SignalLightFragment.this,firstImage,secondImage,thirdImage);
     }
 }

@@ -52,6 +52,7 @@ import com.enyata.android.mvvm_java.ui.createReport.electric.ElectricPagerAdapte
 import com.enyata.android.mvvm_java.ui.createReport.exterior.ExteriorViewPagerAdapter;
 import com.enyata.android.mvvm_java.ui.createReport.glass.GlassPagerAdater;
 import com.enyata.android.mvvm_java.ui.createReport.interior.InteriorPagerAdapter;
+import com.enyata.android.mvvm_java.ui.createReport.interior.InteriorTrimFragment;
 import com.enyata.android.mvvm_java.ui.createReport.roadtest.RoadTestPagerAdapter;
 import com.enyata.android.mvvm_java.ui.createReport.tires.TirePagerAdapter;
 import com.enyata.android.mvvm_java.ui.createReport.underbody.UnderbodyPagerAdapter;
@@ -451,7 +452,7 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
             return;
         }else if (createReportViewModel.getIntakeVehicleReport()==null){
 //           exteriorCheck.getVisibility()!=View.VISIBLE || glasscheck.getVisibility()!=View.VISIBLE || tiresCheck.getVisibility()!=View.VISIBLE || underBodyCheck.getVisibility()!=View.VISIBLE || underHoodCheck.getVisibility()!=View.VISIBLE || interiorCheck.getVisibility()!=View.VISIBLE || electricCheck.getVisibility()!=View.VISIBLE  || roadTestCheck.getVisibility()!=View.VISIBLE)
-            Alert.showFailed(getApplicationContext(),"Make sure all vehicle Component has been saved");
+            Alert.showFailed(getApplicationContext(),"Intake report cannot be empty");
             return;
         }else if (acceptanceResult.getText().toString().equals("0")){
             Alert.showFailed(getApplicationContext(),"Total score must be greater than 0");
@@ -968,17 +969,28 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
 
     @Override
     public void onGetIntakeResult() {
-        if (createReportViewModel.getIntakeVehicleReport()!= null) {
-            if (InternetConnection.getInstance(this).isOnline()) {
+        if ( exteriorCheck.getVisibility()!=View.VISIBLE || glasscheck.getVisibility()!=View.VISIBLE || tiresCheck.getVisibility()!=View.VISIBLE || underBodyCheck.getVisibility()!=View.VISIBLE || underHoodCheck.getVisibility()!=View.VISIBLE || interiorCheck.getVisibility()!=View.VISIBLE || electricCheck.getVisibility()!=View.VISIBLE  || roadTestCheck.getVisibility()!=View.VISIBLE){
+            Alert.showFailed(getApplicationContext(),"Make sure all vehicle components are saved");
+            return;
+        }else {
+            if (InternetConnection.getInstance(this).isOnline()){
                 GetAcceptanceResultRequest resultRequest = new GetAcceptanceResultRequest(createReportViewModel.getIntakeVehicleReport());
                 createReportViewModel.getAcceptanceResult(resultRequest);
-            } else {
+            }else {
                 Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
             }
-
-        }else {
-            Alert.showFailed(getApplicationContext(),"Intake report cannot be empty");
         }
+//        if (createReportViewModel.getIntakeVehicleReport()!= null) {
+//            if (InternetConnection.getInstance(this).isOnline()) {
+//                GetAcceptanceResultRequest resultRequest = new GetAcceptanceResultRequest(createReportViewModel.getIntakeVehicleReport());
+//                createReportViewModel.getAcceptanceResult(resultRequest);
+//            } else {
+//                Alert.showFailed(getApplicationContext(), "Unable to connect to the internet");
+//            }
+//
+//        }else {
+//            Alert.showFailed(getApplicationContext(),"Intake report cannot be empty");
+//        }
 
     }
 
@@ -1017,6 +1029,30 @@ public class CreateReportActivity extends BaseActivity<ActivityCreateReportBindi
 
         }
 
+    }
+
+    @Override
+    public void onClear() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("MESSAGE");
+        builder.setMessage("Are you sure you want to delete all saved components and start again?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override

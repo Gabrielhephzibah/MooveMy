@@ -556,6 +556,27 @@ public interface PreferencesHelper {
 
     String getInitialMileage();
 
+    void setMooveIdRepairs(String  mooveIdRepairs);
+
+    String getMooveIdRepair();
+
+    void setCarMakeRepairs(String  carMakeRepairs);
+
+    String getCarMakeRepair();
+
+    void setCarModelRepairs(String  carModelRepairs);
+
+    String getCarModelRepair();
+
+    void setCarYearRepairs(String  carYearRepairs);
+
+    String getCarYearRepair();
+
+    void setVehicleIdRepairs(String  vehicleIdRepairs);
+
+    String getVehicleIdRepair();
+
+
 
 
 

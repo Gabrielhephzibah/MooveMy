@@ -130,48 +130,19 @@ public class TrimFragment extends Fragment {
         badd = view.findViewById(R.id.poor);
         fairr = view.findViewById(R.id.fair);
 
-//        if (createReportViewModel.getTrimTracking()){
-//            if (createReportViewModel.checkIfIntakeVehicleReportIsEmpty()){
-//                goodd.setChecked(false);
-//                fairr.setChecked(false);
-//                badd.setChecked(false);
-//                firstImage.setImageResource(0);
-//                secondImage.setImageResource(0);
-//                thirdImage.setImageResource(0);
-//
-//            }else {
-//                List<VehicleCollection> myCollection = createReportViewModel.getIntakeVehicleReport();
-//                for (int i = 0; i < myCollection.size(); i++) {
-//                    if (myCollection.get(i).getPart().equals("hood")) {
-//                        if (myCollection.get(i).getRemark().equals("good")) {
-//                            goodd.setChecked(true);
-//                        } else if (myCollection.get(i).getRemark().equals("fair")) {
-//                            fairr.setChecked(true);
-//                        } else {
-//                            badd.setChecked(true);
-//                        }
-//                        List<String> images = myCollection.get(i).getImageUrl();
-//                        GlideApp.with(TrimFragment.this).load(images.get(0)).into(firstImage);
-//                        GlideApp.with(TrimFragment.this).load(images.get(1)).into(secondImage);
-//                        GlideApp.with(TrimFragment.this).load(images.get(2)).into(thirdImage);
-//
-//                    }
-//                }
-//            }
-//
-//        }
+        trim = new VehicleCollection("trim","Exterior", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(trim, goodd, fairr, badd, TrimFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
 
 
 
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getTrimTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
                     Log.i("STATUSSS", status);
                     saveReport();
-                }
             }
         });
 
@@ -270,7 +241,8 @@ public class TrimFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -292,8 +264,8 @@ public class TrimFragment extends Fragment {
     @Override
     public void onResume() {
 
-        trim = new VehicleCollection("trim", "Exterior", result, status);
-        createReportViewModel.isVehicleSave(trim,goodd,fairr,badd,TrimFragment.this,firstImage,secondImage,thirdImage);
+//        trim = new VehicleCollection("trim", "Exterior", result, status);
+//        createReportViewModel.isVehicleSave(trim,goodd,fairr,badd,TrimFragment.this,firstImage,secondImage,thirdImage);
 
 
 //        if (createReportViewModel.getTrimTracking()){

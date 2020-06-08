@@ -432,11 +432,19 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
             Alert.showFailed(getApplicationContext(), "An unknown error occurred");
         }
 
-        Log.i("TRanm", String.valueOf(signatureViewModel.getTransmissionTracking()));
-        Log.i("spare",String.valueOf(signatureViewModel.getSpareTireTracking()));
-        Log.i("Tire", String.valueOf(signatureViewModel.getTiresTracking()));
-        Log.i("powerseats",String.valueOf(signatureViewModel.getPowerSeatTracking()));
-        Log.i("powerwindow", String.valueOf(signatureViewModel.getPowerWindowTracking()));
+        Log.i("Acceleration", String.valueOf(signatureViewModel.getAccelerationTracking()));
+        Log.i("braking",String.valueOf(signatureViewModel.getBrakingTracking()));
+        Log.i("engineperf", String.valueOf(signatureViewModel.getEnginePerfTracking()));
+        Log.i("idling",String.valueOf(signatureViewModel.getIdlingTracking()));
+        Log.i("starting", String.valueOf(signatureViewModel.getStartingTracking()));
+        Log.i("steering", String.valueOf(signatureViewModel.getSteeringTracking()));
+        Log.i("susperf",String.valueOf(signatureViewModel.getSuspensionPerfTracking()));
+        Log.i("Transmission", String.valueOf(signatureViewModel.getTransmissionTracking()));
+        Log.i("mirror",String.valueOf(signatureViewModel.getMirrorTracking()));
+        Log.i("rearwindow", String.valueOf(signatureViewModel.getRearWindowTracking()));
+        Log.i("window",String.valueOf(signatureViewModel.getPowerWindowTracking()));
+        Log.i("windshield", String.valueOf(signatureViewModel.getWindShieldTracking()));
+
 
 
 
@@ -464,11 +472,24 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
         Log.i("CarMake",String.valueOf(signatureViewModel.getCarMake()));
         Log.i("HOODTRACKIN", String.valueOf(signatureViewModel.getHoodTrackingStatus()));
         Log.i("FENDERS",String.valueOf(signatureViewModel.getFenderTracking()));
-        Log.i("TRanm", String.valueOf(signatureViewModel.getTransmissionTracking()));
-        Log.i("spare",String.valueOf(signatureViewModel.getSpareTireTracking()));
-        Log.i("Tire", String.valueOf(signatureViewModel.getTiresTracking()));
-        Log.i("powerseats",String.valueOf(signatureViewModel.getPowerSeatTracking()));
-        Log.i("powerwindow", String.valueOf(signatureViewModel.getPowerWindowTracking()));
+//        Log.i("TRanm", String.valueOf(signatureViewModel.getTransmissionTracking()));
+//        Log.i("spare",String.valueOf(signatureViewModel.getSpareTireTracking()));
+//        Log.i("Tire", String.valueOf(signatureViewModel.getTiresTracking()));
+//        Log.i("powerseats",String.valueOf(signatureViewModel.getPowerSeatTracking()));
+//        Log.i("powerwindow", String.valueOf(signatureViewModel.getPowerWindowTracking()));
+
+        Log.i("Acceleration", String.valueOf(signatureViewModel.getAccelerationTracking()));
+        Log.i("braking",String.valueOf(signatureViewModel.getBrakingTracking()));
+        Log.i("engineperf", String.valueOf(signatureViewModel.getEnginePerfTracking()));
+        Log.i("idling",String.valueOf(signatureViewModel.getIdlingTracking()));
+        Log.i("starting", String.valueOf(signatureViewModel.getStartingTracking()));
+        Log.i("steering", String.valueOf(signatureViewModel.getSteeringTracking()));
+        Log.i("susperf",String.valueOf(signatureViewModel.getSuspensionPerfTracking()));
+        Log.i("Transmission", String.valueOf(signatureViewModel.getTransmissionTracking()));
+        Log.i("mirror",String.valueOf(signatureViewModel.getMirrorTracking()));
+        Log.i("rearwindow", String.valueOf(signatureViewModel.getRearWindowTracking()));
+        Log.i("window",String.valueOf(signatureViewModel.getPowerWindowTracking()));
+        Log.i("windshield", String.valueOf(signatureViewModel.getWindShieldTracking()));
 
 
 

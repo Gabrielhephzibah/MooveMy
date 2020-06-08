@@ -136,6 +136,16 @@ public class DoorFragment extends Fragment {
         secondImage = view.findViewById(R.id.secondImage);
         thirdImage = view.findViewById(R.id.thirdImage);
         cancel1 = view.findViewById(R.id.cancel1);
+        relativeLayout = view.findViewById(R.id.takePicture);
+
+        door = new VehicleCollection("doors","Exterior", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(door, goodd, fairr, badd, DoorFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
+
+
 
 
         hoodRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -161,12 +171,10 @@ public class DoorFragment extends Fragment {
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getDoorTrackingStatus()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
+
                     Log.i("STATUSSS", status);
                     saveReport();
-                }
+
             }
         });
 
@@ -209,7 +217,7 @@ public class DoorFragment extends Fragment {
                 }
             }
         });
-        relativeLayout = view.findViewById(R.id.takePicture);
+
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -235,8 +243,8 @@ public class DoorFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-         door = new VehicleCollection("doors","Exterior", result, status);
-        createReportViewModel.isVehicleSave(door,goodd,fairr,badd,DoorFragment.this,firstImage,secondImage,thirdImage);
+//         door = new VehicleCollection("doors","Exterior", result, status);
+//        createReportViewModel.isVehicleSave(door,goodd,fairr,badd,DoorFragment.this,firstImage,secondImage,thirdImage);
 
     }
 
@@ -257,8 +265,8 @@ public class DoorFragment extends Fragment {
     }
 
     public void saveReport() {
-
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");

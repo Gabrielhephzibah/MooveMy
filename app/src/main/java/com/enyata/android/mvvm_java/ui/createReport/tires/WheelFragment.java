@@ -125,23 +125,35 @@ public class WheelFragment extends Fragment implements TireInterface {
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-        saveHood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (createReportViewModel.getWheelTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
-                    Log.i("STATUSSS", status);
-                    saveReport();
-                }
-            }
-        });
-
-
         firstImage = view.findViewById(R.id.firstImage);
         secondImage = view.findViewById(R.id.secondImage);
         thirdImage = view.findViewById(R.id.thirdImage);
         cancel1 = view.findViewById(R.id.cancel1);
+        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+        goodd = view.findViewById(R.id.good);
+        badd = view.findViewById(R.id.poor);
+        fairr = view.findViewById(R.id.fair);
+
+
+
+
+        wheel= new VehicleCollection("wheels","Tyres and Wheels", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(wheel, goodd, fairr, badd, WheelFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
+        saveHood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    Log.i("STATUSSS", status);
+                    saveReport();
+            }
+        });
+
+
+
         cancel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,10 +208,7 @@ public class WheelFragment extends Fragment implements TireInterface {
             }
         });
 
-        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-        goodd = view.findViewById(R.id.good);
-        badd = view.findViewById(R.id.poor);
-        fairr = view.findViewById(R.id.fair);
+
         hoodRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -238,7 +247,8 @@ public class WheelFragment extends Fragment implements TireInterface {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -259,8 +269,8 @@ public class WheelFragment extends Fragment implements TireInterface {
     @Override
     public void onResume() {
         super.onResume();
-        wheel = new VehicleCollection("wheels","Tyres and Wheels", result, status);
-        createReportViewModel.isVehicleSave(wheel,goodd,fairr,badd, WheelFragment.this,firstImage,secondImage,thirdImage);
+//        wheel = new VehicleCollection("wheels","Tyres and Wheels", result, status);
+//        createReportViewModel.isVehicleSave(wheel,goodd,fairr,badd, WheelFragment.this,firstImage,secondImage,thirdImage);
     }
 
     @Override

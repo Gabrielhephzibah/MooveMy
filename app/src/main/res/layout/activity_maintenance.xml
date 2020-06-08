@@ -159,7 +159,7 @@
                                         android:id="@+id/currentMileage"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="0"
+                                        android:text="N/A"
                                         android:textSize="10sp"
                                         android:textColor="#E53012"
                                         android:fontFamily="@font/montserrat"/>
@@ -240,15 +240,26 @@
                     android:paddingBottom="100dp"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:layout_marginTop="30dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat"
-                        android:textSize="14dp"
-                        android:textStyle="bold"
-                        android:textColor="#000000"
-                        android:text="Choose any of the Vehicle Part"/>
+<!--                    <RelativeLayout-->
+<!--                        android:layout_width="match_parent"-->
+
+<!--                        android:layout_height="wrap_content">-->
+                        <TextView
+                            android:id="@+id/text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat"
+                            android:textSize="14sp"
+                            android:layout_marginTop="30dp"
+                            android:textStyle="bold"
+                            android:textColor="#000000"
+                            android:text="Choose any of the Vehicle Part"/>
+
+
+
+<!--                    </RelativeLayout>-->
+
+
 
 
 <!--                    ****FIRST ROWWWW****-->
@@ -1005,17 +1016,17 @@
                             </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
-                                android:onClick="@{()->viewModel.onBrakeFluid()}"
-                                android:id="@+id/breakFluidBox"
-                                android:layout_marginLeft="8dp"
-                                android:orientation="vertical"
+                                android:onClick="@{()->viewModel.onTransmissionFilter()}"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
-                                app:cardCornerRadius="10dp"
-                                android:layout_height="110dp">
+                                android:id="@+id/transmissionFilterBox"
+                                android:orientation="vertical"
+                                android:layout_marginLeft="8dp"
+                                android:layout_height="110dp"
+                                app:cardCornerRadius="10dp">
 
                                 <ImageView
-                                    android:id="@+id/brakefluidCheck"
+                                    android:id="@+id/transmissionFilterCheck"
                                     android:visibility="gone"
                                     android:layout_gravity="end"
                                     android:paddingRight="5dp"
@@ -1032,18 +1043,18 @@
                                     android:layout_height="match_parent">
 
                                     <ImageView
-                                        android:id="@+id/brakeFluidImage"
+                                        android:id="@+id/transmissionFilterImage"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        app:srcCompat="@drawable/ic_brakefluid"/>
+                                        app:srcCompat="@drawable/ic_wheel"/>
 
                                     <TextView
-                                        android:id="@+id/brakeFluidText"
+                                        android:id="@+id/transmissionFilterText"
                                         android:layout_marginTop="10dp"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Brake fluid"
+                                        android:text="Transmission \n \t \t Filter"
                                         android:textColor="#000000"
                                         android:textSize="10sp"
                                         android:textStyle="bold"
@@ -1051,7 +1062,58 @@
 
                                 </LinearLayout>
 
+
+
                             </androidx.cardview.widget.CardView>
+
+<!--                            <androidx.cardview.widget.CardView-->
+<!--                                android:onClick="@{()->viewModel.onBrakeFluid()}"-->
+<!--                                android:id="@+id/breakFluidBox"-->
+<!--                                android:layout_marginLeft="8dp"-->
+<!--                                android:orientation="vertical"-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:layout_weight="1"-->
+<!--                                app:cardCornerRadius="10dp"-->
+<!--                                android:layout_height="110dp">-->
+
+<!--                                <ImageView-->
+<!--                                    android:id="@+id/brakefluidCheck"-->
+<!--                                    android:visibility="gone"-->
+<!--                                    android:layout_gravity="end"-->
+<!--                                    android:paddingRight="5dp"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    app:srcCompat="@drawable/ic_circlecheck_maint"-->
+<!--                                    />-->
+
+<!--                                <LinearLayout-->
+<!--                                    android:layout_gravity="center_horizontal"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:gravity="center_vertical"-->
+<!--                                    android:orientation="vertical"-->
+<!--                                    android:layout_height="match_parent">-->
+
+<!--                                    <ImageView-->
+<!--                                        android:id="@+id/brakeFluidImage"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:layout_gravity="center"-->
+<!--                                        app:srcCompat="@drawable/ic_brakefluid"/>-->
+
+<!--                                    <TextView-->
+<!--                                        android:id="@+id/brakeFluidText"-->
+<!--                                        android:layout_marginTop="10dp"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:text="Brake fluid"-->
+<!--                                        android:textColor="#000000"-->
+<!--                                        android:textSize="10sp"-->
+<!--                                        android:textStyle="bold"-->
+<!--                                        android:fontFamily="@font/montserrat" />-->
+
+<!--                                </LinearLayout>-->
+
+<!--                            </androidx.cardview.widget.CardView>-->
                         </LinearLayout>
                     </LinearLayout>
 
@@ -1070,9 +1132,58 @@
 
 
                             <androidx.cardview.widget.CardView
+                                android:id="@+id/breakFluidBox"
+                                android:layout_width="0dp"
+                                android:layout_height="110dp"
+                                android:layout_weight="1"
+                                android:onClick="@{()->viewModel.onBrakeFluid()}"
+                                android:orientation="vertical"
+                                app:cardCornerRadius="10dp">
+
+                                <ImageView
+                                    android:id="@+id/brakefluidCheck"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:visibility="gone"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_horizontal"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:id="@+id/brakeFluidImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_brakefluid" />
+
+                                    <TextView
+                                        android:id="@+id/brakeFluidText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:fontFamily="@font/montserrat"
+                                        android:text="Brake fluid"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+
+                            <androidx.cardview.widget.CardView
                                 android:onClick="@{()->viewModel.onFuelSystem()}"
                                 android:id="@+id/fuelSystemBox"
                                 android:orientation="vertical"
+                                android:layout_marginLeft="8dp"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                app:cardCornerRadius="10dp"
@@ -1168,54 +1279,55 @@
 
                             </androidx.cardview.widget.CardView>
 
-                            <androidx.cardview.widget.CardView
-                                android:onClick="@{()->viewModel.onAlignment()}"
-                                android:id="@+id/alignmentBox"
-                                android:layout_marginLeft="8dp"
-                                android:orientation="vertical"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                app:cardCornerRadius="10dp"
-                                android:layout_height="110dp">
+<!--                            <androidx.cardview.widget.CardView-->
+<!--                                android:onClick="@{()->viewModel.onAlignment()}"-->
+<!--                                android:id="@+id/alignmentBox"-->
+<!--                                android:layout_marginLeft="8dp"-->
+<!--                                android:orientation="vertical"-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:layout_weight="1"-->
+<!--                                app:cardCornerRadius="10dp"-->
+<!--                                android:layout_height="110dp">-->
 
-                                <ImageView
-                                    android:id="@+id/alignmentCheck"
-                                    android:visibility="gone"
-                                    android:layout_gravity="end"
-                                    android:paddingRight="5dp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    app:srcCompat="@drawable/ic_circlecheck_maint"
-                                    />
+<!--                                <ImageView-->
+<!--                                    android:id="@+id/alignmentCheck"-->
+<!--                                    android:visibility="gone"-->
+<!--                                    android:layout_gravity="end"-->
+<!--                                    android:paddingRight="5dp"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    app:srcCompat="@drawable/ic_circlecheck_maint"-->
+<!--                                    />-->
 
-                                <LinearLayout
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_width="wrap_content"
-                                    android:gravity="center_vertical"
-                                    android:orientation="vertical"
-                                    android:layout_height="match_parent">
+<!--                                <LinearLayout-->
+<!--                                    android:layout_gravity="center_horizontal"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:gravity="center_vertical"-->
+<!--                                    android:orientation="vertical"-->
+<!--                                    android:layout_height="match_parent">-->
 
-                                    <ImageView
-                                        android:id="@+id/alignmentImage"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        app:srcCompat="@drawable/ic_alignment"/>
+<!--                                    <ImageView-->
+<!--                                        android:id="@+id/alignmentImage"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:layout_gravity="center"-->
+<!--                                        app:srcCompat="@drawable/ic_alignment"/>-->
 
-                                    <TextView
-                                        android:id="@+id/alignmentText"
-                                        android:layout_marginTop="10dp"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Alignment"
-                                        android:textColor="#000000"
-                                        android:textSize="10sp"
-                                        android:textStyle="bold"
-                                        android:fontFamily="@font/montserrat" />
+<!--                                    <TextView-->
+<!--                                        android:id="@+id/alignmentText"-->
+<!--                                        android:layout_marginTop="10dp"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:text="Alignment"-->
+<!--                                        android:textColor="#000000"-->
+<!--                                        android:textSize="10sp"-->
+<!--                                        android:textStyle="bold"-->
+<!--                                        android:fontFamily="@font/montserrat" />-->
 
-                                </LinearLayout>
+<!--                                </LinearLayout>-->
 
-                            </androidx.cardview.widget.CardView>
+<!--                            </androidx.cardview.widget.CardView>-->
+<!--                            -->
                         </LinearLayout>
                     </LinearLayout>
 
@@ -1233,10 +1345,60 @@
                             android:orientation="horizontal"
                             android:layout_height="wrap_content">
 
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/alignmentBox"
+                                android:layout_width="0dp"
+                                android:layout_height="110dp"
+                                android:layout_weight="1"
+                                android:onClick="@{()->viewModel.onAlignment()}"
+                                android:orientation="vertical"
+                                app:cardCornerRadius="10dp">
+
+                                <ImageView
+                                    android:id="@+id/alignmentCheck"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:visibility="gone"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_horizontal"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:id="@+id/alignmentImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_alignment" />
+
+                                    <TextView
+                                        android:id="@+id/alignmentText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:fontFamily="@font/montserrat"
+                                        android:text="Alignment"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+
                             <androidx.cardview.widget.CardView
                                 android:onClick="@{()->viewModel.onAirFlow()}"
                                 android:id="@+id/airflowBox"
                                 android:orientation="vertical"
+                                android:layout_marginLeft="8dp"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 app:cardCornerRadius="10dp"
@@ -1327,54 +1489,54 @@
 
                             </androidx.cardview.widget.CardView>
 
-                            <androidx.cardview.widget.CardView
-                                android:onClick="@{()->viewModel.onElectronic()}"
-                                android:id="@+id/electronicBox"
-                                android:layout_marginLeft="8dp"
-                                android:orientation="vertical"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                               app:cardCornerRadius="10dp"
-                                android:layout_height="110dp">
+<!--                            <androidx.cardview.widget.CardView-->
+<!--                                android:onClick="@{()->viewModel.onElectronic()}"-->
+<!--                                android:id="@+id/electronicBox"-->
+<!--                                android:layout_marginLeft="8dp"-->
+<!--                                android:orientation="vertical"-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:layout_weight="1"-->
+<!--                               app:cardCornerRadius="10dp"-->
+<!--                                android:layout_height="110dp">-->
 
-                                <ImageView
-                                    android:id="@+id/electronicCheck"
-                                    android:visibility="gone"
-                                    android:layout_gravity="end"
-                                    android:paddingRight="5dp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    app:srcCompat="@drawable/ic_circlecheck_maint"
-                                    />
+<!--                                <ImageView-->
+<!--                                    android:id="@+id/electronicCheck"-->
+<!--                                    android:visibility="gone"-->
+<!--                                    android:layout_gravity="end"-->
+<!--                                    android:paddingRight="5dp"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    app:srcCompat="@drawable/ic_circlecheck_maint"-->
+<!--                                    />-->
 
-                                <LinearLayout
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_width="wrap_content"
-                                    android:gravity="center_vertical"
-                                    android:orientation="vertical"
-                                    android:layout_height="match_parent">
+<!--                                <LinearLayout-->
+<!--                                    android:layout_gravity="center_horizontal"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:gravity="center_vertical"-->
+<!--                                    android:orientation="vertical"-->
+<!--                                    android:layout_height="match_parent">-->
 
-                                    <ImageView
-                                        android:id="@+id/electronicImage"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        app:srcCompat="@drawable/ic_electronic"/>
+<!--                                    <ImageView-->
+<!--                                        android:id="@+id/electronicImage"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:layout_gravity="center"-->
+<!--                                        app:srcCompat="@drawable/ic_electronic"/>-->
 
-                                    <TextView
-                                        android:id="@+id/electronicText"
-                                        android:layout_marginTop="10dp"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Electronic/\n Lighting"
-                                        android:textColor="#000000"
-                                        android:textSize="10sp"
-                                        android:textStyle="bold"
-                                        android:fontFamily="@font/montserrat" />
+<!--                                    <TextView-->
+<!--                                        android:id="@+id/electronicText"-->
+<!--                                        android:layout_marginTop="10dp"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:text="Electronic/\n Lighting"-->
+<!--                                        android:textColor="#000000"-->
+<!--                                        android:textSize="10sp"-->
+<!--                                        android:textStyle="bold"-->
+<!--                                        android:fontFamily="@font/montserrat" />-->
 
-                                </LinearLayout>
+<!--                                </LinearLayout>-->
 
-                            </androidx.cardview.widget.CardView>
+<!--                            </androidx.cardview.widget.CardView>-->
                         </LinearLayout>
                     </LinearLayout>
 
@@ -1391,10 +1553,61 @@
                             android:layout_width="match_parent"
                             android:orientation="horizontal"
                             android:layout_height="wrap_content">
+
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/electronicBox"
+                                android:layout_width="0dp"
+                                android:layout_height="110dp"
+                                android:layout_weight="1"
+                                android:onClick="@{()->viewModel.onElectronic()}"
+                                android:orientation="vertical"
+                                app:cardCornerRadius="10dp">
+
+                                <ImageView
+                                    android:id="@+id/electronicCheck"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:paddingRight="5dp"
+                                    android:visibility="gone"
+                                    app:srcCompat="@drawable/ic_circlecheck_maint" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_horizontal"
+                                    android:gravity="center_vertical"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:id="@+id/electronicImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        app:srcCompat="@drawable/ic_electronic" />
+
+                                    <TextView
+                                        android:id="@+id/electronicText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="10dp"
+                                        android:fontFamily="@font/montserrat"
+                                        android:text="Electronic/\n Lighting"
+                                        android:textColor="#000000"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+                            </androidx.cardview.widget.CardView>
+
+
                             <androidx.cardview.widget.CardView
                                 android:onClick="@{()->viewModel.onExhaust()}"
                                 android:id="@+id/exhaustBox"
                                 android:orientation="vertical"
+                                android:layout_marginLeft="8dp"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                app:cardCornerRadius="10dp"
@@ -1487,53 +1700,56 @@
 
                             </androidx.cardview.widget.CardView>
 
-                            <androidx.cardview.widget.CardView
-                                android:onClick="@{()->viewModel.onWheel()}"
-                                android:id="@+id/wheelBox"
-                                android:layout_marginLeft="8dp"
-                                android:orientation="vertical"
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                               app:cardCornerRadius="10dp"
-                                android:layout_height="110dp">
-                                <ImageView
-                                    android:id="@+id/wheelCheck"
-                                    android:visibility="gone"
-                                    android:layout_gravity="end"
-                                    android:paddingRight="5dp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    app:srcCompat="@drawable/ic_circlecheck_maint"
-                                    />
+<!--                            <androidx.cardview.widget.CardView-->
+<!--                                android:onClick="@{()->viewModel.onWheel()}"-->
+<!--                                android:id="@+id/wheelBox"-->
+<!--                                android:layout_marginLeft="8dp"-->
+<!--                                android:orientation="vertical"-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:layout_weight="1"-->
+<!--                               app:cardCornerRadius="10dp"-->
+<!--                                android:layout_height="110dp">-->
+<!--                                <ImageView-->
+<!--                                    android:id="@+id/wheelCheck"-->
+<!--                                    android:visibility="gone"-->
+<!--                                    android:layout_gravity="end"-->
+<!--                                    android:paddingRight="5dp"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    app:srcCompat="@drawable/ic_circlecheck_maint"-->
+<!--                                    />-->
 
-                                <LinearLayout
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_width="wrap_content"
-                                    android:gravity="center_vertical"
-                                    android:orientation="vertical"
-                                    android:layout_height="match_parent">
+<!--                                <LinearLayout-->
+<!--                                    android:layout_gravity="center_horizontal"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:gravity="center_vertical"-->
+<!--                                    android:orientation="vertical"-->
+<!--                                    android:layout_height="match_parent">-->
 
-                                    <ImageView
-                                        android:id="@+id/wheelImage"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        app:srcCompat="@drawable/ic_wheel"/>
+<!--                                    <ImageView-->
+<!--                                        android:id="@+id/wheelImage"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:layout_gravity="center"-->
+<!--                                        app:srcCompat="@drawable/ic_wheel"/>-->
 
-                                    <TextView
-                                        android:id="@+id/wheelText"
-                                        android:layout_marginTop="10dp"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Wheel rim"
-                                        android:textColor="#000000"
-                                        android:textSize="10sp"
-                                        android:textStyle="bold"
-                                        android:fontFamily="@font/montserrat" />
+<!--                                    <TextView-->
+<!--                                        android:id="@+id/wheelText"-->
+<!--                                        android:layout_marginTop="10dp"-->
+<!--                                        android:layout_width="wrap_content"-->
+<!--                                        android:layout_height="wrap_content"-->
+<!--                                        android:text="Wheel rim"-->
+<!--                                        android:textColor="#000000"-->
+<!--                                        android:textSize="10sp"-->
+<!--                                        android:textStyle="bold"-->
+<!--                                        android:fontFamily="@font/montserrat" />-->
 
-                                </LinearLayout>
+<!--                                </LinearLayout>-->
 
-                            </androidx.cardview.widget.CardView>
+<!--                            </androidx.cardview.widget.CardView>-->
+<!--                            -->
+
+
                         </LinearLayout>
                     </LinearLayout>
 
@@ -1542,55 +1758,101 @@
                         android:layout_width="match_parent"
                         android:orientation="vertical"
                         android:layout_height="wrap_content">
-
                         <androidx.cardview.widget.CardView
-                            android:onClick="@{()->viewModel.onTransmissionFilter()}"
+                            android:id="@+id/wheelBox"
                             android:layout_width="117dp"
-                            android:id="@+id/transmissionFilterBox"
-                            android:orientation="vertical"
                             android:layout_height="110dp"
+                            android:onClick="@{()->viewModel.onWheel()}"
+                            android:orientation="vertical"
                             app:cardCornerRadius="10dp">
 
                             <ImageView
-                                android:id="@+id/transmissionFilterCheck"
-                                android:visibility="gone"
-                                android:layout_gravity="end"
-                                android:paddingRight="5dp"
+                                android:id="@+id/wheelCheck"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/ic_circlecheck_maint"
-                                />
+                                android:layout_gravity="end"
+                                android:paddingRight="5dp"
+                                android:visibility="gone"
+                                app:srcCompat="@drawable/ic_circlecheck_maint" />
 
                             <LinearLayout
-                                android:layout_gravity="center_horizontal"
                                 android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_horizontal"
                                 android:gravity="center_vertical"
-                                android:orientation="vertical"
-                                android:layout_height="match_parent">
+                                android:orientation="vertical">
 
                                 <ImageView
-                                    android:id="@+id/transmissionFilterImage"
+                                    android:id="@+id/wheelImage"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    app:srcCompat="@drawable/ic_wheel"/>
+                                    app:srcCompat="@drawable/ic_wheel" />
 
                                 <TextView
-                                    android:id="@+id/transmissionFilterText"
-                                    android:layout_marginTop="10dp"
+                                    android:id="@+id/wheelText"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Transmission \n \t \t Filter"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/montserrat"
+                                    android:text="Wheel rim"
                                     android:textColor="#000000"
                                     android:textSize="10sp"
-                                    android:textStyle="bold"
-                                    android:fontFamily="@font/montserrat" />
+                                    android:textStyle="bold" />
 
                             </LinearLayout>
 
-
-
                         </androidx.cardview.widget.CardView>
+
+
+                        <!--                        <androidx.cardview.widget.CardView-->
+<!--                            android:onClick="@{()->viewModel.onTransmissionFilter()}"-->
+<!--                            android:layout_width="117dp"-->
+<!--                            android:id="@+id/transmissionFilterBox"-->
+<!--                            android:orientation="vertical"-->
+<!--                            android:layout_height="110dp"-->
+<!--                            app:cardCornerRadius="10dp">-->
+
+<!--                            <ImageView-->
+<!--                                android:id="@+id/transmissionFilterCheck"-->
+<!--                                android:visibility="gone"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:paddingRight="5dp"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                app:srcCompat="@drawable/ic_circlecheck_maint"-->
+<!--                                />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_gravity="center_horizontal"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:gravity="center_vertical"-->
+<!--                                android:orientation="vertical"-->
+<!--                                android:layout_height="match_parent">-->
+
+<!--                                <ImageView-->
+<!--                                    android:id="@+id/transmissionFilterImage"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="center"-->
+<!--                                    app:srcCompat="@drawable/ic_wheel"/>-->
+
+<!--                                <TextView-->
+<!--                                    android:id="@+id/transmissionFilterText"-->
+<!--                                    android:layout_marginTop="10dp"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="Transmission \n \t \t Filter"-->
+<!--                                    android:textColor="#000000"-->
+<!--                                    android:textSize="10sp"-->
+<!--                                    android:textStyle="bold"-->
+<!--                                    android:fontFamily="@font/montserrat" />-->
+
+<!--                            </LinearLayout>-->
+
+
+
+<!--                        </androidx.cardview.widget.CardView>-->
 
                     </LinearLayout>
 

@@ -39,6 +39,7 @@ import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.DoorFragment;
+import com.enyata.android.mvvm_java.ui.createReport.glass.MirrorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.glass.WindShieldFragment;
 import com.enyata.android.mvvm_java.ui.createReport.roadtest.StartingFragment;
 import com.enyata.android.mvvm_java.ui.createReport.tires.SpareTireFragment;
@@ -123,24 +124,34 @@ public class AirCondFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-
-        saveHood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (createReportViewModel.getAirCondTraking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
-                    Log.i("STATUSSS", status);
-                    saveReport();
-                }
-            }
-        });
-
-
         firstImage = view.findViewById(R.id.firstImage);
         secondImage = view.findViewById(R.id.secondImage);
         thirdImage = view.findViewById(R.id.thirdImage);
         cancel1 = view.findViewById(R.id.cancel1);
+        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+        goodd = view.findViewById(R.id.good);
+        badd = view.findViewById(R.id.poor);
+        fairr = view.findViewById(R.id.fair);
+
+        airCond = new VehicleCollection("air conditioner","Interior", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(airCond, goodd, fairr, badd, AirCondFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
+
+
+        saveHood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    Log.i("STATUSSS", status);
+                    saveReport();
+            }
+        });
+
+
+
         cancel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -194,10 +205,7 @@ public class AirCondFragment extends Fragment {
             }
         });
 
-        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-        goodd = view.findViewById(R.id.good);
-        badd = view.findViewById(R.id.poor);
-        fairr = view.findViewById(R.id.fair);
+
         hoodRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -236,7 +244,8 @@ public class AirCondFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -246,7 +255,6 @@ public class AirCondFragment extends Fragment {
         imageArray = takePicture.getPictureArray();
         Collection<String> value = imageArray.values();
         result = new ArrayList<>(value);
-
         airCond = new VehicleCollection("air conditioner","Interior", result, status);
         createReportViewModel.saveReportToLocalStorage(airCond);
         createReportViewModel.setAircondTracking(true);
@@ -258,7 +266,7 @@ public class AirCondFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        airCond = new VehicleCollection("air conditioner", "Interior", result, status);
-        createReportViewModel.isVehicleSave(airCond,goodd,fairr,badd, AirCondFragment.this,firstImage,secondImage,thirdImage);
+//        airCond = new VehicleCollection("air conditioner", "Interior", result, status);
+//        createReportViewModel.isVehicleSave(airCond,goodd,fairr,badd, AirCondFragment.this,firstImage,secondImage,thirdImage);
     }
 }

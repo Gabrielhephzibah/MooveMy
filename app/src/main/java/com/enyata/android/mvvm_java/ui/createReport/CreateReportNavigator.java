@@ -34,6 +34,7 @@ public interface CreateReportNavigator {
    void onGetIntakeResult();
    void onAcceptanceResultResponse(CreateReportResponse response);
    void onAcceptanceResultError(Throwable throwable);
+   void onClear();
 
 
 

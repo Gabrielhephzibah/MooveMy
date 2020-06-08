@@ -95,6 +95,7 @@ public class HoodFragment extends Fragment {
         createReportViewModel = ViewModelProviders.of(requireActivity()).get(CreateReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
 
+
     }
 
 
@@ -142,15 +143,20 @@ public class HoodFragment extends Fragment {
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
 
+        hood = new VehicleCollection("hood","Exterior", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(hood, goodd, fairr, badd, HoodFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+
+            if(!imageDataArray.isArrayEmpty()){
+                status = imageDataArray.getStatus("status");
+            }
+
+
+
+
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getHoodTrackingStatus()) {
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                } else {
                     saveReport();
-
-                }
 
             }
         });
@@ -289,11 +295,6 @@ public class HoodFragment extends Fragment {
 
     @Override
     public void onResume() {
-        Log.i("IMAGEARRAY", String.valueOf(result));
-        Log.i("Status", status);
-        hood = new VehicleCollection("hood","Exterior", result, status);
-        createReportViewModel.isVehicleSave(hood, goodd, fairr, badd, HoodFragment.this, firstImage, secondImage, thirdImage);
-
         super.onResume();
     }
 
@@ -303,7 +304,6 @@ public class HoodFragment extends Fragment {
         if (requestCode == 100 && resultCode == RESULT_OK) {
             progressBar.setVisibility(View.VISIBLE);
             Bundle extras = data.getExtras();
-
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             takePicture.pictureCapture(imageBitmap, HoodFragment.this, firstImage, secondImage, thirdImage, progressBar, getActivity());
 
@@ -313,15 +313,18 @@ public class HoodFragment extends Fragment {
         }
     }
 
-    public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+
+    public void saveReport() {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(), "please fill all fields");
             return;
         } else {
             imageArray = takePicture.getPictureArray();
+            Log.i("NEWIMAGE",String.valueOf( takePicture.getPictureArray()));
             value = imageArray.values();
             result = new ArrayList<>(value);
             hood = new VehicleCollection("hood","Exterior", result, status);

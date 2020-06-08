@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
+import com.enyata.android.mvvm_java.ui.cameraPicture.MonthlyTakePicture;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
 import com.enyata.android.mvvm_java.ui.createReport.CreateReportViewModel;
 import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
@@ -67,7 +68,7 @@ public class IdlingFragmentM extends Fragment {
     Map config;
     View fragment;
     VehicleCollection idling;
-    TakePicture takePicture = new TakePicture();
+    MonthlyTakePicture takePicture = new MonthlyTakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
 
     public IdlingFragmentM(){

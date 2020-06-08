@@ -130,15 +130,18 @@ public class HeadlightFragment extends Fragment {
         badd = view.findViewById(R.id.poor);
         fairr = view.findViewById(R.id.fair);
 
+        headLight = new VehicleCollection("headlights","Electrical System", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(headLight, goodd, fairr, badd, HeadlightFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
 
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getHeadLightTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
                     saveReport();
-                }
             }
         });
 
@@ -238,7 +241,8 @@ public class HeadlightFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(),"Upload all Images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
@@ -259,9 +263,9 @@ public class HeadlightFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        headLight = new VehicleCollection("headlights", "Electrical System", result, status);
-        createReportViewModel.isVehicleSave(headLight,goodd,fairr,badd, HeadlightFragment.this,firstImage,secondImage,thirdImage);
+//
+//        headLight = new VehicleCollection("headlights", "Electrical System", result, status);
+//        createReportViewModel.isVehicleSave(headLight,goodd,fairr,badd, HeadlightFragment.this,firstImage,secondImage,thirdImage);
 
     }
 }

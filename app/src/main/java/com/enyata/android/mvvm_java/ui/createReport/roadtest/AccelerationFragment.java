@@ -41,6 +41,7 @@ import com.enyata.android.mvvm_java.ui.createReport.exterior.DoorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.exterior.FrontBumperFragment;
 import com.enyata.android.mvvm_java.ui.createReport.glass.MirrorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.interior.GloveBoxFragment;
+import com.enyata.android.mvvm_java.ui.createReport.interior.VanityMirrorFragment;
 import com.enyata.android.mvvm_java.ui.createReport.underbody.BrakeSystemFragment;
 import com.enyata.android.mvvm_java.utils.Alert;
 import com.squareup.picasso.Picasso;
@@ -121,25 +122,34 @@ public class AccelerationFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+        firstImage = view.findViewById(R.id.firstImage);
+        secondImage = view.findViewById(R.id.secondImage);
+        thirdImage = view.findViewById(R.id.thirdImage);
+        cancel1 = view.findViewById(R.id.cancel1);
+        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+        goodd = view.findViewById(R.id.good);
+        badd = view.findViewById(R.id.poor);
+        fairr = view.findViewById(R.id.fair);
+
+        acceleration = new VehicleCollection("acceleration","Road Test Findings", result, status);
+        imageDataArray = createReportViewModel.isVehicleSave(acceleration, goodd, fairr, badd, AccelerationFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+        if(!imageDataArray.isArrayEmpty()){
+            status = imageDataArray.getStatus("status");
+        }
+
 
 
         saveHood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (createReportViewModel.getAccelerationTracking()){
-                    Alert.showSuccess(getActivity(), "Item already saved");
-                }else {
+
                     Log.i("STATUSSS", status);
                     saveReport();
-                }
             }
         });
 
 
-        firstImage = view.findViewById(R.id.firstImage);
-        secondImage = view.findViewById(R.id.secondImage);
-        thirdImage = view.findViewById(R.id.thirdImage);
-        cancel1 = view.findViewById(R.id.cancel1);
+
         cancel1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -182,9 +192,7 @@ public class AccelerationFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (takePicture.whenImageIsThree(getActivity())){
-                    firstImage.setImageResource(0);
-                    secondImage.setImageResource(0);
-                    thirdImage.setImageResource(0);
+
                 } else {
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -197,10 +205,7 @@ public class AccelerationFragment extends Fragment {
             }
         });
 
-        hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
-        goodd = view.findViewById(R.id.good);
-        badd = view.findViewById(R.id.poor);
-        fairr = view.findViewById(R.id.fair);
+
         hoodRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -238,29 +243,30 @@ public class AccelerationFragment extends Fragment {
 
     public void saveReport() {
 
-        if (takePicture.areImagesNotComplete(getActivity())) {
+        if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
+            Alert.showFailed(getActivity(), "Upload all images");
             return;
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
+        }else {
+
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
+            acceleration = new VehicleCollection("acceleration", "Road Test Findings", result, status);
+            createReportViewModel.saveReportToLocalStorage(acceleration);
+            createReportViewModel.setAccelerationTracking(true);
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
         }
-
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        acceleration = new VehicleCollection("acceleration","Road Test Findings", result, status);
-        createReportViewModel.saveReportToLocalStorage(acceleration);
-       createReportViewModel.setAccelerationTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved! Proceed");
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        acceleration = new VehicleCollection("acceleration","Road Test Findings", result, status);
-        createReportViewModel.isVehicleSave(acceleration,goodd,fairr,badd, AccelerationFragment.this,firstImage,secondImage,thirdImage);
+//        acceleration = new VehicleCollection("acceleration","Road Test Findings", result, status);
+//        createReportViewModel.isVehicleSave(acceleration,goodd,fairr,badd, AccelerationFragment.this,firstImage,secondImage,thirdImage);
 
 
     }

@@ -41,7 +41,7 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
         this.context = context;
         this.lists = lists;
         vehicleListViewModel = ViewModelProviders.of((VehicleListActivity) context).get(VehicleListViewModel.class);
-        monthlyVehicleReport = vehicleListViewModel.getMonthlyVehicleReport();
+//        monthlyVehicleReport = vehicleListViewModel.getMonthlyVehicleReport();
     }
 
     public Filter getFilter() {
@@ -57,8 +57,8 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
                     if (vehicleListItems != null && vehicleListItems.size() > 0) {
                         for (final VehicleListItem g : vehicleListItems) {
                             if (g.getMake().toLowerCase()
-                                    .contains(constraint.toString()) || g.getYear().toLowerCase().contains(constraint.toString()) || g.getModel().toLowerCase().contains(constraint.toString()) || g.getMooveId()
-                                    .toLowerCase().contains(constraint.toString()))
+                                    .contains(constraint.toString().toLowerCase()) || g.getYear().toLowerCase().contains(constraint.toString().toLowerCase()) || g.getModel().toLowerCase().contains(constraint.toString().toLowerCase()) || g.getMooveId()
+                                    .toLowerCase().contains(constraint.toString().toLowerCase()))
                                 results.add(g);
                         }
                     }

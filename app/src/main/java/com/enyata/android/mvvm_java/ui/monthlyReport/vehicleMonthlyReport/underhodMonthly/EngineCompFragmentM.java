@@ -28,7 +28,9 @@ import androidx.lifecycle.ViewModelProviders;
 import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
+import com.enyata.android.mvvm_java.ui.cameraPicture.MonthlyTakePicture;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
+import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
 import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportViewModel;
 import com.enyata.android.mvvm_java.utils.Alert;
 
@@ -62,10 +64,11 @@ public class EngineCompFragmentM extends Fragment {
     CharSequence radio;
     List<String> result;
     String cloudinaryImage;
+    MonthlyReportActivity activity;
     Map config;
     VehicleCollection engineComp;
     View fragment;
-    TakePicture takePicture = new TakePicture();
+    MonthlyTakePicture takePicture = new MonthlyTakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
 
     public EngineCompFragmentM(){
@@ -81,6 +84,7 @@ public class EngineCompFragmentM extends Fragment {
         super.onCreate(savedInstanceState);
        monthlyReportViewModel = ViewModelProviders.of(requireActivity()).get(MonthlyReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
+        activity = (MonthlyReportActivity) getActivity();
 
 
 
@@ -225,16 +229,18 @@ public class EngineCompFragmentM extends Fragment {
         } else if (status.isEmpty()) {
             Alert.showFailed(getActivity(),"please fill all fields");
             return;
-        }
+        }else {
+            activity.engineComp = true;
+            activity.checkUnderHoodFragment();
+            imageArray = takePicture.getPictureArray();
+            Collection<String> value = imageArray.values();
+            result = new ArrayList<>(value);
 
-        imageArray = takePicture.getPictureArray();
-        Collection<String> value = imageArray.values();
-        result = new ArrayList<>(value);
-
-        engineComp = new VehicleCollection("engine compartment", "Underhood", result, status);
-        monthlyReportViewModel.saveMonthlyReportToLocalStorage(engineComp);
+            engineComp = new VehicleCollection("engine compartment", "Underhood", result, status);
+            monthlyReportViewModel.saveMonthlyReportToLocalStorage(engineComp);
 //        monthlyReportViewModel.setEngineCompTracking(true);
-        Alert.showSuccess(getActivity(),"Item saved! Proceed");
+            Alert.showSuccess(getActivity(), "Item saved! Proceed");
+        }
 
     }
 

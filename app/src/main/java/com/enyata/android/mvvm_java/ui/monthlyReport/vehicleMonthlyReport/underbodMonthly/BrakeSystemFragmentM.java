@@ -28,6 +28,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
+import com.enyata.android.mvvm_java.ui.cameraPicture.MonthlyTakePicture;
 import com.enyata.android.mvvm_java.ui.cameraPicture.TakePicture;
 import com.enyata.android.mvvm_java.ui.createReport.underbody.BrakeSystemFragment;
 import com.enyata.android.mvvm_java.ui.monthlyReport.vehicleMonthlyReport.MonthlyReportActivity;
@@ -67,15 +68,15 @@ public class BrakeSystemFragmentM extends Fragment {
     Map config;
     View fragment;
     VehicleCollection BrakeSystem;
-    TakePicture takePicture = new TakePicture();
+    MonthlyTakePicture takePicture = new MonthlyTakePicture();
     HashMap<String, String> imageArray = new HashMap<>();
 
     public BrakeSystemFragmentM(){
         //leave it empty
     }
 
-    public static BrakeSystemFragment newInstance() {
-        return new BrakeSystemFragment();
+    public static BrakeSystemFragmentM newInstance() {
+        return new BrakeSystemFragmentM();
     }
 
     @Override

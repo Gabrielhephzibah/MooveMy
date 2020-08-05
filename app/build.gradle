@@ -15,14 +15,15 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", '"https://moove-backend.herokuapp.com/api/v1"')
+            buildConfigField("String", "BASE_URL", '"https://api.moove.africa/api/v1"')
             buildConfigField("String", "VIN_API", '"http://api.carmd.com/v3.0"')
             buildConfigField("String", "API_KEY", '"http://www.mocky.io/v2"')
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "BASE_URL", "\"http://www.mocky.io/v2\"")
+            buildConfigField("String", "BASE_URL", '"https://api.moove.africa/api/v1"')
+            buildConfigField("String", "BASE_URL_TEMPLATE", "\"http://www.mocky.io/v2\"")
             buildConfigField("String", "API_KEY", "\"ABCXYZ123TEST\"")
         }
     }
@@ -130,6 +131,7 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     implementation("com.squareup.okhttp3:logging-interceptor:3.9.0")
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
 }
 
 configurations.all {

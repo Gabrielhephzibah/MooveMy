@@ -221,11 +221,9 @@ public class TiresFragmentM extends Fragment implements TireInterface {
     }
 
     public void saveReport() {
-            saveStatus = "Saved";
-        if (takePicture.areImagesNotComplete(getActivity())) {
-            return;
-        } else if (status.isEmpty()) {
-            Alert.showFailed(getActivity(),"please fill all fields");
+
+       if (status.isEmpty()) {
+            Alert.showFailed(getActivity(),"status is required");
             return;
         }else {
             monthlyReportActivity.tire = true;

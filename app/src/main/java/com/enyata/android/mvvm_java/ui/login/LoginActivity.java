@@ -133,7 +133,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } else {
-            Alert.showInfo(getApplicationContext(),"Please press the back button twice to close the application");
+            Alert.showInfo(getApplicationContext(),"Please press the back button twice to close application");
             backButtonPressed++;
 
         }

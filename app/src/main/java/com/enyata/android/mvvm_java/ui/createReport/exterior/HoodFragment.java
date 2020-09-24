@@ -79,6 +79,7 @@ public class HoodFragment extends Fragment {
     RelativeLayout relativeLayout;
     CreateReportActivity createReportActivity;
     TakePicture takePicture = new TakePicture();
+    HashMap<String, ImageView> myimage = new HashMap<>();
     HashMap<String, String> imageArray = new HashMap<>();
 
     public HoodFragment() {
@@ -142,12 +143,20 @@ public class HoodFragment extends Fragment {
         progressBar.setVisibility(View.GONE);
         saveHood = view.findViewById(R.id.saveHood);
         hoodRadioGroup = view.findViewById(R.id.hoodRadioGroup);
+        myimage.put("image1", firstImage);
+        myimage.put("image2", secondImage);
+        myimage.put("image3", thirdImage);
+
+
+
+
 
         hood = new VehicleCollection("hood","Exterior", result, status);
-        imageDataArray = createReportViewModel.isVehicleSave(hood, goodd, fairr, badd, HoodFragment.this, firstImage, secondImage, thirdImage,imageDataArray);
+        imageDataArray = createReportViewModel.isVehicleSaved(hood, goodd, fairr, badd, HoodFragment.this, myimage,imageDataArray);
 
             if(!imageDataArray.isArrayEmpty()){
                 status = imageDataArray.getStatus("status");
+
             }
 
 
@@ -169,7 +178,7 @@ public class HoodFragment extends Fragment {
                 if (firstImage.getDrawable() == null) {
                     Alert.showFailed(getActivity(), "image is empty");
                 } else {
-                    takePicture.removefirstImage();
+                    takePicture.removeFirstImagee(imageDataArray);
                     Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
@@ -182,7 +191,7 @@ public class HoodFragment extends Fragment {
                 if (secondImage.getDrawable() == null) {
                     Alert.showFailed(getActivity(), "Image is empty");
                 } else {
-                    takePicture.removeSecondImage();
+                    takePicture.removeSecondImagee(imageDataArray);
                     Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
@@ -195,7 +204,7 @@ public class HoodFragment extends Fragment {
                 if (thirdImage.getDrawable() == null) {
                     Alert.showFailed(getActivity(), "Image is empty");
                 } else {
-                    takePicture.removeThirdImage();
+                   takePicture.removethirdImagee(imageDataArray);
                     Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
@@ -205,8 +214,9 @@ public class HoodFragment extends Fragment {
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (takePicture.whenImageIsThree(getActivity())) {
+                if (takePicture.whenImageIsThreeNew(getActivity(), imageDataArray)) {
                 } else {
+                    Log.i("take picture", "take picture");
                     int currentapiVersion = android.os.Build.VERSION.SDK_INT;
                     if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
                         if (checkPermission() && checkExternalPermission()) {
@@ -305,7 +315,7 @@ public class HoodFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            takePicture.pictureCapture(imageBitmap, HoodFragment.this, firstImage, secondImage, thirdImage, progressBar, getActivity());
+            takePicture.pictureCaptureNew(imageBitmap, HoodFragment.this, firstImage, secondImage, thirdImage, progressBar, getActivity(),imageDataArray);
 
         } else if (requestCode == RESULT_CANCELED) {
             Alert.showFailed(getActivity(), "The request was cancelled");
@@ -317,11 +327,9 @@ public class HoodFragment extends Fragment {
 
     public void saveReport() {
         if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
-            Alert.showFailed(getActivity(),"Upload all images");
-            return;
-        } else if (status.isEmpty()) {
-            Alert.showFailed(getActivity(), "please fill all fields");
-            return;
+        }
+        else if (status.isEmpty()) {
+            Alert.showFailed(getActivity(), "status is required");
         } else {
             imageArray = takePicture.getPictureArray();
             Log.i("NEWIMAGE",String.valueOf( takePicture.getPictureArray()));
@@ -331,6 +339,8 @@ public class HoodFragment extends Fragment {
             createReportViewModel.saveReportToLocalStorage(hood);
             createReportViewModel.setHoodTrackingStatus(true);
             Alert.showSuccess(getActivity(), "Item saved! Proceed");
+
+            Log.i("Hood Fragment", String.valueOf(hood));
         }
 
     }

@@ -18,13 +18,18 @@ android {
             buildConfigField("String", "BASE_URL", '"https://api.moove.africa/api/v1"')
             buildConfigField("String", "VIN_API", '"http://api.carmd.com/v3.0"')
             buildConfigField("String", "API_KEY", '"http://www.mocky.io/v2"')
+            buildConfigField("String", "CLOUDINARY_API_SECRET", '"Tt31CSr7kadijBrEBT-Vl-rNfMw"')
+            buildConfigField("String", "CLOUDINARY_API_KEY", '"182875624271678"')
+            buildConfigField("String", "CLOUDINARY_UPLOAD_PRESET", '"enbg7sut"')
+            buildConfigField("String", "CLOUDINARY_NAME", '"mooveafrica"')
+
         }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField("String", "BASE_URL", '"https://api.moove.africa/api/v1"')
             buildConfigField("String", "BASE_URL_TEMPLATE", "\"http://www.mocky.io/v2\"")
-            buildConfigField("String", "API_KEY", "\"ABCXYZ123TEST\"")
+            buildConfigField("String", "API_KEY", "\"https://moove-backend.herokuapp.com/api/v1\"")
         }
     }
     compileOptions {

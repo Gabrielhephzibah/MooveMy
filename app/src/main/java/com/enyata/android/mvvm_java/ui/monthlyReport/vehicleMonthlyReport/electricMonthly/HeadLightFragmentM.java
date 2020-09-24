@@ -80,8 +80,8 @@ public class HeadLightFragmentM extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        monthlyReportViewModel = ViewModelProviders.of(requireActivity()).get(MonthlyReportViewModel.class);
         super.onCreate(savedInstanceState);
+        monthlyReportViewModel = ViewModelProviders.of(requireActivity()).get(MonthlyReportViewModel.class);
         imageDataArray = new ImageDataArray(imageArray);
         activity = (MonthlyReportActivity) getActivity();
 
@@ -222,10 +222,8 @@ public class HeadLightFragmentM extends Fragment {
     }
 
     public void saveReport() {
-        if (takePicture.areImagesNotComplete(getActivity())) {
-            return;
-        } else if (status.isEmpty()) {
-            Alert.showFailed(getActivity(), "please fill all fields");
+        if (status.isEmpty()) {
+            Alert.showFailed(getActivity(), "status is required");
             return;
         } else {
                 activity.headlight = true;

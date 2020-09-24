@@ -17,6 +17,7 @@ import com.androidnetworking.error.ANError;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
+import com.enyata.android.mvvm_java.BuildConfig;
 import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.ViewModelProviderFactory;
 import com.enyata.android.mvvm_java.data.model.api.myData.SignatureImageArray;
@@ -277,7 +278,7 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
         byte[] inspectorByteArray = byteArrayOutputStream .toByteArray();
         showLoading();
         String requestId = MediaManager.get().upload(inspectorByteArray)
-                .unsigned("ht7lodiw")
+                .unsigned(BuildConfig.CLOUDINARY_UPLOAD_PRESET)
                 .callback(new UploadCallback() {
                     @Override
                     public void onStart(String requestId) {
@@ -345,7 +346,7 @@ public class SignatureActivity extends BaseActivity<ActivitySignatureBinding,Sig
         byte[] suplierByteArray = byteArrayOutputStream .toByteArray();
         showLoading();
         String requestId = MediaManager.get().upload(suplierByteArray)
-                .unsigned("ht7lodiw")
+                .unsigned(BuildConfig.CLOUDINARY_UPLOAD_PRESET)
                 .callback(new UploadCallback() {
                     @Override
                     public void onStart(String requestId) {

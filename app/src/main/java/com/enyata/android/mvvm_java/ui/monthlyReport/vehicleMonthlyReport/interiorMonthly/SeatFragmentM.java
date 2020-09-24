@@ -222,11 +222,8 @@ public class SeatFragmentM extends Fragment {
     }
 
     public void saveReport() {
-
-        if (takePicture.areImagesNotComplete(getActivity())) {
-            return;
-        } else if (status.isEmpty()) {
-            Alert.showFailed(getActivity(), "please fill all fields");
+        if (status.isEmpty()) {
+            Alert.showFailed(getActivity(), "status is required");
             return;
         } else {
             activity.seat = true;

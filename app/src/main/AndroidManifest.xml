@@ -50,7 +50,7 @@
 
         <meta-data
             android:name="CLOUDINARY_URL"
-            android:value="cloudinary:dtt1nmogz" /> <!-- <meta-data android:name="CLOUDINARY_URL" android:value="cloudinary://@myCloudName"/> -->
+            android:value="cloudinary:mooveafrica" /> <!-- <meta-data android:name="CLOUDINARY_URL" android:value="cloudinary://@myCloudName"/> -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

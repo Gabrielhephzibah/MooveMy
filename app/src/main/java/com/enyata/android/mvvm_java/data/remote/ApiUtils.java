@@ -4,7 +4,7 @@ public class ApiUtils {
 
         private ApiUtils() {}
 
-        public static final String BASE_URL = "https://api.moove.africa/api/v1/";
+        public static final String BASE_URL = "https://api.moove.africa/api/v1";
 
         public static ApiService getAPIService() {
 

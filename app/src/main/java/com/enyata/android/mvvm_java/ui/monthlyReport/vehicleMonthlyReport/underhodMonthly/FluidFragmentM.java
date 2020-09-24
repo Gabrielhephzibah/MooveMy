@@ -224,10 +224,8 @@ public class FluidFragmentM extends Fragment {
     }
 
     public void saveReport() {
-        if (takePicture.areImagesNotComplete(getActivity())) {
-            return;
-        } else if (status.isEmpty()) {
-            Alert.showFailed(getActivity(), "please fill all fields");
+       if (status.isEmpty()) {
+            Alert.showFailed(getActivity(), "status is required");
             return;
         } else {
             activity.fluid = true;
@@ -244,10 +242,5 @@ public class FluidFragmentM extends Fragment {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        fluid = new VehicleCollection("fluids", "Underhood", result, status);
-//        monthlyReportViewModel.isVehicleSave(fluid,goodd,fairr,badd, FluidFragmentM.this,firstImage,secondImage,thirdImage);
-    }
+
 }

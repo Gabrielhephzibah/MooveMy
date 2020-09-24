@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.enyata.android.mvvm_java.data.DataManager;
+import com.enyata.android.mvvm_java.data.model.api.myData.ImageData;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
 import com.enyata.android.mvvm_java.data.model.api.myData.VehicleCollection;
 import com.enyata.android.mvvm_java.data.model.api.request.CheckIntakeRequest;
@@ -37,6 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -317,6 +320,109 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
 
     Bitmap bitmap;
 
+    public ImageDataArray isVehicleSaved(VehicleCollection vehicle, RadioButton good, RadioButton fair, RadioButton bad, Fragment fragment, HashMap<String, ImageView> myImage, ImageDataArray imageDataArray) {
+        if (checkIfIntakeVehicleReportIsEmpty()) {
+        } else {
+            String status;
+            String  firstUrl;
+            String secondUrl;
+            String thirdUrl;
+
+            List<VehicleCollection> part = getIntakeVehicleReport();
+            for (int k = 0; k < part.size(); k++) {
+                if (part.get(k).getPart().equals(vehicle.getPart())) {
+                    part.get(k).getImageUrl();
+                    part.get(k).getRemark();
+                    part.get(k).getSection();
+
+                    if (part.get(k).getRemark().equals("good")){
+                        good.setChecked(true);
+                        status = "good";
+                    }else if (part.get(k).getRemark().equals("fair")){
+                        fair.setChecked(true);
+                        status = "fair";
+                    }else {
+                        bad.setChecked(true);
+                        status = "poor";
+                    }
+                    List<String>images = part.get(k).getImageUrl();
+                    if (images.isEmpty()){
+                        Log.i("It's empty","It's empty");
+                        myImage.get("image1").setImageResource(0);
+                        myImage.get("image2").setImageResource(0);
+                        myImage.get("image3").setImageResource(0);
+//                        array[0].setImageResource(0);
+//                        array[1].setImageResource(0);
+//                        array[2].setImageResource(0);
+                        imageDataArray.addStatus("status", status);
+                    }else {
+                        if (images.size()== 3){
+                            GlideApp.with(fragment).load(images.get(0)).into(myImage.get("image1"));
+                            GlideApp.with(fragment).load(images.get(1)).into(myImage.get("image2"));
+                            GlideApp.with(fragment).load(images.get(2)).into(myImage.get("image3"));
+                            imageDataArray.addUrl("image0",images.get(0));
+                            imageDataArray.addUrl("image1", images.get(1));
+                            imageDataArray.addUrl("image2",images.get(2));
+                            imageDataArray.addStatus("status", status);
+                            Log.i("ImageDataArrayWhen3", String.valueOf(imageDataArray));
+                            return imageDataArray;
+
+
+                        }else if (images.size() == 2){
+                            GlideApp.with(fragment).load(images.get(0)).into(myImage.get("image1"));
+                            GlideApp.with(fragment).load(images.get(1)).into(myImage.get("image2"));
+                            imageDataArray.addUrl("image0",images.get(0));
+                          imageDataArray.addUrl("image1", images.get(1));
+//                          imageDataArray.addUrl("image2",images.get(2));
+                           imageDataArray.addStatus("status", status);
+                            Log.i("ImageDataArrayWhen2", String.valueOf(imageDataArray));
+                            return imageDataArray;
+                        }else  if (images.size() == 1){
+                            GlideApp.with(fragment).load(images.get(0)).into(myImage.get("image1"));
+                            imageDataArray.addUrl("image0",images.get(0));
+                             imageDataArray.addStatus("status", status);
+                            Log.i("ImageDataArrayWhen1", String.valueOf(imageDataArray));
+                            return imageDataArray;
+//
+                        }
+
+
+//                        if(images.size() == 3){
+//                            GlideApp.with(fragment).load(images.get(0)).into(array.get("imahe+dkvknvkffjfj"));
+//        //                  GlideApp.with(fragment).load(images.get(1)).into(secondImage);
+//        //                  GlideApp.with(fragment).load(images.get(2)).into(thirdImage);
+//                        }
+
+
+
+//                    GlideApp.with(fragment).load(images.get(0)).into(firstImage);
+//                    GlideApp.with(fragment).load(images.get(1)).into(secondImage);
+//                    GlideApp.with(fragment).load(images.get(2)).into(thirdImage);
+//
+//                    imageDataArray.addUrl("image0",images.get(0));
+//                    imageDataArray.addUrl("image1", images.get(1));
+//                    imageDataArray.addUrl("image2",images.get(2));
+//                    imageDataArray.addStatus("status", status);
+                    }
+
+                    Log.i("Part", String.valueOf(part.get(k).getImageUrl()));
+                    Log.i("Image", String.valueOf(part.get(k).getRemark()));
+                    Log.i("REmark", vehicle.getRemark());
+                    return imageDataArray;
+                }
+            }
+            return imageDataArray;
+        }
+        return imageDataArray;
+
+
+
+
+    }
+
+
+
+
     public ImageDataArray isVehicleSave(VehicleCollection vehicle, RadioButton good, RadioButton fair, RadioButton bad, Fragment fragment, ImageView firstImage, ImageView secondImage, ImageView thirdImage, ImageDataArray imageDataArray) {
         if (checkIfIntakeVehicleReportIsEmpty()) {
         } else {
@@ -333,8 +439,8 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
                     part.get(k).getSection();
 
                     if (part.get(k).getRemark().equals("good")){
-                       good.setChecked(true);
-                       status = "good";
+                        good.setChecked(true);
+                        status = "good";
                     }else if (part.get(k).getRemark().equals("fair")){
                         fair.setChecked(true);
                         status = "fair";
@@ -343,14 +449,20 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
                         status = "poor";
                     }
                     List<String>images = part.get(k).getImageUrl();
-                    GlideApp.with(fragment).load(images.get(0)).into(firstImage);
-                    GlideApp.with(fragment).load(images.get(1)).into(secondImage);
-                    GlideApp.with(fragment).load(images.get(2)).into(thirdImage);
-
-                    imageDataArray.addUrl("image0",images.get(0));
-                    imageDataArray.addUrl("image1", images.get(1));
-                    imageDataArray.addUrl("image2",images.get(2));
-                    imageDataArray.addStatus("status", status);
+                    if (images.isEmpty()){
+                        firstImage.setImageResource(0);
+                        secondImage.setImageResource(0);
+                        thirdImage.setImageResource(0);
+                        imageDataArray.addStatus("status", status);
+                    }
+//                    GlideApp.with(fragment).load(images.get(0)).into(firstImage);
+//                    GlideApp.with(fragment).load(images.get(1)).into(secondImage);
+//                    GlideApp.with(fragment).load(images.get(2)).into(thirdImage);
+//
+//                    imageDataArray.addUrl("image0",images.get(0));
+//                    imageDataArray.addUrl("image1", images.get(1));
+//                    imageDataArray.addUrl("image2",images.get(2));
+//                    imageDataArray.addStatus("status", status);
 
                     Log.i("Part", String.valueOf(part.get(k).getImageUrl()));
                     Log.i("Image", String.valueOf(part.get(k).getRemark()));
@@ -366,6 +478,117 @@ public class CreateReportViewModel extends BaseViewModel<CreateReportNavigator> 
 
 
     }
+
+//    public ImageDataArray isVehicleSave(VehicleCollection vehicle, RadioButton good, RadioButton fair, RadioButton bad, Fragment fragment, ImageView firstImage, ImageView secondImage, ImageView thirdImage, ImageDataArray imageDataArray) {
+//        if (checkIfIntakeVehicleReportIsEmpty()) {
+//        } else {
+//            String status;
+//            String  firstUrl;
+//            String secondUrl;
+//            String thirdUrl;
+//
+//            List<VehicleCollection> part = getIntakeVehicleReport();
+//            for (int k = 0; k < part.size(); k++) {
+//                if (part.get(k).getPart().equals(vehicle.getPart())) {
+//                    part.get(k).getImageUrl();
+//                    part.get(k).getRemark();
+//                    part.get(k).getSection();
+//
+//                    if (part.get(k).getRemark().equals("good")){
+//                       good.setChecked(true);
+//                       status = "good";
+//                    }else if (part.get(k).getRemark().equals("fair")){
+//                        fair.setChecked(true);
+//                        status = "fair";
+//                    }else {
+//                        bad.setChecked(true);
+//                        status = "poor";
+//                    }
+//
+//                    List<String>images = part.get(k).getImageUrl();
+////                    if (images.isEmpty()){
+////                        Log.i("Nothing","Array is empty");
+////                        firstImage.setImageResource(0);
+////                        secondImage.setImageResource(0);
+////                       thirdImage.setImageResource(0);
+////                       imageDataArray.addStatus("status", status);
+////
+////                    }
+//                        GlideApp.with(fragment).load(images.get(0)).into(firstImage);
+//                        GlideApp.with(fragment).load(images.get(1)).into(secondImage);
+//                        GlideApp.with(fragment).load(images.get(2)).into(thirdImage);
+//                        imageDataArray.addUrl("image0",images.get(0));
+//                        imageDataArray.addUrl("image1", images.get(1));
+//                        imageDataArray.addUrl("image2",images.get(2));
+//                        imageDataArray.addStatus("status", status);
+//
+//
+////                        GlideApp.with(fragment).load(images.get(2)).into(firstImage);
+////                        secondImage.setImageResource(0);
+////                        thirdImage.setImageResource(0);
+////                        imageDataArray.addStatus("status",status);
+////                        imageDataArray.addUrl("image0",images.get(0));
+//
+//
+////                    if (images.size() == 0){
+////                       firstImage.setImageResource(0);
+////                       secondImage.setImageResource(0);
+////                       thirdImage.setImageResource(0);
+////                        imageDataArray.addStatus("status", status);
+////
+////                    } else if (images.size() == 1){
+////                        GlideApp.with(fragment).load(images.get(0)).into(firstImage);
+////                        imageDataArray.addUrl("image0",images.get(0));
+////                        imageDataArray.addStatus("status", status);
+////                        secondImage.setImageResource(0);
+////                        thirdImage.setImageResource(0);
+////                    }else if (images.size()== 2){
+////                        GlideApp.with(fragment).load(images.get(0)).into(firstImage);
+////                        GlideApp.with(fragment).load(images.get(1)).into(secondImage);
+////                        imageDataArray.addUrl("image0",images.get(0));
+////                        imageDataArray.addUrl("image1", images.get(1));
+////                        imageDataArray.addStatus("status", status);
+//////                        GlideApp.with(fragment).load(images.get(2)).into(thirdImage);
+//////                        imageDataArray.addUrl("image0",images.get(0));
+//////                        imageDataArray.addUrl("image1", images.get(1));
+//////                        imageDataArray.addUrl("image2",images.get(2));
+//////                        imageDataArray.addStatus("status", status);
+////
+////                    }else if (images.size() == 3){
+////                        GlideApp.with(fragment).load(images.get(0)).into(firstImage);
+////                        GlideApp.with(fragment).load(images.get(1)).into(secondImage);
+////                        GlideApp.with(fragment).load(images.get(2)).into(thirdImage);
+////                        imageDataArray.addUrl("image0",images.get(0));
+////                        imageDataArray.addUrl("image1", images.get(1));
+////                        imageDataArray.addUrl("image2",images.get(2));
+////                        imageDataArray.addStatus("status", status);
+////
+////                    }
+//
+//                    Log.i("Part", String.valueOf(part.get(k).getImageUrl()));
+//                    Log.i("Image", String.valueOf(part.get(k).getRemark()));
+//                    Log.i("REmark", vehicle.getRemark());
+//                    Log.i("BIGGERArray",String.valueOf(getIntakeVehicleReport()));
+//                    return imageDataArray;
+//
+//                }
+//            }
+//            return imageDataArray;
+//        }
+//        return imageDataArray;
+//
+//
+//
+//
+//    }
+
+//     GlideApp.with(fragment).load(images.get(0)).into(firstImage);
+//                        GlideApp.with(fragment).load(images.get(1)).into(secondImage);
+//                        GlideApp.with(fragment).load(images.get(2)).into(thirdImage);
+//                        imageDataArray.addUrl("image0",images.get(0));
+//                        imageDataArray.addUrl("image1", images.get(1));
+//                        imageDataArray.addUrl("image2",images.get(2));
+//                        imageDataArray.addStatus("status", status);
 
 
 

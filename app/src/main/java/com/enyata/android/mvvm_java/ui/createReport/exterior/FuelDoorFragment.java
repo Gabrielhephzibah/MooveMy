@@ -158,7 +158,7 @@ public class FuelDoorFragment extends Fragment {
                 if (firstImage.getDrawable()==null){
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
-                    takePicture.removefirstImage();
+                    takePicture.removeFirstImagee(imageDataArray);
                     Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
@@ -171,7 +171,7 @@ public class FuelDoorFragment extends Fragment {
                 if (secondImage.getDrawable()==null){
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
-                    takePicture.removeSecondImage();
+                    takePicture.removeSecondImagee(imageDataArray);
                     Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
@@ -184,7 +184,7 @@ public class FuelDoorFragment extends Fragment {
                 if (thirdImage.getDrawable()==null){
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
-                    takePicture.removeThirdImage();
+                    takePicture.removethirdImagee(imageDataArray);
                     Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
@@ -194,7 +194,7 @@ public class FuelDoorFragment extends Fragment {
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (takePicture.whenImageIsThree(getActivity())){
+                if (takePicture.whenImageIsThreeNew(getActivity(),imageDataArray)){
 
                 } else {
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -250,7 +250,7 @@ public class FuelDoorFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            takePicture.pictureCapture(imageBitmap,FuelDoorFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
+            takePicture.pictureCaptureNew(imageBitmap,FuelDoorFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity(),imageDataArray);
         } else if (requestCode == RESULT_CANCELED) {
             Alert.showFailed(getActivity(),"The request was cancelled");
 
@@ -260,10 +260,8 @@ public class FuelDoorFragment extends Fragment {
     public void saveReport() {
 
         if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
-            Alert.showFailed(getActivity(),"Upload all images");
-            return;
         } else if (status.isEmpty()) {
-            Alert.showFailed(getActivity(),"please fill all fields");
+            Alert.showFailed(getActivity(),"status is required");
             return;
         }else {
             imageArray = takePicture.getPictureArray();

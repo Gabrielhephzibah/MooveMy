@@ -161,7 +161,7 @@ public class AudioSystemFragment extends Fragment {
                 if (firstImage.getDrawable()==null){
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
-                    takePicture.removefirstImage();
+                    takePicture.removeFirstImagee(imageDataArray);
                     Alert.showSuccess(getActivity(), "Image removed");
                     firstImage.setImageResource(0);
                 }
@@ -174,7 +174,7 @@ public class AudioSystemFragment extends Fragment {
                 if (secondImage.getDrawable()==null){
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
-                    takePicture.removeSecondImage();
+                    takePicture.removeSecondImagee(imageDataArray);
                     Alert.showSuccess(getActivity(), "Image removed");
                     secondImage.setImageResource(0);
                 }
@@ -187,7 +187,7 @@ public class AudioSystemFragment extends Fragment {
                 if (thirdImage.getDrawable()==null){
                     Alert.showFailed(getActivity(),"Image is empty");
                 }else {
-                    takePicture.removeThirdImage();
+                    takePicture.removethirdImagee(imageDataArray);
                     Alert.showSuccess(getActivity(), "Image removed");
                     thirdImage.setImageResource(0);
                 }
@@ -197,10 +197,7 @@ public class AudioSystemFragment extends Fragment {
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (takePicture.whenImageIsThree(getActivity())){
-                    firstImage.setImageResource(0);
-                    secondImage.setImageResource(0);
-                    thirdImage.setImageResource(0);
+                if (takePicture.whenImageIsThreeNew(getActivity(), imageDataArray)){
                 } else {
                     Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -242,7 +239,7 @@ public class AudioSystemFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            takePicture.pictureCapture(imageBitmap,AudioSystemFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity());
+            takePicture.pictureCaptureNew(imageBitmap,AudioSystemFragment.this,firstImage,secondImage,thirdImage,progressBar,getActivity(),imageDataArray);
         } else if (requestCode == RESULT_CANCELED) {
            Alert.showFailed(getActivity(),"The request was cancelled");
 
@@ -252,12 +249,11 @@ public class AudioSystemFragment extends Fragment {
     public void saveReport() {
 
         if (takePicture.areAllImagesNotUploaded(getActivity(),imageDataArray)) {
-            return;
+
         } else if (status.isEmpty()) {
-            Alert.showFailed(getActivity(),"please fill all fields");
+            Alert.showFailed(getActivity(),"status is required");
 
         }else {
-
             imageArray = takePicture.getPictureArray();
             Collection<String> value = imageArray.values();
             result = new ArrayList<>(value);

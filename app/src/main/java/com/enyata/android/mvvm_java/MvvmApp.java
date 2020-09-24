@@ -2,6 +2,7 @@ package com.enyata.android.mvvm_java;
 
 import android.app.Activity;
 import android.app.Application;
+import android.os.Build;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
@@ -36,9 +37,9 @@ public class MvvmApp extends Application implements HasActivityInjector {
         super.onCreate();
 
         Map config = new HashMap();
-        config.put("cloud_name", "dtt1nmogz");
-        config.put("api_key", "754277299533971");
-        config.put("api_secret", "hwuDlRgCtSpxKOg9rcY43AtsZvw");
+        config.put("cloud_name", BuildConfig.CLOUDINARY_NAME);
+        config.put("api_key", BuildConfig.CLOUDINARY_API_KEY);
+        config.put("api_secret", BuildConfig.CLOUDINARY_API_SECRET);
         MediaManager.init(getApplicationContext().getApplicationContext(), config);
 
         DaggerAppComponent.builder()

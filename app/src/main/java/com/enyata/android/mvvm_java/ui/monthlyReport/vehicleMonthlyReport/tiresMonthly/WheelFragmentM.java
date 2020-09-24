@@ -44,7 +44,7 @@ import java.util.Map;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class WheelFragmentM extends Fragment implements TireInterface {
+public class WheelFragmentM extends Fragment {
     String status = "", imageURL, cloudinaryID;
     RadioGroup hoodRadioGroup;
     RadioButton badd, goodd, fairr;
@@ -221,11 +221,8 @@ public class WheelFragmentM extends Fragment implements TireInterface {
     }
 
     public void saveReport() {
-        saveStatus = "Saved";
-        if (takePicture.areImagesNotComplete(getActivity())) {
-            return;
-        } else if (status.isEmpty()) {
-            Alert.showFailed(getActivity(),"please fill all fields");
+        if (status.isEmpty()) {
+            Alert.showFailed(getActivity(),"status is required");
             return;
         }else {
             monthlyReportActivity.wheel = true;
@@ -246,8 +243,5 @@ public class WheelFragmentM extends Fragment implements TireInterface {
         super.onResume();
     }
 
-    @Override
-    public String getSavedStatus() {
-        return saveStatus;
-    }
+
 }

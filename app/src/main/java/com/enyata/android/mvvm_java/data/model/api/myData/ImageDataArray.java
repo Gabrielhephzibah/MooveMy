@@ -1,12 +1,11 @@
 package com.enyata.android.mvvm_java.data.model.api.myData;
 
-import com.enyata.android.mvvm_java.ui.createReport.roadtest.IdlingFragment;
-import com.google.gson.JsonArray;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class ImageDataArray {
 
@@ -54,6 +53,8 @@ public class ImageDataArray {
 
     }
 
+
+
     public String getUrl(String key) {
        return imageArray.get(key);
     }
@@ -64,7 +65,14 @@ public class ImageDataArray {
 
     public void addStatus(String key, String value) {
         imageArray.put(key, value);
+    }
 
+    public  String getImageUrl(String imageUrl){
+        return imageArray.get(imageUrl);
+    }
+
+    public void addImageUrl(String key, String value) {
+        imageArray.put(key, value);
     }
 
 
@@ -76,9 +84,30 @@ public class ImageDataArray {
         }
     }
 
+//
+//    public boolean containValue(String value){
+//        if (imageArray.containsValue(value)){
+//            return true;
+//        }else {
+//            return  false;
+//        }
+//
+//    }
+
     public void updateImageArray(HashMap<String, String> imageArray){
         this.imageArray = imageArray;
+
+
     }
+
+    public int sizeOfHashMap(){
+        return  imageArray.size();
+    }
+
+    public Set<Map.Entry<String, String>> getEntrySet(){
+        return imageArray.entrySet();
+    }
+
 
 
 }

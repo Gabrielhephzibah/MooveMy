@@ -20,6 +20,7 @@ import com.cloudinary.Transformation;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
 import com.cloudinary.android.callback.UploadCallback;
+import com.enyata.android.mvvm_java.BuildConfig;
 import com.enyata.android.mvvm_java.R;
 import com.enyata.android.mvvm_java.data.DataManager;
 import com.enyata.android.mvvm_java.data.model.api.myData.ImageDataArray;
@@ -62,7 +63,7 @@ public class MonthlyTakePicture extends Fragment {
         byte[] partImage = byteArrayOutputStream.toByteArray();
         MediaManager.get().upload(partImage)
                 .option("resource_type", "image")
-                .unsigned("ht7lodiw")
+                .unsigned(BuildConfig.CLOUDINARY_UPLOAD_PRESET)
                 .callback(new UploadCallback() {
 
                     @Override
@@ -87,7 +88,7 @@ public class MonthlyTakePicture extends Fragment {
                             progressBar.setVisibility(View.GONE);
                             imageURL = (String) resultData.get("url");
                             cloudinaryID = (String) resultData.get("public_id").toString();
-                            cloudinaryImage = MediaManager.get().url().transformation(new Transformation()).resourceType("image").generate(cloudinaryID + ".jpg");
+                            cloudinaryImage = MediaManager.get().url().transformation(new Transformation().quality(40)).resourceType("image").generate(cloudinaryID + ".jpg");
                             Alert.showSuccess(activity, "Image uploaded Successfully! Proceed");
                             Log.i("imageURL", imageURL);
                             Log.i("cloudinaryID", cloudinaryID);

@@ -223,11 +223,8 @@ public class EngineCompFragmentM extends Fragment {
     }
 
     public void saveReport() {
-
-        if (takePicture.areImagesNotComplete(getActivity())) {
-            return;
-        } else if (status.isEmpty()) {
-            Alert.showFailed(getActivity(),"please fill all fields");
+        if (status.isEmpty()) {
+            Alert.showFailed(getActivity(),"status is required");
             return;
         }else {
             activity.engineComp = true;
@@ -244,10 +241,6 @@ public class EngineCompFragmentM extends Fragment {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        engineComp = new VehicleCollection("engine compartment", "Underhood", result, status);
-//        monthlyReportViewModel.isVehicleSave(engineComp,goodd,fairr,badd, EngineCompFragmentM.this,firstImage,secondImage,thirdImage);
-    }
+
+
 }
